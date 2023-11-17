@@ -1,0 +1,1673 @@
+# ======================================== QUERY & MUTATIONS ========================================
+
+# AUTH
+# ========================
+mutation Login($input: LoginInput) {
+  Login(input: $input) {
+    status
+    message
+    TokenResponse {
+      ...TokenResponse
+    }
+  }
+}
+
+# RECIPIENT
+# ========================
+query RecipientListing($input: RecipientListingInput, $first: Int, $page: Int) {
+  RecipientListing(input: $input, first: $first, page: $page) {
+    data {
+      recipient_id
+      bank {
+        bank_id
+        bank_name
+      }
+      customer {
+        customer_id
+        customer_name
+      }
+      recipient_category {
+        recipient_category_id
+        recipient_category_name
+      }
+      recipient_email
+      recipient_type
+      recipient_mobile_number
+      recipient_bank_holder_name
+      recipient_bank_account_number
+      total_amount
+    }
+    paginatorInfo {
+      ...PaginatorInfo
+    }
+  }
+}
+
+query RecipientCategoryDropdown {
+  RecipientCategoryDropdown {
+    recipient_category_id
+    recipient_category_name
+    recipient_category_badge_colour
+    recipient_category_created
+    recipient_category_updated
+    is_deleted
+  }
+}
+
+query RejectReasonDropdown($reject_reason_type: RejectReasonType) {
+  RejectReasonDropdown(reject_reason_type: $reject_reason_type) {
+    reject_reason_id
+    reject_reason_name
+    reject_reason_description
+    reject_reason_type
+    is_deleted
+  }
+}
+
+# PAYMENT REPEAT / RECURRING
+# ========================
+query PaymentRepeatTypeListing(
+  $input: PaymentRepeatTypeListingInput
+  $page: Int
+  $first: Int
+) {
+  PaymentRepeatTypeListing(input: $input, page: $page, first: $first) {
+    data {
+      is_deleted
+      is_display
+      is_extra_charges
+      is_disabled
+      payment_repeat_type_additional_days
+      payment_repeat_type_category
+      payment_repeat_type_charges_rate
+      payment_repeat_type_charges_type
+      payment_repeat_type_id
+      payment_repeat_type_name
+      payment_repeat_type_parent_id
+      standard_fee
+    }
+    paginatorInfo {
+      ...PaginatorInfo
+    }
+  }
+}
+
+mutation PaymentRepeatTypeUpdate($input: PaymentRepeatTypeInput) {
+  PaymentRepeatTypeUpdate(input: $input) {
+    ...SuccessResponseInfo
+  }
+}
+
+# PAYMENT
+# ========================
+query PaymentListing($input: PaymentListingInput, $page: Int, $first: Int) {
+  PaymentListing(input: $input, page: $page, first: $first) {
+    data {
+      is_refund_requested
+      payment_schedule {
+        payment_schedule_id
+        payment_schedule_amount
+        payment_schedule_number
+        payment_schedule_complete_date
+        payment_schedule_created
+        payment_schedule_date
+        payment_schedule_referer_code
+        payment_status {
+          payment_status_id
+          payment_status_name
+        }
+        payment {
+          payment_amount
+          payment_amount_total
+          payment_complete_date
+          payment_created
+          payment_end_date
+          payment_extra_charges
+          payment_extra_charges_rate
+          payment_extra_charges_total
+          payment_grandtotal
+          payment_id
+          payment_reference
+          payment_referer_code
+          payment_schedule_number_current
+          payment_start_date
+          payment_subtotal
+          payment_updated
+          is_payment_repeat
+          payment_recipient {
+            payment_recipient_account_name
+            payment_recipient_account_number
+            payment_recipient_amount
+          }
+        }
+        payment_repeat_type {
+          payment_repeat_type_charges_rate
+          payment_repeat_type_name
+          is_extra_charges
+        }
+        user_card {
+          user_id
+          user_card_id
+          user_card_cardholder_name
+          user_card_expiration_month
+          user_card_expiration_year
+          user_card_last_4_digit
+        }
+        payment_schedule_complete_media {
+          file_name
+          url
+        }
+      }
+      payment_referer_code
+      payment_type {
+        payment_type_id
+        payment_type_name
+      }
+      payment_log {
+        payment_log_description
+        payment_log_action
+        payment_log_created
+        user {
+          user_fullname
+        }
+      }
+      is_payment_repeat
+      payment_amount
+      payment_amount_total
+      payment_schedule_total_number
+      payment_subtotal
+      payment_id
+      payment_created
+      payment_reference
+      payment_repeat_type {
+        payment_repeat_type_name
+      }
+      payment_complete_media {
+        id
+        collection_name
+        name
+        file_name
+        mime_type
+        url
+        full_url
+        path
+        conversions
+      }
+      payment_supporting_media {
+        id
+        collection_name
+        name
+        file_name
+        mime_type
+        url
+        full_url
+        path
+        conversions
+      }
+      customer {
+        customer_id
+        customer_name
+        customer_contact_person
+      }
+      payment_recipient {
+        payment_recipient_id
+        payment_recipient_amount
+        recipient {
+          recipient_id
+          recipient_bank_holder_name
+          recipient_bank_account_number
+          bank {
+            bank_name
+          }
+          user {
+            user_id
+            user_fullname
+          }
+          recipient_category {
+            recipient_category_id
+            recipient_category_name
+          }
+          recipient_type
+        }
+      }
+      payment_status {
+        payment_status_id
+        payment_status_name
+        payment_status_desc
+      }
+    }
+    paginatorInfo {
+      ...PaginatorInfo
+    }
+  }
+}
+
+query PaymentScheduleRefundListing(
+  $input: PaymentScheduleListingInput
+  $page: Int
+  $first: Int
+) {
+  PaymentScheduleRefundListing(input: $input, page: $page, first: $first) {
+    data {
+      payment_schedule_id
+      payment_schedule_amount
+      payment_schedule_number
+      payment_schedule_complete_date
+      payment_schedule_created
+      payment_schedule_date
+      payment_schedule_referer_code
+      payment_schedule_log {
+        payment_schedule_log_description
+        payment_schedule_log_action
+      }
+      payment_status {
+        payment_status_id
+        payment_status_name
+      }
+      customer {
+        customer_id
+        customer_name
+        customer_contact_person
+      }
+      payment {
+        payment_amount
+        payment_amount_total
+        payment_complete_date
+        payment_created
+        payment_end_date
+        payment_extra_charges
+        payment_extra_charges_rate
+        payment_extra_charges_total
+        payment_grandtotal
+        payment_id
+        payment_reference
+        payment_referer_code
+        payment_schedule_number_current
+        payment_start_date
+        payment_subtotal
+        payment_updated
+        is_payment_repeat
+        payment_recipient {
+          payment_recipient_account_name
+          payment_recipient_account_number
+          payment_recipient_amount
+          recipient {
+            recipient_id
+            recipient_bank_holder_name
+            recipient_bank_account_number
+            bank {
+              bank_name
+            }
+            user {
+              user_id
+              user_fullname
+            }
+            recipient_category {
+              recipient_category_id
+              recipient_category_name
+            }
+            recipient_type
+          }
+        }
+      }
+      payment_repeat_type {
+        payment_repeat_type_charges_rate
+        payment_repeat_type_name
+        is_extra_charges
+      }
+      user_card {
+        user_id
+        user_card_id
+        user_card_cardholder_name
+        user_card_expiration_month
+        user_card_expiration_year
+        user_card_last_4_digit
+      }
+      payment_schedule_complete_media {
+        file_name
+        url
+      }
+    }
+    paginatorInfo {
+      ...PaginatorInfo
+    }
+  }
+}
+
+query PaymentRefundRequestCount {
+  PaymentScheduleRefundListing {
+    paginatorInfo {
+      total
+    }
+  }
+}
+
+query PaymentDetail($input: Int) {
+  PaymentDetail(payment_id: $input) {
+    payment_schedule {
+      payment_schedule_id
+      payment_schedule_date
+      payment_schedule_referer_code
+      payment_schedule_number
+      payment_schedule_amount
+      payment {
+        payment_schedule_number_current
+        payment_schedule_total_number
+        payment_amount
+      }
+      payment_status {
+        payment_status_name
+      }
+    }
+    payment_type {
+      payment_type_id
+      payment_type_name
+    }
+    is_payment_repeat
+    payment_amount
+    payment_amount_total
+    payment_extra_charges_total
+    payment_grandtotal
+    payment_extra_charges_rate
+    payment_extra_charges
+    payment_extra_charges_total
+    payment_subtotal
+    payment_id
+    payment_created
+    payment_reference
+    payment_referer_code
+    payment_created
+    payment_start_date
+    payment_end_date
+    payment_schedule_number_current
+    payment_complete_media {
+      id
+      collection_name
+      name
+      file_name
+      mime_type
+      url
+      full_url
+      path
+      conversions
+    }
+    payment_supporting_media {
+      id
+      collection_name
+      name
+      file_name
+      mime_type
+      url
+      full_url
+      path
+      conversions
+    }
+    customer {
+      customer_id
+      customer_name
+      customer_contact_person
+      customer_registration_number
+      customer_website
+      customer_address
+      customer_address2
+      customer_postcode
+      city {
+        city_name
+      }
+      state {
+        state_name
+      }
+      country {
+        country_name
+      }
+      customer_mobile
+      customer_fax
+      customer_email
+      customer_contact_person_mobile
+      user {
+        user_fullname
+      }
+    }
+    payment_recipient {
+      payment_recipient_id
+      payment_recipient_amount
+      recipient {
+        recipient_id
+        recipient_bank_holder_name
+        recipient_bank_account_number
+        bank {
+          bank_name
+        }
+        user {
+          user_id
+          user_fullname
+        }
+        recipient_category {
+          recipient_category_id
+          recipient_category_name
+        }
+        recipient_type
+      }
+    }
+    payment_status {
+      payment_status_id
+      payment_status_name
+      payment_status_desc
+    }
+    payment_repeat_type {
+      payment_repeat_type_name
+    }
+    payment_schedule {
+      payment_schedule_date
+    }
+    payment_reject_details {
+      payment_log_remark
+      reject_reason {
+        reject_reason_name
+        reject_reason_id
+        reject_reason_description
+        reject_reason_type
+      }
+    }
+  }
+}
+
+query PaymentTypeDropdown {
+  PaymentTypeDropdown {
+    payment_type_id
+    payment_type_name
+    payment_type_document
+    is_allowed_payment_repeat
+  }
+}
+
+query PaymentStatusListing {
+  PaymentStatusListing {
+    data {
+      payment_status_id
+      payment_status_name
+      payment_status_desc
+    }
+  }
+}
+
+mutation PaymentApprove($input: Int) {
+  PaymentApprove(payment_id: $input) {
+    ...SuccessResponseInfo
+  }
+}
+
+mutation PaymentReject($input: PaymentRejectInput) {
+  PaymentReject(input: $input) {
+    ...SuccessResponseInfo
+  }
+}
+
+mutation PaymentCancelApprove($input: Int) {
+  PaymentCancelApprove(payment_id: $input) {
+    ...SuccessResponseInfo
+  }
+}
+
+mutation PaymentCancelReject($input: Int) {
+  PaymentCancelReject(payment_id: $input) {
+    ...SuccessResponseInfo
+  }
+}
+
+mutation PaymentComplete($input: PaymentCompleteInput) {
+  PaymentComplete(input: $input) {
+    ...SuccessResponseInfo
+  }
+}
+
+mutation PaymentScheduleComplete($input: PaymentScheduleCompleteInput) {
+  PaymentScheduleComplete(input: $input) {
+    ...SuccessResponseInfo
+  }
+}
+
+mutation PaymentScheduleRefundApprove($input: Int) {
+  PaymentScheduleRefundApprove(payment_schedule_id: $input) {
+    ...SuccessResponseInfo
+  }
+}
+
+mutation PaymentScheduleRefundReject($input: PaymentScheduleRefundRejectInput) {
+  PaymentScheduleRefundReject(input: $input) {
+    ...SuccessResponseInfo
+  }
+}
+
+mutation PaymentScheduleVoid($input: PaymentScheduleVoidInput) {
+  PaymentScheduleVoid(input: $input) {
+    ...SuccessResponseInfo
+  }
+}
+
+query PaymentListingStatusCount($input: PaymentListingInput) {
+  PaymentListingStatusCount(input: $input) {
+    payment_status_id
+    payment_status_name
+    count
+  }
+}
+
+query PaymentScheduleListingStatusCount($input: PaymentScheduleListingInput) {
+  PaymentScheduleListingStatusCount(input: $input) {
+    payment_status_id
+    payment_status_name
+    count
+  }
+}
+
+query PaymentScheduleListing(
+  $input: PaymentScheduleListingInput
+  $page: Int
+  $first: Int
+) {
+  PaymentScheduleListing(input: $input, page: $page, first: $first) {
+    data {
+      is_refund_requested
+      payment_schedule_id
+      payment_schedule_log {
+        payment_schedule_log_description
+        payment_schedule_log_action
+      }
+      payment_schedule_referer_code
+      payment_status {
+        payment_status_id
+        payment_status_name
+      }
+      payment_schedule_amount
+      payment_schedule_number
+      payment_schedule_complete_media {
+        id
+        collection_name
+        name
+        file_name
+        mime_type
+        url
+        full_url
+        path
+        conversions
+      }
+      payment_schedule_complete_date
+      payment_schedule_created
+      payment_schedule_date
+      payment_status {
+        payment_status_id
+        payment_status_name
+      }
+      customer {
+        customer_id
+        customer_name
+        customer_contact_person
+      }
+      user_card {
+        user_id
+        user_card_id
+        user_card_cardholder_name
+        user_card_expiration_month
+        user_card_expiration_year
+        user_card_last_4_digit
+      }
+      payment {
+        payment_schedule_total_number
+        payment_amount_total
+        payment_amount
+        payment_id
+        payment_reference
+        is_payment_repeat
+        payment_schedule {
+          payment_schedule_referer_code
+          payment_status {
+            payment_status_id
+            payment_status_name
+          }
+          payment_schedule_date
+          payment_schedule_amount
+          payment_schedule_number
+        }
+        payment_type {
+          payment_type_name
+        }
+        payment_recipient {
+          payment_recipient_account_name
+          payment_recipient_account_number
+          payment_recipient_amount
+        }
+        payment_supporting_media {
+          file_name
+          url
+        }
+      }
+      payment_recipient {
+        payment {
+          payment_reference
+        }
+        payment_recipient_account_name
+        payment_recipient_account_number
+        payment_recipient_amount
+        recipient {
+          recipient_id
+          recipient_category {
+            recipient_category_name
+          }
+          recipient_bank_holder_name
+          recipient_bank_account_number
+          bank {
+            bank_name
+            bank_logo {
+              thumb
+            }
+          }
+          recipient_type
+        }
+      }
+
+      payment_repeat_type {
+        payment_repeat_type_charges_rate
+        payment_repeat_type_name
+        is_extra_charges
+      }
+      payment_schedule_complete_media {
+        file_name
+        url
+      }
+      payment_schedule_log {
+        payment_schedule_log_action
+        payment_schedule_log_description
+        payment_schedule_log_created
+        payment_schedule_log_updated
+        admin {
+          user_fullname
+        }
+      }
+    }
+    paginatorInfo {
+      ...PaginatorInfo
+    }
+  }
+}
+
+# BANK
+# ========================
+query BankDetail($bank_id: Int) {
+  BankDetail(bank_id: $bank_id) {
+    bank_created
+    bank_id
+    bank_name
+    is_deleted
+    bank_logo {
+      ...ImagesInfo
+    }
+  }
+}
+
+query BankListing($keyword: String, $page: Int, $first: Int) {
+  BankListing(keyword: $keyword, page: $page, first: $first) {
+    data {
+      bank_created
+      bank_id
+      bank_name
+      is_deleted
+      bank_logo {
+        ...ImagesInfo
+      }
+    }
+    paginatorInfo {
+      ...PaginatorInfo
+    }
+  }
+}
+
+mutation BankDelete($bank_id: Int) {
+  BankDelete(bank_id: $bank_id) {
+    ...SuccessResponseInfo
+  }
+}
+
+mutation BankCreate($input: [BankInput]) {
+  BankCreate(input: $input) {
+    ...SuccessResponseInfo
+  }
+}
+
+mutation BankUpdate($input: BankInput) {
+  BankUpdate(input: $input) {
+    ...SuccessResponseInfo
+  }
+}
+
+# ROLE
+# ========================
+query RoleListing($user_type_id: Int) {
+  RoleListing(user_type_id: $user_type_id) {
+    id
+    name
+    total
+    user_type_id
+    user_type_name
+    users {
+      user_id
+      user_email
+      user_fullname
+      user_mobile
+      user_profile_image {
+        full
+        media_id
+        thumb
+      }
+    }
+  }
+}
+
+query RoleDetail($role_id: Int!) {
+  RoleDetail(role_id: $role_id) {
+    id
+    name
+    user_type_id
+    user_type_name
+    permissions {
+      id
+      name
+      display_name
+      group_name
+    }
+  }
+}
+
+mutation RoleUpdate($input: RoleUpdateInput) {
+  RoleUpdate(input: $input) {
+    ...SuccessResponseInfo
+  }
+}
+
+mutation RoleDelete($role_id: Int) {
+  RoleDelete(role_id: $role_id) {
+    ...SuccessResponseInfo
+  }
+}
+
+mutation RoleCreate($input: RoleCreateInput) {
+  RoleCreate(input: $input) {
+    ...SuccessResponseInfo
+  }
+}
+
+# PERMISSION
+# ========================
+query PermissionListing($user_type_id: Int) {
+  PermissionListing(user_type_id: $user_type_id) {
+    id
+    display_name
+    group_name
+    name
+  }
+}
+
+# ADMIN
+# ========================
+query AdminListing($input: AdminListingInput, $page: Int, $first: Int) {
+  AdminListing(input: $input, page: $page, first: $first) {
+    data {
+      user_id
+      user_fullname
+      user_mobile
+      user_email
+      user_status
+      user_role {
+        name
+        id
+      }
+      user_code
+      user_address
+      user_address2
+      user_city {
+        city_id
+        city_name
+      }
+      user_state {
+        state_id
+        state_name
+      }
+      user_created
+      user_dob
+      user_nationality {
+        country_id
+        country_name
+      }
+      user_nric
+      user_postcode
+      user_profile_image {
+        media_id
+        full
+        thumb
+      }
+      user_type {
+        user_type_id
+        user_type_name
+        user_type_slug
+      }
+      user_updated
+      username
+    }
+    paginatorInfo {
+      ...PaginatorInfo
+    }
+  }
+}
+
+query AdminListingExport($input: AdminListingInput) {
+  AdminListingExport(input: $input) {
+    ...SuccessResponseInfo
+  }
+}
+
+query UserDetail($user_id: Int) {
+  UserDetail(user_id: $user_id) {
+    user_id
+    user_email
+    user_fullname
+    username
+    user_mobile
+    user_status
+    user_join_date
+    user_dob
+    user_gender
+    user_role {
+      name
+      id
+    }
+    customer {
+      business_type {
+        business_type_id
+        business_type_name
+        business_type_status
+        is_deleted
+      }
+      customer_id
+      customer_address
+      customer_address2
+      customer_id
+      customer_address
+      customer_address2
+      customer_annual_revenue
+      customer_approved
+      customer_company_size
+      customer_contact_person
+      customer_contact_person_mobile
+      customer_contact_person_role
+      customer_created
+      customer_fax
+      customer_mobile
+      customer_name
+      customer_postcode
+      customer_remark
+      customer_status
+      customer_type
+      customer_updated
+      customer_email
+      customer_registration_number
+      business_year {
+        year_of_business_id
+        year_of_business_name
+      }
+      ssm_business_certificate {
+        id
+        name
+        file_name
+        full_url
+        mime_type
+      }
+      customer_annual_revenue
+      customer_approved
+      customer_company_size
+      customer_contact_person
+      customer_contact_person_mobile
+      customer_contact_person_role
+      customer_created
+      customer_fax
+      customer_mobile
+      customer_name
+      customer_postcode
+      customer_remark
+      customer_status
+      customer_type
+      customer_updated
+      customer_email
+      customer_registration_number
+      ssm_business_certificate {
+        id
+        name
+        file_name
+        full_url
+        mime_type
+      }
+    }
+  }
+}
+
+mutation UserCreate($input: UserCreateInput) {
+  UserCreate(input: $input) {
+    ...SuccessResponseInfo
+  }
+}
+
+mutation UserDelete($user_id: Int) {
+  UserDelete(user_id: $user_id) {
+    ...SuccessResponseInfo
+  }
+}
+
+mutation UserUpdate($input: UserUpdateInput) {
+  UserUpdate(input: $input) {
+    ...SuccessResponseInfo
+  }
+}
+
+mutation UpdatePassword($input: UpdatePasswordInput) {
+  UpdatePassword(input: $input) {
+    ...SuccessResponseInfo
+  }
+}
+
+# APPLICATION
+# ========================
+query ApplicationListing(
+  $input: CustomerListingInput
+  $page: Int
+  $first: Int
+) {
+  ApplicationListing(input: $input, page: $page, first: $first) {
+    data {
+      business_type {
+        business_type_id
+        business_type_name
+        business_type_status
+        is_deleted
+      }
+      customer_id
+      customer_address
+      customer_address2
+      setting_annual_revenue {
+        setting_annual_revenue_id
+        setting_annual_revenue_name
+      }
+      customer_approved
+      setting_company_size {
+        setting_company_size_id
+        setting_company_size_name
+      }
+      city {
+        city_name
+      }
+      state {
+        state_name
+      }
+      customer_contact_person
+      customer_contact_person_mobile
+      customer_contact_person_role
+      customer_contact_person_email
+      customer_created
+      customer_fax
+      customer_mobile
+      customer_name
+      customer_postcode
+      customer_remark
+      customer_status
+      customer_type
+      customer_updated
+      customer_email
+      customer_registration_number
+      business_year {
+        year_of_business_id
+        year_of_business_name
+      }
+      ssm_business_certificate {
+        id
+        name
+        file_name
+        full_url
+        mime_type
+      }
+    }
+    paginatorInfo {
+      ...PaginatorInfo
+    }
+  }
+}
+
+query ApplicationListingExport($input: CustomerListingInput) {
+  ApplicationListingExport(input: $input) {
+    ...SuccessResponseInfo
+  }
+}
+
+query ApplicationStatusCount($input: CustomerStatus) {
+  ApplicationStatusCount(customer_status: $input) {
+    customer_status
+    count
+  }
+}
+# USER
+# ========================
+query UserListing($input: UserListingInput, $page: Int, $first: Int) {
+  UserListing(input: $input, page: $page, first: $first) {
+    data {
+      user_id
+      username
+      user_email
+      user_fullname
+      user_nric
+      user_mobile
+      user_status
+      user_nationality {
+        country_id
+        country_name
+      }
+      user_role {
+        id
+        name
+      }
+      user_type {
+        user_type_id
+        user_type_name
+        user_type_group
+      }
+      user_profile_image {
+        full
+        thumb
+      }
+      user_gender
+      user_address
+    }
+    paginatorInfo {
+      ...PaginatorInfo
+    }
+  }
+}
+
+mutation UserActivate($user_id: Int) {
+  UserActivate(user_id: $user_id) {
+    ...SuccessResponseInfo
+  }
+}
+
+mutation UserSuspend($user_id: Int) {
+  UserSuspend(user_id: $user_id) {
+    ...SuccessResponseInfo
+  }
+}
+
+# CUSTOMER
+# ========================
+query CustomerListing($input: CustomerListingInput, $page: Int, $first: Int) {
+  CustomerListing(input: $input, page: $page, first: $first) {
+    data {
+      business_type_id {
+        business_type_id
+        business_type_name
+        business_type_status
+        is_deleted
+      }
+      customer_id
+      customer_address
+      customer_address2
+      setting_annual_revenue {
+        setting_annual_revenue_id
+        setting_annual_revenue_name
+      }
+      customer_approved
+      setting_company_size {
+        setting_company_size_id
+        setting_company_size_name
+      }
+      city {
+        city_name
+      }
+      state {
+        state_name
+      }
+      customer_contact_person
+      customer_contact_person_mobile
+      customer_contact_person_role
+      customer_created
+      customer_fax
+      customer_mobile
+      customer_name
+      customer_postcode
+      customer_remark
+      customer_status
+      customer_type
+      customer_updated
+      customer_email
+      customer_registration_number
+      year_of_business_id {
+        year_of_business_id
+        year_of_business_name
+      }
+      ssm_business_certificate {
+        id
+        name
+        file_name
+        full_url
+        mime_type
+      }
+      total_usage
+      total_transaction
+      total_recipient
+      total_card
+      total_fee
+    }
+    paginatorInfo {
+      ...PaginatorInfo
+    }
+  }
+}
+
+query CustomerDetail($customer_id: Int) {
+  CustomerDetail(customer_id: $customer_id) {
+    business_type_id
+    business_type {
+      business_type_id
+      business_type_name
+      business_type_status
+      is_deleted
+    }
+    customer_id
+    customer_address
+    customer_address2
+    setting_annual_revenue {
+      setting_annual_revenue_id
+      setting_annual_revenue_name
+    }
+    customer_approved
+    setting_company_size {
+      setting_company_size_id
+      setting_company_size_name
+    }
+    customer_contact_person
+    customer_contact_person_mobile
+    customer_contact_person_role
+    customer_contact_person_email
+    customer_created
+    customer_fax
+    customer_mobile
+    customer_name
+    customer_postcode
+    customer_remark
+    customer_status
+    customer_type
+    customer_updated
+    customer_email
+    customer_registration_number
+    customer_website
+    year_of_business_id
+    business_year {
+      year_of_business_id
+      year_of_business_name
+    }
+    ssm_business_certificate {
+      id
+      name
+      file_name
+      full_url
+      mime_type
+    }
+    country {
+      country_id
+      country_name
+    }
+    state {
+      state_id
+      state_name
+    }
+    city {
+      city_id
+      city_name
+    }
+    user {
+      user_id
+    }
+  }
+}
+
+query CustomerLogListing(
+  $input: CustomerLogListingInput
+  $page: Int
+  $first: Int
+) {
+  CustomerLogListing(input: $input, page: $page, first: $first) {
+    data {
+      customer_log_id
+      customer_log_action
+      customer_log_description
+      customer_log_created
+    }
+    paginatorInfo {
+      ...PaginatorInfo
+    }
+  }
+}
+
+mutation CustomerApprove($customer_id: Int) {
+  CustomerApprove(customer_id: $customer_id) {
+    ...SuccessResponseInfo
+  }
+}
+
+mutation CustomerReject($input: CustomerRejectInput) {
+  CustomerReject(input: $input) {
+    ...SuccessResponseInfo
+  }
+}
+
+query CustomerListingExport($input: CustomerListingInput) {
+  CustomerListingExport(input: $input) {
+    ...SuccessResponseInfo
+  }
+}
+
+mutation CustomerUpdate($input: CustomerUpdateInput) {
+  CustomerUpdate(input: $input) {
+    ...SuccessResponseInfo
+  }
+}
+
+mutation CustomerSuspend($customer_id: Int) {
+  CustomerSuspend(customer_id: $customer_id) {
+    ...SuccessResponseInfo
+  }
+}
+
+mutation CustomerActivate($customer_id: Int) {
+  CustomerActivate(customer_id: $customer_id) {
+    ...SuccessResponseInfo
+  }
+}
+
+# COUNTRY
+# ========================
+query CountryDropdown {
+  CountryDropdown {
+    country_code
+    country_currency_code
+    country_id
+    country_international_code
+    country_name
+    is_deleted
+  }
+}
+
+# STATE
+# ========================
+query StateDropdown($country_id: Int) {
+  StateDropdown(country_id: $country_id) {
+    state_id
+    state_name
+    is_deleted
+  }
+}
+
+# CITY
+# ========================
+query CityDropdown($state_id: Int) {
+  CityDropdown(state_id: $state_id) {
+    city_id
+    city_name
+    is_deleted
+  }
+}
+
+# QUESTIONNAIRE
+# ========================
+query QuestionListing($input: QuestionListingInput, $page: Int, $first: Int) {
+  QuestionListing(input: $input, page: $page, first: $first) {
+    data {
+      question_id
+      question_title
+      question_value
+      question_priority
+      question_section
+      question_status
+      question_type
+      question_value_column
+    }
+    paginatorInfo {
+      ...PaginatorInfo
+    }
+  }
+}
+
+query QuestionDetail($question_id: Int) {
+  QuestionDetail(question_id: $question_id) {
+    question_id
+    question_title
+    question_value
+    question_priority
+    question_section
+    question_status
+    question_type
+    question_value_column
+  }
+}
+
+mutation QuestionCreate($input: QuestionInput) {
+  QuestionCreate(input: $input) {
+    ...SuccessResponseInfo
+  }
+}
+
+mutation QuestionUpdate($input: QuestionInput) {
+  QuestionUpdate(input: $input) {
+    ...SuccessResponseInfo
+  }
+}
+
+mutation QuestionDelete($question_id: Int) {
+  QuestionDelete(question_id: $question_id) {
+    ...SuccessResponseInfo
+  }
+}
+
+query CustomerQuestionListing($input: CustomerQuestionListingInput) {
+  CustomerQuestionListing(input: $input) {
+    data {
+      customer_question_id
+      customer_question_title
+      customer_question_value
+      customer_question_created
+      question {
+        question_id
+        question_type
+        question_value
+      }
+    }
+  }
+}
+
+mutation CustomerContactPersonUpdate($input: CustomerContactPersonUpdateInput) {
+  CustomerContactPersonUpdate(input: $input) {
+    ...SuccessResponseInfo
+  }
+}
+
+mutation CustomerSSMUpdate($input: CustomerSSMUpdateInput) {
+  CustomerSSMUpdate(input: $input) {
+    ...SuccessResponseInfo
+  }
+}
+
+mutation CustomerDetailsUpdate($input: CustomerDetailsUpdateInput) {
+  CustomerDetailsUpdate(input: $input) {
+    ...SuccessResponseInfo
+  }
+}
+
+# REPORT
+# ========================
+query PaymentReleasedReport($input: ReportInput) {
+  PaymentReleasedReport(input: $input) {
+    data {
+      title
+      payment_type
+      year
+      data
+    }
+    paginatorInfo {
+      ...PaginatorInfo
+    }
+  }
+}
+
+query PaymentRejectedReport($input: ReportInput) {
+  PaymentRejectedReport(input: $input) {
+    data {
+      title
+      payment_type
+      year
+      data
+    }
+    paginatorInfo {
+      ...PaginatorInfo
+    }
+  }
+}
+
+query PaymentRequestListingExport($input: PaymentListingInput) {
+  PaymentRequestListingExport(input: $input) {
+    ...SuccessResponseInfo
+  }
+}
+
+query PaymentReleaseListingExport($input: PaymentScheduleListingInput) {
+  PaymentReleaseListingExport(input: $input) {
+    ...SuccessResponseInfo
+  }
+}
+
+query PaymentRejectedReportExport($input: ReportInput) {
+  PaymentRejectedReportExport(input: $input) {
+    ...SuccessResponseInfo
+  }
+}
+
+query PaymentReleasedReportExport($input: ReportInput) {
+  PaymentReleasedReportExport(input: $input) {
+    ...SuccessResponseInfo
+  }
+}
+
+query PaymentListingExport($input: PaymentListingInput) {
+  PaymentListingExport(input: $input) {
+    ...SuccessResponseInfo
+  }
+}
+
+# DASHBOARD
+# =========================
+query DashboardAdmin($year: Int) {
+  DashboardAdmin {
+    message
+    total_application(year: $year) {
+      total
+      data {
+        status
+        applicant_count
+      }
+    }
+    payment_request {
+      total
+      data {
+        status
+        payment_count
+      }
+    }
+    total_customers(year: $year) {
+      total_count
+      increase_count
+      data {
+        month
+        customer_count
+      }
+    }
+    customer_conversion(year: $year) {
+      total_rate
+      data {
+        month
+        approved_count
+        applicant_count
+        conversion_rate
+      }
+    }
+    sales_overview(year: $year) {
+      year
+      total_released_payment
+      total_profit_by_charges
+      data
+    }
+  }
+}
+
+query DashboardPendingApproveApplication($first: Int, $page: Int) {
+  DashboardAdmin {
+    message
+    pending_approve_application(first: $first, page: $page) {
+      data {
+        customer_id
+        customer_address
+        customer_address2
+        setting_annual_revenue {
+          setting_annual_revenue_id
+          setting_annual_revenue_name
+        }
+        setting_company_size {
+          setting_company_size_id
+          setting_company_size_name
+        }
+        customer_contact_person
+        customer_contact_person_mobile
+        customer_created
+        customer_mobile
+        customer_name
+        customer_email
+        customer_registration_number
+      }
+      paginatorInfo {
+        ...PaginatorInfo
+      }
+    }
+  }
+}
+
+# CONTACT US
+# ========================
+query ContactUsListing($input: ContactUsListingInput, $first: Int, $page: Int) {
+  ContactUsListing(input: $input, first: $first, page: $page) {
+    data {
+      contact_us_id
+      contact_us_user_firstname
+      contact_us_user_lastname
+      contact_us_user_email
+      contact_us_company_name
+      contact_us_message
+      contact_us_status
+      contact_us_action_admin_id
+      contact_us_action_remark
+    }
+    paginatorInfo {
+      ...PaginatorInfo
+    }
+  }
+}
+
+query ContactUsPendingCount {
+  ContactUsPendingCount
+}
+
+mutation ContactUsUpdate($input: ContactUsUpdateInput) {
+  ContactUsUpdate(input: $input) {
+    ...SuccessResponseInfo
+  }
+}
+
+mutation ContactUsDelete($contact_us_id: Int) {
+  ContactUsDelete(contact_us_id: $contact_us_id) {
+    ...SuccessResponseInfo
+  }
+}
+
+mutation ContactUsStatusUpdate($input: ContactUsStatusUpdateInput) {
+  ContactUsStatusUpdate(input: $input) {
+    ...SuccessResponseInfo
+  }
+}
+
+# SETTINGS GENERAL
+# ========================
+query SettingListing($keyword: String, $first: Int, $page: Int) {
+  SettingListing(keyword: $keyword, first: $first, page: $page) {
+    data {
+      setting_id
+      setting_slug
+      setting_value
+      setting_description
+      is_editable
+    }
+    paginatorInfo {
+      ...PaginatorInfo
+    }
+  }
+}
+
+query SettingDetail($setting_slug: String) {
+  SettingDetail(setting_slug: $setting_slug) {
+    setting_id
+    setting_slug
+    setting_value
+    setting_description
+    is_editable
+  }
+}
+
+mutation SettingUpdate($input: SettingInput) {
+  SettingUpdate(input: $input) {
+    ...SuccessResponseInfo
+  }
+}
+
+# Dropdown
+# =======================
+query AnnualRevenueDropdown {
+  AnnualRevenueDropdown {
+    setting_annual_revenue_id
+    setting_annual_revenue_name
+  }
+}
+
+query CompanySizeDropdown {
+  CompanySizeDropdown {
+    setting_company_size_id
+    setting_company_size_name
+  }
+}
+
+# ======================================== FRAGMENTS ========================================
+
+# AUTH
+# ========================
+fragment TokenResponse on TokenResponse {
+  token
+  token_type
+}
+
+# PAGINATOR INFO
+# ========================
+fragment PaginatorInfo on PaginatorInfo {
+  count
+  currentPage
+  firstItem
+  hasMorePages
+  lastItem
+  lastPage
+  perPage
+  total
+}
+
+# SUCCESS RESPONSE
+# ========================
+fragment SuccessResponseInfo on SuccessResponse {
+  data
+  status
+  message
+}
+
+# IMAGE
+# ========================
+fragment ImagesInfo on Images {
+  full
+  media_id
+  thumb
+}

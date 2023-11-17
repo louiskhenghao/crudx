@@ -1,0 +1,2034 @@
+# ======================================== QUERY & MUTATIONS ========================================
+
+# AUTH
+# ========================
+mutation PortalSignIn($input: PortalAuthSignInInput!) {
+  portalSignIn(input: $input) {
+    ...AccessTokenInfo
+  }
+}
+
+query GetPortalAuthProfile {
+  getPortalAuthProfile {
+    ...PortalUser
+  }
+}
+
+mutation ResetUserPasswordWithUrl($input: ResetPasswordEmailInput!) {
+  resetUserPasswordWithUrl(input: $input)
+}
+
+mutation ResetPortalUserPasswordWithUrl($input: ResetPasswordEmailInput!) {
+  resetPortalUserPasswordWithUrl(input: $input)
+}
+
+mutation ForgotPortalPasswordWithOtp($input: PasswordWithOTPInput!) {
+  forgotPortalPasswordWithOTP(input: $input)
+}
+
+mutation PortalChangePassword($input: PortalAuthChangePasswordInput!) {
+  portalChangePassword(input: $input)
+}
+
+# CUSTOMER AUTH
+# ========================
+mutation GenerateOtp($input: GenerateOTPInput!) {
+  generateOTP(input: $input)
+}
+
+mutation CustomerOtpSignIn($input: OTPSignInInput!) {
+  otpSignIn(input: $input) {
+    ...AccessTokenInfo
+  }
+}
+
+mutation CustomerSignIn($input: SignInInput!) {
+  signIn(input: $input) {
+    ...AccessTokenInfo
+  }
+}
+
+mutation CustomerRegister(
+  $input: RegisterInput!
+  $token: ValidateSecuredTokenInput!
+) {
+  register(input: $input, token: $token) {
+    ...AccessTokenInfo
+  }
+}
+
+query GetCustomerAuthProfile {
+  getAuthProfile {
+    ...CustomerUser
+  }
+}
+
+mutation ForgotPasswordWithOtp($input: PasswordWithOTPInput!) {
+  forgotPasswordWithOTP(input: $input)
+}
+
+mutation IsRegisterable($email: String!) {
+  isRegisterable(email: $email)
+}
+
+# for profile
+mutation ForgotPassword($input: PasswordInput!) {
+  forgotPassword(input: $input)
+}
+
+query ValidateSecuredToken($input: ValidateSecuredTokenInput!) {
+  validateSecuredToken(input: $input)
+}
+
+# UPLOAD
+# ========================
+mutation generateSignedUrl($input: UploadRequest!) {
+  generateSignedUrl(input: $input) {
+    signedUrl
+  }
+}
+
+# CUSTOMER / USER
+# ========================
+mutation UpdateUserProfile($input: UpdateProfileInput!) {
+  updateUserProfile(input: $input) {
+    ...CustomerUser
+  }
+}
+
+query GetUsers(
+  $filter: UserFilter! = {}
+  $paging: OffsetPaging! = { limit: 10 }
+  $sorting: [UserSort!]! = [{ direction: DESC, field: createdAt }]
+) {
+  getUsers(filter: $filter, paging: $paging, sorting: $sorting) {
+    nodes {
+      ...PortalCustomerUser
+    }
+    pageInfo {
+      ...PageInfo
+    }
+    totalCount
+  }
+}
+
+query ExportCustomers(
+  $filter: UserFilter! = {}
+  $paging: OffsetPaging! = {}
+  $sorting: [UserSort!]! = []
+) {
+  exportCustomers(filter: $filter, paging: $paging, sorting: $sorting)
+}
+
+query GetUser($id: Int!) {
+  getUser(id: $id) {
+    ...PortalCustomerUser
+  }
+}
+
+mutation UpdateOneUser($input: UpdateOneUserInput!) {
+  updateOneUser(input: $input) {
+    ...PortalCustomerUser
+  }
+}
+
+# PORTAL USER / ADMIN
+# ========================
+query GetPortalUsers(
+  $filter: PortalUserFilter! = {}
+  $paging: OffsetPaging! = { limit: 10 }
+  $sorting: [PortalUserSort!]! = [{ direction: DESC, field: createdAt }]
+) {
+  getPortalUsers(filter: $filter, paging: $paging, sorting: $sorting) {
+    nodes {
+      ...PortalUser
+    }
+    pageInfo {
+      ...PageInfo
+    }
+    totalCount
+  }
+}
+
+query GetPortalUser($id: Int!) {
+  getPortalUser(id: $id) {
+    ...PortalUser
+  }
+}
+
+mutation CreatePortalUser($input: CreatePortalUserInput!) {
+  createPortalUser(input: $input) {
+    ...PortalUser
+  }
+}
+
+mutation UpdatePortalUser($id: Int!, $update: UpdatePortalUserInput!) {
+  updatePortalUser(id: $id, update: $update) {
+    ...PortalUser
+  }
+}
+
+# HOME BANNER
+# ========================
+query GetHomeBanners(
+  $filter: HomeBannerFilter! = {}
+  $paging: OffsetPaging! = { limit: 10 }
+  $sorting: [HomeBannerSort!]! = []
+) {
+  getHomeBanners(filter: $filter, paging: $paging, sorting: $sorting) {
+    nodes {
+      ...HomeBannerInfo
+    }
+    pageInfo {
+      ...PageInfo
+    }
+    totalCount
+  }
+}
+
+query GetPortalHomeBanner($id: Int!) {
+  getPortalHomeBanner(id: $id) {
+    ...HomeBannerInfo
+  }
+}
+
+query GetPortalHomeBanners(
+  $filter: HomeBannerFilter! = {}
+  $paging: OffsetPaging! = { limit: 10 }
+  $sorting: [HomeBannerSort!]! = []
+) {
+  getPortalHomeBanners(filter: $filter, paging: $paging, sorting: $sorting) {
+    nodes {
+      ...HomeBannerInfo
+    }
+    pageInfo {
+      ...PageInfo
+    }
+    totalCount
+  }
+}
+
+mutation CreateOneHomeBanner($input: CreateHomeBannerInput!) {
+  createOneHomeBanner(input: $input) {
+    ...HomeBannerInfo
+  }
+}
+
+mutation UpdateOneHomeBanner($input: UpdateOneHomeBannerInput!) {
+  updateOneHomeBanner(input: $input) {
+    ...HomeBannerInfo
+  }
+}
+
+mutation DeleteOneHomeBanner($input: DeleteOneHomeBannerInput!) {
+  deleteOneHomeBanner(input: $input) {
+    ...HomeBannerDeleteInfo
+  }
+}
+
+# FINANCE PLAN
+# ========================
+query GetPortalApplications(
+  $filter: ApplicationDtoFilter! = {}
+  $modelName: String
+  $paging: OffsetPaging! = { limit: 10 }
+  $sorting: [ApplicationDtoSort!]! = [{ direction: DESC, field: createdAt }]
+) {
+  getPortalApplications(
+    filter: $filter
+    modelName: $modelName
+    paging: $paging
+    sorting: $sorting
+  ) {
+    nodes {
+      ...PortalApplicationInfo
+    }
+    pageInfo {
+      ...PageInfo
+    }
+    totalCount
+  }
+}
+
+query GetPortalApplication($id: Int) {
+  getPortalApplication(id: $id) {
+    ...PortalApplicationInfo
+  }
+}
+
+mutation CreateOneFinancialPlan($input: CreateFinancialPlanInput!) {
+  createOneFinancialPlan(input: $input) {
+    ...PortalFinancePlanInfo
+  }
+}
+
+query GetFinancialPlans(
+  $filter: FinancialPlanFilter! = {}
+  $paging: OffsetPaging! = { limit: 10 }
+  $sorting: [FinancialPlanSort!]! = []
+) {
+  getFeatureFinancialPlans(
+    filter: $filter
+    paging: $paging
+    sorting: $sorting
+  ) {
+    nodes {
+      ...FinancePlanInfo
+    }
+    pageInfo {
+      ...PageInfo
+    }
+    totalCount
+  }
+}
+
+query GetPortalFinancialsPlans(
+  $filter: BasicFinancialPlanFilter! = {}
+  $paging: OffsetPaging! = { limit: 10 }
+  $sorting: [BasicFinancialPlanSort!]! = []
+) {
+  getPortalFinancialsPlans(
+    filter: $filter
+    paging: $paging
+    sorting: $sorting
+  ) {
+    nodes {
+      ...PortalFinancePlanInfo
+    }
+    pageInfo {
+      ...PageInfo
+    }
+    totalCount
+  }
+}
+
+mutation UpdateOneFinancialPlan($input: UpdateOneFinancialPlanInput!) {
+  updateOneFinancialPlan(input: $input) {
+    ...PortalFinancePlanInfo
+  }
+}
+
+query GetPortalFinancialsPlan($id: Int!) {
+  getPortalFinancialsPlan(id: $id) {
+    ...PortalFinancePlanInfo
+  }
+}
+
+mutation DeleteOneFinancialPlan($input: Int) {
+  deleteOneFinancialPlan(id: $input)
+}
+
+mutation CreateApplication(
+  $input: CreateApplicationInput!
+  $safeAsDraft: Boolean
+  $supportDocs: [ImageInput!]
+) {
+  createApplication(
+    input: $input
+    supportDocs: $supportDocs
+    safeAsDraft: $safeAsDraft
+  ) {
+    ...ApplicationInfo
+  }
+}
+
+mutation CancelApplication($input: Int) {
+  cancelApplication(id: $input) {
+    ...ApplicationInfo
+  }
+}
+
+mutation UpdateApplication(
+  $id: Int!
+  $safeAsDraft: Boolean
+  $supportDocs: [ImageInput!]
+  $update: ComputeUpdateApplicationInput!
+) {
+  updateApplication(
+    id: $id
+    safeAsDraft: $safeAsDraft
+    supportDocs: $supportDocs
+    update: $update
+  ) {
+    ...ApplicationInfo
+  }
+}
+
+query HasApplication($input: [ApplicationStatusType!]) {
+  hasApplication(status: $input)
+}
+
+query GetApplicationByStatus($input: ApplicationStatusType) {
+  getApplicationByStatus(status: $input) {
+    ...ApplicationInfo
+  }
+}
+
+# OUTLET
+# ========================
+query GetPortalOutlets(
+  $filter: OutletFilter! = {}
+  $paging: OffsetPaging! = { limit: 10 }
+  $sorting: [OutletSort!]! = []
+) {
+  getPortalOutlets(filter: $filter, paging: $paging, sorting: $sorting) {
+    nodes {
+      ...PortalOutletInfo
+    }
+    pageInfo {
+      ...PageInfo
+    }
+    totalCount
+  }
+}
+
+query ExportOutlets(
+  $filter: OutletFilter! = {}
+  $paging: OffsetPaging! = {}
+  $sorting: [OutletSort!]! = []
+) {
+  exportOutlets(filter: $filter, paging: $paging, sorting: $sorting)
+}
+
+query GetPortalOutlet($id: Int!) {
+  getPortalOutlet(id: $id) {
+    ...PortalOutletInfo
+  }
+}
+
+mutation CreateOneOutlet($input: CreateOutletInput!) {
+  createOneOutlet(input: $input) {
+    ...PortalOutletInfo
+  }
+}
+
+mutation UpdateOneOutlet($input: UpdateOneOutletInput!) {
+  updateOneOutlet(input: $input) {
+    ...PortalOutletInfo
+  }
+}
+
+mutation AssignOutletMotorcar($input: assignOutletMotorcarInput!) {
+  assignOutletMotorcar(input: $input) {
+    ...PortalOutletInfo
+  }
+}
+
+# MISC
+# ========================
+query GetMiscByKey($input: MiscType) {
+  getMiscByKey(key: $input) {
+    ...MiscTypeInfo
+  }
+}
+
+mutation CreateOneMisc($input: CreateOneMiscInput!) {
+  createOneMisc(input: $input) {
+    ...MiscTypeInfo
+  }
+}
+
+# PORTAL MISC
+# ========================
+query GetPortalPolicies(
+  $filter: MiscFilter! = {}
+  $paging: OffsetPaging! = { limit: 10 }
+  $sorting: [MiscSort!]! = [{ direction: DESC, field: createdAt }]
+) {
+  getPortalPolicies(filter: $filter, paging: $paging, sorting: $sorting) {
+    nodes {
+      ...MiscTypeInfo
+    }
+    pageInfo {
+      ...PageInfo
+    }
+    totalCount
+  }
+}
+
+query GetPortalMisc($id: Int!) {
+  getPortalMisc(id: $id) {
+    ...MiscTypeInfo
+  }
+}
+
+mutation UpdateOneMisc($input: UpdateOneMiscInput!) {
+  updateOneMisc(input: $input) {
+    ...MiscTypeInfo
+  }
+}
+
+# MOTORCAR
+# ========================
+query GetMotorCar($id: Float, $slug: String) {
+  getMotorCar(id: $id, slug: $slug) {
+    ...MotorCarInfo
+  }
+}
+
+query GetMotorCarsOutlet(
+  $brandSlug: String
+  $budget: JSONObject
+  $categoryCode: String
+  $filter: MotorCarFilter! = {}
+  $hasPromotion: Boolean
+  $keyword: String
+  $outletStates: [String!]
+  $outletIds: [Float!]
+  $paging: OffsetPaging! = { limit: 10 }
+  $popular: Boolean = false
+  $rangeSpecification: JSONObject
+  $sorting: [MotorCarSort!]! = [{ direction: DESC, field: createdAt }]
+  $specification: JSONObject
+) {
+  getMotorCars(
+    brandSlug: $brandSlug
+    budget: $budget
+    categoryCode: $categoryCode
+    filter: $filter
+    hasPromotion: $hasPromotion
+    keyword: $keyword
+    outletStates: $outletStates
+    outletIds: $outletIds
+    paging: $paging
+    popular: $popular
+    rangeSpecification: $rangeSpecification
+    sorting: $sorting
+    specification: $specification
+  ) {
+    nodes {
+      ...MotorCarInfo
+    }
+    pageInfo {
+      ...PageInfo
+    }
+    totalCount
+  }
+}
+query GetMotorCars(
+  $brandSlug: String
+  $budget: JSONObject
+  $categoryCode: String
+  $filter: MotorCarFilter! = {}
+  $hasPromotion: Boolean
+  $keyword: String
+  $outletStates: [String!]
+  $outletIds: [Float!]
+  $paging: OffsetPaging! = { limit: 10 }
+  $popular: Boolean = false
+  $rangeSpecification: JSONObject
+  $sorting: [MotorCarSort!]! = [{ direction: DESC, field: createdAt }]
+  $specification: JSONObject
+) {
+  getMotorCars(
+    brandSlug: $brandSlug
+    budget: $budget
+    categoryCode: $categoryCode
+    filter: $filter
+    hasPromotion: $hasPromotion
+    keyword: $keyword
+    outletStates: $outletStates
+    outletIds: $outletIds
+    paging: $paging
+    popular: $popular
+    rangeSpecification: $rangeSpecification
+    sorting: $sorting
+    specification: $specification
+  ) {
+    nodes {
+      ...MotorCarBasicInfo
+    }
+    pageInfo {
+      ...PageInfo
+    }
+    totalCount
+  }
+}
+
+query GetMotorCarCountWithFilters(
+  $brandSlug: String
+  $budget: JSONObject
+  $categoryCode: String
+  $filter: MotorCarFilter! = {}
+  $hasPromotion: Boolean
+  $keyword: String
+  $outletStates: [String!]
+  $outletIds: [Float!]
+  $rangeSpecification: JSONObject
+  $specification: JSONObject
+) {
+  getMotorCarCountWithFilters(
+    brandSlug: $brandSlug
+    budget: $budget
+    categoryCode: $categoryCode
+    filter: $filter
+    hasPromotion: $hasPromotion
+    keyword: $keyword
+    outletStates: $outletStates
+    outletIds: $outletIds
+    rangeSpecification: $rangeSpecification
+    specification: $specification
+  )
+}
+
+query GetMotorCarFilters(
+  $brandSlug: String
+  $budget: JSONObject
+  $categoryCode: String
+  $filter: MotorCarFilter! = {}
+  $hasPromotion: Boolean
+  $keyword: String
+  $outletStates: [String!]
+  $outletIds: [Float!]
+  $rangeSpecification: JSONObject
+  $specification: JSONObject
+) {
+  getMotorCarFilters(
+    brandSlug: $brandSlug
+    budget: $budget
+    categoryCode: $categoryCode
+    filter: $filter
+    hasPromotion: $hasPromotion
+    keyword: $keyword
+    outletStates: $outletStates
+    outletIds: $outletIds
+    rangeSpecification: $rangeSpecification
+    specification: $specification
+  )
+}
+
+query GetPortalMotorCars(
+  $filter: MotorCarFilter! = {}
+  $outletId: Float
+  $paging: OffsetPaging! = { limit: 10 }
+  $sorting: [MotorCarSort!]! = []
+) {
+  getPortalMotorCars(
+    filter: $filter
+    outletId: $outletId
+    paging: $paging
+    sorting: $sorting
+  ) {
+    nodes {
+      ...PortalMotorCarInfo
+    }
+    pageInfo {
+      ...PageInfo
+    }
+    totalCount
+  }
+}
+
+mutation CreateOneMotorCar($input: CreateMotorCarInput!) {
+  createOneMotorCar(input: $input) {
+    ...PortalMotorCarInfo
+  }
+}
+
+query GetPortalMotorCar($id: Int!) {
+  getPortalMotorCar(id: $id) {
+    ...PortalMotorCarInfo
+  }
+}
+
+mutation DeleteOneMotorCar($input: DeleteOneMotorCarInput!) {
+  deleteOneMotorCar(input: $input) {
+    id
+    modelName
+    status
+  }
+}
+
+mutation UpdateOneMotorCar($id: Int!, $input: UpdateMotorCarInput!) {
+  updateOneMotorCar(id: $id, input: $input) {
+    ...PortalMotorCarInfo
+  }
+}
+
+# MOTOR CATEGORY
+# ========================
+query GetCategories(
+  $popular: Boolean = false
+  $fullList: Boolean = false
+  $filter: CategoryFilter! = {}
+  $paging: OffsetPaging! = { limit: 10 }
+  $sorting: [CategorySort!]! = [{ direction: DESC, field: createdAt }]
+) {
+  getCategories(
+    popular: $popular
+    fullList: $fullList
+    filter: $filter
+    paging: $paging
+    sorting: $sorting
+  ) {
+    nodes {
+      ...CategoryInfo
+    }
+    pageInfo {
+      ...PageInfo
+    }
+    totalCount
+  }
+}
+
+query GetPortalCategories(
+  $filter: CategoryFilter! = {}
+  $paging: OffsetPaging! = { limit: 10 }
+  $sorting: [CategorySort!]! = [{ direction: ASC, field: id }]
+) {
+  getPortalCategories(filter: $filter, paging: $paging, sorting: $sorting) {
+    nodes {
+      ...CategoryInfo
+    }
+    pageInfo {
+      ...PageInfo
+    }
+    totalCount
+  }
+}
+
+query getCategory($id: Int) {
+  getCategory(id: $id) {
+    ...CategoryInfo
+  }
+}
+
+query getPortalCategory($id: Int!) {
+  getPortalCategory(id: $id) {
+    ...CategoryInfo
+  }
+}
+
+mutation createOneCategory($input: CreateOneCategoryInput!) {
+  createOneCategory(input: $input) {
+    ...CategoryInfo
+  }
+}
+
+mutation updateOneCategory($input: UpdateOneCategoryInput!) {
+  updateOneCategory(input: $input) {
+    ...CategoryInfo
+  }
+}
+
+mutation deleteOneCategory($input: DeleteOneCategoryInput!) {
+  deleteOneCategory(input: $input) {
+    categoryCode
+    createdAt
+    id
+    image
+    mobileImage
+    name
+    popularityCount
+    status
+    updatedAt
+  }
+}
+
+# MOTOR BRANDS
+# ========================
+query GetBrands(
+  $popular: Boolean = false
+  $fullList: Boolean = false
+  $outletId: Float
+  $outletState: String
+  $filter: BrandFilter! = {}
+  $paging: OffsetPaging! = { limit: 10 }
+  $sorting: [BrandSort!]! = [{ direction: DESC, field: createdAt }]
+) {
+  getBrands(
+    popular: $popular
+    fullList: $fullList
+    filter: $filter
+    paging: $paging
+    sorting: $sorting
+    outletId: $outletId
+    outletState: $outletState
+  ) {
+    nodes {
+      ...BrandInfo
+    }
+    pageInfo {
+      ...PageInfo
+    }
+    totalCount
+  }
+}
+
+query GetBrand($id: Float, $slug: String) {
+  getBrand(id: $id, slug: $slug) {
+    ...BrandInfo
+  }
+}
+
+# BRAND
+# ========================
+
+query GetPortalBrands(
+  $filter: BrandFilter! = {}
+  $paging: OffsetPaging! = { limit: 10 }
+  $sorting: [BrandSort!]! = [{ direction: ASC, field: id }]
+) {
+  getPortalBrands(filter: $filter, paging: $paging, sorting: $sorting) {
+    nodes {
+      ...BrandInfo
+    }
+    pageInfo {
+      ...PageInfo
+    }
+    totalCount
+  }
+}
+
+query ExportBrands(
+  $filter: BrandFilter! = {}
+  $paging: OffsetPaging! = {}
+  $sorting: [BrandSort!]! = []
+) {
+  exportBrands(filter: $filter, paging: $paging, sorting: $sorting)
+}
+query GetPortalBrand($id: Int!) {
+  getPortalBrand(id: $id) {
+    ...BrandInfo
+  }
+}
+
+mutation UpdateOneBrand($input: UpdateOneBrandInput!) {
+  updateOneBrand(input: $input) {
+    ...BrandInfo
+  }
+}
+
+mutation DeleteOneBrand($input: Int) {
+  deleteOneBrand(id: $input)
+}
+
+mutation CreateOneBrand($input: CreateBrandInput!) {
+  createOneBrand(input: $input) {
+    ...BrandInfo
+  }
+}
+
+# DASHBOARD
+# ========================
+query GetDashboardData($endDate: DateTime, $startDate: DateTime) {
+  getDashboardData(endDate: $endDate, startDate: $startDate) {
+    ...DashboardInfo
+  }
+}
+
+# MODEL
+# ========================
+query GetModels(
+  $filter: ModelFilter! = {}
+  $paging: OffsetPaging! = { limit: 10 }
+  $sorting: [ModelSort!]! = [{ direction: ASC, field: name }]
+) {
+  getModels(filter: $filter, paging: $paging, sorting: $sorting) {
+    nodes {
+      name
+      brandSlug
+      brandCode
+      slug
+    }
+    pageInfo {
+      ...PageInfo
+    }
+    totalCount
+  }
+}
+
+query getMotorcarsSlug($promo: Boolean) {
+  getMotorcarsSlug(promo: $promo)
+}
+
+# TENURE
+# ========================
+query GetTenureRate($input: Int) {
+  getTenureRate(motorcarId: $input) {
+    em {
+      ...PricingInfo
+    }
+    tenure
+    wm {
+      ...PricingInfo
+    }
+  }
+}
+
+query GetEstimatedTenureRate(
+  $financialPlanId: Int!
+  $priceEM: Int!
+  $priceWM: Int!
+  $promotionId: Int
+) {
+  getEstimatedTenureRate(
+    financialPlanId: $financialPlanId
+    priceEM: $priceEM
+    priceWM: $priceWM
+    promotionId: $promotionId
+  ) {
+    em {
+      ...PricingInfo
+    }
+    tenure
+    wm {
+      ...PricingInfo
+    }
+  }
+}
+
+# APPLICATION
+# ========================
+query GetEkycUrl($id: Int!) {
+  getEKYCUrl(id: $id)
+}
+
+query GetApplications(
+  $filter: ApplicationDtoFilter! = {}
+  $paging: OffsetPaging! = { limit: 10 }
+  $sorting: [ApplicationDtoSort!]! = [{ direction: DESC, field: createdAt }]
+) {
+  getApplications(filter: $filter, paging: $paging, sorting: $sorting) {
+    nodes {
+      ...ApplicationInfo
+    }
+    pageInfo {
+      ...PageInfo
+    }
+    totalCount
+  }
+}
+query GetApplication($id: Int) {
+  getApplication(id: $id) {
+    ...ApplicationInfo
+  }
+}
+
+mutation DeleteDraftApplication {
+  deleteDraftApplication
+}
+
+query GetApplicationStatus(
+  $endDate: DateTime
+  $modelName: String
+  $outletId: Float
+  $refNo: String
+  $startDate: DateTime
+  $status: ApplicationStatusType
+  $userId: Float
+) {
+  getApplicationStatus(
+    endDate: $endDate
+    modelName: $modelName
+    outletId: $outletId
+    refNo: $refNo
+    startDate: $startDate
+    status: $status
+    userId: $userId
+  )
+}
+
+query ExportApplications(
+  $filter: ApplicationDtoFilter! = {}
+  $modelName: String
+  $paging: OffsetPaging! = {}
+  $sorting: [ApplicationDtoSort!]! = [{ direction: DESC, field: createdAt }]
+) {
+  exportApplications(
+    filter: $filter
+    modelName: $modelName
+    paging: $paging
+    sorting: $sorting
+  )
+}
+
+# APPLICATION HISTORY
+# ========================
+query GetPortalAppHistories(
+  $filter: ApplicationHistoryFilter! = {}
+  $paging: OffsetPaging! = { limit: 10 }
+  $sorting: [ApplicationHistorySort!]! = []
+) {
+  getPortalAppHistories(filter: $filter, paging: $paging, sorting: $sorting) {
+    nodes {
+      action
+      applicationId
+      createdAt
+      description
+      id
+      meta
+      remark
+      title
+      updatedAt
+      userId
+    }
+    pageInfo {
+      ...PageInfo
+    }
+    totalCount
+  }
+}
+
+mutation UtilsUpdateAppl(
+  $actionType: ApplicationActionTypes
+  $refNo: String!
+  $status: String!
+) {
+  utilsUpdateAppl(actionType: $actionType, refNo: $refNo, status: $status)
+}
+
+# PROMOTION
+# ========================
+query GetPromotions(
+  $filter: PromotionFilter! = {}
+  $paging: OffsetPaging! = { limit: 10 }
+  $sorting: [PromotionSort!]! = [{ direction: DESC, field: createdAt }]
+) {
+  getPromotions(filter: $filter, paging: $paging, sorting: $sorting) {
+    nodes {
+      ...PromotionFullInfo
+    }
+    pageInfo {
+      ...PageInfo
+    }
+    totalCount
+  }
+}
+
+query GetPromotion($id: Int!) {
+  getPromotion(id: $id) {
+    ...PromotionFullInfo
+  }
+}
+
+mutation CreatePromotion($input: CreateOnePromotionInput!) {
+  createOnePromotion(input: $input) {
+    ...PromotionFullInfo
+  }
+}
+
+mutation UpdatePromotion($input: UpdateOnePromotionInput!) {
+  updateOnePromotion(input: $input) {
+    ...PromotionFullInfo
+  }
+}
+
+# PRODUCT BANNER
+# ========================
+query GetPortalProductBanners(
+  $filter: ProductBannerFilter! = {}
+  $paging: OffsetPaging! = { limit: 10 }
+  $sorting: [ProductBannerSort!]! = []
+) {
+  getPortalProductBanners(filter: $filter, paging: $paging, sorting: $sorting) {
+    nodes {
+      ...ProductBannerInfo
+    }
+    pageInfo {
+      ...PageInfo
+    }
+    totalCount
+  }
+}
+
+mutation CreateOneProductBanner($input: CreateProductBannerInput!) {
+  createOneProductBanner(input: $input) {
+    ...ProductBannerInfo
+  }
+}
+
+mutation UpdateOneProductBanner($input: UpdateOneProductBannerInput!) {
+  updateOneProductBanner(input: $input) {
+    ...ProductBannerInfo
+  }
+}
+
+mutation DeleteOneProductBanner($input: DeleteOneProductBannerInput!) {
+  deleteOneProductBanner(input: $input) {
+    ...ProductBannerDeleteInfo
+  }
+}
+
+query GetPortalProductBanner($id: Int!) {
+  getPortalProductBanner(id: $id) {
+    ...ProductBannerInfo
+  }
+}
+
+query GetProductBanners(
+  $filter: ProductBannerFilter! = {}
+  $paging: OffsetPaging! = { limit: 10 }
+  $sorting: [ProductBannerSort!]! = [{ direction: DESC, field: createdAt }]
+) {
+  getProductBanners(filter: $filter, paging: $paging, sorting: $sorting) {
+    nodes {
+      ...ProductBannerInfo
+    }
+    pageInfo {
+      ...PageInfo
+    }
+    totalCount
+  }
+}
+
+# PROMOTION BANNER
+# ========================
+query GetPromotionBanners(
+  $filter: PromotionBannerFilter! = {}
+  $paging: OffsetPaging! = { limit: 10 }
+  $sorting: [PromotionBannerSort!]! = []
+) {
+  getPromotionBanners(filter: $filter, paging: $paging, sorting: $sorting) {
+    nodes {
+      ...PromotionBannerInfo
+    }
+    pageInfo {
+      ...PageInfo
+    }
+    totalCount
+  }
+}
+
+query GetPortalPromotionBanner($id: Int!) {
+  getPortalPromotionBanner(id: $id) {
+    ...PromotionBannerInfo
+  }
+}
+
+query GetPortalPromotionBanners(
+  $filter: PromotionBannerFilter! = {}
+  $paging: OffsetPaging! = { limit: 10 }
+  $sorting: [PromotionBannerSort!]! = []
+) {
+  getPortalPromotionBanners(
+    filter: $filter
+    paging: $paging
+    sorting: $sorting
+  ) {
+    nodes {
+      ...PromotionBannerInfo
+    }
+    pageInfo {
+      ...PageInfo
+    }
+    totalCount
+  }
+}
+
+mutation CreateOnePromotionBanner($input: CreatePromotionBannerInput!) {
+  createOnePromotionBanner(input: $input) {
+    ...PromotionBannerInfo
+  }
+}
+
+mutation DeleteOnePromotionBanner($input: DeleteOnePromotionBannerInput!) {
+  deleteOnePromotionBanner(input: $input) {
+    ...PromotionBannerDeleteInfo
+  }
+}
+
+mutation UpdateOnePromotionBanner($input: UpdateOnePromotionBannerInput!) {
+  updateOnePromotionBanner(input: $input) {
+    ...PromotionBannerInfo
+  }
+}
+
+# FAQ
+# ========================
+query GetPortalFaqs(
+  $filter: FaqFilter! = {}
+  $paging: OffsetPaging! = { limit: 10 }
+  $sorting: [FaqSort!]! = []
+) {
+  getPortalFaqs(filter: $filter, paging: $paging, sorting: $sorting) {
+    nodes {
+      ...FaqInfo
+    }
+    pageInfo {
+      ...PageInfo
+    }
+    totalCount
+  }
+}
+
+query GetPortalFaq($id: Int!) {
+  getPortalFaq(id: $id) {
+    ...FaqInfo
+  }
+}
+
+mutation CreateOneFaq($input: CreateOneFaqInput!) {
+  createOneFaq(input: $input) {
+    ...FaqInfo
+  }
+}
+
+mutation DeleteOneFaq($input: DeleteOneFaqInput!) {
+  deleteOneFaq(input: $input) {
+    ...FaqDeleteInfo
+  }
+}
+
+mutation UpdateOneFaq($input: UpdateOneFaqInput!) {
+  updateOneFaq(input: $input) {
+    ...FaqInfo
+  }
+}
+
+mutation DeletePromotion($input: DeleteOnePromotionInput!) {
+  deleteOnePromotion(input: $input) {
+    createdAt
+    description
+    endDate
+    id
+    profitRateReduction
+    startDate
+    status
+    title
+    updatedAt
+  }
+}
+
+query GetFaqs(
+  $filter: FaqFilter! = {}
+  $paging: OffsetPaging! = { limit: 10 }
+  $sorting: [FaqSort!]! = [{ direction: ASC, field: priority }]
+) {
+  getFaqs(filter: $filter, paging: $paging, sorting: $sorting) {
+    nodes {
+      ...FaqInfo
+    }
+    pageInfo {
+      ...PageInfo
+    }
+    totalCount
+  }
+}
+
+# POPULAR keyword
+# ========================
+query GetPopularKeywords(
+  $filter: PopularSearchFilter! = {}
+  $paging: OffsetPaging! = { limit: 10 }
+  $sorting: [PopularSearchSort!]! = [
+    { direction: DESC, field: popularityCount }
+  ]
+) {
+  getPopularSearchKeywords(
+    filter: $filter
+    paging: $paging
+    sorting: $sorting
+  ) {
+    nodes {
+      ...PopularSearchInfo
+    }
+    pageInfo {
+      ...PageInfo
+    }
+    totalCount
+  }
+}
+
+# UPLOAD
+# ========================
+mutation UploadExcelFile(
+  $fileType: DataIOFilesTypes!
+  $purpose: DataIOPurposeType!
+  $signedUrl: String!
+) {
+  uploadExcelFile(fileType: $fileType, purpose: $purpose, signedUrl: $signedUrl)
+}
+
+# CITY STATE
+# ========================
+query GetCityState($input: String!) {
+  getCityState(postcode: $input) {
+    ...CityStateInfo
+  }
+}
+
+# OUTLET
+# ========================
+query GetOutlets(
+  $filter: OutletFilter! = {}
+  $sorting: [OutletSort!]! = [{ direction: DESC, field: createdAt }]
+  $fullList: Boolean
+  $boundingCoordinates: JSONObject
+  $brands: [String!]
+  $state: String
+) {
+  getOutlets(
+    filter: $filter
+    sorting: $sorting
+    fullList: $fullList
+    boundingCoordinates: $boundingCoordinates
+    brands: $brands
+    state: $state
+  ) {
+    ...OutletInfo
+  }
+}
+
+query GetOutlet($id: Float, $slug: String) {
+  getOutlet(id: $id, slug: $slug) {
+    ...OutletInfo
+  }
+}
+
+# NOTIFICATIONS
+# ========================
+query GetNotifications(
+  $filter: NotificationFilter! = {}
+  $paging: OffsetPaging! = { limit: 10 }
+  $sorting: [NotificationSort!]! = [{ direction: DESC, field: createdAt }]
+) {
+  getNotifications(filter: $filter, paging: $paging, sorting: $sorting) {
+    nodes {
+      ...NotificationInfo
+    }
+    pageInfo {
+      ...PageInfo
+    }
+    totalCount
+  }
+}
+
+query GetUnreadNotificationsCount {
+  getUnreadNotificationsCount
+}
+
+mutation MarkAsRead($id: Int!) {
+  markAsRead(id: $id)
+}
+
+mutation MarkAllAsRead {
+  markAllAsRead
+}
+
+# ROLE & PERMISSION
+# ========================
+query getPortalRoles(
+  $filter: RoleFilter! = {}
+  $paging: OffsetPaging! = { limit: 10 }
+  $sorting: [RoleSort!]! = []
+) {
+  getPortalRoles(filter: $filter, paging: $paging, sorting: $sorting) {
+    nodes {
+      ...RoleInfo
+    }
+    pageInfo {
+      ...PageInfo
+    }
+    totalCount
+  }
+}
+
+query getPortalRole($id: Int!) {
+  getPortalRole(id: $id) {
+    ...RoleInfo
+  }
+}
+
+mutation createOneRole($input: CreateOneRoleInput!) {
+  createOneRole(input: $input) {
+    ...RoleInfo
+  }
+}
+mutation updateOneRole($input: UpdateOneRoleInput!) {
+  updateOneRole(input: $input) {
+    ...RoleInfo
+  }
+}
+
+query getPermissions(
+  $filter: PermissionFilter! = {}
+  $sorting: [PermissionSort!]! = []
+) {
+  getPermissions(filter: $filter, sorting: $sorting) {
+    ...PermissionInfo
+  }
+}
+
+mutation deleteOneRole($id: Int!) {
+  deleteOneRole(id: $id)
+}
+
+# ======================================== FRAGMENTS ========================================
+
+# AUTH
+# ========================
+fragment AccessTokenInfo on AccessToken {
+  accessToken
+  expiresIn
+  refreshExpiresIn
+  refreshToken
+}
+
+# PAGE INFO
+# ========================
+fragment PageInfo on OffsetPageInfo {
+  hasNextPage
+  hasPreviousPage
+}
+
+# USER / CUSTOMER
+# ========================
+fragment CustomerUser on User {
+  acceptedLoan
+  # addresses {
+  #   address1
+  #   address2
+  #   city
+  #   country
+  #   createdAt
+  #   id
+  #   latitude
+  #   longitude
+  #   postcode
+  #   state
+  #   updatedAt
+  # }
+  approvedLoan
+  createdAt
+  dateOfBirth
+  ekycVerified
+  email
+  fullname
+  gender
+  id
+  idNo
+  idType
+  loanOffered
+  phoneCode
+  phoneNumber
+  referralCode
+  remark
+  status
+  twoFactorEnabled
+  updatedAt
+  username
+}
+
+fragment PortalCustomerUser on User {
+  acceptedLoan
+  addresses {
+    address1
+    address2
+    city
+    country
+    createdAt
+    id
+    latitude
+    longitude
+    postcode
+    state
+    updatedAt
+  }
+  approvedLoan
+  createdAt
+  dateOfBirth
+  ekycVerified
+  email
+  fullname
+  gender
+  id
+  idNo
+  idType
+  loanOffered
+  phoneCode
+  phoneNumber
+  referralCode
+  remark
+  status
+  totalApplication
+  twoFactorEnabled
+  updatedAt
+  username
+}
+
+# PORTAL USER / ADMIN
+# ========================
+fragment PortalUser on PortalUser {
+  addresses {
+    address1
+    address2
+    city
+    country
+    createdAt
+    id
+    postcode
+    state
+    updatedAt
+  }
+  createdAt
+  dateOfBirth
+  email
+  fullname
+  gender
+  id
+  lastLoginDate
+  phoneCode
+  phoneNumber
+  reference
+  status
+  twoFactorEnabled
+  updatedAt
+  username
+  roles {
+    ...RoleInfo
+  }
+}
+
+# FINANCE PLAN
+# ========================
+fragment FinancePlanInfo on FinancialPlan {
+  autoAssign
+  conditions
+  createdAt
+  description
+  id
+  image
+  isFeatured
+  maxFinanceRate
+  maxTenure
+  name
+  profitRate
+  status
+  tenure
+  updatedAt
+}
+
+fragment PortalFinancePlanInfo on BasicFinancialPlan {
+  autoAssign
+  calculationMethod
+  conditions
+  createdAt
+  # description
+  id
+  image
+  isFeatured
+  maxFinanceRate
+  maxTenure
+  name
+  profitRate
+  status
+  tenure
+  updatedAt
+}
+
+# MOTORCAR
+# ========================
+fragment MotorCarBasicInfo on MotorCar {
+  id
+  modelName
+  specification
+  instalment {
+    em
+    wm
+  }
+  images
+  currentPromotion {
+    instalment {
+      em
+      wm
+    }
+  }
+  brand {
+    name
+    slug
+  }
+  category {
+    name
+    categoryCode
+  }
+  slug
+  totalPopularityCount
+}
+
+fragment MotorCarInfo on MotorCar {
+  brand {
+    image
+    name
+    slug
+  }
+  createdAt
+  id
+  modelName
+  slug
+  outlets {
+    ...OutletInfo
+  }
+  description
+  specification
+  sellingPriceEM
+  sellingPriceWM
+  instalmentRate
+  instalment {
+    em
+    wm
+  }
+  images
+  currentPromotion {
+    description
+    endDate
+    instalment {
+      em
+      wm
+    }
+    profitRateReduction
+    startDate
+    title
+  }
+  category {
+    name
+    image
+    categoryCode
+  }
+  totalPopularityCount
+}
+
+fragment PortalMotorCarInfo on MotorCar {
+  brand {
+    slug
+    image
+    name
+    id
+  }
+  category {
+    categoryCode
+    image
+    name
+    id
+  }
+  createdAt
+  description
+  financialPlan {
+    autoAssign
+    calculationMethod
+    conditions
+    createdAt
+    description
+    id
+    image
+    name
+    profitRate
+    status
+    tenure
+    updatedAt
+  }
+  id
+  images
+  instalment {
+    em
+    wm
+  }
+  instalmentRate
+  modelName
+  outlets {
+    ...PortalOutletInfo
+  }
+  currentPromotion {
+    description
+    endDate
+    instalment {
+      em
+      wm
+    }
+    profitRateReduction
+    startDate
+    title
+  }
+  popularityCount
+  promotions {
+    description
+    endDate
+    instalment {
+      em
+      wm
+    }
+    profitRateReduction
+    startDate
+    title
+    id
+  }
+  sellingPriceEM
+  sellingPriceWM
+  specification
+  status
+  updatedAt
+}
+
+# CATEGORY
+# ========================
+fragment CategoryInfo on Category {
+  id
+  name
+  image
+  mobileImage
+  status
+  categoryCode
+  popularityCount
+  createdAt
+  updatedAt
+}
+
+# OUTLET
+# ========================
+fragment OutletInfo on Outlet {
+  address1
+  address2
+  city
+  code
+  country
+  createdAt
+  email
+  faxNo
+  id
+  images
+  isFeatured
+  latitude
+  longitude
+  name
+  postcode
+  profileImage
+  registrationNo
+  slug
+  state
+  status
+  updatedAt
+  verified
+}
+
+fragment PortalOutletInfo on Outlet {
+  address1
+  address2
+  city
+  code
+  country
+  createdAt
+  email
+  faxNo
+  id
+  images
+  isFeatured
+  latitude
+  longitude
+  name
+  postcode
+  profileImage
+  registrationNo
+  state
+  status
+  totalApplications
+  totalMotorcar
+  updatedAt
+  verified
+}
+
+# BRAND
+# ========================
+fragment BrandInfo on Brand {
+  slug
+  createdAt
+  id
+  image
+  motorcarCount
+  popularityCount
+  name
+  status
+  updatedAt
+}
+
+# PROMOTION
+# ========================
+fragment PromotionInfo on BasicPromotionDTO {
+  title
+  description
+  startDate
+  endDate
+  profitRateReduction
+  instalment {
+    wm
+    em
+  }
+}
+
+fragment PromotionFullInfo on Promotion {
+  createdAt
+  description
+  endDate
+  id
+  profitRateReduction
+  startDate
+  status
+  title
+  updatedAt
+}
+
+# PROMOTION BANNER
+# ========================
+fragment PromotionBannerInfo on PromotionBanner {
+  actions
+  createdAt
+  id
+  image
+  isInternalLink
+  mobileImage
+  position
+  priority
+  status
+  title
+  updatedAt
+  url
+}
+
+fragment PromotionBannerDeleteInfo on PromotionBannerDeleteResponse {
+  actions
+  createdAt
+  id
+  image
+  isInternalLink
+  mobileImage
+  position
+  priority
+  status
+  title
+  updatedAt
+  url
+}
+
+# INSTALMENT
+# ========================
+fragment InstalmentInfo on Instalment {
+  em
+  wm
+}
+
+# PRICING
+# ========================
+fragment PricingInfo on Pricing {
+  amount
+  deposit
+  instalment
+  promotion
+  sellingPrice
+}
+
+# APPLICATION
+# ========================
+fragment ApplicationInfo on ApplicationDto {
+  actionRequires
+  address
+  # agreementNo
+  # appNo
+  # consentTime
+  createdAt
+  dateApplied
+  deposit
+  employmentDetails
+  financeAmount
+  financialPlanSnapshot
+  emergencyContact
+  id
+  monthlyInstalment
+  motorCarSnapshot
+  motorcarSwap
+  outletSnapshot
+  profitRate
+  refNo
+  salutation
+  status
+  updatedAt
+  userId
+}
+
+fragment PortalApplicationInfo on ApplicationDto {
+  actionRequires
+  address
+  createdAt
+  customer {
+    ...PortalCustomerUser
+  }
+  dateApplied
+  dateApproved
+  deposit
+  dipOffered
+  emergencyContact
+  employmentDetails
+  finalApproved
+  financeAmount
+  financialPlanSnapshot
+  id
+  monthlyInstalment
+  motorCarSnapshot
+  motorcarSwap
+  outletSnapshot
+  profitRate
+  refNo
+  salutation
+  status
+  updatedAt
+  userId
+}
+
+# POPULAR SEARCH
+# ========================
+fragment PopularSearchInfo on PopularSearch {
+  popularityCount
+  searchQuery
+}
+
+# HOME BANNER
+# ========================
+fragment HomeBannerInfo on HomeBanner {
+  actions
+  createdAt
+  id
+  image
+  isInternalLink
+  mobileImage
+  priority
+  status
+  title
+  updatedAt
+  url
+}
+
+fragment HomeBannerDeleteInfo on HomeBannerDeleteResponse {
+  actions
+  createdAt
+  id
+  image
+  isInternalLink
+  mobileImage
+  priority
+  status
+  title
+  updatedAt
+  url
+}
+
+# HOME BANNER
+# ========================
+fragment FaqInfo on Faq {
+  answer
+  createdAt
+  id
+  priority
+  question
+  status
+  updatedAt
+}
+
+fragment FaqDeleteInfo on FaqDeleteResponse {
+  answer
+  createdAt
+  id
+  question
+  status
+  updatedAt
+}
+
+fragment MiscTypeInfo on Misc {
+  createdAt
+  id
+  key
+  status
+  updatedAt
+  value
+}
+
+# NOTIFICATION
+# ========================
+fragment NotificationInfo on Notification {
+  createdAt
+  hasRead
+  id
+  message
+  meta
+  title
+  type
+}
+
+# DASHBOARD
+# ========================
+fragment DashboardInfo on Dashboard {
+  adoptionRate
+  applStatusCount
+  mostAppliedMotorcar
+  popularMotorcar {
+    ...MotorCarInfo
+  }
+  totalUser
+  userApplied
+  verifiedUser
+  totalApplication
+}
+
+# PRODUCT BANNER
+# ========================
+
+fragment ProductBannerInfo on ProductBanner {
+  actions
+  createdAt
+  id
+  image
+  isInternalLink
+  mobileImage
+  priority
+  status
+  title
+  updatedAt
+  url
+  isFeatured
+}
+
+fragment ProductBannerDeleteInfo on ProductBannerDeleteResponse {
+  actions
+  createdAt
+  id
+  image
+  isInternalLink
+  mobileImage
+  priority
+  status
+  title
+  updatedAt
+  url
+  isFeatured
+}
+
+fragment CityStateInfo on CityState {
+  city
+  country
+  createdAt
+  id
+  postcode
+  state
+  updatedAt
+}
+
+# ROLE
+# ========================
+fragment RoleInfo on Role {
+  id
+  name
+  description
+  createdAt
+  updatedAt
+  totalPortalUser
+  permissions {
+    ...PermissionInfo
+  }
+}
+
+fragment PermissionInfo on Permission {
+  id
+  name
+  slug
+  description
+  module
+  createdAt
+  updatedAt
+}
