@@ -1,7 +1,8 @@
-import { Fragment } from 'react';
 import Grid from '@mui/material/Grid';
 import Stack from '@mui/material/Stack';
+import cn from 'classnames';
 
+import { RenderNodeView } from '../../../../components/RenderNodeView';
 import { TabView } from '../../../../components/TabView';
 
 import { useHeaderActionSettings } from './hooks/useHeaderActionSettings';
@@ -20,13 +21,18 @@ export const CrudTableHeaderView = (props: CrudTableHeaderViewProps) => {
     headerTabs = [],
     headerTabsProps,
     headerViewNode: viewNode,
-    headerExpandNode: expandNode,
-    onTriggerTab,
+    headerExpandView: expandNode,
+    onTabChange,
   } = props;
 
   // =============== HOOKS
   const { views: headerInfoViews } = useHeaderInfos(props);
   const { views: headerActionViews } = useHeaderActionSettings(props);
+
+  // =============== VARIABLES
+  const hasInfos = headerInfoViews.length > 0;
+  const hasActions = headerActionViews.length > 0;
+  const hasTabs = headerTabs.length > 0;
 
   // =============== VIEW
   // if there is custom header render
@@ -39,49 +45,59 @@ export const CrudTableHeaderView = (props: CrudTableHeaderViewProps) => {
         <TabView
           {...headerTabsProps}
           items={headerTabs}
-          onChange={onTriggerTab}
+          onChange={onTabChange}
         />
       </StyledBox>
     );
   }
 
   // default header
-  if (
-    headerInfoViews.length === 0 &&
-    headerActionViews.length === 0 &&
-    headerTabs.length === 0
-  ) {
+  if (!hasInfos && !hasActions && !hasTabs) {
     return null;
   }
   return (
     <StyledBox className="crud-table-header-wrapper">
-      <Grid container justifyContent="start">
-        {headerInfoViews.length > 0 && (
-          <Grid item className="crud-table-header-infos">
-            <Stack
-              flexWrap="wrap"
-              alignItems="center"
-              direction="row"
-              spacing={1}
-            >
-              {headerInfoViews.map((e) => {
-                return <Fragment key={`${e.key}`}>{e.render()}</Fragment>;
-              })}
-            </Stack>
-          </Grid>
-        )}
-
-        {headerActionViews.length > 0 && (
-          <>
-            <Grid item flex="auto" />
-            <Grid item className="crud-table-header-actions">
-              {headerActionViews.map((e) => {
-                return <Fragment key={`${e.key}`}>{e.render()}</Fragment>;
-              })}
+      {(hasInfos || hasActions) && (
+        <Grid
+          container
+          justifyContent="start"
+          alignItems="center"
+          className="crud-table-header-primary"
+        >
+          {headerInfoViews.length > 0 && (
+            <Grid item className="crud-table-header-infos">
+              <RenderNodeView
+                flexWrap="wrap"
+                alignItems="center"
+                direction="row"
+                spacing={1}
+                items={headerInfoViews.map((e) => ({
+                  key: e.key,
+                  content: e.render,
+                }))}
+              />
             </Grid>
-          </>
-        )}
-      </Grid>
+          )}
+
+          {headerActionViews.length > 0 && (
+            <>
+              <Grid item flex="auto" />
+              <Grid item className="crud-table-header-actions">
+                <RenderNodeView
+                  flexWrap="wrap"
+                  alignItems="center"
+                  direction="row"
+                  spacing={1}
+                  items={headerActionViews.map((e) => ({
+                    key: e.key,
+                    content: e.render,
+                  }))}
+                />
+              </Grid>
+            </>
+          )}
+        </Grid>
+      )}
       {/* ====== EXPAND CONTENT */}
       {expanded && (
         <div className="crud-table-header-expanded-content">
@@ -92,8 +108,9 @@ export const CrudTableHeaderView = (props: CrudTableHeaderViewProps) => {
       {/* ====== TABS */}
       <TabView
         {...headerTabsProps}
+        className={cn('crud-table-header-tabview', headerTabsProps?.className)}
         items={headerTabs}
-        onChange={onTriggerTab}
+        onChange={onTabChange}
       />
     </StyledBox>
   );

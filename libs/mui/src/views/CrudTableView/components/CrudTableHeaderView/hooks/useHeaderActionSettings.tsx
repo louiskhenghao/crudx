@@ -32,7 +32,7 @@ export const useHeaderActionSettings = (
     tableSize,
     sortingType,
     expanded,
-    headerExpandNode,
+    headerExpandView,
     headerActions = [],
     headerActionSize = 'small',
     onTriggerCreate,
@@ -166,7 +166,7 @@ export const useHeaderActionSettings = (
       }
 
       // ----- expand
-      if (type === 'expand' && !!headerExpandNode && enabled) {
+      if (type === 'expand' && !!headerExpandView && enabled) {
         const collapseIcon = field?.icon?.collapse ?? <ExpandLessIcon />;
         const expandIcon = field?.icon?.expand ?? <ExpandMoreIcon />;
         const finalExpandText = field?.text?.expand ?? expandText;
@@ -186,9 +186,9 @@ export const useHeaderActionSettings = (
                     field?.props?.onClick?.(e);
                     onTriggerExpand?.(current, !current);
                   }}
+                  endIcon={expanded ? collapseIcon : expandIcon}
                 >
                   {expanded ? finalCollapseText : finalExpandText}
-                  {expanded ? collapseIcon : expandIcon}
                 </Button>
               </TooltipView>
             );
@@ -225,7 +225,7 @@ export const useHeaderActionSettings = (
     sortingType,
     createText,
     collapseText,
-    headerExpandNode,
+    headerExpandView,
     expandText,
     expanded,
     headerActions,

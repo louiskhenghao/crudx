@@ -7,7 +7,7 @@ Crud table header view
 ## Props
 
 ```ts
-export type CrudTableHeaderViewProps<TData = any> = Pick<CrudTableViewProps<TData>, 'text' | 'title' | 'expanded' | 'headerViewNode' | 'headerExpandNode' | 'headerExpandNode' | 'headerTabs' | 'headerTabsProps' | 'headerInfos' | 'headerActions' | 'headerActionSize' | 'totalRecord' | 'totalSelected' | 'onTriggerBulkAction' | 'onTriggerCreate' | 'onTriggerRefresh' | 'onTriggerSettings' | 'onTriggerSorting' | 'onTriggerDensity' | 'onTriggerTab' | 'onTriggerExpand'> & {
+export type CrudTableHeaderViewProps<TData = any> = Pick<CrudTableViewProps<TData>, 'text' | 'title' | 'expanded' | 'headerViewNode' | 'headerExpandView' | 'headerExpandView' | 'headerTabs' | 'headerTabsProps' | 'headerInfos' | 'headerActions' | 'headerActionSize' | 'totalRecord' | 'totalSelected' | 'onTriggerBulkAction' | 'onTriggerCreate' | 'onTriggerRefresh' | 'onTriggerSettings' | 'onTriggerSorting' | 'onTriggerDensity' | 'onTabChange' | 'onTriggerExpand'> & {
   tableSize: TableProps['size'];
   sortingType: SortingOptionType;
 };
@@ -28,12 +28,12 @@ import { CrudTableHeaderView } from '@crudx/mui';
   totalRecord={0}
   totalSelected={0}
   headerViewNode={<>Custom View</>}
-  headerExpandNode={<>expanded</>}
+  headerExpandView={<>expanded</>}
   headerTabs={[]}
   headerInfos={[]}
   headerActions={[]}
   headerActionSize="small"
-  onTriggerTab={(item) => {
+  onTabChange={(item) => {
     // do something
   }}
   onTriggerCreate={() => {
