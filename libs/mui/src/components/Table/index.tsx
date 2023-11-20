@@ -15,7 +15,7 @@ import { TablePagination } from '../TablePagination';
 import { TableRow, TableRowProps } from '../TableRow';
 
 import { TableProps } from './props';
-import { StyledTable } from './styled';
+import { StyledPaginationWrapper, StyledTable } from './styled';
 
 /**
  * ===========================
@@ -30,6 +30,7 @@ export const Table = <TData,>(props: PropsWithChildren<TableProps<TData>>) => {
     checked = [],
     total,
     loading = false,
+    bordered = true,
     striped = false,
     loadingRows = 10,
     pagination = true,
@@ -210,6 +211,7 @@ export const Table = <TData,>(props: PropsWithChildren<TableProps<TData>>) => {
         <StyledTable
           sx={{ opacity: loading ? 0.4 : 1, ...restProps.sx }}
           striped={striped}
+          bordered={bordered}
           {...restProps}
         >
           {/* =============== TABLE HEAD */}
@@ -237,7 +239,7 @@ export const Table = <TData,>(props: PropsWithChildren<TableProps<TData>>) => {
       </MuiTableContainer>
       {/* =============== PAGINATION */}
       {pagination && (
-        <div className="table-pagination-wrapper">
+        <StyledPaginationWrapper className="table-pagination-wrapper">
           {renderPagination?.({
             page,
             total,
@@ -258,7 +260,7 @@ export const Table = <TData,>(props: PropsWithChildren<TableProps<TData>>) => {
               {...tablePaginationProps}
             />
           )}
-        </div>
+        </StyledPaginationWrapper>
       )}
     </div>
   );

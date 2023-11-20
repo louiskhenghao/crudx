@@ -64,6 +64,11 @@ export type TableProps<TData = any> = TableTypeMap['props'] &
      */
     striped?: boolean;
     /**
+     * whether to have row border
+     * @default true
+     */
+    bordered?: boolean;
+    /**
      * whether enable pagination
      * @default true
      */
