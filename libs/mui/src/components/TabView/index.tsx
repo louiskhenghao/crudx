@@ -70,6 +70,7 @@ export const TabView = memo((props: TabViewProps) => {
             content,
             label,
             count,
+            countColor,
             ...restItemProps
           } = e;
           if (!enabled) return null;
@@ -82,7 +83,12 @@ export const TabView = memo((props: TabViewProps) => {
               unstyled={unstyled}
               iconPosition={iconPosition}
               label={
-                <TabLabel label={label} count={count} {...tabLabelProps} />
+                <TabLabel
+                  label={label}
+                  count={count}
+                  chipColor={countColor}
+                  {...tabLabelProps}
+                />
               }
               {...restItemProps}
             />

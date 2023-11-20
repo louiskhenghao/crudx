@@ -17,7 +17,7 @@ export type TabLabelProps = {
   count?: number | string | ReactElement;
   /**
    * the chip color
-   * @default error
+   * @default default
    */
   chipColor?: ChipProps['color'];
   /**

@@ -10,7 +10,7 @@ import { TabLabelProps } from './props';
  * ===========================
  */
 export const TabLabel = memo((props: TabLabelProps) => {
-  const { label, count, chipColor = 'error', chipProps } = props;
+  const { label, count, chipColor = 'default', chipProps } = props;
 
   // =============== VARIABLES
   const hasCount = !isNil(count);
