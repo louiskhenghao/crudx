@@ -26,6 +26,11 @@ export type TabViewProps = Pick<
    */
   items: TabType[];
   /**
+   * whether have mui original styling
+   * @default false
+   */
+  unstyled?: boolean;
+  /**
    * tab icon position
    * @default start
    */
