@@ -11,8 +11,8 @@ import Stack from '@mui/material/Stack';
 import includes from 'lodash/includes';
 import startCase from 'lodash/startCase';
 
-import { Dialog } from '../../components/Dialog';
-import { TooltipView } from '../../components/TooltipView';
+import { Dialog } from '../../../../components/Dialog';
+import { TooltipView } from '../../../../components/TooltipView';
 
 import { CrudTableItemActionProps } from './props';
 
