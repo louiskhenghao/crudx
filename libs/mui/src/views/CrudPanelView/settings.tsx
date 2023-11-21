@@ -2,17 +2,18 @@ import { useMemo } from 'react';
 import toast from 'react-hot-toast';
 import { CRUD, CrudProps, CrudSchemataTypes } from '@crudx/core';
 import SwipeableDrawer from '@mui/material/SwipeableDrawer';
-import intersection from 'lodash/intersection';
+import omit from 'lodash/omit';
 import reduce from 'lodash/reduce';
 
+import { TableDataIndex } from '../../@types';
 import { Dialog } from '../../components/Dialog';
-import { useCrudModalForm } from '../../hooks/useCrudModalForm';
-import { useCrudTableItemAction } from '../../hooks/useCrudTableItemAction';
 import { CrudFilterView } from '../CrudFilterView';
 import { CrudPageHeaderView } from '../CrudPageHeaderView';
-import { CrudTableView, CrudTableViewProps } from '../CrudTableView';
+import { CrudTableView } from '../CrudTableView';
 import { CrudTableColumnActionType } from '../CrudTableView/types';
 
+import { useCrudModalForm } from './hooks/useCrudModalForm';
+import { useCrudTableItemAction } from './hooks/useCrudTableItemAction';
 import { CrudPanelViewProps } from './props';
 
 /**
@@ -36,6 +37,8 @@ export function useCrudProps<T extends CrudSchemataTypes = any>(
     tableTabs,
     tableInfos,
     tableActions,
+    tableExpandView,
+    tableExpandState,
     variables = {},
     events,
     paging,
@@ -337,6 +340,8 @@ export function useCrudProps<T extends CrudSchemataTypes = any>(
             headerTabs={tableTabs}
             headerInfos={tableInfos}
             headerActions={tableActions}
+            headerExpandView={tableExpandView}
+            expanded={tableExpandState}
             page={pagination.current}
             pageSize={pagination.defaultPageSize}
             pageSizeOptions={viewProps?.pageSizeOptions}
@@ -346,15 +351,6 @@ export function useCrudProps<T extends CrudSchemataTypes = any>(
             enableNext={accessibility.enableNext}
             enablePrevious={accessibility.enablePrevious}
             columnActions={tableActionList}
-            tableProps={{
-              enableTableHeadDivider: true,
-              ...viewProps?.tableProps,
-              checkbox: {
-                enabled: selectable,
-                dataIndex: columnDataIndex,
-              },
-              checked: rowSelection.selections,
-            }}
             onCheck={(data) => {
               rowSelection.setSelections(data);
             }}
@@ -371,7 +367,16 @@ export function useCrudProps<T extends CrudSchemataTypes = any>(
             onTriggerSorting={accessibility.onTriggerSorting}
             renderActionButtons={renderActionButtons}
             renderExtraActionButtons={renderExtraActionButtons}
-            {...viewProps}
+            {...omit(viewProps ?? {}, ['tableProps'])}
+            tableProps={{
+              enableTableHeadDivider: true,
+              ...viewProps?.tableProps,
+              checkbox: {
+                enabled: selectable,
+                dataIndex: columnDataIndex,
+              },
+              checked: rowSelection.selections as TableDataIndex<T>[],
+            }}
           />
         );
       },

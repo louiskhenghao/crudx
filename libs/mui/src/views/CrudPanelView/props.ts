@@ -17,11 +17,12 @@ import { SwipeableDrawerProps } from '@mui/material/SwipeableDrawer';
 
 import { TableDataIndex } from '../../@types';
 import { DialogProps } from '../../components/Dialog';
-import { UseCrudModalFormProps } from '../../hooks/useCrudModalForm';
-import { CrudTableItemActionProps } from '../../hooks/useCrudTableItemAction';
 import { CrudFilterViewProps } from '../CrudFilterView';
 import { CrudPageHeaderViewProps } from '../CrudPageHeaderView';
 import { CrudTableViewProps } from '../CrudTableView';
+
+import { UseCrudModalFormProps } from './hooks/useCrudModalForm';
+import { CrudTableItemActionProps } from './hooks/useCrudTableItemAction';
 
 /**
  * ===========================
@@ -121,6 +122,14 @@ export type CrudPanelViewProps<
    * table header actions button configuration
    */
   tableActions?: CrudTableViewProps['headerActions'];
+  /**
+   * indicate whether table header expanded view is expand by default
+   */
+  tableExpandState?: CrudTableViewProps['expanded'];
+  /**
+   * table header expanded view node
+   */
+  tableExpandView?: CrudTableViewProps['headerExpandView'];
   /**
    * table columns to be display
    */
@@ -234,7 +243,10 @@ export type CrudPanelViewProps<
    */
   prepareTableViewProps?: (
     nodeProps: CrudComponentTableNodeProps<TSchema>
-  ) => Omit<CrudTableViewProps, 'renderActionButtons' | 'onPaginateTo'>;
+  ) => Omit<
+    CrudTableViewProps,
+    'renderActionButtons' | 'onPaginateTo' | 'columns'
+  >;
   /**
    * props to override details view props
    */
