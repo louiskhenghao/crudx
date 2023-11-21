@@ -7,11 +7,11 @@ This hooks to help with crud modal initialization
 ## Types
 
 ```ts
-import { ReactNode } from 'react';
-import { CrudCommonDialogContext, CrudCommonDialogOptions, CrudGraphApiCreateType, CrudGraphApiDeleteType, CrudGraphApiExportType, CrudGraphApiUpdateType, CrudSchemataTypes } from '@crudx/core';
-
-import { DialogProps } from '../../components';
-
+/**
+ * ===========================
+ * MAIN
+ * ===========================
+ */
 export type CrudModalFormProps<T extends CrudSchemataTypes = any, D = any> = Omit<CrudCommonDialogOptions<T>, 'node' | 'props'> & {
   props?: DialogProps;
   render: (options: CrudCommonDialogContext<T, D>) => ReactNode;

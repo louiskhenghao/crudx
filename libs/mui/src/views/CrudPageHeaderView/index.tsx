@@ -31,6 +31,7 @@ export const CrudPageHeaderView = memo((props: CrudPageHeaderViewProps) => {
     wrapperProps,
     backPathProps,
     breadcrumbProps,
+    spacingMultiplier,
     ...restProps
   } = props;
 
@@ -47,6 +48,7 @@ export const CrudPageHeaderView = memo((props: CrudPageHeaderViewProps) => {
     <StyledWrapper
       unstyled={unstyled}
       className={cn('crud-page-header-wrapper', className)}
+      spacingMultiplier={spacingMultiplier}
       {...wrapperProps}
     >
       {/* ---- BREADCRUMBS */}
@@ -104,7 +106,7 @@ export const CrudPageHeaderView = memo((props: CrudPageHeaderViewProps) => {
           <>
             <Grid item flex="auto" />
             <Grid item className="crud-page-header-actions">
-              <RenderNodeView direction="row" items={actions} />
+              <RenderNodeView direction="row" spacing={2} items={actions} />
             </Grid>
           </>
         )}

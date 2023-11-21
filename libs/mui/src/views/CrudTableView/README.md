@@ -12,14 +12,15 @@ import {
   CrudCommonActionNodeProps,
   CrudComponentActionProps,
 } from '@crudx/core';
-import { ButtonProps } from '@mui/material';
+import { ButtonProps } from '@mui/material/Button';
 
 import { TableColumnType } from '../../@types';
+import { ButtonDropdownItemType } from '../../components/ButtonDropdown';
 import { TableProps } from '../../components/Table';
-import { SortingOptionType } from '../../components/TableSettingsSortingOptions';
 import { TabViewProps } from '../../components/TabView';
 
 import {
+  CrudTableColumnActionType,
   CrudTableHeaderAction,
   CrudTableHeaderInfo,
   CrudTableHeaderTab,
@@ -38,6 +39,7 @@ export type CrudTableViewProps<TData = any> = Pick<
   | 'loading'
   | 'page'
   | 'pageSize'
+  | 'pageSizeOptions'
   | 'onCheck'
   | 'onPageChange'
   | 'onPageSizeChange'
@@ -73,7 +75,7 @@ export type CrudTableViewProps<TData = any> = Pick<
    * ===========================
    */
   /**
-   * header info sequence configuration
+   * header info configuration
    */
   headerInfos?: CrudTableHeaderInfo[];
   /**
@@ -93,7 +95,7 @@ export type CrudTableViewProps<TData = any> = Pick<
 
   /**
    * header action button size
-   * @default small
+   * @default medium
    */
   headerActionSize?: ButtonProps['size'];
   /**
@@ -104,7 +106,12 @@ export type CrudTableViewProps<TData = any> = Pick<
   /**
    * custom header expanded view
    */
-  headerExpandNode?: (() => ReactNode) | ReactNode;
+  headerExpandView?: (() => ReactNode) | ReactNode;
+  /**
+   * bulk options for selected item
+   * NOTE: it having same type for `headerInfos` props, with type = `bulk`->`items`
+   */
+  headerBulkOptions?: Omit<ButtonDropdownItemType, 'onClick'>[];
 
   /**
    * CONFIGURATION
@@ -129,6 +136,19 @@ export type CrudTableViewProps<TData = any> = Pick<
    * ===========================
    */
   /**
+   * whether to have unstyled view
+   */
+  unstyled?: boolean;
+  /**
+   * spacing multiplier for padding & margin
+   * @default null
+   */
+  spacingMultiplier?: number;
+  /**
+   * whether table header view should expand by default
+   */
+  expanded?: boolean;
+  /**
    * whether enabled pagination next button
    * NOTE: only applicable for paginationType === 'button'
    */
@@ -138,10 +158,6 @@ export type CrudTableViewProps<TData = any> = Pick<
    * NOTE: only applicable for paginationType === 'button'
    */
   enablePrevious?: boolean;
-  /**
-   * whether table header view should expand by default
-   */
-  expanded?: boolean;
 
   /**
    * TABLE ACTION COLUMN
@@ -155,7 +171,7 @@ export type CrudTableViewProps<TData = any> = Pick<
    * the action will be show on each table row
    * @default ['view']
    */
-  columnActions?: ('view' | 'update' | 'delete' | 'export' | 'extra')[];
+  columnActions?: CrudTableColumnActionType[];
   /**
    * custom column actions group icon
    */
@@ -180,13 +196,14 @@ export type CrudTableViewProps<TData = any> = Pick<
   /**
    * custom render action column buttons
    */
-  renderActionButtons?: (context?: { data: any }) => CrudComponentActionProps;
+  renderActionButtons?: (context?: { data: TData }) => CrudComponentActionProps;
   /**
    * extra action columns button
    */
-  renderExtraActionButtons?: (context?: {
-    data: any;
-  }) => ReactNode | CrudCommonActionNodeProps['1'][];
+  renderExtraActionButtons?: (context?: { data: TData }) => {
+    views: ReactNode[];
+    nodes: CrudCommonActionNodeProps['1'][];
+  };
 
   /**
    * custom table props
@@ -228,8 +245,8 @@ export type CrudTableViewProps<TData = any> = Pick<
   onTriggerSorting?: (sort: 'DEFAULT' | 'ASC' | 'DESC') => void;
   // selected event callback from bulk action dropdown options
   onTriggerBulkAction?: (action: 'delete' | 'export' | string) => void;
-  // selected event callback for selecting header tab
-  onTriggerTab?: (item: string) => void;
+  // event callback for selected header tab
+  onTabChange?: (item: string) => void;
   // event callback on expand button clicked
   onTriggerExpand?: (current: boolean, next: boolean) => void;
 };
@@ -240,8 +257,26 @@ export type CrudTableViewProps<TData = any> = Pick<
  * ===========================
  */
 export default CrudTableViewProps;
+```
+
+---
+
+## Reference
+
+Below it how the structure of layout (css class name)
 
 ```
+└── .crud-table-header-wrapper
+     ├── .crud-table-header-primary
+     │    ├──.crud-table-header-infos
+     │    └──.crud-table-header-actions
+     ├── .crud-table-header-expanded-content
+     └── .crud-table-header-tabview
+```
+
+---
+
+---
 
 ## Example
 

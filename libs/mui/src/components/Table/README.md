@@ -1,55 +1,140 @@
 # Table
 
+Easy configuration for table that comes with row selection, pagination etc
+
 ---
 
 ## Props
 
 ```ts
-import { ReactNode } from 'react';
-import { TabProps } from '@mui/material/Tab';
-import { TabsProps } from '@mui/material/Tabs';
+export type TableProps<TData = any> = TableTypeMap['props'] &
+  Pick<TableRowProps<TData>, 'expandable' | 'expandableProps'> &
+  Pick<TablePaginationProps<TData>, 'page' | 'pageSize' | 'pageSizeOptions' | 'onPageChange' | 'onPageSizeChange'> & {
+    /**
+     * the total number of items
+     * if not defined will use "data" length as reference
+     */
+    total?: number;
+    /**
+     * data for table
+     */
+    data?: TData[];
+    /**
+     * columns configuration
+     */
+    columns: TableColumnType<TData>[];
+    /**
+     * whether show loading
+     */
+    loading?: boolean;
+    /**
+     * checked items
+     */
+    checked?: TableDataIndex<TData>[];
+    /**
+     * checkbox configuration
+     */
+    checkbox?: TableCheckboxConfig<TData>;
+    /**
+     * number of rows of loading skeleton
+     * @default 10
+     */
+    loadingRows?: number;
+    /**
+     * striped table row
+     * @default false
+     */
+    striped?: boolean;
+    /**
+     * whether to have row border
+     * @default true
+     */
+    bordered?: boolean;
+    /**
+     * whether enable pagination
+     * @default true
+     */
+    pagination?: boolean;
+    /**
+     * table head divider
+     */
+    enableTableHeadDivider?: TableHeadProps['divider'];
 
-import { TabType } from '../../@types';
+    /**
+     * CUSTOM PROPS
+     * ===========================
+     */
+    /**
+     * MUI TableContainer props
+     */
+    tableContainerProps?: TableContainerProps;
+    /**
+     * table head props
+     */
+    tableHeadProps?: Omit<TableHeadProps<TData>, 'columns' | 'checkbox'>;
+    /**
+     * table row props
+     */
+    tableRowProps?: Omit<TableRowProps<TData>, 'columns' | 'data' | 'checkbox' | 'onCheck' | 'onClick' | 'onExpand' | 'renderExpandedView'>;
+    /**
+     * MUI TableBody props
+     */
+    tableBodyProps?: TableBodyTypeMap['props'];
+    /**
+     * MUI TableFooter props
+     */
+    tableFooterProps?: TableFooterTypeMap['props'];
+    /**
+     * Custom table pagination props
+     */
+    tablePaginationProps?: Omit<TablePaginationProps<TData>, 'data' | 'onPageChange' | 'onPageSizeChange'>;
 
-/**
- * ===========================
- * MAIN
- * ===========================
- */
-export type TabViewProps = Pick<TabsProps, 'value' | 'variant' | 'centered' | 'sx' | 'orientation' | 'className'> & {
-  /**
-   * tab items
-   */
-  items: TabType[];
-  /**
-   * tab icon position
-   * @default start
-   */
-  iconPosition?: TabProps['iconPosition'];
-  /**
-   * on tab change callback
-   */
-  onChange?: (item: string) => void;
+    /**
+     * VIEWS
+     * ===========================
+     */
+    /**
+     * Render extra top view
+     */
+    topView?: React.ReactNode;
+    /**
+     * Render empty view
+     */
+    emptyView?: React.ReactNode;
+    /**
+     * custom loading view
+     */
+    loadingView?: React.ReactNode;
+    /**
+     * Render extra footer view
+     */
+    footerView?: React.ReactNode;
 
-  /**
-   * on tab change callback
-   */
-  renderContent?: (item: string) => ReactNode;
-
-  /**
-   * CUSTOM PROPS
-   * ===========================
-   */
-  // custom tabs props
-  tabsProps?: Omit<TabsProps, 'value' | 'variant' | 'centered' | 'sx' | 'orientation' | 'className'>;
-};
-
-/**
- * ===========================
- * EXPORTS
- * ===========================
- */
-export default TabViewProps;
+    /**
+     * EVENTS
+     * ===========================
+     */
+    /**
+     * On table rows check event handler
+     */
+    onCheck?: (checked: TableDataIndex<TData>[]) => void;
+    /**
+     * table row click event handler
+     */
+    onRowClick?: (record: TData, event: React.MouseEvent<HTMLElement>, index: number) => void;
+    /**
+     * table row expand event handler
+     */
+    onRowExpand?: (record: TData, expanded: boolean, index: number) => void;
+    /**
+     * custom function render expanded view
+     */
+    renderExpandedView?: (record: TData, expanded: boolean, index: number) => React.ReactNode;
+    /**
+     * custom pagination rendering, this will overwrite existing table pagination view
+     */
+    renderPagination?: (context: Pick<TableProps<TData>, 'page' | 'total' | 'data' | 'pageSize' | 'pageSizeOptions' | 'onPageChange' | 'onPageSizeChange'>) => ReactNode;
+  };
 ```
 
 ---

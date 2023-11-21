@@ -5,18 +5,6 @@
 ## Types
 
 ```ts
-import { ReactNode, RefAttributes } from 'react';
-import { CrudCommonActionNode, CrudCommonActionNodeOptions, CrudCommonActions, CrudGraphApiDeleteType, CrudGraphApiExportType, CrudGraphApiGetType, CrudGraphApiUpdateType, CrudSchemataTypes } from '@crudx/core';
-import { ButtonProps } from '@mui/material/Button';
-import { TooltipProps } from '@mui/material/Tooltip';
-
-import { DialogProps, DialogRefProps } from '../../components/Dialog';
-
-/**
- * ===========================
- * MAIN
- * ===========================
- */
 export type CrudTableItemActionProps<TSchema extends CrudSchemataTypes = any, TData = any> = {
   /**
    * size of the button
@@ -81,6 +69,7 @@ export type CrudTableItemActionProps<TSchema extends CrudSchemataTypes = any, TD
     title: string;
     node?: ReactNode;
     alert?: boolean;
+    tooltip?: boolean | string | Omit<TooltipProps, 'children'>;
     action: CrudCommonActionNodeOptions<TSchema, CrudGraphApiGetType<TSchema>>['onClick'];
   }[];
 

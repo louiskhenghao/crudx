@@ -39,9 +39,9 @@ export const useColumnSettings = <TData = any,>(
     // =============== HELPERS
 
     const getActionColSize = () => {
-      if (size === 'small') return 30;
-      if (size === 'medium') return 40;
-      return 50;
+      if (size === 'small') return 35;
+      if (size === 'medium') return 50;
+      return 60;
     };
 
     // action columns variables

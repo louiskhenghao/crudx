@@ -26,6 +26,7 @@ export const defaultProps: CrudTableViewProps = {
   columnActions: ['view'],
   headerActions: [],
   headerTabs: [],
+  headerActionSize: 'medium',
   text: defaultText,
   actionColumnPosition: 'last',
   headerInfos: [{ type: 'title' }, { type: 'total' }, { type: 'bulk' }],

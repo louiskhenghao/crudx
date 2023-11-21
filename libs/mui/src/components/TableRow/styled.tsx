@@ -11,9 +11,12 @@ import MuiTableRow, {
 export const StyledTableRow = styled(MuiTableRow, {
   shouldForwardProp: (prop) => !['clickable'].includes(prop as string),
 })<MuiTableRowProps & { clickable?: boolean }>((props) => {
-  const { clickable = false } = props;
+  const { clickable = false, theme } = props;
   return {
     cursor: clickable ? 'pointer' : undefined,
+    '&.Mui-selected td': {
+      background: `${theme.palette.action.selected} !important`,
+    },
   };
 });
 

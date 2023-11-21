@@ -9,7 +9,7 @@ import {
   CrudSchemataTypes,
 } from '@crudx/core';
 
-import { Dialog } from '../../components/Dialog';
+import { Dialog } from '../../../../components/Dialog';
 
 import { CrudModalFormProps, CrudResourceModalFormProps } from './props';
 

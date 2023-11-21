@@ -12,6 +12,7 @@ import { CrudTableHeaderView } from './components/CrudTableHeaderView';
 import { useColumnSettings } from './hooks/useColumnSettings';
 import { defaultProps, defaultText } from './config';
 import { CrudTableViewProps } from './props';
+import { StyledWrapper } from './styled';
 
 /**
  * ===========================
@@ -37,13 +38,16 @@ export const CrudTableView = <TData = any,>(
     tableProps,
     expanded,
     headerViewNode,
-    headerExpandNode,
+    headerExpandView,
     headerTabs,
     headerTabsProps,
     headerActions,
     headerActionSize,
     headerInfos,
+    unstyled,
+    spacingMultiplier,
     onCheck,
+    onTabChange,
     onPageChange,
     onPageSizeChange,
     onPaginateNext,
@@ -55,7 +59,6 @@ export const CrudTableView = <TData = any,>(
     onTriggerSettings,
     onTriggerSorting,
     onTriggerDensity,
-    onTriggerTab,
     onTriggerExpand,
   } = props;
 
@@ -110,7 +113,11 @@ export const CrudTableView = <TData = any,>(
   };
 
   return (
-    <div className={cn('crud-table-wrapper', className)}>
+    <StyledWrapper
+      unstyled={unstyled}
+      spacingMultiplier={spacingMultiplier}
+      className={cn('crud-table-wrapper', className)}
+    >
       <Table
         size={tableSize}
         data={data}
@@ -128,13 +135,13 @@ export const CrudTableView = <TData = any,>(
             totalRecord={totalRecord}
             totalSelected={totalSelected}
             headerViewNode={headerViewNode}
-            headerExpandNode={headerExpandNode}
+            headerExpandView={headerExpandView}
             headerTabs={headerTabs}
             headerTabsProps={headerTabsProps}
             headerInfos={headerInfos}
             headerActions={headerActions}
             headerActionSize={headerActionSize}
-            onTriggerTab={onTriggerTab}
+            onTabChange={onTabChange}
             onTriggerCreate={onTriggerCreate}
             onTriggerRefresh={onTriggerRefresh}
             onTriggerSettings={onTriggerSettings}
@@ -159,7 +166,7 @@ export const CrudTableView = <TData = any,>(
         renderPagination={renderPaginationView}
         {...tableProps}
       />
-    </div>
+    </StyledWrapper>
   );
 };
 

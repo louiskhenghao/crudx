@@ -12,7 +12,7 @@ import {
 import { ButtonProps } from '@mui/material/Button';
 import { TooltipProps } from '@mui/material/Tooltip';
 
-import { DialogProps, DialogRefProps } from '../../components/Dialog';
+import { DialogProps, DialogRefProps } from '../../../../components/Dialog';
 
 /**
  * ===========================
@@ -90,6 +90,7 @@ export type CrudTableItemActionProps<
     title: string;
     node?: ReactNode;
     alert?: boolean;
+    tooltip?: boolean | string | Omit<TooltipProps, 'children'>;
     action: CrudCommonActionNodeOptions<
       TSchema,
       CrudGraphApiGetType<TSchema>
@@ -158,3 +159,10 @@ export type CrudTableItemActionProps<
     CrudGraphApiExportType<TSchema>
   >['onClick'];
 };
+
+/**
+ * ===========================
+ * EXPORTS
+ * ===========================
+ */
+export default CrudTableItemActionProps;

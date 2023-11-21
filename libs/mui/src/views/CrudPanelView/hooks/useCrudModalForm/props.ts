@@ -9,7 +9,7 @@ import {
   CrudSchemataTypes,
 } from '@crudx/core';
 
-import { DialogProps } from '../../components/Dialog';
+import { DialogProps } from '../../../../components/Dialog';
 
 /**
  * ===========================
@@ -34,3 +34,10 @@ export type CrudResourceModalFormProps<T extends CrudSchemataTypes = any> = {
 
 export type UseCrudModalFormProps<TSchema extends CrudSchemataTypes = any> =
   CrudResourceModalFormProps<TSchema>;
+
+/**
+ * ===========================
+ * EXPORTS
+ * ===========================
+ */
+export default CrudModalFormProps;

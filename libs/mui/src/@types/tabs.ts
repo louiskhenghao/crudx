@@ -1,4 +1,5 @@
 import { ReactElement, ReactNode } from 'react';
+import { ChipProps } from '@mui/material';
 
 // tab item configuration
 export type TabType = {
@@ -33,7 +34,10 @@ export type TabType = {
    * to show count on the right of the label
    */
   count?: number | string | ReactElement;
-
+  /**
+   * chip color for count, only applicable to default chip component
+   */
+  countColor?: ChipProps['color'];
   /**
    * the content for tab
    */

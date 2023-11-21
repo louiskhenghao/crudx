@@ -18,6 +18,7 @@ function CrudPanelViewComponent<
   const {
     className,
     unstyled,
+    spacingMultiplier,
     enablePageHeader = true,
     enableFilterView = true,
     enableDetailView = true,
@@ -43,6 +44,7 @@ function CrudPanelViewComponent<
   return (
     <StyledWrapper
       unstyled={unstyled}
+      spacingMultiplier={spacingMultiplier}
       className={cn('crud-panel-wrapper', className)}
     >
       {enablePageHeader && renderPageHeader?.()}

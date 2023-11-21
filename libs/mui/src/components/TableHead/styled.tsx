@@ -21,8 +21,7 @@ export const StyledTableHead = styled(MuiTableHead, {
   const { divider, options, theme } = props;
   return {
     '.MuiTableCell-head': {
-      position: 'relative',
-      background: '#F5F5F7' ?? theme.palette.background.paper,
+      background: theme.palette.action.selected,
       ...(!divider
         ? {}
         : {

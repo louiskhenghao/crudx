@@ -17,11 +17,12 @@ import { SwipeableDrawerProps } from '@mui/material/SwipeableDrawer';
 
 import { TableDataIndex } from '../../@types';
 import { DialogProps } from '../../components/Dialog';
-import { UseCrudModalFormProps } from '../../hooks/useCrudModalForm';
-import { CrudTableItemActionProps } from '../../hooks/useCrudTableItemAction';
 import { CrudFilterViewProps } from '../CrudFilterView';
 import { CrudPageHeaderViewProps } from '../CrudPageHeaderView';
 import { CrudTableViewProps } from '../CrudTableView';
+
+import { UseCrudModalFormProps } from './hooks/useCrudModalForm';
+import { CrudTableItemActionProps } from './hooks/useCrudTableItemAction';
 
 /**
  * ===========================
@@ -122,6 +123,14 @@ export type CrudPanelViewProps<
    */
   tableActions?: CrudTableViewProps['headerActions'];
   /**
+   * indicate whether table header expanded view is expand by default
+   */
+  tableExpandState?: CrudTableViewProps['expanded'];
+  /**
+   * table header expanded view node
+   */
+  tableExpandView?: CrudTableViewProps['headerExpandView'];
+  /**
    * table columns to be display
    */
   columns?: CrudTableViewProps<
@@ -148,7 +157,7 @@ export type CrudPanelViewProps<
   columnActionSequence?: CrudTableViewProps['columnActions'];
 
   /**
-   * CUSTOM PROPS
+   * MODAL PROPS
    * ===========================
    */
   /**
@@ -156,7 +165,6 @@ export type CrudPanelViewProps<
    * create, update, delete, exports
    */
   modalForms?: Partial<UseCrudModalFormProps<TSchema>>;
-
   /**
    * VIEW PROPS
    * ===========================
@@ -175,6 +183,11 @@ export type CrudPanelViewProps<
    * whether to have unstyled view
    */
   unstyled?: boolean;
+  /**
+   * spacing multiplier for padding & margin across table, filter
+   * @default null
+   */
+  spacingMultiplier?: number;
   /**
    * whether to have page header on crud panel
    * @default true
@@ -234,7 +247,10 @@ export type CrudPanelViewProps<
    */
   prepareTableViewProps?: (
     nodeProps: CrudComponentTableNodeProps<TSchema>
-  ) => Omit<CrudTableViewProps, 'renderActionButtons' | 'onPaginateTo'>;
+  ) => Omit<
+    CrudTableViewProps,
+    'renderActionButtons' | 'onPaginateTo' | 'columns'
+  >;
   /**
    * props to override details view props
    */

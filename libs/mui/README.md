@@ -16,7 +16,7 @@ yarn add @crudx/core @mui/material @mui/icons-material classnames next react rea
 
 | Component          | Link                                             |
 | ------------------ | ------------------------------------------------ |
-| CrudPanelView      | [link](./src/views/CrudTableView/README.md)      |
+| CrudPanelView      | [link](./src/views/CrudPanelView/README.md)      |
 | CrudFilterView     | [link](./src/views/CrudFilterView/README.md)     |
 | CrudPageHeaderView | [link](./src/views/CrudPageHeaderView/README.md) |
 | CrudTableView      | [link](./src/views/CrudTableView/README.md)      |

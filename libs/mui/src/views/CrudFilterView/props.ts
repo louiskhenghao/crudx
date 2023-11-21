@@ -13,6 +13,11 @@ export type CrudFilterViewProps = PropsWithChildren<{
    */
   unstyled?: boolean;
   /**
+   * spacing multiplier for padding & margin
+   * @default null
+   */
+  spacingMultiplier?: number;
+  /**
    * css class name for the wrapper
    */
   className?: string;

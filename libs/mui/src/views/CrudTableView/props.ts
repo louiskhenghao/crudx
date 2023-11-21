@@ -86,7 +86,7 @@ export type CrudTableViewProps<TData = any> = Pick<
 
   /**
    * header action button size
-   * @default small
+   * @default medium
    */
   headerActionSize?: ButtonProps['size'];
   /**
@@ -97,7 +97,7 @@ export type CrudTableViewProps<TData = any> = Pick<
   /**
    * custom header expanded view
    */
-  headerExpandNode?: (() => ReactNode) | ReactNode;
+  headerExpandView?: (() => ReactNode) | ReactNode;
   /**
    * bulk options for selected item
    * NOTE: it having same type for `headerInfos` props, with type = `bulk`->`items`
@@ -127,6 +127,19 @@ export type CrudTableViewProps<TData = any> = Pick<
    * ===========================
    */
   /**
+   * whether to have unstyled view
+   */
+  unstyled?: boolean;
+  /**
+   * spacing multiplier for padding & margin
+   * @default null
+   */
+  spacingMultiplier?: number;
+  /**
+   * whether table header view should expand by default
+   */
+  expanded?: boolean;
+  /**
    * whether enabled pagination next button
    * NOTE: only applicable for paginationType === 'button'
    */
@@ -136,10 +149,6 @@ export type CrudTableViewProps<TData = any> = Pick<
    * NOTE: only applicable for paginationType === 'button'
    */
   enablePrevious?: boolean;
-  /**
-   * whether table header view should expand by default
-   */
-  expanded?: boolean;
 
   /**
    * TABLE ACTION COLUMN
@@ -227,8 +236,8 @@ export type CrudTableViewProps<TData = any> = Pick<
   onTriggerSorting?: (sort: 'DEFAULT' | 'ASC' | 'DESC') => void;
   // selected event callback from bulk action dropdown options
   onTriggerBulkAction?: (action: 'delete' | 'export' | string) => void;
-  // selected event callback for selecting header tab
-  onTriggerTab?: (item: string) => void;
+  // event callback for selected header tab
+  onTabChange?: (item: string) => void;
   // event callback on expand button clicked
   onTriggerExpand?: (current: boolean, next: boolean) => void;
 };

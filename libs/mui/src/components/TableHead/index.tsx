@@ -1,9 +1,11 @@
 import { useEffect, useState } from 'react';
+import Box from '@mui/material/Box';
 import Checkbox from '@mui/material/Checkbox';
 import TableCell from '@mui/material/TableCell';
 import TableRow from '@mui/material/TableRow';
 import TableSortLabel from '@mui/material/TableSortLabel';
 import Typography from '@mui/material/Typography';
+import { visuallyHidden } from '@mui/utils';
 import cn from 'classnames';
 
 import { TableColumnType } from '../../@types';
@@ -55,7 +57,8 @@ export const TableHead = <TData,>(props: TableHeadProps<TData>) => {
   // =============== EVENTS
   const onHandleSortClick = (key: string) => {
     return (e: React.MouseEvent) => {
-      const isAsc = orderByState === key && orderDirectionState === 'asc';
+      const isCurrent = key === orderByState;
+      const isAsc = isCurrent && orderDirectionState === 'asc';
       const nextDirection = isAsc ? 'desc' : 'asc';
       setOrderByState(key);
       setOrderDirectionState(nextDirection);
@@ -84,6 +87,13 @@ export const TableHead = <TData,>(props: TableHeadProps<TData>) => {
         onClick={onHandleSortClick(key)}
       >
         {columnTitle}
+        {isCurrent && (
+          <Box component="span" sx={visuallyHidden}>
+            {orderDirectionState === 'desc'
+              ? 'sorted descending'
+              : 'sorted ascending'}
+          </Box>
+        )}
       </TableSortLabel>
     );
   };
