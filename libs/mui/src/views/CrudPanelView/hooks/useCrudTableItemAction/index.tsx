@@ -8,7 +8,9 @@ import RemoveRedEyeOutlinedIcon from '@mui/icons-material/RemoveRedEyeOutlined';
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import Stack from '@mui/material/Stack';
+import { TooltipProps } from '@mui/material/Tooltip';
 import includes from 'lodash/includes';
+import isNil from 'lodash/isNil';
 import startCase from 'lodash/startCase';
 
 import { Dialog } from '../../../../components/Dialog';
@@ -66,20 +68,48 @@ export const useCrudTableItemAction = <T extends CrudSchemataTypes = any>(
       return includes(enableAlert, type);
     };
 
-    // VIEWS
+    // render tooltip view
+    const renderTooltip = (
+      type,
+      node,
+      title?: boolean | string | Omit<TooltipProps, 'children'>
+    ) => {
+      const tooltipsValue = title ?? tooltips?.[type] ?? true;
+
+      // if tooltip doesn't enabled, just return node
+      if (!tooltipsValue) return node;
+
+      // if tooltip is boolean, then use default text as tooltip
+      if (typeof tooltipsValue === 'boolean') {
+        return <TooltipView title={startCase(type)}>{node}</TooltipView>;
+      }
+
+      // if tooltip is string, then use it as tooltip text
+      if (typeof tooltipsValue === 'string') {
+        return <TooltipView title={tooltipsValue}>{node}</TooltipView>;
+      }
+
+      return <TooltipView {...tooltipsValue}>{node}</TooltipView>;
+    };
+
+    // render actin node
     const renderActionNode =
       (
         type: 'view' | 'update' | 'delete' | 'export' | string,
         icon: ReactNode,
-        title?: string
+        title?: boolean | string | Omit<TooltipProps, 'children'>
       ) =>
       (ctx, clickEvent): ReactNode => {
         // if node type = function
         if (typeof nodeType === 'function') {
-          return nodeType({
-            node: icon,
-            onClick: clickEvent,
-          });
+          return renderTooltip(
+            type,
+            nodeType({
+              node: icon,
+              onClick: clickEvent,
+            }),
+            title
+          );
         }
 
         // if node type = menu
@@ -114,23 +144,7 @@ export const useCrudTableItemAction = <T extends CrudSchemataTypes = any>(
           );
         }
 
-        const tooltipsValue = tooltips?.[type] ?? true;
-        // if tooltip doesn't enabled, just return node
-        if (!tooltipsValue) return buttonNode;
-
-        // if tooltip is boolean, then use default text as tooltip
-        if (typeof tooltipsValue === 'boolean') {
-          return (
-            <TooltipView title={startCase(type)}>{buttonNode}</TooltipView>
-          );
-        }
-
-        // if tooltip is string, then use it as tooltip text
-        if (typeof tooltipsValue === 'string') {
-          return <TooltipView title={tooltipsValue}>{buttonNode}</TooltipView>;
-        }
-
-        return <TooltipView {...tooltipsValue}>{buttonNode}</TooltipView>;
+        return renderTooltip(type, buttonNode, title);
       };
 
     // render alert node
@@ -254,7 +268,7 @@ export const useCrudTableItemAction = <T extends CrudSchemataTypes = any>(
                 renderActionNode(
                   action.key,
                   <ExpandCircleDownOutlinedIcon fontSize="inherit" />,
-                  action.title
+                  !isNil(action.tooltip) ? action.tooltip : action.title
                 ),
               onClick: action.action,
             });

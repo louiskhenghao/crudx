@@ -69,6 +69,7 @@ export type CrudTableItemActionProps<TSchema extends CrudSchemataTypes = any, TD
     title: string;
     node?: ReactNode;
     alert?: boolean;
+    tooltip?: boolean | string | Omit<TooltipProps, 'children'>;
     action: CrudCommonActionNodeOptions<TSchema, CrudGraphApiGetType<TSchema>>['onClick'];
   }[];
 
