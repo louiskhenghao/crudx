@@ -1,5 +1,6 @@
 import Box, { BoxProps } from '@mui/material/Box';
 import { styled } from '@mui/material/styles';
+import isNil from 'lodash/isNil';
 
 /**
  * ===========================
@@ -7,15 +8,19 @@ import { styled } from '@mui/material/styles';
  * ===========================
  */
 export const StyledWrapper = styled(Box, {
-  shouldForwardProp: (prop) => !['visible'].includes(prop as string),
-})<BoxProps & { unstyled?: boolean }>(({ theme, unstyled }) => {
-  if (unstyled) return {};
-  return {
-    '.crud-page-header-breadcrumbs': {
-      marginBottom: theme.spacing(1),
-    },
-  };
-});
+  shouldForwardProp: (prop) =>
+    !['unstyled', 'spacingMultiplier'].includes(prop as string),
+})<BoxProps & { unstyled?: boolean; spacingMultiplier?: number }>(
+  ({ theme, unstyled, spacingMultiplier }) => {
+    if (unstyled) return {};
+    const hasMultiplier = !isNil(spacingMultiplier);
+    return {
+      '.crud-page-header-breadcrumbs': {
+        marginBottom: theme.spacing(hasMultiplier ? spacingMultiplier * 2 : 2),
+      },
+    };
+  }
+);
 
 /**
  * ===========================

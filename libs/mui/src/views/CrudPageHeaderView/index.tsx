@@ -104,7 +104,7 @@ export const CrudPageHeaderView = memo((props: CrudPageHeaderViewProps) => {
           <>
             <Grid item flex="auto" />
             <Grid item className="crud-page-header-actions">
-              <RenderNodeView direction="row" items={actions} />
+              <RenderNodeView direction="row" spacing={2} items={actions} />
             </Grid>
           </>
         )}

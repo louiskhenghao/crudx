@@ -16,6 +16,11 @@ export type CrudPageHeaderViewProps = {
    */
   unstyled?: boolean;
   /**
+   * spacing multiplier for padding & margin
+   * @default null
+   */
+  spacingMultiplier?: number;
+  /**
    * css name for component
    */
   className?: string;
