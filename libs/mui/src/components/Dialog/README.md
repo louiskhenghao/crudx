@@ -8,7 +8,12 @@ Dialog component that utilize material-ui available component with simple setup
 
 ```ts
 import { PropsWithChildren, ReactNode } from 'react';
-import { ButtonProps, ButtonTypeMap, DialogActionsProps, DialogContentProps, DialogContentTextProps, DialogProps as MuiDialogProps, DialogTitleProps } from '@mui/material';
+import { ButtonProps, ButtonTypeMap } from '@mui/material/Button';
+import { DialogProps as MuiDialogProps } from '@mui/material/Dialog';
+import { DialogActionsProps } from '@mui/material/DialogActions';
+import { DialogContentProps } from '@mui/material/DialogContent';
+import { DialogContentTextProps } from '@mui/material/DialogContentText';
+import { DialogTitleProps } from '@mui/material/DialogTitle';
 
 /**
  * ===========================
@@ -52,10 +57,16 @@ export type DialogProps = PropsWithChildren<
     // custom icon display on title
     icon?: ReactNode;
     /**
-     * button variant
+     * button variant for button variant
      * @default text
      */
-    buttonVariant?: ButtonProps['variant'];
+    primaryButtonVariant?: ButtonProps['variant'];
+    /**
+     * secondary button variant
+     * @default text
+     */
+    secondaryButtonVariant?: ButtonProps['variant'];
+
     // the title of the dialog
     title?: string;
     // the message of the dialog

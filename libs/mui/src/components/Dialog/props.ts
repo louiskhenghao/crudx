@@ -48,10 +48,16 @@ export type DialogProps = PropsWithChildren<
     // custom icon display on title
     icon?: ReactNode;
     /**
-     * button variant
+     * button variant for button variant
      * @default text
      */
-    buttonVariant?: ButtonProps['variant'];
+    primaryButtonVariant?: ButtonProps['variant'];
+    /**
+     * secondary button variant
+     * @default text
+     */
+    secondaryButtonVariant?: ButtonProps['variant'];
+
     // the title of the dialog
     title?: string;
     // the message of the dialog

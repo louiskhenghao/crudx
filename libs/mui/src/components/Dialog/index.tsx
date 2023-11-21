@@ -25,7 +25,8 @@ import { getDialogActions } from './settings';
 export const Dialog = forwardRef<DialogRefProps, DialogProps>((props, ref) => {
   const {
     type = 'info',
-    buttonVariant = 'text',
+    primaryButtonVariant = 'text',
+    secondaryButtonVariant = 'text',
     icon,
     title,
     message,
@@ -152,10 +153,15 @@ export const Dialog = forwardRef<DialogRefProps, DialogProps>((props, ref) => {
       {dialogActions.length > 0 && (
         <DialogActions {...actionProps}>
           {dialogActions.map((action, i) => {
+            const type = action.type;
+            const variant =
+              type === 'primary'
+                ? primaryButtonVariant
+                : secondaryButtonVariant;
             return (
               <Button
                 key={`${action.label}-${i}`}
-                variant={buttonVariant}
+                variant={type === 'custom' ? 'text' : variant}
                 {...action.props}
                 onClick={onHandleClick(action)}
               >
