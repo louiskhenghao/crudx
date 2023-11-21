@@ -25,6 +25,7 @@ export const useHeaderInfos = (
     totalSelected = 0,
     headerInfos,
     headerBulkOptions,
+    headerActionSize,
     onTriggerBulkAction,
   } = props;
 
@@ -76,7 +77,7 @@ export const useHeaderInfos = (
           render: () => {
             return (
               <TableSelectedBulkOptions
-                size="small"
+                size={headerActionSize}
                 className="crud-table-header-bulk-node"
                 text={field?.text}
                 items={headerBulkOptions ?? field.items}
@@ -96,6 +97,7 @@ export const useHeaderInfos = (
     totalSelected,
     totalRecord,
     headerInfos,
+    headerActionSize,
     headerBulkOptions,
     onTriggerBulkAction,
   ]);
