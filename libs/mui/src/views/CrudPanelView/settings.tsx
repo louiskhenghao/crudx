@@ -56,6 +56,7 @@ export function useCrudProps<T extends CrudSchemataTypes = any>(
     enableNotification = true,
     enableRowSelection = true,
     enableGroupColumnAction = false,
+    spacingMultiplier,
     prepareHeaderViewProps,
     prepareFilterViewProps,
     prepareTableViewProps,
@@ -172,6 +173,7 @@ export function useCrudProps<T extends CrudSchemataTypes = any>(
             actions={pageActions}
             backPath={pageBackPath}
             items={pageBreadcrumbs}
+            spacingMultiplier={spacingMultiplier}
             {...viewProps}
           />
         );
@@ -188,9 +190,10 @@ export function useCrudProps<T extends CrudSchemataTypes = any>(
             unstyled={unstyled}
             title={filterTitle}
             actions={filterActions}
+            spacingMultiplier={spacingMultiplier}
             {...(viewProps ?? {})}
           >
-            {filterNode}
+            {viewProps?.children ?? filterNode}
           </CrudFilterView>
         );
       },
@@ -261,9 +264,10 @@ export function useCrudProps<T extends CrudSchemataTypes = any>(
             unstyled={unstyled}
             title={filterTitle}
             actions={filterActions}
+            spacingMultiplier={spacingMultiplier}
             {...(viewProps ?? {})}
           >
-            {filterNode ?? viewProps?.children}
+            {viewProps?.children ?? filterNode}
           </CrudFilterView>
         );
 

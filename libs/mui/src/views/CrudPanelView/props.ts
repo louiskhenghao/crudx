@@ -157,7 +157,7 @@ export type CrudPanelViewProps<
   columnActionSequence?: CrudTableViewProps['columnActions'];
 
   /**
-   * CUSTOM PROPS
+   * MODAL PROPS
    * ===========================
    */
   /**
@@ -165,11 +165,15 @@ export type CrudPanelViewProps<
    * create, update, delete, exports
    */
   modalForms?: Partial<UseCrudModalFormProps<TSchema>>;
-
   /**
    * VIEW PROPS
    * ===========================
    */
+  /**
+   * spacing multiplier for padding & margin across table, filter
+   * @default null
+   */
+  spacingMultiplier?: number;
   /**
    * whether to have detail view shown in modal or drawer form
    * @default true
