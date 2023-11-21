@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import React, { useMemo } from 'react';
 import { formatNumbering } from '@crudx/core';
 
 import { NumberFormatViewProps } from './props';

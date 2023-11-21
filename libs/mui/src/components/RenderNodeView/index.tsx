@@ -1,4 +1,4 @@
-import { Fragment } from 'react';
+import React, { Fragment } from 'react';
 import Stack from '@mui/material/Stack';
 
 import { RenderNodeViewProps } from './props';
