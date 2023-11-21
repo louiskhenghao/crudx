@@ -30,7 +30,6 @@ import {
   RenderNodeView,
   Table,
   TableColumnType,
-  useCrudTableItemAction,
 } from '@crudx/mui';
 import { TableDataIndex } from '@crudx/mui';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
@@ -141,7 +140,7 @@ export function Index() {
          * --------------------
          */
         pageTitle="Bank Listing"
-        // pageBackPath="/test-crud-api"
+        pageBackPath="/test-crud-api"
         pageBreadcrumbs={[
           {
             icon: <HomeIcon />,
@@ -155,7 +154,6 @@ export function Index() {
             key: 'create',
             content: (
               <Button
-                size="small"
                 variant="outlined"
                 onClick={() => {
                   ref.current?.components.modalFormProps?.create?.onShow();
@@ -169,7 +167,6 @@ export function Index() {
             key: 'filter',
             content: (
               <Button
-                size="small"
                 variant="outlined"
                 onClick={() => {
                   ref.current?.components.filterModalProps.onShow();
@@ -183,7 +180,6 @@ export function Index() {
             key: 'xxx',
             content: (
               <Button
-                size="small"
                 variant="outlined"
                 onClick={() => {
                   ref.current?.components.filterModalProps.onShow();
@@ -203,7 +199,6 @@ export function Index() {
         filterNode={
           <Box>
             <TextField
-              size="small"
               placeholder="Search..."
               onChange={(e) => {
                 ref.current?.pagingProps.nativeFetch({
@@ -231,19 +226,11 @@ export function Index() {
         }
         filterActions={[
           {
-            children: (
-              <Button size="small" variant="outlined">
-                SEARCH
-              </Button>
-            ),
+            children: <Button variant="outlined">SEARCH</Button>,
           },
           { flex: 'auto' },
           {
-            children: (
-              <Button size="small" variant="outlined">
-                EXPORT
-              </Button>
-            ),
+            children: <Button variant="outlined">EXPORT</Button>,
           },
         ]}
         /**
@@ -251,8 +238,7 @@ export function Index() {
          * TABLE & COLUMNS
          * --------------------
          */
-        tableTitle="Table tile"
-        tableInfos={[{ type: 'bulk' }, { type: 'total' }, { type: 'title' }]}
+        // tableTitle="Table tile"
         tableTabs={[
           {
             key: 'zero',
@@ -262,7 +248,8 @@ export function Index() {
           {
             key: 'one',
             label: 'One',
-            count: '1',
+            count: '10000',
+            countColor: 'error',
           },
           {
             key: 'two',
@@ -270,25 +257,30 @@ export function Index() {
             count: <Chip sx={{ marginLeft: 1 }} color="primary" label="3" />,
           },
         ]}
+        // tableInfos={[]}
         tableActions={[
-          { action: 'create' },
-          { action: 'refresh', icon: <>REFRESH</> },
           { action: 'expand' },
+          { action: 'refresh' },
+          { action: 'create' },
         ]}
+        // tableExpandState
+        tableExpandView={<Box>COntent</Box>}
         // columnActionSequence={['extra', 'delete']}
-        // enableRowSelection={false}
+        enableRowSelection
         columnDataIndex="bank_id"
         columns={[
           {
             key: 'id',
             title: 'ID',
             width: 50,
+            sortable: true,
             dataIndex: 'bank_id',
           },
           {
             key: 'name',
             title: 'Name',
             width: 300,
+            sortable: true,
             dataIndex: 'bank_name',
           },
           {
@@ -368,6 +360,7 @@ export function Index() {
             // node: <HomeIcon />,
             title: 'Some Extra Button 1',
             alert: true,
+            tooltip: false,
             action(e, context) {
               console.log('do something with extra button', context);
             },
@@ -378,6 +371,7 @@ export function Index() {
          * OTHER CONFIGURATION
          * --------------------
          */
+        spacingMultiplier={2}
         detailsViewType="drawer"
         modalForms={{
           create: {
@@ -416,7 +410,6 @@ export function Index() {
                 key: 'create',
                 content: (
                   <Button
-                    size="small"
                     variant="outlined"
                     onClick={() => {
                       nodeProps.context.controllers.create?.onShow();
@@ -430,7 +423,6 @@ export function Index() {
                 key: 'filter',
                 content: (
                   <Button
-                    size="small"
                     variant="outlined"
                     onClick={() => {
                       ref.current?.components.filterModalProps.onShow();
@@ -441,6 +433,14 @@ export function Index() {
                 ),
               },
             ],
+          };
+        }}
+        prepareTableViewProps={() => {
+          return {
+            tableProps: {
+              striped: true,
+              // bordered: false,
+            },
           };
         }}
         prepareDetailViewProps={() => {

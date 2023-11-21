@@ -302,7 +302,7 @@ export function Index() {
                   ),
                 },
               ]}
-              headerExpandNode={<div>knn</div>}
+              headerExpandView={<div>knn</div>}
               totalRecord={pagingProps.data.total}
               // actionColumnPosition={2}
               // enableGroupColumnAction
