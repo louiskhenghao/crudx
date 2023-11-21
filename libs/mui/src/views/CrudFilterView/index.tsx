@@ -14,7 +14,8 @@ import { StyledWrapper } from './styled';
  * ===========================
  */
 export const CrudFilterView = memo((props: CrudFilterViewProps) => {
-  const { unstyled, className, title, actions, children } = props;
+  const { unstyled, className, title, actions, spacingMultiplier, children } =
+    props;
 
   // =============== VIEW
   if (!title && !children && !actions) {
@@ -23,6 +24,7 @@ export const CrudFilterView = memo((props: CrudFilterViewProps) => {
   return (
     <StyledWrapper
       unstyled={unstyled}
+      spacingMultiplier={spacingMultiplier}
       className={cn('crud-filter-wrapper', className)}
     >
       {/* ---- TITLE */}

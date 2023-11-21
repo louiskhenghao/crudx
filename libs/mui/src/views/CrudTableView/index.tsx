@@ -44,6 +44,8 @@ export const CrudTableView = <TData = any,>(
     headerActions,
     headerActionSize,
     headerInfos,
+    unstyled,
+    spacingMultiplier,
     onCheck,
     onTabChange,
     onPageChange,
@@ -111,7 +113,11 @@ export const CrudTableView = <TData = any,>(
   };
 
   return (
-    <StyledWrapper className={cn('crud-table-wrapper', className)}>
+    <StyledWrapper
+      unstyled={unstyled}
+      spacingMultiplier={spacingMultiplier}
+      className={cn('crud-table-wrapper', className)}
+    >
       <Table
         size={tableSize}
         data={data}

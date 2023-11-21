@@ -170,11 +170,6 @@ export type CrudPanelViewProps<
    * ===========================
    */
   /**
-   * spacing multiplier for padding & margin across table, filter
-   * @default null
-   */
-  spacingMultiplier?: number;
-  /**
    * whether to have detail view shown in modal or drawer form
    * @default true
    */
@@ -188,6 +183,11 @@ export type CrudPanelViewProps<
    * whether to have unstyled view
    */
   unstyled?: boolean;
+  /**
+   * spacing multiplier for padding & margin across table, filter
+   * @default null
+   */
+  spacingMultiplier?: number;
   /**
    * whether to have page header on crud panel
    * @default true

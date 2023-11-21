@@ -136,6 +136,15 @@ export type CrudTableViewProps<TData = any> = Pick<
    * ===========================
    */
   /**
+   * whether to have unstyled view
+   */
+  unstyled?: boolean;
+  /**
+   * spacing multiplier for padding & margin
+   * @default null
+   */
+  spacingMultiplier?: number;
+  /**
    * whether table header view should expand by default
    */
   expanded?: boolean;
