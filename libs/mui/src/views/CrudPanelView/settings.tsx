@@ -35,10 +35,12 @@ export function useCrudProps<T extends CrudSchemataTypes = any>(
     pageBreadcrumbs = [],
     tableTitle,
     tableTabs,
+    tableTabState,
     tableInfos,
     tableActions,
     tableExpandView,
     tableExpandState,
+    tableExtraView,
     variables = {},
     events,
     paging,
@@ -57,6 +59,7 @@ export function useCrudProps<T extends CrudSchemataTypes = any>(
     enableRowSelection = true,
     enableGroupColumnAction = false,
     spacingMultiplier,
+    onTableTabChange,
     prepareHeaderViewProps,
     prepareFilterViewProps,
     prepareTableViewProps,
@@ -342,9 +345,11 @@ export function useCrudProps<T extends CrudSchemataTypes = any>(
             loading={loading}
             columns={columns}
             headerTabs={tableTabs}
+            headerTabState={tableTabState}
             headerInfos={tableInfos}
             headerActions={tableActions}
             headerExpandView={tableExpandView}
+            headerExtraView={tableExtraView}
             expanded={tableExpandState}
             page={pagination.current}
             pageSize={pagination.defaultPageSize}
@@ -364,6 +369,7 @@ export function useCrudProps<T extends CrudSchemataTypes = any>(
             onPageChange={(page) => {
               pagination.paginateTo(page);
             }}
+            onTabChange={onTableTabChange}
             onPaginateNext={pagingProps.onPaginateNext}
             onPaginatePrevious={pagingProps.onPaginatePrevious}
             onTriggerCreate={accessibility.onTriggerCreate}

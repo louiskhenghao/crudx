@@ -33,9 +33,7 @@ export const TabView = memo((props: TabViewProps) => {
   const [valueState, setValueState] = useState<string>();
 
   // =============== EFFECTS
-  useEffect(() => {
-    setValueState(value ?? items?.[0]?.key ?? null);
-  }, [value, items]);
+  useEffect(() => setValueState(value), [value]);
 
   // =============== VARIABLES
   const hasContent = useMemo(() => {

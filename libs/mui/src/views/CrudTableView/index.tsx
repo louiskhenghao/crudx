@@ -39,7 +39,9 @@ export const CrudTableView = <TData = any,>(
     expanded,
     headerViewNode,
     headerExpandView,
+    headerExtraView,
     headerTabs,
+    headerTabState,
     headerTabsProps,
     headerActions,
     headerActionSize,
@@ -137,10 +139,12 @@ export const CrudTableView = <TData = any,>(
             headerViewNode={headerViewNode}
             headerExpandView={headerExpandView}
             headerTabs={headerTabs}
+            headerTabState={headerTabState}
             headerTabsProps={headerTabsProps}
             headerInfos={headerInfos}
             headerActions={headerActions}
             headerActionSize={headerActionSize}
+            headerExtraView={headerExtraView}
             onTabChange={onTabChange}
             onTriggerCreate={onTriggerCreate}
             onTriggerRefresh={onTriggerRefresh}

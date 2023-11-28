@@ -7,7 +7,7 @@ Crud table header view
 ## Props
 
 ```ts
-export type CrudTableHeaderViewProps<TData = any> = Pick<CrudTableViewProps<TData>, 'text' | 'title' | 'expanded' | 'headerViewNode' | 'headerExpandView' | 'headerExpandView' | 'headerTabs' | 'headerTabsProps' | 'headerInfos' | 'headerActions' | 'headerActionSize' | 'totalRecord' | 'totalSelected' | 'onTriggerBulkAction' | 'onTriggerCreate' | 'onTriggerRefresh' | 'onTriggerSettings' | 'onTriggerSorting' | 'onTriggerDensity' | 'onTabChange' | 'onTriggerExpand'> & {
+export type CrudTableHeaderViewProps<TData = any> = Pick<CrudTableViewProps<TData>, 'text' | 'title' | 'expanded' | 'headerViewNode' | 'headerExpandView' | 'headerExtraView' | 'headerTabs' | 'headerTabState' | 'headerTabsProps' | 'headerInfos' | 'headerActions' | 'headerActionSize' | 'headerBulkOptions' | 'totalRecord' | 'totalSelected' | 'onTabChange' | 'onTriggerBulkAction' | 'onTriggerCreate' | 'onTriggerRefresh' | 'onTriggerSettings' | 'onTriggerSorting' | 'onTriggerDensity' | 'onTriggerExpand'> & {
   tableSize: TableProps['size'];
   sortingType: SortingOptionType;
 };

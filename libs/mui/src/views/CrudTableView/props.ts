@@ -67,6 +67,8 @@ export type CrudTableViewProps<TData = any> = Pick<
    */
   /**
    * header info configuration
+   * NOTE: the sequence is adjustable based on position
+   * @default ['title', 'total','bulk']
    */
   headerInfos?: CrudTableHeaderInfo[];
   /**
@@ -76,28 +78,44 @@ export type CrudTableViewProps<TData = any> = Pick<
    */
   headerActions?: CrudTableHeaderAction[];
   /**
-   * header tabs configuration
-   */
-  headerTabs?: CrudTableHeaderTab[];
-  /**
-   * custom header tabs props
-   */
-  headerTabsProps?: Omit<TabViewProps, 'items' | 'onChange' | 'renderContent'>;
-
-  /**
-   * header action button size
-   * @default medium
-   */
-  headerActionSize?: ButtonProps['size'];
-  /**
    * custom header view
-   * NOTE: By providing this will replace existing header + expanded node
+   * NOTE: By providing this will replace existing header + expanded + extra node
    */
   headerViewNode?: (() => ReactNode) | ReactNode;
   /**
    * custom header expanded view
    */
   headerExpandView?: (() => ReactNode) | ReactNode;
+  /**
+   * custom header extra view (which below tab view)
+   */
+  headerExtraView?: (() => ReactNode) | ReactNode;
+  /**
+   * HEADER TABS
+   * ===========================
+   */
+  /**
+   * header tabs configuration
+   */
+  headerTabs?: CrudTableHeaderTab[];
+  /**
+   * header tabs current state
+   */
+  headerTabState?: any;
+  /**
+   * custom header tabs props
+   */
+  headerTabsProps?: Omit<TabViewProps, 'items' | 'onChange' | 'renderContent'>;
+
+  /**
+   * HEADER CONFIGURATION
+   * ===========================
+   */
+  /**
+   * header action button size
+   * @default medium
+   */
+  headerActionSize?: ButtonProps['size'];
   /**
    * bulk options for selected item
    * NOTE: it having same type for `headerInfos` props, with type = `bulk`->`items`

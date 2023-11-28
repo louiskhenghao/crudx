@@ -1,5 +1,4 @@
 import Grid from '@mui/material/Grid';
-import Stack from '@mui/material/Stack';
 import cn from 'classnames';
 
 import { RenderNodeView } from '../../../../components/RenderNodeView';
@@ -20,7 +19,9 @@ export const CrudTableHeaderView = (props: CrudTableHeaderViewProps) => {
     expanded,
     headerTabs = [],
     headerTabsProps,
+    headerTabState,
     headerViewNode: viewNode,
+    headerExtraView: extraNode,
     headerExpandView: expandNode,
     onTabChange,
   } = props;
@@ -109,9 +110,17 @@ export const CrudTableHeaderView = (props: CrudTableHeaderViewProps) => {
       <TabView
         {...headerTabsProps}
         className={cn('crud-table-header-tabview', headerTabsProps?.className)}
+        value={headerTabState}
         items={headerTabs}
         onChange={onTabChange}
       />
+
+      {/* ====== EXTRA CONTENT */}
+      {extraNode && (
+        <div className="crud-table-header-extra-content">
+          {typeof extraNode === 'function' ? extraNode() : extraNode}
+        </div>
+      )}
     </StyledBox>
   );
 };

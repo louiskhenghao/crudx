@@ -24,6 +24,9 @@ export const StyledWrapper = styled(Box, {
           borderBottom: `1px solid ${theme.palette.divider}`,
         },
         '.crud-table-header-tabview': {},
+        '.crud-table-header-extra-content': {
+          borderTop: `1px solid ${theme.palette.divider}`,
+        },
       },
     };
   }

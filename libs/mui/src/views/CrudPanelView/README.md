@@ -122,6 +122,10 @@ export type CrudPanelViewProps<
   /**
    * table tabs configuration
    */
+  tableTabState?: CrudTableViewProps['headerTabState'];
+  /**
+   * table tabs configuration
+   */
   tableTabs?: CrudTableViewProps['headerTabs'];
   /**
    * table header info configuration
@@ -139,6 +143,15 @@ export type CrudPanelViewProps<
    * table header expanded view node
    */
   tableExpandView?: CrudTableViewProps['headerExpandView'];
+  /**
+   * table tab on change callback
+   */
+  onTableTabChange?: CrudTableViewProps['onTabChange'];
+
+  /**
+   * TABLE COLUMN PROPS
+   * ===========================
+   */
   /**
    * table columns to be display
    */
@@ -166,7 +179,7 @@ export type CrudPanelViewProps<
   columnActionSequence?: CrudTableViewProps['columnActions'];
 
   /**
-   * CUSTOM PROPS
+   * MODAL PROPS
    * ===========================
    */
   /**
@@ -174,7 +187,6 @@ export type CrudPanelViewProps<
    * create, update, delete, exports
    */
   modalForms?: Partial<UseCrudModalFormProps<TSchema>>;
-
   /**
    * VIEW PROPS
    * ===========================
@@ -193,6 +205,11 @@ export type CrudPanelViewProps<
    * whether to have unstyled view
    */
   unstyled?: boolean;
+  /**
+   * spacing multiplier for padding & margin across table, filter
+   * @default null
+   */
+  spacingMultiplier?: number;
   /**
    * whether to have page header on crud panel
    * @default true
@@ -300,13 +317,6 @@ export type CrudPanelViewProps<
     nodeProps: CrudComponentFilterModalNodeProps<TSchema>
   ) => ReactNode;
 };
-
-/**
- * ===========================
- * EXPORTS
- * ===========================
- */
-export default CrudPanelViewProps;
 ```
 
 ---

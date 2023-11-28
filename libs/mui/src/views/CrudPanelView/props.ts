@@ -113,6 +113,10 @@ export type CrudPanelViewProps<
   /**
    * table tabs configuration
    */
+  tableTabState?: CrudTableViewProps['headerTabState'];
+  /**
+   * table tabs configuration
+   */
   tableTabs?: CrudTableViewProps['headerTabs'];
   /**
    * table header info configuration
@@ -130,6 +134,19 @@ export type CrudPanelViewProps<
    * table header expanded view node
    */
   tableExpandView?: CrudTableViewProps['headerExpandView'];
+  /**
+   * table header extra view node which is under header tab
+   */
+  tableExtraView?: CrudTableViewProps['headerExtraView'];
+  /**
+   * table tab on change callback
+   */
+  onTableTabChange?: CrudTableViewProps['onTabChange'];
+
+  /**
+   * TABLE COLUMN PROPS
+   * ===========================
+   */
   /**
    * table columns to be display
    */
