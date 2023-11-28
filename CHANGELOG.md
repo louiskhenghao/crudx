@@ -2,6 +2,15 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+## [0.0.3](https://github.com/louiskhenghao/crudx/compare/workspace@0.0.2...workspace@0.0.3) (2023-11-28)
+
+
+### Features
+
+* **core:** support react element for alert message & title ([e9091cf](https://github.com/louiskhenghao/crudx/commit/e9091cf0c5a27c70d27d248ca569c1c5a0045855))
+* **mui:** export tab state & tab change callback & add table header extra view on CrudPanelView ([d6c06dc](https://github.com/louiskhenghao/crudx/commit/d6c06dc874f44f72d06b80a28bb1de4a1432b8a8))
+* **mui:** rename headerViewNode to headerCustomView from CrudTableView ([7d96be9](https://github.com/louiskhenghao/crudx/commit/7d96be995670f7b680c74e49929f732721edb3b1))
+
 ## [0.0.2](https://github.com/louiskhenghao/crudx/compare/workspace@0.0.1...workspace@0.0.2) (2023-11-21)
 
 
