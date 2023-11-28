@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import { ReactElement, ReactNode } from 'react';
 
 import { CrudMutationResource } from '../../crud/mutation/resource';
 
@@ -76,12 +76,12 @@ export interface CrudCommonActions<
   title?: (options: {
     action: CrudCommonActionButtonType;
     resource?: CrudCommonActionResource;
-  }) => string | null;
+  }) => string | ReactElement | null;
   // the message to be display on dialog
   message?: (options: {
     action: CrudCommonActionButtonType;
     resource?: CrudCommonActionResource;
-  }) => string | null;
+  }) => string | ReactElement | null;
   // the resource for dialog
   resource?: (
     context?: CrudCommonActionEventContext<TSchema, TData>
@@ -110,8 +110,8 @@ export type CrudCommonActionNodeOptions<
   // whether show custom alert
   alert?:
     | ((options: {
-        title: string | null;
-        message: string | null;
+        title: string | ReactElement | null;
+        message: string | ReactElement | null;
         primaryText: string;
         secondaryText: string;
         onPrimary: () => void;
