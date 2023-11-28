@@ -1,7 +1,6 @@
 import { ReactNode } from 'react';
 
 import { CrudMutationResource } from '../../../crud/mutation/resource';
-import { CrudPagingResource } from '../../../crud/paging/resource';
 import { UseRowSelectionProps } from '../../../hooks/useRowSelectionHook';
 import { CrudCommonActions } from '../action';
 import { CrudGraphApiListType } from '../api';
@@ -57,7 +56,6 @@ export type CrudComponentOptions<TSchema extends CrudSchemataTypes = any> = {
   nodes: CrudComponents<TSchema>;
   schema: CrudSchemata<TSchema>;
   detail: CrudDetailProps<TSchema>;
-  paging: CrudPagingResource<TSchema>;
   pagingProps: CrudPagingProps<TSchema>;
   mutation: CrudMutationResource<TSchema>;
   itemActions?: CrudCommonActions<TSchema>;

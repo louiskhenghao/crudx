@@ -1,4 +1,3 @@
-import { CrudPagingResource } from '../../crud/paging/resource';
 import { UseRowSelectionProps } from '../../hooks/useRowSelectionHook';
 
 import { CrudComponentProps } from './components/component';
@@ -28,10 +27,9 @@ export type CrudProps<TSchema extends CrudSchemataTypes = any> = {
   // the detail resource
   detail: CrudDetailProps<TSchema>;
   // list paging resources
-  paging: CrudPagingResource<TSchema>;
+  pagingProps: CrudPagingProps<TSchema>;
   // mutation resources
   mutation: CrudMutationProps<TSchema>;
-  pagingProps: CrudPagingProps<TSchema>;
   // components props
   components: CrudComponentProps<TSchema>;
 };

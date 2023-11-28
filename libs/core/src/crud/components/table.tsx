@@ -23,15 +23,8 @@ export const useTableComponentHook = <TSchema extends CrudSchemataTypes = any>(
   controllers: CrudComponentVisibilityController,
   actionsHook: CrudComponentActionHookProps<TSchema>
 ): CrudComponentTableHookProps<TSchema> => {
-  const {
-    pagination,
-    rowSelection,
-    detail,
-    mutation,
-    nodes,
-    paging,
-    pagingProps,
-  } = payload;
+  const { pagination, rowSelection, detail, mutation, nodes, pagingProps } =
+    payload;
 
   // =============== VARIABLES
   const list = pagingProps?.data?.list ?? [];
@@ -44,7 +37,6 @@ export const useTableComponentHook = <TSchema extends CrudSchemataTypes = any>(
       mutation,
       detail,
       controllers,
-      paging,
       pagingProps,
     },
     // standard table props

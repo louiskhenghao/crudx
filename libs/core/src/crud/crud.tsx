@@ -46,7 +46,7 @@ export class CRUD<TSchema extends CrudSchemataTypes = any> {
   private mutation: CrudMutationResource<TSchema>;
 
   // the callback composer for event listeners
-  private composer: CrudCallbackComposer<TSchema>;
+  private callback: CrudCallbackComposer<TSchema>;
 
   // the details props
   private detail?: CrudDetailProps<TSchema>;
@@ -58,7 +58,7 @@ export class CRUD<TSchema extends CrudSchemataTypes = any> {
   private modalForms: CrudModalFormOptions<TSchema>;
 
   // row selection for table
-  private enableRowSelection = false;
+  private enableRowSelection = true;
 
   /**
    * constructor of CRUD
@@ -69,7 +69,7 @@ export class CRUD<TSchema extends CrudSchemataTypes = any> {
     options?: {
       paging?: CrudPagingOptions<TSchema>;
       nodes?: CrudComponents<TSchema>;
-      callbacks?: CrudMutationResourceEvents<TSchema>;
+      events?: CrudMutationResourceEvents<TSchema>;
       itemActions?: CrudCommonActions<TSchema>;
       modalForms?: CrudModalFormOptions<TSchema>;
       enableNotification?: boolean;
@@ -77,7 +77,7 @@ export class CRUD<TSchema extends CrudSchemataTypes = any> {
     }
   ) {
     const nodes = options?.nodes ?? {};
-    const callbacks = options?.callbacks ?? {};
+    const events = options?.events ?? {};
     const enableNotification = options?.enableNotification ?? true;
     const enableRowSelection = options?.enableRowSelection ?? true;
 
@@ -89,7 +89,7 @@ export class CRUD<TSchema extends CrudSchemataTypes = any> {
     this.enableRowSelection = enableRowSelection;
 
     // --- initialize crud callback composer
-    this.composer = new CrudCallbackComposer(name, {
+    this.callback = new CrudCallbackComposer(name, {
       nodes,
       enableNotification,
     });
@@ -104,8 +104,8 @@ export class CRUD<TSchema extends CrudSchemataTypes = any> {
     this.mutation = new CrudMutationResource(name, {
       schema,
       nodes,
-      callbacks,
-      composer: this.composer,
+      events,
+      callback: this.callback,
     });
   }
 
@@ -138,8 +138,7 @@ export class CRUD<TSchema extends CrudSchemataTypes = any> {
     const sharedProps = {
       name: this.name,
       rowSelection: rowSelectionHook,
-      // paging
-      paging: this.paging,
+      // control paging props
       pagingProps,
       // control pagination API request & state handling
       pagination: {

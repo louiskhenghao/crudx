@@ -26,7 +26,7 @@ export const useModalFormComponentHook = <
   payload: CrudComponentOptions<TSchema>,
   accessibility: CrudComponentAccessibilityProps
 ): CrudComponentModalFormHookProps<TSchema> => {
-  const { modalForms, mutation, detail, paging, pagingProps } = payload;
+  const { modalForms, mutation, detail, pagingProps } = payload;
 
   // =============== HELPERS
   const createModalForm = <TData = Record<string, any>,>(
@@ -38,7 +38,6 @@ export const useModalFormComponentHook = <
       context: {
         mutation,
         detail,
-        paging,
         pagingProps,
         controllers: {},
       },

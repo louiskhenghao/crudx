@@ -21,8 +21,7 @@ export const useDetailsComponentHook = <
   accessibility: CrudComponentAccessibilityProps,
   controllers: CrudComponentVisibilityController
 ): CrudComponentDetailsHookProps<TSchema> => {
-  const { result, schema, nodes, mutation, detail, paging, pagingProps } =
-    payload;
+  const { result, schema, nodes, mutation, detail, pagingProps } = payload;
   const controller = controllers?.details;
 
   // =============== VARIABLES
@@ -39,7 +38,6 @@ export const useDetailsComponentHook = <
       mutation,
       detail,
       controllers,
-      paging,
       pagingProps,
     },
     data,

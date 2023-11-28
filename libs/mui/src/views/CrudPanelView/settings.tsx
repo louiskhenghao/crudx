@@ -138,7 +138,7 @@ export function useCrudProps<T extends CrudSchemataTypes = any>(
   // =================== CRUD
   const crud = new CRUD<T>(name, schema, {
     paging,
-    callbacks: events,
+    events,
     enableNotification,
     enableRowSelection,
     nodes: {

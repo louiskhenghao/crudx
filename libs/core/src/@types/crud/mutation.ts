@@ -5,7 +5,6 @@ import {
 } from '@apollo/client';
 
 import { CrudCallbackComposer } from '../../crud';
-import { CrudPagingResource } from '../../crud/paging/resource';
 import { UseRowSelectionProps } from '../../hooks/useRowSelectionHook';
 
 import { CrudComponents } from './components';
@@ -22,8 +21,8 @@ export type CrudMutationResourceOptions<
 > = {
   schema: CrudSchemata<TSchema>;
   nodes: CrudComponents<TSchema>;
-  composer: CrudCallbackComposer<TSchema>;
-  callbacks: CrudMutationResourceEvents<TSchema>;
+  callback: CrudCallbackComposer<TSchema>;
+  events: CrudMutationResourceEvents<TSchema>;
 };
 
 /**
@@ -33,7 +32,6 @@ export type CrudMutationComposeOptions<
   TSchema extends CrudSchemataTypes = any
 > = {
   detail: CrudDetailProps<TSchema>;
-  paging: CrudPagingResource<TSchema>;
   pagingProps: CrudPagingProps<TSchema>;
   enableNotification?: boolean;
   pagination: CrudPaginationProps;

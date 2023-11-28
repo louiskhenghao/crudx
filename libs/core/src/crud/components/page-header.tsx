@@ -21,7 +21,7 @@ export const usePageHeaderComponentHook = <
   accessibility: CrudComponentAccessibilityProps,
   controllers: CrudComponentVisibilityController
 ): CrudComponentPageHeaderHookProps<TSchema> => {
-  const { detail, mutation, nodes, paging, pagingProps } = payload;
+  const { detail, mutation, nodes, pagingProps } = payload;
 
   // =============== PROPS
   const pageHeaderProps: CrudComponentPageHeaderNodeProps<TSchema> = {
@@ -30,7 +30,6 @@ export const usePageHeaderComponentHook = <
       mutation,
       detail,
       controllers,
-      paging,
       pagingProps,
     },
   };

@@ -19,7 +19,7 @@ export const usePanelComponentHook = <T extends CrudSchemataTypes = any>(
   accessibility: CrudComponentAccessibilityProps,
   controllers: CrudComponentVisibilityController
 ): CrudComponentFilterHookProps<T> => {
-  const { mutation, detail, nodes, paging, pagingProps } = payload;
+  const { mutation, detail, nodes, pagingProps } = payload;
 
   // =============== PROPS
   const filterProps: CrudComponentFilterNodeProps<T> = {
@@ -28,7 +28,6 @@ export const usePanelComponentHook = <T extends CrudSchemataTypes = any>(
       mutation,
       detail,
       controllers,
-      paging,
       pagingProps,
     },
   };

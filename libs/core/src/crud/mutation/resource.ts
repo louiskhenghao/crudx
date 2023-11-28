@@ -28,9 +28,9 @@ export class CrudMutationResource<TSchema extends CrudSchemataTypes = any> {
 
   private nodes: CrudComponents<TSchema>;
 
-  private composer: CrudCallbackComposer<TSchema>;
+  private callback: CrudCallbackComposer<TSchema>;
 
-  private callbacks: CrudMutationResourceEvents<TSchema>;
+  private events: CrudMutationResourceEvents<TSchema>;
 
   create?: MutationTuple<TSchema['create'][0], TSchema['create'][1]>;
   update?: MutationTuple<TSchema['update'][0], TSchema['update'][1]>;
@@ -44,8 +44,8 @@ export class CrudMutationResource<TSchema extends CrudSchemataTypes = any> {
     this.name = name;
     this.schema = options.schema;
     this.nodes = options.nodes;
-    this.composer = options.composer;
-    this.callbacks = options.callbacks;
+    this.callback = options.callback;
+    this.events = options.events;
   }
 
   /**
@@ -56,7 +56,7 @@ export class CrudMutationResource<TSchema extends CrudSchemataTypes = any> {
   ): CrudMutationProps<TSchema> => {
     // =============== VARIABLES
     const schema = this.schema;
-    const callbacks = this.callbacks;
+    const events = this.events;
     const clearSelections = options?.rowSelection?.clear;
 
     // =============== HELPERS
@@ -84,7 +84,7 @@ export class CrudMutationResource<TSchema extends CrudSchemataTypes = any> {
       const actionOptions = action?.options ?? {};
       return action.query({
         ...(actionOptions ?? {}),
-        ...this.composer.compose([
+        ...this.callback.compose([
           {
             onCompleted: actionOptions?.onCompleted,
             onError: actionOptions?.onError,
@@ -99,11 +99,11 @@ export class CrudMutationResource<TSchema extends CrudSchemataTypes = any> {
     this.create = createResource<TSchema['create'][0], TSchema['create'][1]>(
       'create',
       [
-        this.composer.notify(['create', 'created', !!schema?.create]),
-        ...this.composer.standardize<
+        this.callback.notify(['create', 'created', !!schema?.create]),
+        ...this.callback.standardize<
           TSchema['create'][0],
           TSchema['create'][1]
-        >(callbacks?.create),
+        >(events?.create),
       ]
     );
 
@@ -111,11 +111,11 @@ export class CrudMutationResource<TSchema extends CrudSchemataTypes = any> {
     this.update = createResource<TSchema['update'][0], TSchema['update'][1]>(
       'update',
       [
-        this.composer.notify(['update', 'updated', !!schema?.update]),
-        ...this.composer.standardize<
+        this.callback.notify(['update', 'updated', !!schema?.update]),
+        ...this.callback.standardize<
           TSchema['update'][0],
           TSchema['update'][1]
-        >(callbacks?.update),
+        >(events?.update),
       ]
     );
 
@@ -123,22 +123,22 @@ export class CrudMutationResource<TSchema extends CrudSchemataTypes = any> {
     this.exports = createResource<TSchema['exports'][0], TSchema['exports'][1]>(
       'exports',
       [
-        this.composer.notify(['export', 'exported', !!schema?.exports]),
-        ...this.composer.standardize<
+        this.callback.notify(['export', 'exported', !!schema?.exports]),
+        ...this.callback.standardize<
           TSchema['exports'][0],
           TSchema['exports'][1]
-        >(callbacks?.exports),
+        >(events?.exports),
       ]
     );
     // --- DELETE
     this.delete = createResource<TSchema['delete'][0], TSchema['delete'][1]>(
       'delete',
       [
-        this.composer.notify(['delete', 'deleted', !!schema?.delete]),
-        ...this.composer.standardize<
+        this.callback.notify(['delete', 'deleted', !!schema?.delete]),
+        ...this.callback.standardize<
           TSchema['delete'][0],
           TSchema['delete'][1]
-        >(callbacks?.delete),
+        >(events?.delete),
         {
           onCompleted: () => {
             clearSelections?.();
