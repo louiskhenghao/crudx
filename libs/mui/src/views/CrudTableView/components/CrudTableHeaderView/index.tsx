@@ -20,7 +20,7 @@ export const CrudTableHeaderView = (props: CrudTableHeaderViewProps) => {
     headerTabs = [],
     headerTabsProps,
     headerTabState,
-    headerViewNode: viewNode,
+    headerCustomView: viewNode,
     headerExtraView: extraNode,
     headerExpandView: expandNode,
     onTabChange,
@@ -34,6 +34,8 @@ export const CrudTableHeaderView = (props: CrudTableHeaderViewProps) => {
   const hasInfos = headerInfoViews.length > 0;
   const hasActions = headerActionViews.length > 0;
   const hasTabs = headerTabs.length > 0;
+  const hasExpand = !!expandNode;
+  const hasExtra = !!extraNode;
 
   // =============== VIEW
   // if there is custom header render
@@ -53,7 +55,7 @@ export const CrudTableHeaderView = (props: CrudTableHeaderViewProps) => {
   }
 
   // default header
-  if (!hasInfos && !hasActions && !hasTabs) {
+  if (!hasInfos && !hasActions && !hasTabs && !hasExpand && !hasExtra) {
     return null;
   }
   return (

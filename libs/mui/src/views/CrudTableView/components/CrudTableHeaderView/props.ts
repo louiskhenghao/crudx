@@ -14,7 +14,7 @@ export type CrudTableHeaderViewProps<TData = any> = Pick<
   | 'text'
   | 'title'
   | 'expanded'
-  | 'headerViewNode'
+  | 'headerCustomView'
   | 'headerExpandView'
   | 'headerExtraView'
   | 'headerTabs'

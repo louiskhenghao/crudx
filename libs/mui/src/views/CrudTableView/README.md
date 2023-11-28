@@ -90,7 +90,7 @@ export type CrudTableViewProps<TData = any> = Pick<
    * custom header view
    * NOTE: By providing this will replace existing header + expanded + extra node
    */
-  headerViewNode?: (() => ReactNode) | ReactNode;
+  headerCustomView?: (() => ReactNode) | ReactNode;
   /**
    * custom header expanded view
    */

@@ -37,7 +37,7 @@ export const CrudTableView = <TData = any,>(
     totalSelected,
     tableProps,
     expanded,
-    headerViewNode,
+    headerCustomView,
     headerExpandView,
     headerExtraView,
     headerTabs,
@@ -136,7 +136,7 @@ export const CrudTableView = <TData = any,>(
             sortingType={sortingType}
             totalRecord={totalRecord}
             totalSelected={totalSelected}
-            headerViewNode={headerViewNode}
+            headerCustomView={headerCustomView}
             headerExpandView={headerExpandView}
             headerTabs={headerTabs}
             headerTabState={headerTabState}
