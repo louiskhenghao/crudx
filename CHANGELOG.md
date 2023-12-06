@@ -2,6 +2,13 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+## [0.0.6](https://github.com/louiskhenghao/crudx/compare/workspace@0.0.5...workspace@0.0.6) (2023-12-06)
+
+
+### Features
+
+* **core:** expose more props to accessibility props ([73bff98](https://github.com/louiskhenghao/crudx/commit/73bff987c9a4652cfc154953069d107569d4f33b))
+
 ## [0.0.5](https://github.com/louiskhenghao/crudx/compare/workspace@0.0.4...workspace@0.0.5) (2023-12-06)
 
 
