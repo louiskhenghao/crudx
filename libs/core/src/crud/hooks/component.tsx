@@ -53,6 +53,7 @@ export const useCrudComponentHook = <TSchema extends CrudSchemataTypes = any>(
         onSecondary: () => console.warn('Not implemented!'),
       },
     },
+    extraModal: {},
   };
   const props: CrudComponentAccessibilityProps = {
     enableNext: !isNil(pagingProps?.data?.page?.next) ?? false,

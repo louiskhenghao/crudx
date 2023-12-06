@@ -1,3 +1,5 @@
+import { omit } from 'lodash';
+
 import { CrudComponentVisibilityController } from '../../@types/crud/components/common';
 import { CrudComponentOptions } from '../../@types/crud/components/component';
 import { CrudComponentModalFormHookProps } from '../../@types/crud/components/modal';
@@ -22,10 +24,11 @@ export const useComponentVisibilityHook = <T extends CrudSchemataTypes = any>(
 
   // =============== PROPS
   const controllers: CrudComponentVisibilityController = {
-    details: detailsController,
-    filter: filterController,
-    ...(formHook?.modalFormProps ?? {}),
     alert: alertController,
+    filter: filterController,
+    details: detailsController,
+    extraModal: formHook?.modalFormProps.extra,
+    ...omit(formHook?.modalFormProps ?? {}, ['extra']),
   };
 
   // =============== RETURN
