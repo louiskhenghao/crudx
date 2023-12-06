@@ -65,6 +65,11 @@ export type CrudPanelViewProps<
   events?: CrudMutationResourceEvents<TSchema>;
 
   /**
+   * whether preselect check of items
+   */
+  checked?: CrudTableViewProps['checked'];
+
+  /**
    * PAGE HEADER PROPS
    * ===========================
    */
@@ -141,8 +146,14 @@ export type CrudPanelViewProps<
   tableExtraView?: CrudTableViewProps['headerExtraView'];
   /**
    * table tab on change callback
+   * NOTE: added on 0.0.3
    */
   onTableTabChange?: CrudTableViewProps['onTabChange'];
+  /**
+   * table item on check callback
+   * NOTE: added on 0.0.4
+   */
+  onTableItemCheck?: CrudTableViewProps['onCheck'];
 
   /**
    * TABLE COLUMN PROPS
