@@ -2,6 +2,23 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+## [0.0.4](https://github.com/louiskhenghao/crudx/compare/workspace@0.0.3...workspace@0.0.4) (2023-12-06)
+
+
+### Features
+
+* **core:** add alert node configuration & its control, also improved types ([f7d6ac3](https://github.com/louiskhenghao/crudx/commit/f7d6ac3ce2eebae28cb0d11707d274728e14715b))
+* **core:** eliminate controllers from dialog context options ([d2c1c54](https://github.com/louiskhenghao/crudx/commit/d2c1c54ee9e6a2156e02a68f807b7ec57d87f84e))
+* **mui:** deprecated dialogProps from useCrudTableItemAction hook ([841d2ba](https://github.com/louiskhenghao/crudx/commit/841d2ba8613b6a9b5103f7546845af7b96fab5fb))
+* **mui:** expose table item pre-selection on CrudPanelView ([9f17c7f](https://github.com/louiskhenghao/crudx/commit/9f17c7f7edcb994194aa6456d10e71b6526e1dea))
+* **mui:** implement crud alert node to CrudPanelView ([225e10c](https://github.com/louiskhenghao/crudx/commit/225e10cd747bc57ba6cc7b04a2dad2bd41d5c5e9))
+
+
+### Bug Fixes
+
+* **core:** allow dynamic values for CrudPagingQueryVariableTypes ([4c827a2](https://github.com/louiskhenghao/crudx/commit/4c827a216704464ccc64107c5a74c19b98e69641))
+* **mui:** table head border ([daf91ea](https://github.com/louiskhenghao/crudx/commit/daf91eab253569ea4a6d188d7898af9bee98a308))
+
 ## [0.0.3](https://github.com/louiskhenghao/crudx/compare/workspace@0.0.2...workspace@0.0.3) (2023-11-28)
 
 
