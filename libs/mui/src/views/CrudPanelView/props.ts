@@ -1,5 +1,6 @@
-import { ReactNode } from 'react';
+import { ReactNode, RefAttributes } from 'react';
 import {
+  CrudComponentAlertNodeProps,
   CrudComponentDetailNodeProps,
   CrudComponentFilterModalNodeProps,
   CrudComponentFilterNodeProps,
@@ -16,7 +17,7 @@ import {
 import { SwipeableDrawerProps } from '@mui/material/SwipeableDrawer';
 
 import { TableDataIndex } from '../../@types';
-import { DialogProps } from '../../components/Dialog';
+import { DialogProps, DialogRefProps } from '../../components/Dialog';
 import { CrudFilterViewProps } from '../CrudFilterView';
 import { CrudPageHeaderViewProps } from '../CrudPageHeaderView';
 import { CrudTableViewProps } from '../CrudTableView';
@@ -169,9 +170,19 @@ export type CrudPanelViewProps<
   >;
   /**
    * column action sequence arrangement
-   * @default ['view', 'update','delete','export','extra']
+   * @default ['view','update','delete','export','extra']
    */
   columnActionSequence?: CrudTableViewProps['columnActions'];
+  /**
+   * ALERT PROPS
+   * ===========================
+   */
+  // to extends props from alert node
+  alertProps?: Omit<
+    DialogProps,
+    'ref' | 'visible' | 'title' | 'message' | 'onClickAction'
+  > &
+    RefAttributes<DialogRefProps>;
 
   /**
    * MODAL PROPS
@@ -247,6 +258,16 @@ export type CrudPanelViewProps<
    * CUSTOM PROPS
    * ===========================
    */
+  /**
+   * props to extend alert props
+   */
+  prepareAlertProps?: (
+    nodeProps: CrudComponentAlertNodeProps<TSchema>
+  ) => Omit<
+    DialogProps,
+    'ref' | 'visible' | 'title' | 'message' | 'onClickAction'
+  > &
+    RefAttributes<DialogRefProps>;
   /**
    * props to extend existing page header props
    */

@@ -1,4 +1,4 @@
-import { PropsWithChildren, ReactNode } from 'react';
+import { PropsWithChildren, ReactElement, ReactNode } from 'react';
 import { ButtonProps, ButtonTypeMap } from '@mui/material/Button';
 import { DialogProps as MuiDialogProps } from '@mui/material/Dialog';
 import { DialogActionsProps } from '@mui/material/DialogActions';
@@ -59,9 +59,9 @@ export type DialogProps = PropsWithChildren<
     secondaryButtonVariant?: ButtonProps['variant'];
 
     // the title of the dialog
-    title?: string;
+    title?: string | ReactElement;
     // the message of the dialog
-    message?: string;
+    message?: string | ReactElement;
     // the action of the dialog, this will override default action from type
     actions?: DialogActionConfigType[];
     // whether show close button on dialog, default to false

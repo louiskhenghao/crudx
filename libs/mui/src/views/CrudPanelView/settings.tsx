@@ -44,6 +44,7 @@ export function useCrudProps<T extends CrudSchemataTypes = any>(
     variables = {},
     events,
     paging,
+    alertProps,
     modalForms,
     filterTitle,
     filterNode,
@@ -60,6 +61,7 @@ export function useCrudProps<T extends CrudSchemataTypes = any>(
     enableGroupColumnAction = false,
     spacingMultiplier,
     onTableTabChange,
+    prepareAlertProps,
     prepareHeaderViewProps,
     prepareFilterViewProps,
     prepareTableViewProps,
@@ -161,6 +163,35 @@ export function useCrudProps<T extends CrudSchemataTypes = any>(
           return;
         }
         toast.error(message);
+      },
+      /**
+       * --------------------------
+       * ALERT VIEW
+       * --------------------------
+       */
+      alert: (props) => {
+        const viewProps = prepareAlertProps?.(props);
+        return (
+          <Dialog
+            type="confirmation"
+            fullWidth
+            onClose={props.onHide}
+            visible={props.visible}
+            title={props.title as any}
+            message={props.message}
+            primaryText={props.primaryText}
+            secondaryText={props.secondaryText}
+            onClickAction={(action) => {
+              if (action === 'primary') {
+                props.onPrimary();
+                return;
+              }
+              props.onSecondary();
+            }}
+            {...alertProps}
+            {...viewProps}
+          />
+        );
       },
       /**
        * --------------------------

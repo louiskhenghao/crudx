@@ -32,6 +32,7 @@ function CrudPanelViewComponent<
   // =============== VARIABLES
   const { components } = crudProps;
   const {
+    renderAlert,
     renderDetails,
     renderFilter,
     renderTable,
@@ -47,6 +48,7 @@ function CrudPanelViewComponent<
       spacingMultiplier={spacingMultiplier}
       className={cn('crud-panel-wrapper', className)}
     >
+      {renderAlert?.()}
       {enablePageHeader && renderPageHeader?.()}
       {enableFilterView && renderFilter?.()}
       {renderTable?.()}
