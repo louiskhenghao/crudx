@@ -190,7 +190,7 @@ export const useCrudTableItemAction = <T extends CrudSchemataTypes = any>(
             },
             // NOTE: we can have custom alert node just like example below
             // alert: !isEnableAlert('view') ? false : renderAlertNode,
-            alert: !isEnableAlert('view'),
+            alert: isEnableAlert('view'),
             node:
               viewNode ??
               renderActionNode(
@@ -210,7 +210,7 @@ export const useCrudTableItemAction = <T extends CrudSchemataTypes = any>(
               const data = ctx?.data;
               ctx.context?.controllers?.update?.onShow(data);
             },
-            alert: !isEnableAlert('update'),
+            alert: isEnableAlert('update'),
             node:
               updateNode ||
               renderActionNode(
@@ -230,7 +230,7 @@ export const useCrudTableItemAction = <T extends CrudSchemataTypes = any>(
               const data = ctx?.data;
               ctx.context?.controllers?.delete?.onShow(data);
             },
-            alert: !isEnableAlert('delete'),
+            alert: isEnableAlert('delete'),
             node:
               deleteNode ||
               renderActionNode(
@@ -250,7 +250,7 @@ export const useCrudTableItemAction = <T extends CrudSchemataTypes = any>(
               const data = ctx?.data;
               ctx.context?.controllers?.exports?.onShow(data);
             },
-            alert: !isEnableAlert('export'),
+            alert: isEnableAlert('export'),
             node:
               exportNode ||
               renderActionNode(
