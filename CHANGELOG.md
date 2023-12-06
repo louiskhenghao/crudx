@@ -2,6 +2,19 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+## [0.0.5](https://github.com/louiskhenghao/crudx/compare/workspace@0.0.4...workspace@0.0.5) (2023-12-06)
+
+
+### Features
+
+* **core:** add extra modal handling to core ([5ddc34a](https://github.com/louiskhenghao/crudx/commit/5ddc34a97d37c17ebd48507a79053263ef66c523))
+* **mui:** add extra modal initialization ([d080963](https://github.com/louiskhenghao/crudx/commit/d080963b322dd2d529ae2252c7b93dea2ca1f88c))
+
+
+### Bug Fixes
+
+* **mui:** misconfigured `alert` option on table action item ([2f19962](https://github.com/louiskhenghao/crudx/commit/2f199629d83dbe2c876c0256fee7175d32347175))
+
 ## [0.0.4](https://github.com/louiskhenghao/crudx/compare/workspace@0.0.3...workspace@0.0.4) (2023-12-06)
 
 
