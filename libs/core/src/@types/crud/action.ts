@@ -160,7 +160,11 @@ export type CrudCommonDialogOptions<
 > = {
   title?: CrudCommonDialogContext['title'];
   props?: CrudCommonDialogContext['props'];
-  node: (options: CrudCommonDialogContext<TSchema, TData>) => ReactNode;
+  node: (
+    options: Omit<CrudCommonDialogContext<TSchema, TData>, 'context'> & {
+      context?: Omit<CrudComponentContext<TSchema>, 'controllers'>;
+    }
+  ) => ReactNode;
 };
 
 /**

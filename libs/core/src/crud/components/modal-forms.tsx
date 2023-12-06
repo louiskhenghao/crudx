@@ -39,7 +39,6 @@ export const useModalFormComponentHook = <
         mutation,
         detail,
         pagingProps,
-        controllers: {},
       },
     });
   };

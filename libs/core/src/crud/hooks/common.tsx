@@ -20,6 +20,7 @@ import {
 } from '../../@types/crud/api';
 import {
   CrudComponentActionProps,
+  CrudComponentContext,
   CrudComponentExtraActionProps,
 } from '../../@types/crud/components/common';
 import { CrudSchemataTypes } from '../../@types/crud/schema';
@@ -265,7 +266,9 @@ export function makeCrudCommonDialogForm<
   TData = any
 >(
   options?: CrudCommonDialogOptions<TSchema, TData>,
-  context?: CrudCommonActionEventContext<TSchema, TData>
+  context?: Omit<CrudCommonActionEventContext<TSchema, TData>, 'context'> & {
+    context: Omit<CrudComponentContext<TSchema>, 'controllers'>;
+  }
 ): CrudCommonDialogTuple<TData> {
   // ===============  STATE
   const [data, setData] = useState<TData>();

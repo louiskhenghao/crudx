@@ -13,7 +13,7 @@ import { CrudSchemataTypes } from '../schema';
 export type CrudComponentContext<TSchema extends CrudSchemataTypes = any> = {
   pagingProps: CrudPagingProps<TSchema>;
   mutation: CrudMutationResource<TSchema>;
-  detail?: CrudDetailProps<TSchema>;
+  detail: CrudDetailProps<TSchema>;
   controllers: CrudComponentVisibilityController;
 };
 
