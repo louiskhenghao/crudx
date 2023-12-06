@@ -114,7 +114,6 @@ export const useModalFormComponentHook = <
   // =============== RETURN
   const { hooks } = modalFormResults;
 
-  console.log('knn ----->', hooks);
   return {
     modalFormProps: modalFormResults.props,
     renderModalForms: () => {

@@ -1,12 +1,14 @@
 import { ReactNode } from 'react';
 
 import { CrudMutationResource } from '../../../crud/mutation/resource';
+import { UseRowSelectionProps } from '../../../hooks/useRowSelectionHook';
 import {
   CrudCommonActionNodeAlertOptions,
   CrudCommonActionNodeProps,
 } from '../action';
 import { CrudGraphApiGetType } from '../api';
 import { CrudDetailProps } from '../detail';
+import { CrudPaginationProps } from '../pagination';
 import { CrudPagingPaginateProps, CrudPagingProps } from '../paging';
 import { CrudSchemataTypes } from '../schema';
 
@@ -19,15 +21,35 @@ export type CrudComponentContext<TSchema extends CrudSchemataTypes = any> = {
   controllers: CrudComponentVisibilityController;
 };
 
+/**
+ * accessibility props for crud components
+ */
 export type CrudComponentAccessibilityProps = CrudPagingPaginateProps & {
+  // whether enable next button
   enableNext: boolean;
+  // whether enable previous button
   enablePrevious: boolean;
+  // whether should enable bulk action
   enableBulkAction: boolean;
-  totalSelected?: number;
+  // total selections
+  totalSelected: number;
+  // to get existing selections
+  selections: UseRowSelectionProps['selections'];
+  // pagination props for easy access
+  pagination: CrudPaginationProps;
+  // to set selection
+  setSelections: UseRowSelectionProps['setSelections'];
+  // trigger to show create modal
   onTriggerCreate: () => void;
+  // trigger to show filter
   onTriggerFiltering: () => void;
+  // trigger to re-query
   onTriggerRefresh: () => void;
+  // toggle to show selections
   onTriggerSelection: () => void;
+  // trigger to clear selections
+  onTriggerSelectionClear: () => void;
+  // to trigger sorting
   onTriggerSorting: (sort: 'DEFAULT' | 'ASC' | 'DESC') => void;
 };
 

@@ -31,7 +31,7 @@ import { useComponentVisibilityHook } from './visible';
 export const useCrudComponentHook = <TSchema extends CrudSchemataTypes = any>(
   payload: CrudComponentOptions<TSchema>
 ): CrudComponentProps<TSchema> => {
-  const { pagingProps, rowSelection } = payload;
+  const { pagingProps, rowSelection, pagination } = payload;
 
   // =============== VARIABLES
   // --- shared accessibility function
@@ -55,11 +55,16 @@ export const useCrudComponentHook = <TSchema extends CrudSchemataTypes = any>(
     },
     extraModal: {},
   };
+
   const props: CrudComponentAccessibilityProps = {
+    pagination,
     enableNext: !isNil(pagingProps?.data?.page?.next) ?? false,
     enablePrevious: !isNil(pagingProps?.data?.page?.previous) ?? false,
     enableBulkAction: !!rowSelection.isSelectable,
     totalSelected: rowSelection.selections?.length || 0,
+    selections: rowSelection.selections,
+    setSelections: rowSelection.setSelections,
+    onTriggerSelectionClear: rowSelection.clear,
     onTriggerCreate: () => {
       if (!controllers?.create?.onShow) {
         console.warn('Method is not accessible at this stage');
