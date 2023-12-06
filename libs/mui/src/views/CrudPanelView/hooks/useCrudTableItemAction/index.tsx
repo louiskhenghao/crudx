@@ -50,7 +50,6 @@ export const useCrudTableItemAction = <T extends CrudSchemataTypes = any>(
     updateNode,
     deleteNode,
     exportNode,
-    dialogProps,
     extraActions = [],
     viewAction,
     updateAction,
@@ -147,6 +146,7 @@ export const useCrudTableItemAction = <T extends CrudSchemataTypes = any>(
         return renderTooltip(type, buttonNode, title);
       };
 
+    /**
     // render alert node
     const renderAlertNode = (options) => {
       return (
@@ -168,6 +168,7 @@ export const useCrudTableItemAction = <T extends CrudSchemataTypes = any>(
         />
       );
     };
+     */
 
     // ========== RETURN
     return {
@@ -187,7 +188,9 @@ export const useCrudTableItemAction = <T extends CrudSchemataTypes = any>(
               });
               ctx.context?.controllers?.details?.onShow();
             },
-            alert: !isEnableAlert('view') ? false : renderAlertNode,
+            // NOTE: we can have custom alert node just like example below
+            // alert: !isEnableAlert('view') ? false : renderAlertNode,
+            alert: !isEnableAlert('view'),
             node:
               viewNode ??
               renderActionNode(
@@ -207,7 +210,7 @@ export const useCrudTableItemAction = <T extends CrudSchemataTypes = any>(
               const data = ctx?.data;
               ctx.context?.controllers?.update?.onShow(data);
             },
-            alert: !isEnableAlert('update') ? false : renderAlertNode,
+            alert: !isEnableAlert('update'),
             node:
               updateNode ||
               renderActionNode(
@@ -227,7 +230,7 @@ export const useCrudTableItemAction = <T extends CrudSchemataTypes = any>(
               const data = ctx?.data;
               ctx.context?.controllers?.delete?.onShow(data);
             },
-            alert: !isEnableAlert('delete') ? false : renderAlertNode,
+            alert: !isEnableAlert('delete'),
             node:
               deleteNode ||
               renderActionNode(
@@ -247,7 +250,7 @@ export const useCrudTableItemAction = <T extends CrudSchemataTypes = any>(
               const data = ctx?.data;
               ctx.context?.controllers?.exports?.onShow(data);
             },
-            alert: !isEnableAlert('export') ? false : renderAlertNode,
+            alert: !isEnableAlert('export'),
             node:
               exportNode ||
               renderActionNode(
@@ -262,7 +265,7 @@ export const useCrudTableItemAction = <T extends CrudSchemataTypes = any>(
             result.push({
               key: action.key,
               title: action.title,
-              alert: action.alert ? renderAlertNode : false,
+              alert: action.alert,
               node:
                 action?.node ??
                 renderActionNode(
@@ -306,7 +309,6 @@ export const useCrudTableItemAction = <T extends CrudSchemataTypes = any>(
     enableDelete,
     enableExtra,
     enableExport,
-    dialogProps,
     extraActions,
     title,
     message,

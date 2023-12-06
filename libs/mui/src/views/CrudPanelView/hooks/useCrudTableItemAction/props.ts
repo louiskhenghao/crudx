@@ -1,4 +1,4 @@
-import { ReactNode, RefAttributes } from 'react';
+import { ReactNode } from 'react';
 import {
   CrudCommonActionNode,
   CrudCommonActionNodeOptions,
@@ -11,8 +11,6 @@ import {
 } from '@crudx/core';
 import { ButtonProps } from '@mui/material/Button';
 import { TooltipProps } from '@mui/material/Tooltip';
-
-import { DialogProps, DialogRefProps } from '../../../../components/Dialog';
 
 /**
  * ===========================
@@ -96,16 +94,6 @@ export type CrudTableItemActionProps<
       CrudGraphApiGetType<TSchema>
     >['onClick'];
   }[];
-
-  /**
-   * CUSTOM PROPS
-   * ===========================
-   */
-  dialogProps?: Omit<
-    DialogProps,
-    'ref' | 'visible' | 'title' | 'message' | 'onClickAction'
-  > &
-    RefAttributes<DialogRefProps>;
 
   /**
    * TOOLTIPS
