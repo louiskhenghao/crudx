@@ -26,6 +26,7 @@ export type CrudTableViewProps<TData = any> = Pick<
   TableProps<TData>,
   | 'size'
   | 'data'
+  | 'checked'
   | 'columns'
   | 'loading'
   | 'page'

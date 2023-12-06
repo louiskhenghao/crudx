@@ -9,6 +9,7 @@ import {
   CrudComponentProps,
 } from '../../@types/crud/components/component';
 import { CrudSchemataTypes } from '../../@types/crud/schema';
+import { defaultVisibilityStatePropsValue } from '../../hooks/useVisibilityStateHook';
 import {
   useActionsComponentHook,
   useDetailsComponentHook,
@@ -18,6 +19,7 @@ import {
   usePanelComponentHook,
   useTableComponentHook,
 } from '../components';
+import useAlertComponentHook from '../components/alert';
 
 import { useComponentVisibilityHook } from './visible';
 
@@ -33,7 +35,25 @@ export const useCrudComponentHook = <TSchema extends CrudSchemataTypes = any>(
 
   // =============== VARIABLES
   // --- shared accessibility function
-  let controllers: CrudComponentVisibilityController = {};
+  let controllers: CrudComponentVisibilityController = {
+    details: defaultVisibilityStatePropsValue,
+    filter: defaultVisibilityStatePropsValue,
+    create: defaultVisibilityStatePropsValue,
+    update: defaultVisibilityStatePropsValue,
+    delete: defaultVisibilityStatePropsValue,
+    exports: defaultVisibilityStatePropsValue,
+    alert: {
+      ...defaultVisibilityStatePropsValue,
+      props: {
+        title: 'Confirmation',
+        message: 'Do you confirm that you want to proceed with this action?',
+        primaryText: 'Confirm',
+        secondaryText: 'Cancel',
+        onPrimary: () => console.warn('Not implemented!'),
+        onSecondary: () => console.warn('Not implemented!'),
+      },
+    },
+  };
   const props: CrudComponentAccessibilityProps = {
     enableNext: !isNil(pagingProps?.data?.page?.next) ?? false,
     enablePrevious: !isNil(pagingProps?.data?.page?.previous) ?? false,
@@ -74,6 +94,7 @@ export const useCrudComponentHook = <TSchema extends CrudSchemataTypes = any>(
   controllers = useComponentVisibilityHook(payload, formHook);
 
   // --- component hook
+  const alertHook = useAlertComponentHook(payload, props, controllers);
   const actionsHook = useActionsComponentHook(payload, props, controllers);
   const detailsHook = useDetailsComponentHook(payload, props, controllers);
   const panelHook = usePanelComponentHook(payload, props, controllers);
@@ -95,6 +116,7 @@ export const useCrudComponentHook = <TSchema extends CrudSchemataTypes = any>(
   );
 
   // --- destruct props from hook
+  const { renderAlert } = alertHook;
   const { detailsProps, renderDetails } = detailsHook;
   const { filterProps, renderFilter } = panelHook;
   const { tableProps, renderTable } = tableHook;
@@ -110,6 +132,7 @@ export const useCrudComponentHook = <TSchema extends CrudSchemataTypes = any>(
     pageHeaderProps,
     modalFormProps,
     filterModalProps,
+    renderAlert,
     renderTable,
     renderFilter,
     renderDetails,

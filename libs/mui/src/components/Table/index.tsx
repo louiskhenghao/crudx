@@ -86,8 +86,6 @@ export const Table = <TData,>(props: PropsWithChildren<TableProps<TData>>) => {
     }
     return 'none';
   };
-  // =============== EFFECTS
-  useDeepCompareEffect(() => setCheckedState(checked), [checked]);
 
   // =============== HELPERS
   const triggerCheckboxUpdate = (val: TableDataIndex<TData>[]) => {
@@ -105,6 +103,11 @@ export const Table = <TData,>(props: PropsWithChildren<TableProps<TData>>) => {
     }
     return val?.[checkbox.dataIndex] as TableDataIndex<TData>;
   };
+
+  // =============== EFFECTS
+  useDeepCompareEffect(() => {
+    triggerCheckboxUpdate(checked);
+  }, [checked]);
 
   // =============== EVENTS
   const onHandleCheckAll: TableHeadProps<TData>['onCheckAll'] = (

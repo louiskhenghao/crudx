@@ -7,7 +7,7 @@ import isNil from 'lodash/isNil';
  * =====================
  */
 export const useVisibilityStateHook = (
-  defaultState = false,
+  defaultState = false
 ): VisibilityStateProps => {
   // ============== STATE
   const [visibleState, setVisibleState] = useState<boolean>(defaultState);
@@ -29,6 +29,13 @@ export const useVisibilityStateHook = (
       setVisibleState(!visibleState);
     },
   };
+};
+
+export const defaultVisibilityStatePropsValue = {
+  visible: false,
+  onShow: () => console.warn('Not implemented!'),
+  onHide: () => console.warn('Not implemented!'),
+  setVisible: () => console.warn('Not implemented!'),
 };
 
 /**

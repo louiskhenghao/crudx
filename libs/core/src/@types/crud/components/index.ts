@@ -1,5 +1,6 @@
 export * from './component';
 export * from './common';
+export * from './alert';
 export * from './details';
 export * from './modal';
 export * from './filter';

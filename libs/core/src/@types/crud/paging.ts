@@ -155,6 +155,7 @@ export type CrudPagingQueryVariableTypes = {
   filter?: CrudPagingQueryVariablesFilter;
   paging?: CrudPagingQueryVariablesPaging;
   others?: CrudPagingQueryVariablesOthers;
+  [key: string]: any;
 };
 
 export type CrudPagingQueryVariables = {

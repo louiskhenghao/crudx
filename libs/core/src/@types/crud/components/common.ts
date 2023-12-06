@@ -1,7 +1,10 @@
 import { ReactNode } from 'react';
 
 import { CrudMutationResource } from '../../../crud/mutation/resource';
-import { CrudCommonActionNodeProps } from '../action';
+import {
+  CrudCommonActionNodeAlertOptions,
+  CrudCommonActionNodeProps,
+} from '../action';
 import { CrudGraphApiGetType } from '../api';
 import { CrudDetailProps } from '../detail';
 import { CrudPagingPaginateProps, CrudPagingProps } from '../paging';
@@ -10,7 +13,7 @@ import { CrudSchemataTypes } from '../schema';
 export type CrudComponentContext<TSchema extends CrudSchemataTypes = any> = {
   pagingProps: CrudPagingProps<TSchema>;
   mutation: CrudMutationResource<TSchema>;
-  detail?: CrudDetailProps<TSchema>;
+  detail: CrudDetailProps<TSchema>;
   controllers: CrudComponentVisibilityController;
 };
 
@@ -50,12 +53,18 @@ export type CrudCommonVisibilityProps<TData = any> = {
 export type CrudComponentVisibilityController<
   TSchema extends CrudSchemataTypes = any
 > = {
-  details?: CrudCommonVisibilityController<TSchema>;
-  filter?: CrudCommonVisibilityController<TSchema>;
-  create?: CrudCommonVisibilityProps<TSchema>;
-  update?: CrudCommonVisibilityProps<TSchema>;
-  delete?: CrudCommonVisibilityProps<TSchema>;
-  exports?: CrudCommonVisibilityProps<TSchema>;
+  details: CrudCommonVisibilityController<TSchema>;
+  filter: CrudCommonVisibilityController<TSchema>;
+  create: CrudCommonVisibilityProps<TSchema>;
+  update: CrudCommonVisibilityProps<TSchema>;
+  delete: CrudCommonVisibilityProps<TSchema>;
+  exports: CrudCommonVisibilityProps<TSchema>;
+  alert: {
+    visible: boolean;
+    props: CrudCommonActionNodeAlertOptions;
+    onHide: () => void;
+    onShow: (options: CrudCommonActionNodeAlertOptions) => void;
+  };
 };
 
 export type CrudComponentActionProps = {

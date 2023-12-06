@@ -32,6 +32,7 @@ export function useCrudProps<T extends CrudSchemataTypes = any>(
     pageTitle,
     pageActions,
     pageBackPath,
+    checked = [],
     pageBreadcrumbs = [],
     tableTitle,
     tableTabs,
@@ -44,6 +45,7 @@ export function useCrudProps<T extends CrudSchemataTypes = any>(
     variables = {},
     events,
     paging,
+    alertProps,
     modalForms,
     filterTitle,
     filterNode,
@@ -60,6 +62,8 @@ export function useCrudProps<T extends CrudSchemataTypes = any>(
     enableGroupColumnAction = false,
     spacingMultiplier,
     onTableTabChange,
+    onTableItemCheck,
+    prepareAlertProps,
     prepareHeaderViewProps,
     prepareFilterViewProps,
     prepareTableViewProps,
@@ -161,6 +165,35 @@ export function useCrudProps<T extends CrudSchemataTypes = any>(
           return;
         }
         toast.error(message);
+      },
+      /**
+       * --------------------------
+       * ALERT VIEW
+       * --------------------------
+       */
+      alert: (props) => {
+        const viewProps = prepareAlertProps?.(props);
+        return (
+          <Dialog
+            type="confirmation"
+            fullWidth
+            onClose={props.onHide}
+            visible={props.visible}
+            title={props.title as any}
+            message={props.message}
+            primaryText={props.primaryText}
+            secondaryText={props.secondaryText}
+            onClickAction={(action) => {
+              if (action === 'primary') {
+                props.onPrimary();
+                return;
+              }
+              props.onSecondary();
+            }}
+            {...alertProps}
+            {...viewProps}
+          />
+        );
       },
       /**
        * --------------------------
@@ -336,8 +369,8 @@ export function useCrudProps<T extends CrudSchemataTypes = any>(
         } = nodeProps;
         const { pagingProps } = context;
         const viewProps = prepareTableViewProps?.(nodeProps);
-
         const selectable = rowSelection.isSelectable;
+
         return (
           <CrudTableView<T>
             data={data}
@@ -362,6 +395,7 @@ export function useCrudProps<T extends CrudSchemataTypes = any>(
             columnActions={tableActionList}
             onCheck={(data) => {
               rowSelection.setSelections(data);
+              onTableItemCheck?.(data);
             }}
             onPageSizeChange={(size) => {
               pagingProps.onUpdatePageSize(size);
@@ -385,7 +419,10 @@ export function useCrudProps<T extends CrudSchemataTypes = any>(
                 enabled: selectable,
                 dataIndex: columnDataIndex,
               },
-              checked: rowSelection.selections as TableDataIndex<T>[],
+              checked:
+                checked?.length === 0
+                  ? (rowSelection.selections as TableDataIndex<T>[])
+                  : checked,
             }}
           />
         );

@@ -99,7 +99,6 @@ export interface CrudCommonActionButtonTypeOptions<
   message?: CrudCommonActions<TSchema>['message'];
   resource?: CrudCommonActions<TSchema, TData>['resource'];
 }
-
 // ====== ACTION NODE OPTIONS
 export type CrudCommonActionNodeOptions<
   TSchema extends CrudSchemataTypes = any,
@@ -108,17 +107,7 @@ export type CrudCommonActionNodeOptions<
   // text to be display for dialog / etc
   title?: string;
   // whether show custom alert
-  alert?:
-    | ((options: {
-        title: string | ReactElement | null;
-        message: string | ReactElement | null;
-        primaryText: string;
-        secondaryText: string;
-        onPrimary: () => void;
-        onSecondary: () => void;
-        [key: string]: any;
-      }) => any)
-    | false;
+  alert?: ((options: CrudCommonActionNodeAlertOptions) => any) | boolean;
   // the node to be show
   node: CrudCommonActionNode<TSchema, TData>;
   // on click event for action
@@ -132,6 +121,16 @@ export type CrudCommonActionNodeOptions<
     e: any,
     context?: CrudCommonActionEventContext<TSchema, TData>
   ) => void;
+};
+
+// action node alert options
+export type CrudCommonActionNodeAlertOptions = {
+  title: string | ReactElement;
+  message: string | ReactElement;
+  primaryText: string;
+  secondaryText: string;
+  onPrimary: () => void;
+  onSecondary: () => void;
 };
 
 // ====== ACTION EVENT CONTEXT
@@ -161,7 +160,11 @@ export type CrudCommonDialogOptions<
 > = {
   title?: CrudCommonDialogContext['title'];
   props?: CrudCommonDialogContext['props'];
-  node: (options: CrudCommonDialogContext<TSchema, TData>) => ReactNode;
+  node: (
+    options: Omit<CrudCommonDialogContext<TSchema, TData>, 'context'> & {
+      context?: Omit<CrudComponentContext<TSchema>, 'controllers'>;
+    }
+  ) => ReactNode;
 };
 
 /**

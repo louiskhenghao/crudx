@@ -25,6 +25,7 @@ export const StyledTableHead = styled(MuiTableHead, {
       ...(!divider
         ? {}
         : {
+            position: 'relative',
             '::after': {
               content: '""',
               display: 'block',

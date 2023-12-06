@@ -29,6 +29,7 @@ export const CrudTableView = <TData = any,>(
     data,
     page,
     title,
+    checked,
     pageSize,
     paginateType,
     enableNext,
@@ -124,6 +125,7 @@ export const CrudTableView = <TData = any,>(
         size={tableSize}
         data={data}
         page={page}
+        checked={checked}
         total={totalRecord}
         columns={tableColumns}
         pageSize={pageSize}

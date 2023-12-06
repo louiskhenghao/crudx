@@ -20,6 +20,7 @@ import {
 } from '../../@types/crud/api';
 import {
   CrudComponentActionProps,
+  CrudComponentContext,
   CrudComponentExtraActionProps,
 } from '../../@types/crud/components/common';
 import { CrudSchemataTypes } from '../../@types/crud/schema';
@@ -50,6 +51,7 @@ export function makeCrudCommonActionButton<
   }
   const { key, text, title, message } = buttonOptions;
   const { node, alert, onClick, onAlertFeedback } = nodeOptions;
+  const controller = context?.context?.controllers.alert;
   const nodeTitle = nodeOptions.title;
 
   // =============== HOOKS
@@ -76,20 +78,46 @@ export function makeCrudCommonActionButton<
     }
 
     const prompt = async () => {
-      // have alert option
+      // variables
+      const titleText =
+        title?.({ action: key, resource }) ??
+        `${nodeTitle ?? startCase(key)} confirmation`;
+      const messageText =
+        message?.({ action: key, resource }) ??
+        `Do you confirm that you want to ${
+          nodeTitle ?? key
+        } this ${name} ${viewing}?`;
+      const primaryText = text?.confirmText ?? 'Confirm';
+      const secondaryText = text?.cancelText ?? 'Cancel';
+
+      // if alert was boolean
+      if (typeof alert === 'boolean') {
+        if (!controller) {
+          console.warn('Alert nodes is not implemented!');
+        }
+        controller?.onShow({
+          title: titleText,
+          message: messageText,
+          primaryText,
+          secondaryText,
+          onPrimary: () => {
+            onClick(e, context);
+            onAlertFeedback?.('positive', {}, context);
+          },
+          onSecondary: () => {
+            onAlertFeedback?.('negative', {}, context);
+          },
+        });
+        return;
+      }
+      // if alert was a function
       await dialog({
         node: ({ hide }) => {
           return alert({
-            title:
-              title?.({ action: key, resource }) ??
-              `${nodeTitle ?? startCase(key)} confirmation`,
-            message:
-              message?.({ action: key, resource }) ??
-              `Do you confirm that you want to ${
-                nodeTitle ?? key
-              } this ${name} ${viewing}?`,
-            primaryText: text?.confirmText ?? 'Confirm',
-            secondaryText: text?.cancelText ?? 'Cancel',
+            title: titleText,
+            message: messageText,
+            primaryText,
+            secondaryText,
             onPrimary: () => {
               hide();
               onClick(e, context);
@@ -238,7 +266,9 @@ export function makeCrudCommonDialogForm<
   TData = any
 >(
   options?: CrudCommonDialogOptions<TSchema, TData>,
-  context?: CrudCommonActionEventContext<TSchema, TData>
+  context?: Omit<CrudCommonActionEventContext<TSchema, TData>, 'context'> & {
+    context: Omit<CrudComponentContext<TSchema>, 'controllers'>;
+  }
 ): CrudCommonDialogTuple<TData> {
   // ===============  STATE
   const [data, setData] = useState<TData>();
