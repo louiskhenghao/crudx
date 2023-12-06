@@ -149,7 +149,9 @@ export type CrudCommonDialogContext<
   TSchema extends CrudSchemataTypes = any,
   TData = any
 > = CrudCommonVisibilityProps<TData> &
-  CrudCommonActionEventContext<TSchema, TData> & {
+  Omit<CrudCommonActionEventContext<TSchema, TData>, 'context'> & {
+    context?: Omit<CrudComponentContext<TSchema>, 'controllers'>;
+  } & {
     title?: string;
     props?: { [key: string]: any };
   };

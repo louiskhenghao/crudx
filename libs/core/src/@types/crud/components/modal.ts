@@ -15,6 +15,10 @@ export type CrudModalFormOptions<TSchema extends CrudSchemataTypes = any> = {
   update?: CrudCommonDialogOptions<TSchema, CrudGraphApiUpdateType<TSchema>>;
   delete?: CrudCommonDialogOptions<TSchema, CrudGraphApiUpdateType<TSchema>>;
   exports?: CrudCommonDialogOptions<TSchema, CrudGraphApiUpdateType<TSchema>>;
+  extra?: Record<
+    string,
+    CrudCommonDialogOptions<TSchema, CrudGraphApiUpdateType<TSchema>>
+  >;
 };
 
 export type CrudModalFormHookProps<TSchema extends CrudSchemataTypes = any> = {
@@ -22,6 +26,7 @@ export type CrudModalFormHookProps<TSchema extends CrudSchemataTypes = any> = {
   update: CrudCommonDialogTuple<CrudGraphApiUpdateType<TSchema>>;
   delete: CrudCommonDialogTuple<CrudGraphApiUpdateType<TSchema>>;
   exports: CrudCommonDialogTuple<CrudGraphApiUpdateType<TSchema>>;
+  extra: Record<string, CrudCommonDialogTuple<CrudGraphApiUpdateType<TSchema>>>;
 };
 
 // this is for modal form props
@@ -38,6 +43,10 @@ export type CrudComponentModalsFormProps<
   update: CrudComponentModalFormProps<CrudGraphApiUpdateType<TSchema>>;
   delete: CrudComponentModalFormProps<CrudGraphApiDeleteType<TSchema>>;
   exports: CrudComponentModalFormProps<CrudGraphApiExportType<TSchema>>;
+  extra: Record<
+    string,
+    CrudComponentModalFormProps<CrudGraphApiExportType<TSchema>>
+  >;
 };
 
 export type CrudComponentModalFormHookProps<

@@ -267,7 +267,7 @@ export function makeCrudCommonDialogForm<
 >(
   options?: CrudCommonDialogOptions<TSchema, TData>,
   context?: Omit<CrudCommonActionEventContext<TSchema, TData>, 'context'> & {
-    context: Omit<CrudComponentContext<TSchema>, 'controllers'>;
+    context?: Omit<CrudComponentContext<TSchema>, 'controllers'>;
   }
 ): CrudCommonDialogTuple<TData> {
   // ===============  STATE

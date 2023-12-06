@@ -1,3 +1,6 @@
+import map from 'lodash/map';
+import reduce from 'lodash/reduce';
+
 import { CrudCommonDialogOptions } from '../../@types/crud/action';
 import {
   CrudGraphApiCreateType,
@@ -57,6 +60,14 @@ export const useModalFormComponentHook = <
     exports: createModalForm<CrudGraphApiExportType<TSchema>>(
       modalForms?.exports
     ),
+    extra: reduce(
+      modalForms?.extra ?? {},
+      (r, e, k) => {
+        r[k] = createModalForm<CrudGraphApiExportType<TSchema>>(e);
+        return r;
+      },
+      {}
+    ),
   };
 
   const modalFormResults: {
@@ -85,11 +96,25 @@ export const useModalFormComponentHook = <
         onHide: modalFormHookProps?.exports?.[2],
         visible: modalFormHookProps?.exports?.[3] ?? false,
       },
+      extra: reduce(
+        modalFormHookProps?.extra,
+        (r, e, k) => {
+          r[k] = {
+            onShow: e?.[1],
+            onHide: e?.[2],
+            visible: e?.[3] ?? false,
+          };
+          return r;
+        },
+        {}
+      ),
     },
   };
 
   // =============== RETURN
   const { hooks } = modalFormResults;
+
+  console.log('knn ----->', hooks);
   return {
     modalFormProps: modalFormResults.props,
     renderModalForms: () => {
@@ -99,6 +124,9 @@ export const useModalFormComponentHook = <
           {hooks?.update?.[0]?.()}
           {hooks?.delete?.[0]?.()}
           {hooks?.exports?.[0]?.()}
+          {map(hooks?.extra, (e) => {
+            return e?.[0]?.();
+          })}
         </>
       );
     },

@@ -8,6 +8,7 @@ import {
   CrudModalFormOptions,
   CrudSchemataTypes,
 } from '@crudx/core';
+import reduce from 'lodash/reduce';
 
 import { Dialog } from '../../../../components/Dialog';
 
@@ -21,7 +22,7 @@ import { CrudModalFormProps, CrudResourceModalFormProps } from './props';
 export const useCrudModalForm = <TSchema extends CrudSchemataTypes = any>(
   props: CrudResourceModalFormProps<TSchema>
 ): CrudModalFormOptions<TSchema> => {
-  const { create, update, exports } = props;
+  const { create, update, exports, extra } = props;
 
   // =============== HOOKS
   const options: CrudModalFormOptions<TSchema> = useMemo(() => {
@@ -100,8 +101,22 @@ export const useCrudModalForm = <TSchema extends CrudSchemataTypes = any>(
             node: onRenderNode<CrudGraphApiExportType<TSchema>>(exports),
           }
         : undefined,
+      extra: extra
+        ? reduce(
+            extra ?? {},
+            (r, e, k) => {
+              r[k] = {
+                title: e.title,
+                props: e.props,
+                node: onRenderNode<CrudGraphApiExportType<TSchema>>(e),
+              };
+              return r;
+            },
+            {}
+          )
+        : undefined,
     };
-  }, [create, exports, props.delete, update]);
+  }, [create, exports, props.delete, update, extra]);
 
   // =============== RETURN
   return options;

@@ -10,6 +10,8 @@ import { CrudDetailProps } from '../detail';
 import { CrudPagingPaginateProps, CrudPagingProps } from '../paging';
 import { CrudSchemataTypes } from '../schema';
 
+import { CrudComponentModalsFormProps } from './modal';
+
 export type CrudComponentContext<TSchema extends CrudSchemataTypes = any> = {
   pagingProps: CrudPagingProps<TSchema>;
   mutation: CrudMutationResource<TSchema>;
@@ -65,6 +67,7 @@ export type CrudComponentVisibilityController<
     onHide: () => void;
     onShow: (options: CrudCommonActionNodeAlertOptions) => void;
   };
+  extraModal: CrudComponentModalsFormProps<TSchema>['extra'];
 };
 
 export type CrudComponentActionProps = {

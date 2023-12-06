@@ -30,6 +30,7 @@ export type CrudResourceModalFormProps<T extends CrudSchemataTypes = any> = {
   update?: CrudModalFormProps<T, CrudGraphApiUpdateType<T>>;
   delete?: CrudModalFormProps<T, CrudGraphApiDeleteType<T>>;
   exports?: CrudModalFormProps<T, CrudGraphApiExportType<T>>;
+  extra?: Record<string, CrudModalFormProps<T, CrudGraphApiExportType<T>>>;
 };
 
 export type UseCrudModalFormProps<TSchema extends CrudSchemataTypes = any> =
