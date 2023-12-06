@@ -10,21 +10,42 @@ import { CrudPagingProps } from '../paging';
 import { CrudSchemata, CrudSchemataResult, CrudSchemataTypes } from '../schema';
 
 import {
+  CrudComponentAlertHookProps,
+  CrudComponentAlertNodeProps,
+} from './alert';
+import {
   CrudComponentActionProps,
   CrudComponentExtraActionProps,
 } from './common';
-import { CrudComponentDetailNodeProps } from './details';
-import { CrudComponentFilterNodeProps } from './filter';
-import { CrudComponentFilterModalNodeProps } from './filter-modal';
-import { CrudComponentModalsFormProps, CrudModalFormOptions } from './modal';
-import { CrudComponentPageHeaderNodeProps } from './page-header';
-import { CrudComponentTableNodeProps } from './table';
+import {
+  CrudComponentDetailNodeProps,
+  CrudComponentDetailsHookProps,
+} from './details';
+import {
+  CrudComponentFilterHookProps,
+  CrudComponentFilterNodeProps,
+} from './filter';
+import {
+  CrudComponentFilterModalHookProps,
+  CrudComponentFilterModalNodeProps,
+} from './filter-modal';
+import { CrudComponentModalFormHookProps, CrudModalFormOptions } from './modal';
+import {
+  CrudComponentPageHeaderHookProps,
+  CrudComponentPageHeaderNodeProps,
+} from './page-header';
+import {
+  CrudComponentTableHookProps,
+  CrudComponentTableNodeProps,
+} from './table';
 
+// crud components configuration
 export type CrudComponents<TSchema extends CrudSchemataTypes = any> = {
   notification?: (options: {
     type: 'success' | 'error';
     message: string;
   }) => void | ReactNode;
+  alert?: (props: CrudComponentAlertNodeProps<TSchema>) => ReactNode;
   table?: (props: CrudComponentTableNodeProps<TSchema>) => ReactNode;
   filter?: (props: CrudComponentFilterNodeProps<TSchema>) => ReactNode;
   details?: (props: CrudComponentDetailNodeProps<TSchema>) => ReactNode;
@@ -32,24 +53,19 @@ export type CrudComponents<TSchema extends CrudSchemataTypes = any> = {
   filterModal?: (
     props: CrudComponentFilterModalNodeProps<TSchema>
   ) => ReactNode;
-  // TODO: add more nodes function in future
 };
 
-export type CrudComponentProps<TSchema extends CrudSchemataTypes = any> = {
-  tableProps: CrudComponentTableNodeProps<TSchema>;
-  filterProps: CrudComponentFilterNodeProps<TSchema>;
-  detailsProps: CrudComponentDetailNodeProps<TSchema>;
-  pageHeaderProps: CrudComponentPageHeaderNodeProps<TSchema>;
-  modalFormProps: CrudComponentModalsFormProps<TSchema>;
-  filterModalProps: CrudComponentFilterModalNodeProps<TSchema>;
-  renderTable?: () => ReactNode;
-  renderFilter?: () => ReactNode;
-  renderDetails?: () => ReactNode;
-  renderPageHeader?: () => ReactNode;
-  renderModalForms?: () => ReactNode;
-  renderFilterModal?: () => ReactNode;
-};
+// returning component props
+export type CrudComponentProps<TSchema extends CrudSchemataTypes = any> =
+  CrudComponentAlertHookProps &
+    CrudComponentTableHookProps<TSchema> &
+    CrudComponentFilterHookProps<TSchema> &
+    CrudComponentDetailsHookProps<TSchema> &
+    CrudComponentModalFormHookProps<TSchema> &
+    CrudComponentPageHeaderHookProps<TSchema> &
+    CrudComponentFilterModalHookProps<TSchema>;
 
+// options for crud components
 export type CrudComponentOptions<TSchema extends CrudSchemataTypes = any> = {
   name: string;
   result: CrudSchemataResult<TSchema>;
