@@ -1,5 +1,4 @@
-import { useMemo, useRef } from 'react';
-import toast from 'react-hot-toast';
+import { useRef, useState } from 'react';
 import {
   BankCreateMutation,
   BankCreateMutationVariables,
@@ -17,32 +16,11 @@ import {
   useBankListingQuery,
   useBankUpdateMutation,
 } from '@apps/graphql-api';
-import { CRUD, CrudGraphApiListType, CrudProps } from '@crudx/core';
-import {
-  BreadcrumbView,
-  ButtonDropdown,
-  CrudFilterView,
-  CrudPageHeaderView,
-  CrudPanelView,
-  CrudTableView,
-  Dialog,
-  RenderFlexView,
-  RenderNodeView,
-  Table,
-  TableColumnType,
-} from '@crudx/mui';
-import { TableDataIndex } from '@crudx/mui';
+import { CrudProps } from '@crudx/core';
+import { CrudPanelView, CrudTableViewProps } from '@crudx/mui';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import HomeIcon from '@mui/icons-material/Home';
-import {
-  Box,
-  Button,
-  Chip,
-  Tab,
-  Tabs,
-  TextField,
-  Typography,
-} from '@mui/material';
+import { Box, Button, Chip, TextField } from '@mui/material';
 import includes from 'lodash/includes';
 import Image from 'next/image';
 
@@ -61,8 +39,61 @@ type BankSchemata = {
 export function Index() {
   const ref = useRef<CrudProps<BankSchemata>>(null);
 
+  const [tabValue, setTabValue] = useState('one');
+
+  const [tabInfo, setTabInfo] = useState<CrudTableViewProps['headerTabs']>([
+    {
+      key: 'zero',
+      label: 'Zero',
+      icon: <ExpandMoreIcon />,
+    },
+    {
+      key: 'one',
+      label: 'One',
+      count: '10000',
+      countColor: 'error',
+    },
+    {
+      key: 'two',
+      label: 'Two',
+      count: <Chip sx={{ marginLeft: 1 }} color="primary" label="3" />,
+    },
+  ]);
+
   return (
     <div>
+      <button
+        onClick={() => {
+          setTabInfo([
+            {
+              key: 'zero',
+              label: 'Zero',
+              icon: <ExpandMoreIcon />,
+            },
+            {
+              key: 'one',
+              label: 'One',
+              count: '100000000',
+              countColor: 'error',
+            },
+            {
+              key: 'two',
+              label: 'Two',
+              count: <Chip sx={{ marginLeft: 1 }} color="primary" label="3" />,
+            },
+          ]);
+        }}
+      >
+        update
+      </button>
+
+      <button
+        onClick={() => {
+          console.log('check --->', ref.current?.rowSelection.selections);
+        }}
+      >
+        check selected
+      </button>
       <CrudPanelView<BankSchemata>
         ref={ref}
         name="bank"
@@ -149,47 +180,6 @@ export function Index() {
           },
           { label: 'Banks', url: '/banks' },
         ]}
-        pageActions={[
-          {
-            key: 'create',
-            content: (
-              <Button
-                variant="outlined"
-                onClick={() => {
-                  ref.current?.components.modalFormProps?.create?.onShow();
-                }}
-              >
-                ADD BANK
-              </Button>
-            ),
-          },
-          {
-            key: 'filter',
-            content: (
-              <Button
-                variant="outlined"
-                onClick={() => {
-                  ref.current?.components.filterModalProps.onShow();
-                }}
-              >
-                OPEN FILTER
-              </Button>
-            ),
-          },
-          {
-            key: 'xxx',
-            content: (
-              <Button
-                variant="outlined"
-                onClick={() => {
-                  ref.current?.components.filterModalProps.onShow();
-                }}
-              >
-                OPEN FILTER
-              </Button>
-            ),
-          },
-        ]}
         /**
          * --------------------
          * FILTER
@@ -233,38 +223,31 @@ export function Index() {
             children: <Button variant="outlined">EXPORT</Button>,
           },
         ]}
+        alertProps={{
+          primaryButtonVariant: 'contained',
+          secondaryButtonVariant: 'outlined',
+        }}
         /**
          * --------------------
          * TABLE & COLUMNS
          * --------------------
          */
         // tableTitle="Table tile"
-        tableTabs={[
-          {
-            key: 'zero',
-            label: 'Zero',
-            icon: <ExpandMoreIcon />,
-          },
-          {
-            key: 'one',
-            label: 'One',
-            count: '10000',
-            countColor: 'error',
-          },
-          {
-            key: 'two',
-            label: 'Two',
-            count: <Chip sx={{ marginLeft: 1 }} color="primary" label="3" />,
-          },
-        ]}
+        tableTabState={tabValue}
+        tableTabs={tabInfo}
+        tableExtraView={<div>asda</div>}
+        onTableTabChange={(e) => {
+          console.log('onTableTabChange --->', e);
+          setTabValue(e as any);
+        }}
         // tableInfos={[]}
         tableActions={[
           { action: 'expand' },
           { action: 'refresh' },
           { action: 'create' },
         ]}
-        // tableExpandState
-        tableExpandView={<Box>COntent</Box>}
+        tableExpandState
+        tableExpandView={<Box>Expandable Content</Box>}
         // columnActionSequence={['extra', 'delete']}
         enableRowSelection
         columnDataIndex="bank_id"
@@ -303,7 +286,7 @@ export function Index() {
         columnActions={{
           name: 'bank',
           identifier: 'bank_name',
-          enableAlert: ['export', 'delete'],
+          enableAlert: ['view', 'update', 'export', 'delete'],
           enableDelete: true,
           enableExport: true,
           enableUpdate: true,
@@ -323,29 +306,30 @@ export function Index() {
             });
             ctx.context?.controllers?.details?.onShow();
           },
-          // deleteAction: (e, ctx) => {
-          //   const dataId = ctx?.data?.bank_id;
-          //   if (!dataId) return;
-          //   ctx.accessibility?.onTriggerRefresh();
-          // },
           title: (option) => {
             if (option.action === 'view') {
-              return 'ABC';
+              return 'This is custom message';
             }
             return null;
           },
           message: (option) => {
             const data = option.resource?.identifier;
             if (option.action === 'view') {
-              return `KNN BUCIBAI ${data}`;
+              return `[ Custom message for view action ] ${data}`;
             }
             if (option.action === 'some-extra-button-1') {
-              return `KNN BUCIBAI ${data}`;
+              return (
+                <>
+                  <b>
+                    <i>Custom node</i>
+                  </b>{' '}
+                  {data}
+                </>
+              );
             }
             return null;
           },
         }}
-        // enableGroupColumnAction
         columnExtraActions={[
           {
             key: 'some-extra-button',
@@ -378,21 +362,39 @@ export function Index() {
             title: 'Create form',
             props: { fullWidth: true, maxWidth: 'md' },
             render(options) {
-              return <Box>adasdasd as d asda dx</Box>;
+              return <Box>Create form</Box>;
             },
           },
           update: {
             title: 'Update form',
             props: { fullWidth: true, maxWidth: 'md' },
             render(options) {
-              return <Box>adasdasd as d asda dx</Box>;
+              return <Box>Update form</Box>;
             },
           },
           delete: {
             title: 'Delete form',
             props: { fullWidth: true, maxWidth: 'md' },
             render(options) {
-              return <Box>adasdasd as d asda dx</Box>;
+              return <Box>Delete form</Box>;
+            },
+          },
+          extra: {
+            test: {
+              title: 'Test dialog',
+              props: { fullWidth: true, maxWidth: 'md' },
+              render(options) {
+                return <Box>Dialog that is for extra modal testing [test]</Box>;
+              },
+            },
+            verify: {
+              title: 'Verify dialog',
+              props: { fullWidth: true, maxWidth: 'md' },
+              render(options) {
+                return (
+                  <Box>Dialog that is for extra modal testing [verify]</Box>
+                );
+              },
             },
           },
         }}
@@ -407,15 +409,32 @@ export function Index() {
           return {
             actions: [
               {
-                key: 'create',
+                key: 'extraModalTest',
                 content: (
                   <Button
                     variant="outlined"
                     onClick={() => {
-                      nodeProps.context.controllers.create?.onShow();
+                      nodeProps.context.controllers.extraModal?.[
+                        'test'
+                      ].onShow();
                     }}
                   >
-                    ADD BANK
+                    Extra Modal [test]
+                  </Button>
+                ),
+              },
+              {
+                key: 'extraModalVerify',
+                content: (
+                  <Button
+                    variant="outlined"
+                    onClick={() => {
+                      nodeProps.context.controllers.extraModal?.[
+                        'verify'
+                      ].onShow();
+                    }}
+                  >
+                    Extra Modal [verify]
                   </Button>
                 ),
               },
@@ -442,6 +461,10 @@ export function Index() {
               // bordered: false,
             },
           };
+        }}
+        checked={[1, 21]}
+        onTableItemCheck={(checked) => {
+          console.log('checked ----->', checked);
         }}
         prepareDetailViewProps={() => {
           return {
