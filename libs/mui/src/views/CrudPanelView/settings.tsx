@@ -59,6 +59,7 @@ export function useCrudProps<T extends CrudSchemataTypes = any>(
     enableDetailView = true,
     enableNotification = true,
     enableRowSelection = true,
+    enableActionColumn = true,
     enableGroupColumnAction = false,
     spacingMultiplier,
     onTableTabChange,
@@ -389,6 +390,7 @@ export function useCrudProps<T extends CrudSchemataTypes = any>(
             pageSizeOptions={viewProps?.pageSizeOptions}
             totalRecord={pagingProps.data.total ?? 0}
             totalSelected={accessibility.totalSelected}
+            enableActionColumn={enableActionColumn}
             enableGroupColumnAction={enableGroupColumnAction}
             enableNext={accessibility.enableNext}
             enablePrevious={accessibility.enablePrevious}

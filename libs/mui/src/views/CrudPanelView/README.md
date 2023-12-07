@@ -7,8 +7,9 @@ Crud panel view help to handle CRUD operations with UI easily
 ## Props
 
 ```TypeScript
-import { ReactNode } from 'react';
+import { ReactNode, RefAttributes } from 'react';
 import {
+  CrudComponentAlertNodeProps,
   CrudComponentDetailNodeProps,
   CrudComponentFilterModalNodeProps,
   CrudComponentFilterNodeProps,
@@ -25,7 +26,7 @@ import {
 import { SwipeableDrawerProps } from '@mui/material/SwipeableDrawer';
 
 import { TableDataIndex } from '../../@types';
-import { DialogProps } from '../../components/Dialog';
+import { DialogProps, DialogRefProps } from '../../components/Dialog';
 import { CrudFilterViewProps } from '../CrudFilterView';
 import { CrudPageHeaderViewProps } from '../CrudPageHeaderView';
 import { CrudTableViewProps } from '../CrudTableView';
@@ -71,6 +72,11 @@ export type CrudPanelViewProps<
    * [crud] the callback mutation events for create/update/delete/exports
    */
   events?: CrudMutationResourceEvents<TSchema>;
+
+  /**
+   * whether preselect check of items
+   */
+  checked?: CrudTableViewProps['checked'];
 
   /**
    * PAGE HEADER PROPS
@@ -144,9 +150,19 @@ export type CrudPanelViewProps<
    */
   tableExpandView?: CrudTableViewProps['headerExpandView'];
   /**
+   * table header extra view node which is under header tab
+   */
+  tableExtraView?: CrudTableViewProps['headerExtraView'];
+  /**
    * table tab on change callback
+   * NOTE: added on 0.0.3
    */
   onTableTabChange?: CrudTableViewProps['onTabChange'];
+  /**
+   * table item on check callback
+   * NOTE: added on 0.0.4
+   */
+  onTableItemCheck?: CrudTableViewProps['onCheck'];
 
   /**
    * TABLE COLUMN PROPS
@@ -174,9 +190,19 @@ export type CrudPanelViewProps<
   >;
   /**
    * column action sequence arrangement
-   * @default ['view', 'update','delete','export','extra']
+   * @default ['view','update','delete','export','extra']
    */
   columnActionSequence?: CrudTableViewProps['columnActions'];
+  /**
+   * ALERT PROPS
+   * ===========================
+   */
+  // to extends props from alert node
+  alertProps?: Omit<
+    DialogProps,
+    'ref' | 'visible' | 'title' | 'message' | 'onClickAction'
+  > &
+    RefAttributes<DialogRefProps>;
 
   /**
    * MODAL PROPS
@@ -243,6 +269,15 @@ export type CrudPanelViewProps<
    */
   enableRowSelection?: boolean;
   /**
+   * Added at version 0.0.7
+   *
+   * whether to have column action column
+   * NOTE: if all actions in `columnActions` was disabled, even if this props set to true, the column will not be shown
+   *
+   * @default true
+   */
+  enableActionColumn?: boolean;
+  /**
    * whether to group table action column action into dropdown,
    * @default false
    */
@@ -252,6 +287,16 @@ export type CrudPanelViewProps<
    * CUSTOM PROPS
    * ===========================
    */
+  /**
+   * props to extend alert props
+   */
+  prepareAlertProps?: (
+    nodeProps: CrudComponentAlertNodeProps<TSchema>
+  ) => Omit<
+    DialogProps,
+    'ref' | 'visible' | 'title' | 'message' | 'onClickAction'
+  > &
+    RefAttributes<DialogRefProps>;
   /**
    * props to extend existing page header props
    */

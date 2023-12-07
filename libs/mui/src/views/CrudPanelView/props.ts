@@ -260,6 +260,15 @@ export type CrudPanelViewProps<
    */
   enableRowSelection?: boolean;
   /**
+   * Added at version 0.0.7
+   *
+   * whether to have column action column
+   * NOTE: if all actions in `columnActions` was disabled, even if this props set to true, the column will not be shown
+   *
+   * @default true
+   */
+  enableActionColumn?: boolean;
+  /**
    * whether to group table action column action into dropdown,
    * @default false
    */
