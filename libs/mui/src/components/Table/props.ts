@@ -40,7 +40,7 @@ export type TableProps<TData = any> = TableTypeMap['props'] &
     /**
      * columns configuration
      */
-    columns: TableColumnType<TData>[];
+    columns?: TableColumnType<TData>[];
     /**
      * whether show loading
      */
@@ -183,6 +183,11 @@ export type TableProps<TData = any> = TableTypeMap['props'] &
         | 'onPageSizeChange'
       >
     ) => ReactNode;
+    /**
+     * Added 0.0.7
+     * custom row rendering
+     */
+    renderRowItem: () => ReactNode;
   };
 
 /**
