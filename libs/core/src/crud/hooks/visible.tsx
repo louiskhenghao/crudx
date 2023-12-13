@@ -1,4 +1,4 @@
-import { omit } from 'lodash';
+import omit from 'lodash/omit';
 
 import { CrudComponentVisibilityController } from '../../@types/crud/components/common';
 import { CrudComponentOptions } from '../../@types/crud/components/component';
