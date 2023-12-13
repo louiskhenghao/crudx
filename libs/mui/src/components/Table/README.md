@@ -7,6 +7,22 @@ Easy configuration for table that comes with row selection, pagination etc
 ## Props
 
 ```ts
+import { ReactNode } from 'react';
+import { TableTypeMap } from '@mui/material/Table';
+import { TableBodyTypeMap } from '@mui/material/TableBody';
+import { TableContainerProps } from '@mui/material/TableContainer';
+import { TableFooterTypeMap } from '@mui/material/TableFooter';
+
+import { TableCheckboxConfig, TableColumnType, TableDataIndex } from '../../@types';
+import { TableHeadProps } from '../TableHead';
+import { TablePaginationProps } from '../TablePagination';
+import { TableRowProps } from '../TableRow';
+
+/**
+ * ===========================
+ * MAIN
+ * ===========================
+ */
 export type TableProps<TData = any> = TableTypeMap['props'] &
   Pick<TableRowProps<TData>, 'expandable' | 'expandableProps'> &
   Pick<TablePaginationProps<TData>, 'page' | 'pageSize' | 'pageSizeOptions' | 'onPageChange' | 'onPageSizeChange'> & {
