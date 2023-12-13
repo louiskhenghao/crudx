@@ -67,6 +67,8 @@ function CrudPanelViewComponent<
  * EXPORTS
  * ===========================
  */
+export * from './hooks';
+export * from './props';
 export const CrudPanelView = forwardRef(CrudPanelViewComponent) as <
   T extends CrudSchemataTypes = any,
   TColumn = any

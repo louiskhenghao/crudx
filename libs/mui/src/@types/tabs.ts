@@ -1,5 +1,5 @@
 import { ReactElement, ReactNode } from 'react';
-import { ChipProps } from '@mui/material';
+import { ChipProps } from '@mui/material/Chip';
 
 // tab item configuration
 export type TabType = {
