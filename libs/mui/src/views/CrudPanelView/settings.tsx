@@ -6,11 +6,12 @@ import omit from 'lodash/omit';
 import reduce from 'lodash/reduce';
 
 import { TableDataIndex } from '../../@types';
+import { CrudRowItemActionType } from '../../@types';
 import { Dialog } from '../../components/Dialog';
+import { CrudContentView } from '../CrudContentView';
 import { CrudFilterView } from '../CrudFilterView';
 import { CrudPageHeaderView } from '../CrudPageHeaderView';
 import { CrudTableView } from '../CrudTableView';
-import { CrudTableColumnActionType } from '../CrudTableView/types';
 
 import { useCrudModalForm } from './hooks/useCrudModalForm';
 import { useCrudTableItemAction } from './hooks/useCrudTableItemAction';
@@ -46,7 +47,7 @@ export function useCrudProps<T extends CrudSchemataTypes = any>(
     events,
     paging,
     alertProps,
-    modalForms,
+    modalForms = {},
     filterTitle,
     filterNode,
     filterActions,
@@ -60,7 +61,7 @@ export function useCrudProps<T extends CrudSchemataTypes = any>(
     enableNotification = true,
     enableRowSelection = true,
     enableActionColumn = true,
-    enableGroupColumnAction = false,
+    enableItemGroupAction = false,
     spacingMultiplier,
     onTableTabChange,
     onTableItemCheck,
@@ -68,11 +69,13 @@ export function useCrudProps<T extends CrudSchemataTypes = any>(
     prepareHeaderViewProps,
     prepareFilterViewProps,
     prepareTableViewProps,
+    prepareContentViewProps,
     prepareDetailViewProps,
     prepareFilterModalViewProps,
     renderDetailsView,
     renderFilterModalView,
     renderNotificationView,
+    renderItemView,
   } = props;
 
   // =================== VARIABLES
@@ -90,10 +93,10 @@ export function useCrudProps<T extends CrudSchemataTypes = any>(
     [schema, columnActions, columnExtraActions, enableDetailView, modalForms]
   );
 
-  const tableActionList: CrudTableColumnActionType[] = useMemo(() => {
+  const tableActionList: CrudRowItemActionType[] = useMemo(() => {
     const enabledColumns = reduce(
       tableActionState,
-      (r: CrudTableColumnActionType[], e, k) => {
+      (r: CrudRowItemActionType[], e, k) => {
         if (e) {
           switch (k) {
             case 'view':
@@ -125,7 +128,7 @@ export function useCrudProps<T extends CrudSchemataTypes = any>(
     }
 
     const arranged = columnActionSequence.reduce(
-      (r: CrudTableColumnActionType[], e) => {
+      (r: CrudRowItemActionType[], e) => {
         if (enabledColumns?.includes(e)) {
           r.push(e);
         }
@@ -371,7 +374,6 @@ export function useCrudProps<T extends CrudSchemataTypes = any>(
         const { pagingProps } = context;
         const viewProps = prepareTableViewProps?.(nodeProps);
         const selectable = rowSelection.isSelectable;
-
         return (
           <CrudTableView<T>
             data={data}
@@ -391,7 +393,7 @@ export function useCrudProps<T extends CrudSchemataTypes = any>(
             totalRecord={pagingProps.data.total ?? 0}
             totalSelected={accessibility.totalSelected}
             enableActionColumn={enableActionColumn}
-            enableGroupColumnAction={enableGroupColumnAction}
+            enableItemGroupAction={enableItemGroupAction}
             enableNext={accessibility.enableNext}
             enablePrevious={accessibility.enablePrevious}
             columnActions={tableActionList}
@@ -429,10 +431,82 @@ export function useCrudProps<T extends CrudSchemataTypes = any>(
           />
         );
       },
+      /**
+       * --------------------------
+       * CONTENT VIEW
+       * --------------------------
+       */
+      content: (nodeProps) => {
+        const {
+          data,
+          loading,
+          pagination,
+          accessibility,
+          context,
+          rowSelection,
+          renderActionButtons,
+          renderExtraActionButtons,
+        } = nodeProps;
+        const { pagingProps } = context;
+        const viewProps = prepareContentViewProps?.(nodeProps);
+        const selectable = rowSelection.isSelectable;
+
+        console.log('wow --->', pagination);
+
+        return (
+          <CrudContentView<T>
+            data={data}
+            title={tableTitle}
+            loading={loading}
+            headerTabs={tableTabs}
+            headerTabState={tableTabState}
+            headerInfos={tableInfos}
+            headerActions={tableActions}
+            headerExpandView={tableExpandView}
+            headerExtraView={tableExtraView}
+            expanded={tableExpandState}
+            page={pagination.current}
+            pageSize={pagination.defaultPageSize}
+            totalRecord={pagingProps.data.total ?? 0}
+            totalSelected={accessibility.totalSelected}
+            enableItemAction={enableActionColumn}
+            enableItemGroupAction={enableItemGroupAction}
+            enableNext={accessibility.enableNext}
+            enablePrevious={accessibility.enablePrevious}
+            itemActions={tableActionList}
+            checked={
+              checked?.length === 0
+                ? (rowSelection.selections as TableDataIndex<T>[])
+                : checked
+            }
+            checkbox={{
+              enabled: selectable,
+              dataIndex: columnDataIndex,
+            }}
+            onCheck={(data) => {
+              rowSelection.setSelections(data);
+              onTableItemCheck?.(data);
+            }}
+            onPageChange={(page) => {
+              pagination.paginateTo(page);
+            }}
+            onTabChange={onTableTabChange}
+            onPaginateNext={pagingProps.onPaginateNext}
+            onPaginatePrevious={pagingProps.onPaginatePrevious}
+            onTriggerCreate={accessibility.onTriggerCreate}
+            onTriggerRefresh={accessibility.onTriggerRefresh}
+            onTriggerSorting={accessibility.onTriggerSorting}
+            renderActionButtons={renderActionButtons}
+            renderExtraActionButtons={renderExtraActionButtons}
+            renderItemView={renderItemView}
+            {...viewProps}
+          />
+        );
+      },
     },
     /**
      * --------------------------
-     * TABLE ACTION COLUMN
+     * ITEM ACTIONS
      * --------------------------
      */
     itemActions: useCrudTableItemAction<T>({
@@ -443,7 +517,7 @@ export function useCrudProps<T extends CrudSchemataTypes = any>(
       enableExport: tableActionState.export,
       ...(columnActions ?? {}),
       extraActions: columnActions?.extraActions ?? columnExtraActions,
-      nodeType: enableGroupColumnAction ? 'menu' : columnActions?.nodeType,
+      nodeType: enableItemGroupAction ? 'menu' : columnActions?.nodeType,
     }),
     /**
      * --------------------------

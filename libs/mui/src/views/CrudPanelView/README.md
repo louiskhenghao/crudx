@@ -281,7 +281,7 @@ export type CrudPanelViewProps<
    * whether to group table action column action into dropdown,
    * @default false
    */
-  enableGroupColumnAction?: boolean;
+  enableItemGroupAction?: boolean;
 
   /**
    * CUSTOM PROPS
@@ -554,7 +554,7 @@ const ref = useRef<CrudProps<BankSchemata>>(null);
     },
   ]}
   // whether to group actions items in each table row, default to `false`
-  enableGroupColumnAction
+  enableItemGroupAction
   // column actions configuration
   columnActions={{
     name: 'bank',
