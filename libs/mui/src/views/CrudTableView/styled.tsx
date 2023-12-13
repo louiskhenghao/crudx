@@ -14,17 +14,17 @@ export const StyledWrapper = styled(Box, {
     if (unstyled) return {};
     return {
       background: theme.palette.background.paper,
-      '.crud-table-header-wrapper': {
-        '.crud-table-header-primary': {
+      '.crud-content-header-wrapper': {
+        '.crud-content-header-primary': {
           borderBottom: `1px solid ${theme.palette.divider}`,
-          '.crud-table-header-infos': {},
-          '.crud-table-header-actions': {},
+          '.crud-content-header-infos': {},
+          '.crud-content-header-actions': {},
         },
-        '.crud-table-header-expanded-content': {
+        '.crud-content-header-expanded-content': {
           borderBottom: `1px solid ${theme.palette.divider}`,
         },
-        '.crud-table-header-tabview': {},
-        '.crud-table-header-extra-content': {
+        '.crud-content-header-tabview': {},
+        '.crud-content-header-extra-content': {
           borderTop: `1px solid ${theme.palette.divider}`,
         },
       },

@@ -7,8 +7,8 @@ import includes from 'lodash/includes';
 
 import { Table } from '../../components/Table';
 import { SortingOptionType } from '../../components/TableSettingsSortingOptions';
+import { CrudContentHeaderView } from '../CrudContentHeaderView';
 
-import { CrudTableHeaderView } from './components/CrudTableHeaderView';
 import { useColumnSettings } from './hooks/useColumnSettings';
 import { defaultProps, defaultText } from './config';
 import { CrudTableViewProps } from './props';
@@ -30,6 +30,7 @@ export const CrudTableView = <TData = any,>(
     page,
     title,
     checked,
+    loading,
     pageSize,
     paginateType,
     enableNext,
@@ -125,16 +126,16 @@ export const CrudTableView = <TData = any,>(
         size={tableSize}
         data={data}
         page={page}
+        loading={loading}
         checked={checked}
         total={totalRecord}
         columns={tableColumns}
         pageSize={pageSize}
         topView={
-          <CrudTableHeaderView
+          <CrudContentHeaderView
             text={text}
             title={title}
             expanded={shouldExpand}
-            tableSize={tableSize}
             sortingType={sortingType}
             totalRecord={totalRecord}
             totalSelected={totalSelected}

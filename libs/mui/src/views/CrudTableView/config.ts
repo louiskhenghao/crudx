@@ -32,7 +32,7 @@ export const defaultProps: CrudTableViewProps = {
   headerInfos: [{ type: 'title' }, { type: 'total' }, { type: 'bulk' }],
   expanded: false,
   enableActionColumn: true,
-  enableGroupColumnAction: false,
+  enableItemGroupAction: false,
   totalSelected: 0,
 };
 

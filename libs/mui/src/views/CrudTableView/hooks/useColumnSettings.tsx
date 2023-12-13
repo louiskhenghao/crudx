@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 
 import { TableColumnType } from '../../../@types';
-import { CrudTableRowActions } from '../components/CrudTableRowActions';
+import { CrudRowItemActions } from '../../CrudRowItemActions';
 import { defaultText } from '../config';
 import { CrudTableViewProps } from '../props';
 
@@ -20,7 +20,7 @@ export const useColumnSettings = <TData = any,>(
     columnActions = [],
     text = defaultText,
     enableActionColumn,
-    enableGroupColumnAction = false,
+    enableItemGroupAction = false,
     columnActionsGroupIcon,
     actionColumnProps = {},
     actionColumnExtraWidth,
@@ -46,7 +46,7 @@ export const useColumnSettings = <TData = any,>(
 
     // action columns variables
     const actionLength =
-      (columnActions ?? []).length > 1 && !enableGroupColumnAction
+      (columnActions ?? []).length > 1 && !enableItemGroupAction
         ? (columnActions ?? []).length
         : 1;
 
@@ -66,11 +66,11 @@ export const useColumnSettings = <TData = any,>(
       ...actionColumnProps,
       render: (record) => {
         return (
-          <CrudTableRowActions
+          <CrudRowItemActions
             data={record}
             actions={columnActions}
             node={columnActionsGroupIcon}
-            type={enableGroupColumnAction ? 'menu' : 'icon'}
+            type={enableItemGroupAction ? 'menu' : 'icon'}
             renderActionButtons={renderActionButtons}
             renderExtraActionButtons={renderExtraActionButtons}
           />
@@ -103,7 +103,7 @@ export const useColumnSettings = <TData = any,>(
     actionColumnExtraWidth,
     actionColumnProps,
     actionColumnPosition,
-    enableGroupColumnAction,
+    enableItemGroupAction,
     renderActionButtons,
     renderExtraActionButtons,
   ]);
