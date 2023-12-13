@@ -12,6 +12,7 @@ import { CrudSchemataTypes } from '../../@types/crud/schema';
 import { defaultVisibilityStatePropsValue } from '../../hooks/useVisibilityStateHook';
 import {
   useActionsComponentHook,
+  useContentComponentHook,
   useDetailsComponentHook,
   useFilterModalComponentHook,
   useModalFormComponentHook,
@@ -110,6 +111,12 @@ export const useCrudComponentHook = <TSchema extends CrudSchemataTypes = any>(
     controllers,
     actionsHook
   );
+  const contentHook = useContentComponentHook(
+    payload,
+    props,
+    controllers,
+    actionsHook
+  );
   const pageHeaderHook = usePageHeaderComponentHook(
     payload,
     props,
@@ -126,6 +133,7 @@ export const useCrudComponentHook = <TSchema extends CrudSchemataTypes = any>(
   const { detailsProps, renderDetails } = detailsHook;
   const { filterProps, renderFilter } = panelHook;
   const { tableProps, renderTable } = tableHook;
+  const { contentProps, renderContent } = contentHook;
   const { pageHeaderProps, renderPageHeader } = pageHeaderHook;
   const { modalFormProps, renderModalForms } = formHook;
   const { filterModalProps, renderFilterModal } = modalFilterHook;
@@ -133,6 +141,7 @@ export const useCrudComponentHook = <TSchema extends CrudSchemataTypes = any>(
   // =============== RETURN
   return {
     filterProps,
+    contentProps,
     tableProps,
     detailsProps,
     pageHeaderProps,
@@ -140,6 +149,7 @@ export const useCrudComponentHook = <TSchema extends CrudSchemataTypes = any>(
     filterModalProps,
     renderAlert,
     renderTable,
+    renderContent,
     renderFilter,
     renderDetails,
     renderPageHeader,

@@ -18,6 +18,10 @@ import {
   CrudComponentExtraActionProps,
 } from './common';
 import {
+  CrudComponentContentHookProps,
+  CrudComponentContentNodeProps,
+} from './content';
+import {
   CrudComponentDetailNodeProps,
   CrudComponentDetailsHookProps,
 } from './details';
@@ -47,6 +51,7 @@ export type CrudComponents<TSchema extends CrudSchemataTypes = any> = {
   }) => void | ReactNode;
   alert?: (props: CrudComponentAlertNodeProps<TSchema>) => ReactNode;
   table?: (props: CrudComponentTableNodeProps<TSchema>) => ReactNode;
+  content?: (props: CrudComponentContentNodeProps<TSchema>) => ReactNode;
   filter?: (props: CrudComponentFilterNodeProps<TSchema>) => ReactNode;
   details?: (props: CrudComponentDetailNodeProps<TSchema>) => ReactNode;
   pageHeader?: (props: CrudComponentPageHeaderNodeProps<TSchema>) => ReactNode;
@@ -59,6 +64,7 @@ export type CrudComponents<TSchema extends CrudSchemataTypes = any> = {
 export type CrudComponentProps<TSchema extends CrudSchemataTypes = any> =
   CrudComponentAlertHookProps &
     CrudComponentTableHookProps<TSchema> &
+    CrudComponentContentHookProps<TSchema> &
     CrudComponentFilterHookProps<TSchema> &
     CrudComponentDetailsHookProps<TSchema> &
     CrudComponentModalFormHookProps<TSchema> &
