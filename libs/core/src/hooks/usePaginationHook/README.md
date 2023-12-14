@@ -5,7 +5,7 @@ A hook that use for pagination handling
 ## Usage
 
 ```TypeScript
-import { usePaginationHook } from 'react-crudxcore';
+import { usePaginationHook } from '@crudx/core';
 
 const Demo = () => {
   const { reset, paginateTo, next, previous, current } = usePaginationHook();
