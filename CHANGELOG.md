@@ -2,6 +2,29 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+## [0.0.7](https://github.com/louiskhenghao/crudx/compare/workspace@0.0.6...workspace@0.0.7) (2023-12-14)
+
+
+### Features
+
+* **core:** add content nodes ([90c873d](https://github.com/louiskhenghao/crudx/commit/90c873d7252135604a47eb0d044b8bc7f9f13e7c))
+* **core:** add useApolloFileUploader hook ([5530b92](https://github.com/louiskhenghao/crudx/commit/5530b92ef16a36cc8c94e3150cc083b945144786))
+* **mui:** absolute import & exports hooks & props from component ([f0f0ff1](https://github.com/louiskhenghao/crudx/commit/f0f0ff175ec0673f9a30f06dcac71b139e64b858))
+* **mui:** add crud types & move helpers to root of src folder ([3a790c0](https://github.com/louiskhenghao/crudx/commit/3a790c08bae162b7dfdab84dc8b674d17fba203f))
+* **mui:** add CrudContentHeaderView component ([94d6393](https://github.com/louiskhenghao/crudx/commit/94d6393dc41d9e7792d7eb9072b33b51153fe8dc))
+* **mui:** add CrudContentView component ([9b8e8cb](https://github.com/louiskhenghao/crudx/commit/9b8e8cb5149ee10254efb72b263b2bb293345d82))
+* **mui:** add CrudRowItemActions components ([a82a468](https://github.com/louiskhenghao/crudx/commit/a82a4686653394fc3bdbf06b3a2d38d8ae19e719))
+* **mui:** add enableActionColumn props to CrudPanelView ([1e5ee85](https://github.com/louiskhenghao/crudx/commit/1e5ee8505c19717ce277b0e72026db84187a4e6a))
+* **mui:** check all items in same page for intermediate state from Table component ([d76c6b1](https://github.com/louiskhenghao/crudx/commit/d76c6b16c558000243e57115bbf03522bab73dc3))
+* **mui:** implement content view for crud ([7e64b2b](https://github.com/louiskhenghao/crudx/commit/7e64b2b7a894ff9fb66def428736ee8410090203))
+
+
+### Bug Fixes
+
+* **core:** absolute import ([b5bf476](https://github.com/louiskhenghao/crudx/commit/b5bf4760f7d649e5febd9a41fb70316fe3eb3f95))
+* **core:** page number & size should reflect follow by paging setting ([fcc20d6](https://github.com/louiskhenghao/crudx/commit/fcc20d632cc41e1e4b9f9256a2aa3170caf2bea7))
+* **mui:** fix tooltip on item actions ([e045e54](https://github.com/louiskhenghao/crudx/commit/e045e5408ef0eba57acc2058cca2ff623ea2f77e))
+
 ## [0.0.6](https://github.com/louiskhenghao/crudx/compare/workspace@0.0.5...workspace@0.0.6) (2023-12-06)
 
 
