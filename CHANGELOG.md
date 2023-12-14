@@ -2,6 +2,19 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+## [0.0.8](https://github.com/louiskhenghao/crudx/compare/workspace@0.0.7...workspace@0.0.8) (2023-12-14)
+
+
+### Features
+
+* **core:** add custom request function for useApolloFileUploader hook ([7951e9b](https://github.com/louiskhenghao/crudx/commit/7951e9b17e2765955e536b652290bb07936763a1))
+* **core:** expose internal hooks to props & context ([08b1c5b](https://github.com/louiskhenghao/crudx/commit/08b1c5bbabdc4929c1601d1026f9cf0c88d4de49))
+
+
+### Bug Fixes
+
+* fix react unique key warning ([766000d](https://github.com/louiskhenghao/crudx/commit/766000d955a54712bcfe723f2ed8bbe05d2ed200))
+
 ## [0.0.7](https://github.com/louiskhenghao/crudx/compare/workspace@0.0.6...workspace@0.0.7) (2023-12-14)
 
 
