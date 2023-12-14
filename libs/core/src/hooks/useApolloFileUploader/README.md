@@ -69,6 +69,12 @@ useApolloFileUploader = <
     extract?: (url: string) => { read: string; write: string };
     // compose state format from result
     compose?: (res: any) => { uid: string | number; url: string };
+    // custom http request for file upload
+    request?: (
+      url: string,
+      file: File | Blob,
+      headers: Record<string, any>
+    ) => Promise<any>;
   }
 ): ApolloFileUploaderProps<TData, TVariables>
 

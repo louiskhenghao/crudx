@@ -34,6 +34,12 @@ export const useApolloFileUploader = <
     extract?: (url: string) => { read: string; write: string };
     // compose state format from result
     compose?: (res: any) => { uid: string | number; url: string };
+    // custom http request for file upload
+    request?: (
+      url: string,
+      file: File | Blob,
+      headers: Record<string, any>
+    ) => Promise<any>;
   }
 ): ApolloFileUploaderProps<TData, TVariables> => {
   // =============== STATE
@@ -87,14 +93,22 @@ export const useApolloFileUploader = <
         headers = customHeaders;
       }
     }
+
+    // compose the request headers
+    const requestHeaders = {
+      'Content-Type': file.type,
+      ...headers,
+    };
+
+    if (options?.request) {
+      return options.request(url, file, requestHeaders);
+    }
+
     // https://github.com/googleapis/python-storage/issues/3#issuecomment-580415038
     return axios({
       url,
       method: 'PUT',
-      headers: {
-        'Content-Type': file.type,
-        ...headers,
-      },
+      headers: requestHeaders,
       data: file,
     });
   };
