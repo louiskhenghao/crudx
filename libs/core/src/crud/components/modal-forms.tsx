@@ -1,3 +1,4 @@
+import { Fragment } from 'react';
 import map from 'lodash/map';
 import reduce from 'lodash/reduce';
 
@@ -123,8 +124,8 @@ export const useModalFormComponentHook = <
           {hooks?.update?.[0]?.()}
           {hooks?.delete?.[0]?.()}
           {hooks?.exports?.[0]?.()}
-          {map(hooks?.extra, (e) => {
-            return e?.[0]?.();
+          {map(hooks?.extra, (e, i) => {
+            return <Fragment key={`extra-dialog-${i}`}>{e?.[0]?.()}</Fragment>;
           })}
         </>
       );

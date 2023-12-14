@@ -1,4 +1,4 @@
-import { ReactNode, useEffect, useMemo, useState } from 'react';
+import { Fragment, ReactNode, useEffect, useMemo, useState } from 'react';
 import { useDeepCompareEffect } from '@crudx/core';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
@@ -199,35 +199,39 @@ export const CrudContentView = <TData = any,>(
     if (!renderItemView) {
       return 'Please implement `renderItemView` for item rendering';
     }
-    return data.map((record) => {
+    return data.map((record, i) => {
       const checkIndex = extractCheckedValue(record);
       const isChecked = checkIndex ? checkedState.includes(checkIndex) : false;
 
-      return renderItemView(record, {
-        checkbox: () => {
-          if (!checkbox?.enabled) return null;
-          return (
-            <Checkbox
-              color="primary"
-              checked={isChecked}
-              onClick={(e) => e.stopPropagation()}
-              onChange={onHandleCheckbox(record)}
-            />
-          );
-        },
-        action: () => {
-          return (
-            <CrudRowItemActions
-              data={record}
-              actions={itemActions}
-              node={itemActionGroupIcon}
-              type={enableItemGroupAction ? 'menu' : 'icon'}
-              renderActionButtons={renderActionButtons}
-              renderExtraActionButtons={renderExtraActionButtons}
-            />
-          );
-        },
-      });
+      return (
+        <Fragment key={`content-item-${i}`}>
+          {renderItemView(record, {
+            checkbox: () => {
+              if (!checkbox?.enabled) return null;
+              return (
+                <Checkbox
+                  color="primary"
+                  checked={isChecked}
+                  onClick={(e) => e.stopPropagation()}
+                  onChange={onHandleCheckbox(record)}
+                />
+              );
+            },
+            action: () => {
+              return (
+                <CrudRowItemActions
+                  data={record}
+                  actions={itemActions}
+                  node={itemActionGroupIcon}
+                  type={enableItemGroupAction ? 'menu' : 'icon'}
+                  renderActionButtons={renderActionButtons}
+                  renderExtraActionButtons={renderExtraActionButtons}
+                />
+              );
+            },
+          })}
+        </Fragment>
+      );
     });
   };
 
