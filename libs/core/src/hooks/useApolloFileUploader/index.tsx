@@ -77,7 +77,7 @@ export const useApolloFileUploader = <
   const uploadFile = (
     url: string,
     file: File | Blob,
-    customHeaders?: (() => { [key: string]: any }) | { [key: string]: any }
+    customHeaders?: (() => Record<string, any>) | Record<string, any>
   ): Promise<any> => {
     let headers: any = {};
     if (customHeaders) {
