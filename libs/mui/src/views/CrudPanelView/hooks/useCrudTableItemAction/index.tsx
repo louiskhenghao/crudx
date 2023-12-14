@@ -271,7 +271,9 @@ export const useCrudTableItemAction = <T extends CrudSchemataTypes = any>(
                 renderActionNode(
                   action.key,
                   <ExpandCircleDownOutlinedIcon fontSize="inherit" />,
-                  !isNil(action.tooltip) ? action.tooltip : action.title
+                  !isNil(action.tooltip)
+                    ? action.tooltip || action.title
+                    : action.title
                 ),
               onClick: action.action,
             });

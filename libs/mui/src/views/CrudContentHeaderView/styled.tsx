@@ -4,13 +4,13 @@ import { styled } from '@mui/material/styles';
 // Styled box
 export const StyledBox = styled(Box)(() => {
   return {
-    '.crud-table-header-primary': {
+    '.crud-content-header-primary': {
       minHeight: 65,
-      '.crud-table-header-infos': {},
-      '.crud-table-header-actions': {},
+      '.crud-content-header-infos': {},
+      '.crud-content-header-actions': {},
     },
-    '.crud-table-header-expanded-content': {},
-    '.crud-table-header-tabview': {
+    '.crud-content-header-expanded-content': {},
+    '.crud-content-header-tabview': {
       '.tabview-tabs-item': {
         paddingTop: 0,
         paddingBottom: 0,

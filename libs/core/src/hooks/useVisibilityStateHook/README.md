@@ -5,7 +5,7 @@ A hook that use to set visibility state
 ## Usage
 
 ```TypeScript
-import { useVisibilityStateHook } from 'react-crudxcore';
+import { useVisibilityStateHook } from '@crudx/core';
 
 const Demo = () => {
   const { visible, onShow, onHide, setVisible } = useVisibilityStateHook();

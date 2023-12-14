@@ -19,6 +19,7 @@ function CrudPanelViewComponent<
     className,
     unstyled,
     spacingMultiplier,
+    contentViewType = 'table',
     enablePageHeader = true,
     enableFilterView = true,
     enableDetailView = true,
@@ -34,6 +35,7 @@ function CrudPanelViewComponent<
   const {
     renderAlert,
     renderDetails,
+    renderContent,
     renderFilter,
     renderTable,
     renderPageHeader,
@@ -51,7 +53,8 @@ function CrudPanelViewComponent<
       {renderAlert?.()}
       {enablePageHeader && renderPageHeader?.()}
       {enableFilterView && renderFilter?.()}
-      {renderTable?.()}
+      {contentViewType === 'table' && renderTable?.()}
+      {contentViewType === 'view' && renderContent?.()}
       {enableDetailView && renderDetails?.()}
       {renderModalForms?.()}
       {enableFilterModalView && renderFilterModal?.()}
@@ -64,6 +67,8 @@ function CrudPanelViewComponent<
  * EXPORTS
  * ===========================
  */
+export * from './hooks';
+export * from './props';
 export const CrudPanelView = forwardRef(CrudPanelViewComponent) as <
   T extends CrudSchemataTypes = any,
   TColumn = any

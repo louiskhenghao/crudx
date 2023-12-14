@@ -3,20 +3,22 @@ import capitalize from 'lodash/capitalize';
 import includes from 'lodash/includes';
 import isNil from 'lodash/isNil';
 
-import { CrudTableViewProps } from './props';
+import { CrudRowItemActionType } from '../@types';
 
 /**
  * ===========================
  * MAIN
  * ===========================
  */
+// check is action enabled
 export const isActionEnable = (
-  inAction: 'view' | 'update' | 'delete' | 'export' | 'extra',
-  actions: CrudTableViewProps['columnActions'] = []
+  action: CrudRowItemActionType,
+  checking: CrudRowItemActionType[] = []
 ) => {
-  return includes(actions || [], inAction);
+  return includes(checking || [], action);
 };
 
+// get tooltip text
 export const getTooltipText = (
   key:
     | 'expand'

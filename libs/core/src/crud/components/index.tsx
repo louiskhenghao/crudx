@@ -1,4 +1,5 @@
 export * from './actions';
+export * from './content';
 export * from './details';
 export * from './filter';
 export * from './table';

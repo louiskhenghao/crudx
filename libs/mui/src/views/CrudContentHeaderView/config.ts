@@ -1,14 +1,11 @@
-import { CrudTableViewProps } from './props';
+import { CrudContentHeaderViewProps } from './props';
 
 /**
  * ===========================
  * MAIN
  * ===========================
  */
-export const defaultText: CrudTableViewProps['text'] = {
-  columnActionText: 'Action',
-  nextText: 'Next',
-  previousText: 'Previous',
+export const defaultText: CrudContentHeaderViewProps['text'] = {
   createText: 'Create',
   expandText: 'Expand',
   collapseText: 'Collapse',
@@ -16,23 +13,14 @@ export const defaultText: CrudTableViewProps['text'] = {
   density: { default: 'Default', small: 'Small', medium: 'Medium' },
 };
 
-export const defaultProps: CrudTableViewProps = {
-  size: 'medium',
-  data: [],
-  columns: [],
-  page: 1,
-  pageSize: 10,
-  paginateType: 'pagination',
-  columnActions: ['view'],
+export const defaultProps: CrudContentHeaderViewProps = {
+  sortingType: 'DESC',
   headerActions: [],
   headerTabs: [],
   headerActionSize: 'medium',
   text: defaultText,
-  actionColumnPosition: 'last',
   headerInfos: [{ type: 'title' }, { type: 'total' }, { type: 'bulk' }],
   expanded: false,
-  enableActionColumn: true,
-  enableItemGroupAction: false,
   totalSelected: 0,
 };
 

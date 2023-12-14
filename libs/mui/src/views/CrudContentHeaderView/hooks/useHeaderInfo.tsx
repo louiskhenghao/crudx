@@ -4,9 +4,9 @@ import Typography from '@mui/material/Typography';
 import forEach from 'lodash/forEach';
 import replace from 'lodash/replace';
 
-import { TableSelectedBulkOptions } from '../../../../../components/TableSelectedBulkOptions';
-import { CrudTableHeaderItemNode } from '../../../types';
-import { CrudTableHeaderViewProps } from '../props';
+import { TableSelectedBulkOptions } from '../../../components/TableSelectedBulkOptions';
+import { CrudContentHeaderViewProps } from '../props';
+import { CrudContentHeaderItemNode } from '../types';
 
 /**
  * ===========================
@@ -15,9 +15,9 @@ import { CrudTableHeaderViewProps } from '../props';
  */
 // hooks to get header info
 export const useHeaderInfos = (
-  props: CrudTableHeaderViewProps
+  props: CrudContentHeaderViewProps
 ): {
-  views: CrudTableHeaderItemNode[];
+  views: CrudContentHeaderItemNode[];
 } => {
   const {
     title,
@@ -32,7 +32,7 @@ export const useHeaderInfos = (
   // =============== VIEWS
   const views = useMemo(() => {
     // -------- VARIABLES
-    const viewList: CrudTableHeaderItemNode[] = [];
+    const viewList: CrudContentHeaderItemNode[] = [];
     const titleView = typeof title === 'function' ? title() : title;
 
     // ----- loop of actions
@@ -58,7 +58,7 @@ export const useHeaderInfos = (
           render: () => {
             return (
               <Typography
-                className="crud-table-header-total-count"
+                className="crud-content-header-total-count"
                 {...field.props}
               >
                 {replace(
@@ -78,7 +78,7 @@ export const useHeaderInfos = (
             return (
               <TableSelectedBulkOptions
                 size={headerActionSize}
-                className="crud-table-header-bulk-node"
+                className="crud-content-header-bulk-node"
                 text={field?.text}
                 items={headerBulkOptions ?? field.items}
                 total={totalSelected}

@@ -7,14 +7,14 @@ import IconButton from '@mui/material/IconButton';
 import forEach from 'lodash/forEach';
 import omit from 'lodash/omit';
 
-import { TableSettingsDensityOptions } from '../../../../../components/TableSettingsDensityOptions';
-import { TableSettingsOptions } from '../../../../../components/TableSettingsOptions';
-import { TableSettingsSortingOptions } from '../../../../../components/TableSettingsSortingOptions';
-import { TooltipView } from '../../../../../components/TooltipView';
-import { defaultText } from '../../../config';
+import { TableSettingsDensityOptions } from '../../../components/TableSettingsDensityOptions';
+import { TableSettingsOptions } from '../../../components/TableSettingsOptions';
+import { TableSettingsSortingOptions } from '../../../components/TableSettingsSortingOptions';
+import { TooltipView } from '../../../components/TooltipView';
 import { getTooltipText } from '../../../helpers';
-import { CrudTableHeaderItemNode } from '../../../types';
-import { CrudTableHeaderViewProps } from '../props';
+import { defaultText } from '../config';
+import { CrudContentHeaderViewProps } from '../props';
+import { CrudContentHeaderItemNode } from '../types';
 
 /**
  * ===========================
@@ -23,13 +23,12 @@ import { CrudTableHeaderViewProps } from '../props';
  */
 // hooks to get header actions
 export const useHeaderActionSettings = (
-  props: CrudTableHeaderViewProps
+  props: CrudContentHeaderViewProps
 ): {
-  views: CrudTableHeaderItemNode[];
+  views: CrudContentHeaderItemNode[];
 } => {
   const {
     text,
-    tableSize,
     sortingType,
     expanded,
     headerExpandView,
@@ -50,7 +49,7 @@ export const useHeaderActionSettings = (
 
   // =============== VIEWS
   const views = useMemo(() => {
-    const viewList: CrudTableHeaderItemNode[] = [];
+    const viewList: CrudContentHeaderItemNode[] = [];
 
     // ----- loop of actions
     forEach(headerActions, (field, i) => {
@@ -70,7 +69,7 @@ export const useHeaderActionSettings = (
             return (
               <TooltipView {...tooltips}>
                 <Button
-                  size={headerActionSize ?? tableSize}
+                  size={headerActionSize}
                   variant="outlined"
                   onClick={onTriggerCreate}
                   {...field.props}
@@ -92,7 +91,7 @@ export const useHeaderActionSettings = (
             return (
               <TooltipView {...tooltips}>
                 <IconButton
-                  size={headerActionSize ?? tableSize}
+                  size={headerActionSize}
                   onClick={onTriggerRefresh}
                   {...field.props}
                 >
@@ -112,7 +111,7 @@ export const useHeaderActionSettings = (
           render: () => {
             return (
               <TableSettingsOptions
-                size={headerActionSize ?? tableSize}
+                size={headerActionSize}
                 icon={field?.icon}
                 items={field.items}
                 tooltip={omit(tooltips, ['enabled'])}
@@ -132,7 +131,7 @@ export const useHeaderActionSettings = (
             const tooltips = getTooltipText('sorting', { tooltip });
             return (
               <TableSettingsSortingOptions
-                size={headerActionSize ?? tableSize}
+                size={headerActionSize}
                 icon={field?.icon}
                 selected={sortingType}
                 text={text?.sorting ?? defaultText?.sorting}
@@ -153,7 +152,7 @@ export const useHeaderActionSettings = (
             const tooltips = getTooltipText('density', { tooltip });
             return (
               <TableSettingsDensityOptions
-                size={headerActionSize ?? tableSize}
+                size={headerActionSize}
                 icon={field?.icon}
                 text={text?.density ?? defaultText?.density}
                 tooltip={omit(tooltips, ['enabled'])}
@@ -179,7 +178,7 @@ export const useHeaderActionSettings = (
               <TooltipView {...tooltips}>
                 <Button
                   variant="text"
-                  size={headerActionSize ?? tableSize}
+                  size={headerActionSize}
                   {...field.props}
                   onClick={(e) => {
                     const current = expanded ?? false;
@@ -206,7 +205,7 @@ export const useHeaderActionSettings = (
               <TooltipView {...tooltips}>
                 {
                   field.render?.({
-                    tableSize,
+                    tableSize: headerActionSize,
                     expanded: expanded ?? false,
                   }) as any
                 }
@@ -220,7 +219,6 @@ export const useHeaderActionSettings = (
     return viewList;
   }, [
     text,
-    tableSize,
     headerActionSize,
     sortingType,
     createText,

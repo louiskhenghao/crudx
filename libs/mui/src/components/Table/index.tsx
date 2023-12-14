@@ -8,6 +8,7 @@ import MuiTableFooter from '@mui/material/TableFooter';
 import MuiTableRow from '@mui/material/TableRow';
 import Typography from '@mui/material/Typography';
 import isNil from 'lodash/isNil';
+import uniq from 'lodash/uniq';
 
 import { TableDataIndex } from '../../@types';
 import { TableHead, TableHeadProps } from '../TableHead';
@@ -78,7 +79,8 @@ export const Table = <TData,>(props: PropsWithChildren<TableProps<TData>>) => {
   // ================== HELPERS
   const getCheckedStatus = (): TableHeadProps<TData>['checked'] => {
     if (hasDefinedTotal && hasChecked) {
-      return checkedState.length >= total ? 'all' : 'partial';
+      if (checkedState.length >= total) return 'all';
+      return 'partial';
     }
     if (hasChecked) {
       if (data.length === checkedState.length) return 'all';
@@ -120,18 +122,21 @@ export const Table = <TData,>(props: PropsWithChildren<TableProps<TData>>) => {
       triggerCheckboxUpdate([]);
       return;
     }
+
+    const indexes = data.reduce((r: TableDataIndex<TData>[], e) => {
+      const value = extractCheckedValue(e);
+      if (value) r.push(value);
+      return r;
+    }, []);
+
     // if checkbox in checked state
     if (state === 'partial') {
-      triggerCheckboxUpdate([]);
-      return;
+      if (indexes.some((e) => e === checkedState)) {
+        triggerCheckboxUpdate([]);
+        return;
+      }
     }
-    triggerCheckboxUpdate(
-      data.reduce((r: TableDataIndex<TData>[], e) => {
-        const value = extractCheckedValue(e);
-        if (value) r.push(value);
-        return r;
-      }, [])
-    );
+    triggerCheckboxUpdate(uniq([...checkedState, ...indexes]));
   };
 
   const onHandleCheckItem: TableRowProps<TData>['onCheck'] = (

@@ -4,17 +4,17 @@ import forEach from 'lodash/forEach';
 import {
   ButtonDropdown,
   ButtonDropdownItemType,
-} from '../../../../components/ButtonDropdown';
+} from '../../components/ButtonDropdown';
 import { isActionEnable } from '../../helpers';
 
-import { CrudTableRowActionsProps } from './props';
+import { CrudRowItemActionsProps } from './props';
 
 /**
  * ===========================
  * MAIN
  * ===========================
  */
-export const CrudTableRowActions = memo((props: CrudTableRowActionsProps) => {
+export const CrudRowItemActions = memo((props: CrudRowItemActionsProps) => {
   const {
     data,
     node,
@@ -136,4 +136,4 @@ export const CrudTableRowActions = memo((props: CrudTableRowActionsProps) => {
  * ===========================
  */
 export * from './props';
-export default CrudTableRowActions;
+export default CrudRowItemActions;

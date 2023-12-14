@@ -117,8 +117,8 @@ export class CRUD<TSchema extends CrudSchemataTypes = any> {
   ): CrudProps<TSchema> => {
     // initialize hooks
     const paginationHook = usePaginationHook({
-      defaultCurrent: this.paging.defaultPageNumber,
-      defaultPageSize: this.paging.defaultPageSize,
+      defaultCurrent: this.paging.pageNumber,
+      defaultPageSize: this.paging.pageSize,
     });
     const rowSelectionHook = useRowSelectionHook(this.enableRowSelection);
     // use get query

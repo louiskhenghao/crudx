@@ -40,7 +40,7 @@ export type TableProps<TData = any> = TableTypeMap['props'] &
     /**
      * columns configuration
      */
-    columns: TableColumnType<TData>[];
+    columns?: TableColumnType<TData>[];
     /**
      * whether show loading
      */

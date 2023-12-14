@@ -1,12 +1,12 @@
 import Grid from '@mui/material/Grid';
 import cn from 'classnames';
 
-import { RenderNodeView } from '../../../../components/RenderNodeView';
-import { TabView } from '../../../../components/TabView';
+import { RenderNodeView } from '../../components/RenderNodeView';
+import { TabView } from '../../components/TabView';
 
 import { useHeaderActionSettings } from './hooks/useHeaderActionSettings';
 import { useHeaderInfos } from './hooks/useHeaderInfo';
-import { CrudTableHeaderViewProps } from './props';
+import { CrudContentHeaderViewProps } from './props';
 import { StyledBox } from './styled';
 
 /**
@@ -14,7 +14,7 @@ import { StyledBox } from './styled';
  * MAIN
  * ===========================
  */
-export const CrudTableHeaderView = (props: CrudTableHeaderViewProps) => {
+export const CrudContentHeaderView = (props: CrudContentHeaderViewProps) => {
   const {
     expanded,
     headerTabs = [],
@@ -43,7 +43,7 @@ export const CrudTableHeaderView = (props: CrudTableHeaderViewProps) => {
     const view = typeof viewNode === 'function' ? viewNode() : viewNode;
     if (!view) return null;
     return (
-      <StyledBox className="crud-table-header-wrapper">
+      <StyledBox className="crud-content-header-wrapper">
         {view}
         <TabView
           {...headerTabsProps}
@@ -59,16 +59,16 @@ export const CrudTableHeaderView = (props: CrudTableHeaderViewProps) => {
     return null;
   }
   return (
-    <StyledBox className="crud-table-header-wrapper">
+    <StyledBox className="crud-content-header-wrapper">
       {(hasInfos || hasActions) && (
         <Grid
           container
           justifyContent="start"
           alignItems="center"
-          className="crud-table-header-primary"
+          className="crud-content-header-primary"
         >
           {headerInfoViews.length > 0 && (
-            <Grid item className="crud-table-header-infos">
+            <Grid item className="crud-content-header-infos">
               <RenderNodeView
                 flexWrap="wrap"
                 alignItems="center"
@@ -85,7 +85,7 @@ export const CrudTableHeaderView = (props: CrudTableHeaderViewProps) => {
           {headerActionViews.length > 0 && (
             <>
               <Grid item flex="auto" />
-              <Grid item className="crud-table-header-actions">
+              <Grid item className="crud-content-header-actions">
                 <RenderNodeView
                   flexWrap="wrap"
                   alignItems="center"
@@ -103,7 +103,7 @@ export const CrudTableHeaderView = (props: CrudTableHeaderViewProps) => {
       )}
       {/* ====== EXPAND CONTENT */}
       {expanded && (
-        <div className="crud-table-header-expanded-content">
+        <div className="crud-content-header-expanded-content">
           {typeof expandNode === 'function' ? expandNode() : expandNode}
         </div>
       )}
@@ -111,7 +111,10 @@ export const CrudTableHeaderView = (props: CrudTableHeaderViewProps) => {
       {/* ====== TABS */}
       <TabView
         {...headerTabsProps}
-        className={cn('crud-table-header-tabview', headerTabsProps?.className)}
+        className={cn(
+          'crud-content-header-tabview',
+          headerTabsProps?.className
+        )}
         value={headerTabState}
         items={headerTabs}
         onChange={onTabChange}
@@ -119,7 +122,7 @@ export const CrudTableHeaderView = (props: CrudTableHeaderViewProps) => {
 
       {/* ====== EXTRA CONTENT */}
       {extraNode && (
-        <div className="crud-table-header-extra-content">
+        <div className="crud-content-header-extra-content">
           {typeof extraNode === 'function' ? extraNode() : extraNode}
         </div>
       )}
@@ -132,4 +135,6 @@ export const CrudTableHeaderView = (props: CrudTableHeaderViewProps) => {
  * EXPORTS
  * ===========================
  */
-export default CrudTableHeaderView;
+export * from './props';
+export * from './types';
+export default CrudContentHeaderView;

@@ -216,7 +216,7 @@ export function Index() {
             renderActionButtons,
             ...restProps
           } = nodeProps;
-          const { pagingProps, paging } = context;
+          const { pagingProps } = context;
 
           const columns: TableColumnType<BankDetailQuery['BankDetail']>[] = [
             {
@@ -259,7 +259,7 @@ export function Index() {
               page={pagination.current}
               pageSize={2}
               totalSelected={accessibility.totalSelected}
-              enableGroupColumnAction
+              enableItemGroupAction
               columnActions={['view', 'delete', 'export']}
               headerActions={[
                 {
@@ -305,7 +305,7 @@ export function Index() {
               headerExpandView={<div>knn</div>}
               totalRecord={pagingProps.data.total}
               // actionColumnPosition={2}
-              // enableGroupColumnAction
+              // enableItemGroupAction
               // paginateType="button"
               renderActionButtons={renderActionButtons}
               tableProps={{

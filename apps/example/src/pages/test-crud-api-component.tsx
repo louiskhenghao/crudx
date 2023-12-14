@@ -120,6 +120,7 @@ export function Index() {
         }}
         paging={{
           strategy: 'CUSTOM',
+          pageSize: 5,
           custom: {
             extract: {
               paging: (context, variables) => {
@@ -235,7 +236,7 @@ export function Index() {
         // tableTitle="Table tile"
         tableTabState={tabValue}
         tableTabs={tabInfo}
-        tableExtraView={<div>asda</div>}
+        tableExtraView={<div>EXTRA VIEW</div>}
         onTableTabChange={(e) => {
           console.log('onTableTabChange --->', e);
           setTabValue(e as any);
@@ -282,7 +283,7 @@ export function Index() {
             },
           },
         ]}
-        // enableGroupColumnAction
+        // enableItemGroupAction
         columnActions={{
           name: 'bank',
           identifier: 'bank_name',
@@ -355,6 +356,7 @@ export function Index() {
          * OTHER CONFIGURATION
          * --------------------
          */
+        // enableItemGroupAction
         spacingMultiplier={2}
         detailsViewType="drawer"
         modalForms={{
@@ -482,6 +484,28 @@ export function Index() {
             //     },
             //   },
             // },
+          };
+        }}
+        contentViewType="view"
+        renderItemView={(record, views) => {
+          return (
+            <div>
+              {views.checkbox()}
+
+              <Image
+                alt={record?.bank_name ?? ''}
+                width={150}
+                height={30}
+                style={{ objectFit: 'contain' }}
+                src={record?.bank_logo?.full ?? ''}
+              />
+              {views.action()}
+            </div>
+          );
+        }}
+        prepareContentViewProps={() => {
+          return {
+            // loading: true,
           };
         }}
       />

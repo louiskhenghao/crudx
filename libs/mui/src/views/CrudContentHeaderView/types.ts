@@ -1,29 +1,29 @@
 import { ReactNode } from 'react';
 import { ButtonProps } from '@mui/material/Button';
-import { TableProps } from '@mui/material/Table';
 import { TooltipProps } from '@mui/material/Tooltip';
 import { TypographyProps } from '@mui/material/Typography';
 
 import { TabType } from '../../@types';
-import {
-  ButtonDropdownItemType,
-  TableSelectedBulkOptionsProps,
-} from '../../components';
+import { ButtonDropdownItemType } from '../../components/ButtonDropdown';
+import { TableSelectedBulkOptionsProps } from '../../components/TableSelectedBulkOptions';
 
 /**
  * ===========================
  * MAIN
  * ===========================
  */
-export type CrudTableColumnActionType =
-  | 'view'
-  | 'update'
-  | 'delete'
-  | 'export'
-  | 'extra';
 
-// crud table header actions
-export type CrudTableHeaderAction =
+// crud content header info item configuration
+export type CrudContentHeaderTab = Omit<TabType, 'content'>;
+
+// crud content header item node
+export type CrudContentHeaderItemNode = {
+  key: string;
+  render: (context?: { [key: string]: any }) => ReactNode;
+};
+
+// crud content header actions
+export type CrudContentHeaderActionType =
   | ({
       /**
        * whether show tooltip or custom tooltip text
@@ -60,12 +60,12 @@ export type CrudTableHeaderAction =
       tooltip: boolean | string | Omit<TooltipProps, 'children'>;
       render: (context?: {
         expanded: boolean;
-        tableSize: TableProps['size'];
+        tableSize: ButtonProps['size'];
       }) => ReactNode;
     };
 
-// crud table header info item configuration
-export type CrudTableHeaderInfo =
+// crud content header info item configuration
+export type CrudContentHeaderInfoType =
   | {
       /**
        * whether to show this item
@@ -107,12 +107,3 @@ export type CrudTableHeaderInfo =
           props?: TypographyProps;
         }
     );
-
-// crud table header info item configuration
-export type CrudTableHeaderTab = Omit<TabType, 'content'>;
-
-// crud table header item node
-export type CrudTableHeaderItemNode = {
-  key: string;
-  render: (context?: { [key: string]: any }) => ReactNode;
-};

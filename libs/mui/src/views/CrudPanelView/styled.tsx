@@ -30,7 +30,22 @@ export const StyledWrapper = styled(Box, {
         border: `1px solid ${theme.palette.divider}`,
         marginTop: theme.spacing(hasMultiplier ? spacingMultiplier * 3 : 3),
 
-        '.crud-table-header-primary': {
+        '.crud-content-header-primary': {
+          paddingTop: theme.spacing(hasMultiplier ? spacingMultiplier * 2 : 2),
+          paddingBottom: theme.spacing(
+            hasMultiplier ? spacingMultiplier * 2 : 2
+          ),
+          paddingLeft: theme.spacing(hasMultiplier ? spacingMultiplier * 2 : 2),
+          paddingRight: theme.spacing(
+            hasMultiplier ? spacingMultiplier * 2 : 2
+          ),
+        },
+      },
+
+      '.crud-content-wrapper': {
+        marginTop: theme.spacing(hasMultiplier ? spacingMultiplier * 3 : 3),
+
+        '.crud-content-header-primary': {
           paddingTop: theme.spacing(hasMultiplier ? spacingMultiplier * 2 : 2),
           paddingBottom: theme.spacing(
             hasMultiplier ? spacingMultiplier * 2 : 2
