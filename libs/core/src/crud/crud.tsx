@@ -138,6 +138,11 @@ export class CRUD<TSchema extends CrudSchemataTypes = any> {
     const sharedProps = {
       name: this.name,
       rowSelection: rowSelectionHook,
+      // added state control from hook
+      hooks: {
+        selection: rowSelectionHook,
+        pagination: paginationHook,
+      },
       // control paging props
       pagingProps,
       // control pagination API request & state handling

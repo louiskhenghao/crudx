@@ -25,8 +25,15 @@ export const useContentComponentHook = <
   controllers: CrudComponentVisibilityController,
   actionsHook: CrudComponentActionHookProps<TSchema>
 ): CrudComponentContentHookProps<TSchema> => {
-  const { pagination, rowSelection, detail, mutation, nodes, pagingProps } =
-    payload;
+  const {
+    pagination,
+    rowSelection,
+    detail,
+    mutation,
+    nodes,
+    pagingProps,
+    hooks,
+  } = payload;
 
   // =============== VARIABLES
   const list = pagingProps?.data?.list ?? [];
@@ -40,6 +47,7 @@ export const useContentComponentHook = <
       detail,
       controllers,
       pagingProps,
+      hooks,
     },
     // standard content props
     loading,

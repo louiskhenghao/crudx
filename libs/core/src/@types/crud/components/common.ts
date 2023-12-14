@@ -8,6 +8,7 @@ import {
 } from '../action';
 import { CrudGraphApiGetType } from '../api';
 import { CrudDetailProps } from '../detail';
+import { CrudHookProps } from '../hooks';
 import { CrudPaginationProps } from '../pagination';
 import { CrudPagingPaginateProps, CrudPagingProps } from '../paging';
 import { CrudSchemataTypes } from '../schema';
@@ -19,6 +20,7 @@ export type CrudComponentContext<TSchema extends CrudSchemataTypes = any> = {
   mutation: CrudMutationResource<TSchema>;
   detail: CrudDetailProps<TSchema>;
   controllers: CrudComponentVisibilityController;
+  hooks: CrudHookProps;
 };
 
 /**

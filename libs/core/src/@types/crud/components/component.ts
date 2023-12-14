@@ -5,6 +5,7 @@ import { UseRowSelectionProps } from '../../../hooks/useRowSelectionHook';
 import { CrudCommonActions } from '../action';
 import { CrudGraphApiListType } from '../api';
 import { CrudDetailProps } from '../detail';
+import { CrudHookProps } from '../hooks';
 import { CrudPaginationProps } from '../pagination';
 import { CrudPagingProps } from '../paging';
 import { CrudSchemata, CrudSchemataResult, CrudSchemataTypes } from '../schema';
@@ -84,6 +85,7 @@ export type CrudComponentOptions<TSchema extends CrudSchemataTypes = any> = {
   modalForms?: CrudModalFormOptions<TSchema>;
   pagination: CrudPaginationProps;
   rowSelection: UseRowSelectionProps;
+  hooks: CrudHookProps;
 };
 
 export type CrudComponentActionHookProps<

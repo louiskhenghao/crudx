@@ -2,6 +2,7 @@ import { UseRowSelectionProps } from '../../hooks/useRowSelectionHook';
 
 import { CrudComponentProps } from './components/component';
 import { CrudDetailProps } from './detail';
+import { CrudHookProps } from './hooks';
 import { CrudMutationProps } from './mutation';
 import { CrudPaginationProps } from './pagination';
 import { CrudPagingProps } from './paging';
@@ -16,12 +17,14 @@ export * from './pagination';
 export * from './paging';
 export * from './schema';
 export * from './mutation';
+export * from './hooks';
 
 // ========== CRUD
 export type CrudProps<TSchema extends CrudSchemataTypes = any> = {
   pagination: CrudPaginationProps;
   rowSelection: UseRowSelectionProps;
-
+  // to control hook (not dealing with API)
+  hooks: CrudHookProps;
   // the result from crud schema
   result: CrudSchemataResult<TSchema>;
   // the detail resource

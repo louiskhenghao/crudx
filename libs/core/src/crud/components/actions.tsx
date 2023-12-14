@@ -25,7 +25,7 @@ export const useActionsComponentHook = <
   accessibility: CrudComponentAccessibilityProps,
   controllers: CrudComponentVisibilityController
 ): CrudComponentActionHookProps<TSchema> => {
-  const { detail, mutation, itemActions = {}, pagingProps } = payload;
+  const { detail, mutation, itemActions = {}, pagingProps, hooks } = payload;
 
   // =============== HELPERS
   const renderActionButtons = (context): CrudComponentActionProps => {
@@ -47,6 +47,7 @@ export const useActionsComponentHook = <
         detail,
         controllers,
         pagingProps,
+        hooks,
       },
       accessibility,
     });
@@ -73,6 +74,7 @@ export const useActionsComponentHook = <
         detail,
         controllers,
         pagingProps,
+        hooks,
       },
       accessibility,
     });

@@ -16,7 +16,7 @@ export const useAlertComponentHook = <TSchema extends CrudSchemataTypes = any>(
   accessibility: CrudComponentAccessibilityProps,
   controllers: CrudComponentVisibilityController
 ): CrudComponentAlertHookProps => {
-  const { nodes, mutation, detail, pagingProps } = payload;
+  const { nodes, mutation, detail, pagingProps, hooks } = payload;
   const controller = controllers.alert;
 
   // =============== RETURN
@@ -30,6 +30,7 @@ export const useAlertComponentHook = <TSchema extends CrudSchemataTypes = any>(
           detail,
           controllers,
           pagingProps,
+          hooks,
         },
         visible: controller.visible ?? false,
         onHide: controller.onHide,

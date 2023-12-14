@@ -21,7 +21,7 @@ export const useFilterModalComponentHook = <
   accessibility: CrudComponentAccessibilityProps,
   controllers: CrudComponentVisibilityController
 ): CrudComponentFilterModalHookProps<TSchema> => {
-  const { nodes, mutation, detail, pagingProps } = payload;
+  const { nodes, mutation, detail, pagingProps, hooks } = payload;
   const controller = controllers?.filter;
 
   // =============== PROPS
@@ -32,6 +32,7 @@ export const useFilterModalComponentHook = <
       detail,
       controllers,
       pagingProps,
+      hooks,
     },
     visible: controller?.visible ?? false,
     onShow: () => controller?.onShow(),
