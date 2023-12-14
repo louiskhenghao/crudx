@@ -7,19 +7,22 @@ This library significantly enhances development efficiency, particularly for CRU
 ## Installation
 
 ```bash
-yarn add @crudx/core @mui/material @mui/icons-material classnames next react react-hot-toast
+yarn add @crudx/core @crudx/mui @mui/material @mui/icons-material classnames next react react-hot-toast
 ```
 
 ---
 
 ## Core Component
 
-| Component          | Link                                             |
-| ------------------ | ------------------------------------------------ |
-| CrudPanelView      | [link](./src/views/CrudPanelView/README.md)      |
-| CrudFilterView     | [link](./src/views/CrudFilterView/README.md)     |
-| CrudPageHeaderView | [link](./src/views/CrudPageHeaderView/README.md) |
-| CrudTableView      | [link](./src/views/CrudTableView/README.md)      |
+| Component             | Link                                                |
+| --------------------- | --------------------------------------------------- |
+| CrudPanelView         | [link](./src/views/CrudPanelView/README.md)         |
+| CrudFilterView        | [link](./src/views/CrudFilterView/README.md)        |
+| CrudPageHeaderView    | [link](./src/views/CrudPageHeaderView/README.md)    |
+| CrudTableView         | [link](./src/views/CrudTableView/README.md)         |
+| CrudContentView       | [link](./src/views/CrudContentView/README.md)       |
+| CrudRowItemActions    | [link](./src/views/CrudRowItemActions/README.md)    |
+| CrudContentHeaderView | [link](./src/views/CrudContentHeaderView/README.md) |
 
 ## General Component
 

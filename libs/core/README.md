@@ -12,7 +12,7 @@ This objective of this package is to make crud as simple as possible
 ## Installation
 
 ```bash
-yarn add @crudx/core react numeral
+yarn add @crudx/core react react-dom numeral axios
 ```
 
 ---
