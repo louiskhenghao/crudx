@@ -35,7 +35,7 @@ export const useApolloFileUploader = <
     // compose state format from result
     compose?: (res: any) => { uid: string | number; url: string };
   }
-): UploaderTupleProps<TData, TVariables> => {
+): ApolloFileUploaderProps<TData, TVariables> => {
   // =============== STATE
   const [signedUrls, setSignedUrls] = useState<Record<string, any>>({});
 
@@ -113,7 +113,7 @@ export const useApolloFileUploader = <
  * EXPORTS
  * ===========================
  */
-export type UploaderTupleProps<TData = any, TVariables = any> = {
+export type ApolloFileUploaderProps<TData = any, TVariables = any> = {
   // function to get signed-url with given unique id
   get: (uid: string) => [string, string];
   // function to upload file
