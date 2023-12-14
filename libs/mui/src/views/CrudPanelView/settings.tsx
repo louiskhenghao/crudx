@@ -451,8 +451,6 @@ export function useCrudProps<T extends CrudSchemataTypes = any>(
         const viewProps = prepareContentViewProps?.(nodeProps);
         const selectable = rowSelection.isSelectable;
 
-        console.log('wow --->', pagination);
-
         return (
           <CrudContentView<T>
             data={data}
