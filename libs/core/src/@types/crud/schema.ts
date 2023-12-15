@@ -1,9 +1,10 @@
 import {
   BaseMutationOptions,
-  BaseQueryOptions,
+  LazyQueryHookOptions,
   LazyQueryResult,
   MutationResult,
   OperationVariables,
+  QueryHookOptions,
   QueryResult,
 } from '@apollo/client';
 
@@ -20,12 +21,12 @@ export type CrudSchemata<TSchema extends CrudSchemataTypes = any> = {
   get?: {
     key: string;
     query: UseLazyQueryAction<TSchema['get'][0], TSchema['get'][1]>;
-    options?: BaseQueryOptions<TSchema['get'][1]>;
+    options?: LazyQueryHookOptions<TSchema['get'][0], TSchema['get'][1]>;
   };
   list?: {
     key: string;
     query: UseQueryAction<TSchema['list'][0], TSchema['list'][1]>;
-    options?: BaseQueryOptions<TSchema['list'][1]>;
+    options?: QueryHookOptions<TSchema['list'][0], TSchema['list'][1]>;
   };
   create?: {
     key: string;
