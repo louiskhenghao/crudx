@@ -9,11 +9,11 @@ import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import Stack from '@mui/material/Stack';
 import { TooltipProps } from '@mui/material/Tooltip';
+import cn from 'classnames';
 import includes from 'lodash/includes';
 import isNil from 'lodash/isNil';
 import startCase from 'lodash/startCase';
 
-import { Dialog } from '../../../../components/Dialog';
 import { TooltipView } from '../../../../components/TooltipView';
 
 import { CrudTableItemActionProps } from './props';
@@ -114,7 +114,12 @@ export const useCrudTableItemAction = <T extends CrudSchemataTypes = any>(
         // if node type = menu
         if (nodeType === 'menu') {
           return (
-            <Stack alignItems="center" justifyContent="center" direction="row">
+            <Stack
+              className={cn('crud-item-action-menu-type', type)}
+              alignItems="center"
+              justifyContent="center"
+              direction="row"
+            >
               {icon}
               <span>
                 &nbsp;
@@ -130,14 +135,24 @@ export const useCrudTableItemAction = <T extends CrudSchemataTypes = any>(
          */
         // default to icon button
         let buttonNode = (
-          <IconButton size={size} aria-label={type} onClick={clickEvent}>
+          <IconButton
+            className={cn('crud-item-action-button-type', type)}
+            size={size}
+            aria-label={type}
+            onClick={clickEvent}
+          >
             {icon}
           </IconButton>
         );
         // if button type
         if (nodeType === 'button') {
           buttonNode = (
-            <Button size={size} aria-label={type} onClick={clickEvent}>
+            <Button
+              className={cn('crud-item-action-button-type', type)}
+              size={size}
+              aria-label={type}
+              onClick={clickEvent}
+            >
               {icon}
             </Button>
           );
@@ -191,12 +206,12 @@ export const useCrudTableItemAction = <T extends CrudSchemataTypes = any>(
             // NOTE: we can have custom alert node just like example below
             // alert: !isEnableAlert('view') ? false : renderAlertNode,
             alert: isEnableAlert('view'),
-            node:
-              viewNode ??
-              renderActionNode(
-                'view',
-                <RemoveRedEyeOutlinedIcon fontSize="inherit" />
-              ),
+            node: viewNode
+              ? renderTooltip('view', viewNode)
+              : renderActionNode(
+                  'view',
+                  <RemoveRedEyeOutlinedIcon fontSize="inherit" />
+                ),
           }
         : undefined,
       update: enableUpdate
@@ -211,12 +226,12 @@ export const useCrudTableItemAction = <T extends CrudSchemataTypes = any>(
               ctx.context?.controllers?.update?.onShow(data);
             },
             alert: isEnableAlert('update'),
-            node:
-              updateNode ||
-              renderActionNode(
-                'update',
-                <ModeEditOutlineOutlinedIcon fontSize="inherit" />
-              ),
+            node: updateNode
+              ? renderTooltip('update', updateNode)
+              : renderActionNode(
+                  'update',
+                  <ModeEditOutlineOutlinedIcon fontSize="inherit" />
+                ),
           }
         : undefined,
       delete: enableDelete
@@ -231,12 +246,12 @@ export const useCrudTableItemAction = <T extends CrudSchemataTypes = any>(
               ctx.context?.controllers?.delete?.onShow(data);
             },
             alert: isEnableAlert('delete'),
-            node:
-              deleteNode ||
-              renderActionNode(
-                'delete',
-                <DeleteOutlineOutlinedIcon fontSize="inherit" />
-              ),
+            node: deleteNode
+              ? renderTooltip('delete', deleteNode)
+              : renderActionNode(
+                  'delete',
+                  <DeleteOutlineOutlinedIcon fontSize="inherit" />
+                ),
           }
         : undefined,
       exports: enableExport
@@ -251,30 +266,32 @@ export const useCrudTableItemAction = <T extends CrudSchemataTypes = any>(
               ctx.context?.controllers?.exports?.onShow(data);
             },
             alert: isEnableAlert('export'),
-            node:
-              exportNode ||
-              renderActionNode(
-                'export',
-                <CloudDownloadOutlinedIcon fontSize="inherit" />
-              ),
+            node: exportNode
+              ? renderTooltip('export', exportNode)
+              : renderActionNode(
+                  'export',
+                  <CloudDownloadOutlinedIcon fontSize="inherit" />
+                ),
           }
         : undefined,
 
       extra: enableExtra
         ? extraActions.reduce((result: any, action) => {
+            const tooltipTitle = !isNil(action.tooltip)
+              ? action.tooltip || action.title
+              : action.title;
+
             result.push({
               key: action.key,
               title: action.title,
               alert: action.alert,
-              node:
-                action?.node ??
-                renderActionNode(
-                  action.key,
-                  <ExpandCircleDownOutlinedIcon fontSize="inherit" />,
-                  !isNil(action.tooltip)
-                    ? action.tooltip || action.title
-                    : action.title
-                ),
+              node: action?.node
+                ? renderTooltip(action.key, viewNode, tooltipTitle)
+                : renderActionNode(
+                    action.key,
+                    <ExpandCircleDownOutlinedIcon fontSize="inherit" />,
+                    tooltipTitle
+                  ),
               onClick: action.action,
             });
             return result;
