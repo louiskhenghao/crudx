@@ -2,6 +2,15 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+## [0.0.9](https://github.com/louiskhenghao/crudx/compare/workspace@0.0.8...workspace@0.0.9) (2023-12-15)
+
+
+### Features
+
+* **core:** update CrudSchemata get & list options type ([3588e15](https://github.com/louiskhenghao/crudx/commit/3588e15427c41c2b8b90a90675d114213236c414))
+* **mui:** allow tooltip for custom action node, add css class name for default action node ([89016d8](https://github.com/louiskhenghao/crudx/commit/89016d8a285df2dca4524e58abe88f1a86245045))
+* **mui:** handle content margin from CrudFilterView ([eecc1f4](https://github.com/louiskhenghao/crudx/commit/eecc1f4885dcce06d448edf5fbabbc383326e6b0))
+
 ## [0.0.8](https://github.com/louiskhenghao/crudx/compare/workspace@0.0.7...workspace@0.0.8) (2023-12-14)
 
 
