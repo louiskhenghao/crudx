@@ -17,6 +17,11 @@ export const CrudFilterView = memo((props: CrudFilterViewProps) => {
   const { unstyled, className, title, actions, spacingMultiplier, children } =
     props;
 
+  // =============== VARIABLES
+  const hasActions =
+    typeof actions === 'function' ||
+    (typeof actions === 'object' && actions.length > 0);
+
   // =============== VIEW
   if (!title && !children && !actions) {
     return null;
@@ -25,6 +30,7 @@ export const CrudFilterView = memo((props: CrudFilterViewProps) => {
     <StyledWrapper
       unstyled={unstyled}
       spacingMultiplier={spacingMultiplier}
+      hasActions={hasActions}
       className={cn('crud-filter-wrapper', className)}
     >
       {/* ---- TITLE */}

@@ -9,22 +9,28 @@ import isNil from 'lodash/isNil';
  */
 export const StyledWrapper = styled(Box, {
   shouldForwardProp: (prop) =>
-    !['unstyled', 'spacingMultiplier'].includes(prop as string),
-})<BoxProps & { unstyled?: boolean; spacingMultiplier?: number }>(
-  ({ theme, unstyled, spacingMultiplier }) => {
-    if (unstyled) return {};
-    const hasMultiplier = !isNil(spacingMultiplier);
-    return {
-      '.crud-filter-title': {
-        marginBottom: theme.spacing(hasMultiplier ? spacingMultiplier * 2 : 2),
-      },
-      '.crud-filter-content': {
-        marginBottom: theme.spacing(hasMultiplier ? spacingMultiplier * 3 : 3),
-      },
-      '.crud-filter-actions': {},
-    };
+    !['unstyled', 'spacingMultiplier', 'hasActions'].includes(prop as string),
+})<
+  BoxProps & {
+    unstyled?: boolean;
+    spacingMultiplier?: number;
+    hasActions?: boolean;
   }
-);
+>(({ theme, unstyled, spacingMultiplier, hasActions }) => {
+  if (unstyled) return {};
+  const hasMultiplier = !isNil(spacingMultiplier);
+  return {
+    '.crud-filter-title': {
+      marginBottom: theme.spacing(hasMultiplier ? spacingMultiplier * 2 : 2),
+    },
+    '.crud-filter-content': {
+      marginBottom: hasActions
+        ? theme.spacing(hasMultiplier ? spacingMultiplier * 2 : 2)
+        : undefined,
+    },
+    '.crud-filter-actions': {},
+  };
+});
 
 /**
  * ===========================
