@@ -60,8 +60,8 @@ export type CrudContentHeaderViewProps = {
     createText?: string;
     expandText?: string;
     collapseText?: string;
-    sorting: { default: 'Default'; asc: 'Ascending'; desc: 'Descending' };
-    density: { default: 'Default'; small: 'Small'; medium: 'Medium' };
+    sorting?: { default: string; asc: string; desc: string };
+    density?: { default: string; small: string; medium: string };
   };
   /**
    * HEADER TABS
