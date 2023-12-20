@@ -31,11 +31,7 @@ export type CrudTableItemActionProps<
   // the identifier to read from data
   identifier?: string;
   // the button presentation type
-  nodeType?:
-    | ((ctx: { node: ReactNode; onClick?: () => void }) => ReactNode)
-    | 'button'
-    | 'menu'
-    | 'icon';
+  nodeType?: 'button' | 'menu' | 'icon';
   /**
    * whether enable alert when click on the button
    * @default ['delete','export']
@@ -86,7 +82,7 @@ export type CrudTableItemActionProps<
     key: string;
     // text to be display over menu
     title: string;
-    node?: ReactNode;
+    node?: CrudCommonActionNode<TSchema, CrudGraphApiGetType<TSchema>>;
     alert?: boolean;
     tooltip?: boolean | string | Omit<TooltipProps, 'children'>;
     action: CrudCommonActionNodeOptions<
