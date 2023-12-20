@@ -20,7 +20,7 @@ import { CrudProps } from '@crudx/core';
 import { CrudPanelView, CrudTableViewProps } from '@crudx/mui';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import HomeIcon from '@mui/icons-material/Home';
-import { Box, Button, Chip, TextField } from '@mui/material';
+import { Box, Button, Chip, IconButton, TextField } from '@mui/material';
 import Checkbox from '@mui/material/Checkbox';
 import includes from 'lodash/includes';
 import Image from 'next/image';
@@ -300,6 +300,9 @@ export function Index() {
               placement: 'top',
             },
           },
+          viewNode: (context, events) => {
+            return <button onClick={events}>asd</button>;
+          },
           viewAction: (e, ctx) => {
             const dataId = ctx?.data?.bank_id;
             if (!dataId) return;
@@ -343,7 +346,13 @@ export function Index() {
           },
           {
             key: 'some-extra-button-1',
-            // node: <HomeIcon />,
+            // node: (ctx, e) => {
+            //   return (
+            //     <IconButton onClick={e}>
+            //       <HomeIcon />
+            //     </IconButton>
+            //   );
+            // },
             title: 'Some Extra Button 1',
             alert: true,
             tooltip: false,
