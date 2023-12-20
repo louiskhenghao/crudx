@@ -2,6 +2,13 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+## [0.0.11](https://github.com/louiskhenghao/crudx/compare/workspace@0.0.10...workspace@0.0.11) (2023-12-20)
+
+
+### Bug Fixes
+
+* **mui:** reuse action node rendering function for custom node ([d38e2a9](https://github.com/louiskhenghao/crudx/commit/d38e2a97d857e751f5eadc1887c442bdff66caab))
+
 ## [0.0.10](https://github.com/louiskhenghao/crudx/compare/workspace@0.0.9...workspace@0.0.10) (2023-12-20)
 
 
