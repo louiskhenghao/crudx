@@ -230,8 +230,16 @@ export type CrudContentViewProps<TData = any> = {
   renderItemView?: (
     record: TData,
     views: {
+      // to render item actions
       action: () => ReactNode;
+      // to render checkbox
       checkbox: () => ReactNode;
+    },
+    state: {
+      // the current state of selection
+      checked: boolean;
+      // the function to trigger check
+      onCheck: (state: boolean) => void;
     }
   ) => ReactNode;
 

@@ -7,8 +7,9 @@ import CircularProgress from '@mui/material/CircularProgress';
 import Pagination from '@mui/material/Pagination';
 import Stack from '@mui/material/Stack';
 import cn from 'classnames';
+import isNil from 'lodash/isNil';
 
-import { InferDataColumnType, TableDataIndex } from '../../@types';
+import { TableDataIndex } from '../../@types';
 import { SortingOptionType } from '../../components/TableSettingsSortingOptions';
 import { CrudContentHeaderView } from '../CrudContentHeaderView';
 import CrudRowItemActions from '../CrudRowItemActions';
@@ -109,20 +110,21 @@ export const CrudContentView = <TData = any,>(
     return val?.[checkbox.dataIndex] as TableDataIndex<TData>;
   };
 
+  const checkedItemByRecord = (data: TData, checked: boolean) => {
+    const record = extractCheckedValue(data);
+    if (isNil(record)) return;
+    if (checked) {
+      triggerCheckboxUpdate([...checkedState, record]);
+    } else {
+      triggerCheckboxUpdate(checkedState.filter((e) => e !== record));
+    }
+  };
+
   const onHandleCheckbox =
     (data: TData) => (event: React.ChangeEvent<HTMLInputElement>) => {
       event.stopPropagation();
       const isChecked = event.target.checked;
-      let record: InferDataColumnType<TData> = data;
-      if (checkbox?.dataIndex) {
-        record = data?.[checkbox.dataIndex] as any;
-      }
-      if (!record) return;
-      if (isChecked) {
-        triggerCheckboxUpdate([...checkedState, record]);
-      } else {
-        triggerCheckboxUpdate(checkedState.filter((e) => e !== record));
-      }
+      checkedItemByRecord(data, isChecked);
     };
 
   // =============== EFFECTS
@@ -205,31 +207,38 @@ export const CrudContentView = <TData = any,>(
 
       return (
         <Fragment key={`content-item-${i}`}>
-          {renderItemView(record, {
-            checkbox: () => {
-              if (!checkbox?.enabled) return null;
-              return (
-                <Checkbox
-                  color="primary"
-                  checked={isChecked}
-                  onClick={(e) => e.stopPropagation()}
-                  onChange={onHandleCheckbox(record)}
-                />
-              );
+          {renderItemView(
+            record,
+            {
+              checkbox: () => {
+                if (!checkbox?.enabled) return null;
+                return (
+                  <Checkbox
+                    color="primary"
+                    checked={isChecked}
+                    onClick={(e) => e.stopPropagation()}
+                    onChange={onHandleCheckbox(record)}
+                  />
+                );
+              },
+              action: () => {
+                return (
+                  <CrudRowItemActions
+                    data={record}
+                    actions={itemActions}
+                    node={itemActionGroupIcon}
+                    type={enableItemGroupAction ? 'menu' : 'icon'}
+                    renderActionButtons={renderActionButtons}
+                    renderExtraActionButtons={renderExtraActionButtons}
+                  />
+                );
+              },
             },
-            action: () => {
-              return (
-                <CrudRowItemActions
-                  data={record}
-                  actions={itemActions}
-                  node={itemActionGroupIcon}
-                  type={enableItemGroupAction ? 'menu' : 'icon'}
-                  renderActionButtons={renderActionButtons}
-                  renderExtraActionButtons={renderExtraActionButtons}
-                />
-              );
-            },
-          })}
+            {
+              checked: isChecked,
+              onCheck: (state) => checkedItemByRecord(record, state),
+            }
+          )}
         </Fragment>
       );
     });
