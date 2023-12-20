@@ -2,6 +2,18 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+## [0.0.10](https://github.com/louiskhenghao/crudx/compare/workspace@0.0.9...workspace@0.0.10) (2023-12-20)
+
+
+### Features
+
+* **mui:** expose state & function of row selection on renderItemView ([8001497](https://github.com/louiskhenghao/crudx/commit/800149793a2b3b58c79629b6d463a87f190205c6))
+
+
+### Bug Fixes
+
+* **mui:** fix text customization props ([08c794a](https://github.com/louiskhenghao/crudx/commit/08c794aa46693a1126c85a2d17260b86216b7a91))
+
 ## [0.0.9](https://github.com/louiskhenghao/crudx/compare/workspace@0.0.8...workspace@0.0.9) (2023-12-15)
 
 
