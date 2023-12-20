@@ -21,6 +21,7 @@ import { CrudPanelView, CrudTableViewProps } from '@crudx/mui';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import HomeIcon from '@mui/icons-material/Home';
 import { Box, Button, Chip, TextField } from '@mui/material';
+import Checkbox from '@mui/material/Checkbox';
 import includes from 'lodash/includes';
 import Image from 'next/image';
 
@@ -487,10 +488,19 @@ export function Index() {
           };
         }}
         contentViewType="view"
-        renderItemView={(record, views) => {
+        renderItemView={(record, views, state) => {
           return (
             <div>
               {views.checkbox()}
+              <Checkbox
+                onClick={(e) => e.stopPropagation()}
+                checked={state.checked}
+                onChange={(e) => {
+                  e.stopPropagation();
+                  const isChecked = e.target.checked;
+                  state.onCheck(isChecked);
+                }}
+              />
 
               <Image
                 alt={record?.bank_name ?? ''}
