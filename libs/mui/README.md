@@ -7,7 +7,7 @@ This library significantly enhances development efficiency, particularly for CRU
 ## Installation
 
 ```bash
-yarn add @crudx/core @crudx/mui @mui/material @mui/icons-material classnames next react react-hot-toast
+yarn add @crudx/core @crudx/mui @mui/material @mui/icons-material classnames next react react-dom react-hot-toast numeral axios
 ```
 
 ---
@@ -26,23 +26,26 @@ yarn add @crudx/core @crudx/mui @mui/material @mui/icons-material classnames nex
 
 ## General Component
 
-| Component        | Link                                           |
-| ---------------- | ---------------------------------------------- |
-| BreadcrumbView   | [link](./src/views/BreadcrumbView/README.md)   |
-| ButtonDropdown   | [link](./src/views/ButtonDropdown/README.md)   |
-| Dialog           | [link](./src/views/Dialog/README.md)           |
-| NumberFormatView | [link](./src/views/NumberFormatView/README.md) |
-| RenderFlexView   | [link](./src/views/RenderFlexView/README.md)   |
-| RenderNodeView   | [link](./src/views/RenderNodeView/README.md)   |
-| TabView          | [link](./src/views/TabView/README.md)          |
-| TooltipView      | [link](./src/views/TooltipView/README.md)      |
+| Component        | Link                                                |
+| ---------------- | --------------------------------------------------- |
+| BreadcrumbView   | [link](./src/components/BreadcrumbView/README.md)   |
+| ButtonDropdown   | [link](./src/components/ButtonDropdown/README.md)   |
+| Dialog           | [link](./src/components/Dialog/README.md)           |
+| NumberFormatView | [link](./src/components/NumberFormatView/README.md) |
+| RenderFlexView   | [link](./src/components/RenderFlexView/README.md)   |
+| RenderNodeView   | [link](./src/components/RenderNodeView/README.md)   |
+| TabView          | [link](./src/components/TabView/README.md)          |
+| TooltipView      | [link](./src/components/TooltipView/README.md)      |
 
 ## Table Component
 
-| Component                   | Link                                                      |
-| --------------------------- | --------------------------------------------------------- |
-| Table                       | [link](./src/views/Table/README.md)                       |
-| TableSelectedBulkOptions    | [link](./src/views/TableSelectedBulkOptions/README.md)    |
-| TableSettingsDensityOptions | [link](./src/views/TableSettingsDensityOptions/README.md) |
-| TableSettingsOptions        | [link](./src/views/TableSettingsOptions/README.md)        |
-| TableSettingsSortingOptions | [link](./src/views/TableSettingsSortingOptions/README.md) |
+| Component                   | Link                                                           |
+| --------------------------- | -------------------------------------------------------------- |
+| Table                       | [link](./src/components/Table/README.md)                       |
+| TableRow                    | [link](./src/components/TableRow/README.md)                    |
+| TableHead                   | [link](./src/components/TableHead/README.md)                   |
+| TablePagination             | [link](./src/components/TablePagination/README.md)             |
+| TableSelectedBulkOptions    | [link](./src/components/TableSelectedBulkOptions/README.md)    |
+| TableSettingsDensityOptions | [link](./src/components/TableSettingsDensityOptions/README.md) |
+| TableSettingsOptions        | [link](./src/components/TableSettingsOptions/README.md)        |
+| TableSettingsSortingOptions | [link](./src/components/TableSettingsSortingOptions/README.md) |
