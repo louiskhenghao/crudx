@@ -17,6 +17,7 @@
     "baseUrl": ".",
     "paths": {
       "@crudx/common": ["libs/common/src/index.ts"],
+      "@crudx/common/*": ["libs/common/src/*"],
       "@crudx/core": ["libs/core/src/index.ts"],
       "@crudx/mui": ["libs/mui/src/index.ts"]
     }
