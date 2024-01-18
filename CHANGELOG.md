@@ -2,6 +2,17 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+## [0.0.12](https://github.com/louiskhenghao/crudx/compare/workspace@0.0.11...workspace@0.0.12) (2024-01-18)
+
+
+### Features
+
+* **common:** add @crudx/common lib ([dbb1157](https://github.com/louiskhenghao/crudx/commit/dbb115794d712d4c61f2eb6a2f2f2c95502cd591))
+* **common:** add build script & add libs to tsconfig ([88fafc5](https://github.com/louiskhenghao/crudx/commit/88fafc5a8cb73d64152f00d671dd75d63728bef0))
+* **common:** add component, helpers & hooks to common libs ([c8bfa52](https://github.com/louiskhenghao/crudx/commit/c8bfa529fd399ed992a6a1d0c1409c28be6b5920))
+* **core:** utilizing @crudx/common package ([e54ec40](https://github.com/louiskhenghao/crudx/commit/e54ec4050f214474e89b1715a29fa868d53473eb))
+* **mui:** utilizing @crudx/common package ([954607d](https://github.com/louiskhenghao/crudx/commit/954607dd1dff9903633ebd56c59094ce93d02d90))
+
 ## [0.0.11](https://github.com/louiskhenghao/crudx/compare/workspace@0.0.10...workspace@0.0.11) (2023-12-20)
 
 
