@@ -1,3 +1,3 @@
-import { UsePaginationHookProps } from '../../hooks/usePaginationHook';
+import { UsePaginationHookProps } from '@crudx/common';
 
 export type CrudPaginationProps = UsePaginationHookProps;

@@ -1,7 +1,7 @@
 import { ReactNode } from 'react';
+import { UseRowSelectionProps } from '@crudx/common';
 
 import { CrudMutationResource } from '../../../crud/mutation/resource';
-import { UseRowSelectionProps } from '../../../hooks/useRowSelectionHook';
 import {
   CrudCommonActionNodeAlertOptions,
   CrudCommonActionNodeProps,

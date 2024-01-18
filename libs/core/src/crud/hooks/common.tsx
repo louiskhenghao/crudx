@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { CloneElement, usePrompt, useVisibilityStateHook } from '@crudx/common';
 import get from 'lodash/get';
 import isFunction from 'lodash/isFunction';
 import startCase from 'lodash/startCase';
@@ -24,9 +25,6 @@ import {
   CrudComponentExtraActionProps,
 } from '../../@types/crud/components/common';
 import { CrudSchemataTypes } from '../../@types/crud/schema';
-import { CloneElement } from '../../components/CloneElement';
-import usePrompt from '../../hooks/usePrompt';
-import { useVisibilityStateHook } from '../../hooks/useVisibilityStateHook';
 
 /**
  * ===========================
