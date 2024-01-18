@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { formatNumbering } from '@crudx/core';
+import { formatNumbering } from '@crudx/common';
 
 import { NumberFormatViewProps } from './props';
 

@@ -1,5 +1,5 @@
 import { PropsWithChildren, useState } from 'react';
-import { useDeepCompareEffect } from '@crudx/core';
+import { useDeepCompareEffect } from '@crudx/common';
 import Skeleton from '@mui/material/Skeleton';
 import MuiTableBody from '@mui/material/TableBody';
 import MuiTableCell from '@mui/material/TableCell';

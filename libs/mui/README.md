@@ -7,7 +7,7 @@ This library significantly enhances development efficiency, particularly for CRU
 ## Installation
 
 ```bash
-yarn add @crudx/core @crudx/mui @mui/material @mui/icons-material classnames next react react-dom react-hot-toast numeral axios
+yarn add @crudx/common @crudx/core @crudx/mui @apollo/client @mui/material @mui/icons-material axios classnames currency-symbol-map dayjs next numeral react react-dom react-hot-toast
 ```
 
 ---
