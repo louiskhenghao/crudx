@@ -1,7 +1,11 @@
-# common
+# @crudx/common
 
-This library was generated with [Nx](https://nx.dev).
+This library is contains common helpers, hooks & components
 
-## Running unit tests
+---
 
-Run `nx test common` to execute the unit tests via [Jest](https://jestjs.io).
+## Installation
+
+```bash
+yarn add @crudx/common dayjs numeral react react-dom
+```

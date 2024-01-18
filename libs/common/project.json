@@ -20,9 +20,10 @@
         "tsConfig": "libs/common/tsconfig.lib.json",
         "project": "libs/common/package.json",
         "entryFile": "libs/common/src/index.ts",
-        "external": ["react", "react-dom", "react/jsx-runtime"],
         "rollupConfig": "@nx/react/plugins/bundle-rollup",
         "compiler": "babel",
+        "format": ["cjs", "esm"],
+        "external": ["dayjs", "numeral", "react", "react-dom"],
         "assets": [
           {
             "glob": "libs/common/README.md",
