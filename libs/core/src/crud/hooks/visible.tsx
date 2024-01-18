@@ -1,10 +1,10 @@
+import { useVisibilityStateHook } from '@crudx/common';
 import omit from 'lodash/omit';
 
 import { CrudComponentVisibilityController } from '../../@types/crud/components/common';
 import { CrudComponentOptions } from '../../@types/crud/components/component';
 import { CrudComponentModalFormHookProps } from '../../@types/crud/components/modal';
 import { CrudSchemataTypes } from '../../@types/crud/schema';
-import { useVisibilityStateHook } from '../../hooks/useVisibilityStateHook';
 
 import useComponentAlertHook from './alert';
 

@@ -1,3 +1,5 @@
+import { usePaginationHook, useRowSelectionHook } from '@crudx/common';
+
 import { UseOperationVariables } from '../@types/apollo';
 import { CrudProps } from '../@types/crud';
 import { CrudCommonActions } from '../@types/crud/action';
@@ -11,7 +13,6 @@ import {
   CrudSchemataResult,
   CrudSchemataTypes,
 } from '../@types/crud/schema';
-import { usePaginationHook, useRowSelectionHook } from '../hooks';
 
 import { useGetQuery, useListQuery } from './hooks/query';
 import CrudMutationResource from './mutation/resource';

@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
+import { UseRowSelectionProps } from '@crudx/common';
 
-import { UseRowSelectionProps } from '../../../hooks/useRowSelectionHook';
 import { CrudGraphApiListType } from '../api';
 import { CrudPaginationProps } from '../pagination';
 import { CrudSchemataTypes } from '../schema';

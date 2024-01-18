@@ -1,6 +1,6 @@
 import { DependencyList, EffectCallback, useEffect, useRef } from 'react';
 
-import { isPrimitive } from '../../helpers/general';
+import { isPrimitive } from '../../helpers';
 
 type DepsEqualFnType<TDeps extends DependencyList> = (
   prevDeps: TDeps,

@@ -6,7 +6,7 @@ A modified useEffect hook that is using deep comparison on its dependencies inst
 
 ```TypeScript
 import { useCounter } from 'react-use';
-import { useDeepCompareEffect } from '@crudx/core';
+import { useDeepCompareEffect } from '@crudx/common';
 
 const Demo = () => {
   const [count, {inc: inc}] = useCounter(0);

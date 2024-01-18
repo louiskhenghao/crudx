@@ -1,7 +1,7 @@
 import { DependencyList, EffectCallback } from 'react';
 import isEquals from 'lodash/isEqual';
 
-import { isPrimitive } from '../../helpers/general';
+import { isPrimitive } from '../../helpers';
 import { useCustomCompareEffect } from '../useCustomCompareEffect';
 
 /**

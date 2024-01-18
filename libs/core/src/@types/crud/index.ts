@@ -1,4 +1,4 @@
-import { UseRowSelectionProps } from '../../hooks/useRowSelectionHook';
+import { UseRowSelectionProps } from '@crudx/common';
 
 import { CrudComponentProps } from './components/component';
 import { CrudDetailProps } from './detail';

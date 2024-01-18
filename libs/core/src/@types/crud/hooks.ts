@@ -1,5 +1,4 @@
-import { UsePaginationHookProps } from '../../hooks/usePaginationHook';
-import { UseRowSelectionProps } from '../../hooks/useRowSelectionHook';
+import { UsePaginationHookProps, UseRowSelectionProps } from '@crudx/common';
 
 export type CrudHookProps = {
   pagination: UsePaginationHookProps;

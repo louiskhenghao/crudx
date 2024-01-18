@@ -1,9 +1,9 @@
 import { useMemo, useState } from 'react';
+import { useVisibilityStateHook } from '@crudx/common';
 
 import { CrudCommonActionNodeAlertOptions } from '../../@types/crud/action';
 import { CrudComponentVisibilityController } from '../../@types/crud/components/common';
 import { CrudSchemataTypes } from '../../@types/crud/schema';
-import { useVisibilityStateHook } from '../../hooks/useVisibilityStateHook';
 
 /**
  * ===========================

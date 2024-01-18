@@ -12,9 +12,5 @@ This objective of this package is to make crud as simple as possible
 ## Installation
 
 ```bash
-yarn add @crudx/core react react-dom numeral axios
+yarn add @crudx/common @crudx/core @apollo/client axios currency-symbol-map dayjs numeral react react-dom
 ```
-
----
-
-## Getting Started

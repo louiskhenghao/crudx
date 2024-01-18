@@ -3,9 +3,9 @@ import {
   MutationTuple,
   OperationVariables,
 } from '@apollo/client';
+import { UseRowSelectionProps } from '@crudx/common';
 
 import { CrudCallbackComposer } from '../../crud';
-import { UseRowSelectionProps } from '../../hooks/useRowSelectionHook';
 
 import { CrudComponents } from './components';
 import { CrudDetailProps } from './detail';

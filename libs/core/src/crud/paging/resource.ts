@@ -1,4 +1,5 @@
 import { ApolloQueryResult, QueryResult } from '@apollo/client';
+import { UsePaginationHookProps } from '@crudx/common';
 import merge from 'lodash/merge';
 
 import { UseOperationVariables } from '../../@types/apollo';
@@ -13,7 +14,6 @@ import {
   CrudPagingStrategy,
 } from '../../@types/crud/paging';
 import { CrudSchemataTypes } from '../../@types/crud/schema';
-import { UsePaginationHookProps } from '../../hooks/usePaginationHook';
 
 import { fallbackCustomPagingOptions } from './defaults';
 import {

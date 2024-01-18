@@ -1,3 +1,4 @@
+import { defaultVisibilityStatePropsValue } from '@crudx/common';
 import isNil from 'lodash/isNil';
 
 import {
@@ -9,7 +10,6 @@ import {
   CrudComponentProps,
 } from '../../@types/crud/components/component';
 import { CrudSchemataTypes } from '../../@types/crud/schema';
-import { defaultVisibilityStatePropsValue } from '../../hooks/useVisibilityStateHook';
 import {
   useActionsComponentHook,
   useContentComponentHook,

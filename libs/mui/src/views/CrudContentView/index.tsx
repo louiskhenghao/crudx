@@ -1,5 +1,5 @@
 import { Fragment, ReactNode, useEffect, useMemo, useState } from 'react';
-import { useDeepCompareEffect } from '@crudx/core';
+import { useDeepCompareEffect } from '@crudx/common';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Checkbox from '@mui/material/Checkbox';

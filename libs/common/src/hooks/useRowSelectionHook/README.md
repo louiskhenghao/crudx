@@ -5,7 +5,7 @@ A hook that to handle row selection
 ## Usage
 
 ```TypeScript
-import { useRowSelectionHook } from '@crudx/core';
+import { useRowSelectionHook } from '@crudx/common';
 
 const Demo = () => {
   const { selectable, selections, clear, toggle } = useRowSelectionHook();

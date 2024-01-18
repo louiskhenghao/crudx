@@ -22,12 +22,17 @@
         "entryFile": "libs/mui/src/index.ts",
         "format": ["cjs", "esm"],
         "external": [
+          "@apollo/client",
+          "@crudx/common",
           "@crudx/core",
           "@mui/material",
           "@mui/icons-material",
           "classnames",
+          "currency-symbol-map",
+          "dayjs",
           "lodash",
           "next",
+          "numeral",
           "react",
           "react-dom",
           "react-hot-toast"

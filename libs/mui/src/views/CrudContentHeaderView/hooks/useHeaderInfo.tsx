@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { formatNumbering } from '@crudx/core';
+import { formatNumbering } from '@crudx/common';
 import Typography from '@mui/material/Typography';
 import forEach from 'lodash/forEach';
 import replace from 'lodash/replace';

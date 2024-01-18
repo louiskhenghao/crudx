@@ -6,7 +6,7 @@ A modified useEffect hook that accepts a comparator which is used for comparison
 
 ```TypeScript
 import { useCounter } from 'react-use';
-import { useCustomCompareEffect } from '@crudx/core';
+import { useCustomCompareEffect } from '@crudx/common';
 import isEqual from "lodash/isEqual";
 
 const Demo = () => {

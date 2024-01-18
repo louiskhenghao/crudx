@@ -1,6 +1,5 @@
 import { LazyQueryHookOptions } from '@apollo/client';
-
-import { UseRowSelectionProps } from '../../hooks/useRowSelectionHook';
+import { UseRowSelectionProps } from '@crudx/common';
 
 import { CrudPaginationProps } from './pagination';
 import { CrudPagingProps } from './paging';
