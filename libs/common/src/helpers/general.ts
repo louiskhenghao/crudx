@@ -1,5 +1,10 @@
 import numeral from 'numeral';
 
+/**
+ * ===========================
+ * MAIN
+ * ===========================
+ */
 export const isPrimitive = (val: any) => val !== Object(val);
 
 /**
@@ -10,4 +15,14 @@ export const formatNumbering = (
   format = '0,0'
 ): string | number => {
   return numeral(amount).format(format);
+};
+
+/**
+ * ===========================
+ * EXPORTS
+ * ===========================
+ */
+export default {
+  isPrimitive,
+  formatNumbering,
 };

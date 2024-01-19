@@ -4,6 +4,10 @@ This repository is the main repository that hosted code that will be used to bui
 
 ## Available Packages
 
+### @crudx/common
+
+Please refer to [documentation](./libs/common/README.md)
+
 ### @crudx/core
 
 Please refer to [documentation](./libs/core/README.md)

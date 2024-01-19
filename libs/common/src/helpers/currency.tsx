@@ -2,6 +2,11 @@ import getSymbolFromCurrency from 'currency-symbol-map';
 import numeral from 'numeral';
 
 /**
+ * ===========================
+ * MAIN
+ * ===========================
+ */
+/**
  * Get currency symbol by providing symbol
  * If provided currency is not valid will return undefined
  * @example
@@ -50,4 +55,14 @@ export const formatCurrency = (
     return `${symbol}${showGap ? ' ' : ''}${price}`;
   }
   return price;
+};
+
+/**
+ * ===========================
+ * EXPORTS
+ * ===========================
+ */
+export default {
+  toCurrencySymbol,
+  formatCurrency,
 };

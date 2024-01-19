@@ -14,7 +14,7 @@ yarn add @crudx/common @crudx/core @crudx/mui @apollo/client @mui/material @mui/
 
 ## Core Component
 
-| Component             | Link                                                |
+| Name                  | Link                                                |
 | --------------------- | --------------------------------------------------- |
 | CrudPanelView         | [link](./src/views/CrudPanelView/README.md)         |
 | CrudFilterView        | [link](./src/views/CrudFilterView/README.md)        |
@@ -26,7 +26,7 @@ yarn add @crudx/common @crudx/core @crudx/mui @apollo/client @mui/material @mui/
 
 ## General Component
 
-| Component        | Link                                                |
+| Name             | Link                                                |
 | ---------------- | --------------------------------------------------- |
 | BreadcrumbView   | [link](./src/components/BreadcrumbView/README.md)   |
 | ButtonDropdown   | [link](./src/components/ButtonDropdown/README.md)   |
@@ -39,7 +39,7 @@ yarn add @crudx/common @crudx/core @crudx/mui @apollo/client @mui/material @mui/
 
 ## Table Component
 
-| Component                   | Link                                                           |
+| Name                        | Link                                                           |
 | --------------------------- | -------------------------------------------------------------- |
 | Table                       | [link](./src/components/Table/README.md)                       |
 | TableRow                    | [link](./src/components/TableRow/README.md)                    |

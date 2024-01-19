@@ -5,12 +5,16 @@ import relativeTime from 'dayjs/plugin/relativeTime';
 import weekOfYear from 'dayjs/plugin/weekOfYear';
 import isNil from 'lodash/isNil';
 
-// ===== extend
 dayjs.extend(relativeTime);
 dayjs.extend(weekOfYear);
 dayjs.extend(customParseFormat);
 dayjs.extend(advancedFormat);
 
+/**
+ * ===========================
+ * MAIN
+ * ===========================
+ */
 export const formatDateTime = (
   data: any,
   options?: { relative?: boolean; format?: string; locale?: string }
@@ -72,4 +76,14 @@ export const setDateTime = (
     relative: type === 'relative',
     format: type === 'date' ? 'DD, MMM YYYY' : type,
   });
+};
+
+/**
+ * ===========================
+ * EXPORTS
+ * ===========================
+ */
+export default {
+  formatDateTime,
+  setDateTime,
 };
