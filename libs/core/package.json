@@ -1,4 +1,14 @@
 {
   "name": "@crudx/core",
-  "version": "0.0.12"
+  "version": "0.0.12",
+  "license": "MIT",
+  "author": "Louis Loo <louiskhenghao@gmail.com> (https://github.com/louiskhenghao)",
+  "homepage": "https://github.com/louiskhenghao/crudx/blob/main/libs/core#readme",
+  "keywords": [
+    "react",
+    "crud",
+    "core",
+    "apollo",
+    "graphql"
+  ]
 }

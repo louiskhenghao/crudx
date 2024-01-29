@@ -1,6 +1,6 @@
 # @crudx/core
 
-This objective of this package is to make crud as simple as possible
+The objective of this package is to make crud as simple as possible
 
 ---
 
@@ -8,6 +8,8 @@ This objective of this package is to make crud as simple as possible
 
 - [Installation](#installation)
 - [Getting Started](#getting-started)
+
+---
 
 ## Installation
 

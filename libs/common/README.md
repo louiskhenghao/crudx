@@ -1,6 +1,6 @@
 # @crudx/common
 
-This library is contains common helpers, hooks & components
+This library contains common helpers, hooks & components
 
 ---
 

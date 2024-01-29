@@ -42,9 +42,6 @@ yarn add @crudx/common @crudx/core @crudx/mui @apollo/client @mui/material @mui/
 | Name                        | Link                                                           |
 | --------------------------- | -------------------------------------------------------------- |
 | Table                       | [link](./src/components/Table/README.md)                       |
-| TableRow                    | [link](./src/components/TableRow/README.md)                    |
-| TableHead                   | [link](./src/components/TableHead/README.md)                   |
-| TablePagination             | [link](./src/components/TablePagination/README.md)             |
 | TableSelectedBulkOptions    | [link](./src/components/TableSelectedBulkOptions/README.md)    |
 | TableSettingsDensityOptions | [link](./src/components/TableSettingsDensityOptions/README.md) |
 | TableSettingsOptions        | [link](./src/components/TableSettingsOptions/README.md)        |
