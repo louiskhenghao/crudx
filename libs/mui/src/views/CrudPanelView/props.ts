@@ -170,11 +170,19 @@ export type CrudPanelViewProps<
   /**
    * column actions configuration
    */
-  columnActions?: Partial<CrudTableItemActionProps<TSchema>>;
+  columnActions?: Partial<
+    CrudTableItemActionProps<
+      TSchema,
+      IfTypeAny<TColumnData, CrudGraphApiListType<TSchema>, any>
+    >
+  >;
   /**
    * column actions configuration
    */
-  columnExtraActions?: CrudTableItemActionProps<TSchema>['extraActions'];
+  columnExtraActions?: CrudTableItemActionProps<
+    TSchema,
+    IfTypeAny<TColumnData, CrudGraphApiListType<TSchema>, any>
+  >['extraActions'];
   /**
    * table data index to for checkbox
    */

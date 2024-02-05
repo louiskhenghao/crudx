@@ -1,6 +1,7 @@
 import { ReactElement, ReactNode } from 'react';
 
 import { CrudMutationResource } from '../../crud/mutation/resource';
+import { IfTypeAny } from '../utility';
 
 import {
   CrudCommonVisibilityProps,
@@ -11,6 +12,7 @@ import {
   CrudGraphApiDeleteType,
   CrudGraphApiExportType,
   CrudGraphApiGetType,
+  CrudGraphApiListType,
   CrudGraphApiUpdateType,
 } from './api';
 import { CrudSchemataTypes } from './schema';
@@ -55,36 +57,42 @@ export interface CrudCommonActions<
   TSchema extends CrudSchemataTypes = any,
   TData = any
 > {
-  view?: CrudCommonActionNodeOptions<TSchema, CrudGraphApiGetType<TSchema>>;
+  view?: CrudCommonActionNodeOptions<
+    TSchema,
+    IfTypeAny<TData, CrudGraphApiGetType<TSchema>, any>
+  >;
   update?: CrudCommonActionNodeOptions<
     TSchema,
-    CrudGraphApiUpdateType<TSchema>
+    IfTypeAny<TData, CrudGraphApiUpdateType<TSchema>, any>
   >;
   delete?: CrudCommonActionNodeOptions<
     TSchema,
-    CrudGraphApiDeleteType<TSchema>
+    IfTypeAny<TData, CrudGraphApiDeleteType<TSchema>, any>
   >;
   exports?: CrudCommonActionNodeOptions<
     TSchema,
-    CrudGraphApiExportType<TSchema>
+    IfTypeAny<TData, CrudGraphApiExportType<TSchema>, any>
   >;
   extra?: (CrudCommonActionNodeOptions<
     TSchema,
-    CrudGraphApiExportType<TSchema>
+    IfTypeAny<TData, CrudGraphApiExportType<TSchema>, any>
   > & { key: string })[];
   // the title to be display on dialog
   title?: (options: {
     action: CrudCommonActionButtonType;
     resource?: CrudCommonActionResource;
+    data?: IfTypeAny<TData, CrudGraphApiListType<TSchema>, any>;
   }) => string | ReactElement | null;
   // the message to be display on dialog
   message?: (options: {
     action: CrudCommonActionButtonType;
     resource?: CrudCommonActionResource;
+    data?: IfTypeAny<TData, CrudGraphApiListType<TSchema>, any>;
   }) => string | ReactElement | null;
   // the resource for dialog
   resource?: (
-    context?: CrudCommonActionEventContext<TSchema, TData>
+    context?: CrudCommonActionEventContext<TSchema, TData>,
+    data?: IfTypeAny<TData, CrudGraphApiListType<TSchema>, any>
   ) => CrudCommonActionResource;
 }
 
@@ -95,8 +103,8 @@ export interface CrudCommonActionButtonTypeOptions<
 > {
   key: CrudCommonActionButtonType;
   text?: { confirmText?: string; cancelText?: string };
-  title?: CrudCommonActions<TSchema>['title'];
-  message?: CrudCommonActions<TSchema>['message'];
+  title?: CrudCommonActions<TSchema, TData>['title'];
+  message?: CrudCommonActions<TSchema, TData>['message'];
   resource?: CrudCommonActions<TSchema, TData>['resource'];
 }
 // ====== ACTION NODE OPTIONS
