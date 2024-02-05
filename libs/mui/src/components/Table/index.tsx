@@ -10,7 +10,7 @@ import Typography from '@mui/material/Typography';
 import isNil from 'lodash/isNil';
 import uniq from 'lodash/uniq';
 
-import { TableDataIndex } from '../../@types';
+import { InferDataColumnType } from '../../@types';
 import { TableHead, TableHeadProps } from '../TableHead';
 import { TablePagination } from '../TablePagination';
 import { TableRow, TableRowProps } from '../TableRow';
@@ -67,7 +67,7 @@ export const Table = <TData,>(props: PropsWithChildren<TableProps<TData>>) => {
 
   // =============== STATE
   const [checkedState, setCheckedState] =
-    useState<TableDataIndex<TData>[]>(checked);
+    useState<InferDataColumnType<TData>[]>(checked);
 
   // =============== VARIABLES
   const hasData = data?.length > 0;
@@ -90,20 +90,22 @@ export const Table = <TData,>(props: PropsWithChildren<TableProps<TData>>) => {
   };
 
   // =============== HELPERS
-  const triggerCheckboxUpdate = (val: TableDataIndex<TData>[]) => {
+  const triggerCheckboxUpdate = (val: InferDataColumnType<TData>[]) => {
     setCheckedState(val);
     onCheck?.(val);
   };
 
-  const extractCheckedValue = (val: TData): TableDataIndex<TData> | null => {
+  const extractCheckedValue = (
+    val: TData
+  ): InferDataColumnType<TData> | null => {
     if (!checkbox?.enabled) return null;
     if (typeof val === 'number' || typeof val === 'string') {
-      return val as TableDataIndex<TData>;
+      return val as InferDataColumnType<TData>;
     }
     if (!checkbox.dataIndex) {
-      return val as TableDataIndex<TData>;
+      return val as InferDataColumnType<TData>;
     }
-    return val?.[checkbox.dataIndex] as TableDataIndex<TData>;
+    return val?.[checkbox.dataIndex] as InferDataColumnType<TData>;
   };
 
   // =============== EFFECTS
@@ -123,7 +125,7 @@ export const Table = <TData,>(props: PropsWithChildren<TableProps<TData>>) => {
       return;
     }
 
-    const indexes = data.reduce((r: TableDataIndex<TData>[], e) => {
+    const indexes = data.reduce((r: InferDataColumnType<TData>[], e) => {
       const value = extractCheckedValue(e);
       if (value) r.push(value);
       return r;

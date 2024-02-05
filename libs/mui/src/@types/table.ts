@@ -17,7 +17,8 @@ export type TableColumnDataIndex<TData> = TData extends TableDataPrimitiveTypes
   ? null
   : keyof TData;
 
-export type InferDataColumnType<TData> = any;
+export type InferDataColumnType<TData = any> =
+  TData extends TableDataPrimitiveTypes ? TData : TData;
 
 // the checkbox config
 export type TableCheckboxConfig<TData> = {
@@ -69,9 +70,5 @@ export type TableColumnType<TData = any> = {
   /**
    * Render function for column
    */
-  render?: (
-    value: InferDataColumnType<TData>,
-    record: TData,
-    index: number
-  ) => ReactNode;
+  render?: (value: any, record: TData, index: number) => ReactNode;
 };
