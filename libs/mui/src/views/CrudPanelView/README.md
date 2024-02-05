@@ -10,6 +10,7 @@ Crud panel view help to handle CRUD operations with UI easily
 import { ReactNode, RefAttributes } from 'react';
 import {
   CrudComponentAlertNodeProps,
+  CrudComponentContentNodeProps,
   CrudComponentDetailNodeProps,
   CrudComponentFilterModalNodeProps,
   CrudComponentFilterNodeProps,
@@ -27,6 +28,7 @@ import { SwipeableDrawerProps } from '@mui/material/SwipeableDrawer';
 
 import { TableDataIndex } from '../../@types';
 import { DialogProps, DialogRefProps } from '../../components/Dialog';
+import { CrudContentViewProps } from '../CrudContentView';
 import { CrudFilterViewProps } from '../CrudFilterView';
 import { CrudPageHeaderViewProps } from '../CrudPageHeaderView';
 import { CrudTableViewProps } from '../CrudTableView';
@@ -154,13 +156,13 @@ export type CrudPanelViewProps<
    */
   tableExtraView?: CrudTableViewProps['headerExtraView'];
   /**
+   * Added 0.0.3
    * table tab on change callback
-   * NOTE: added on 0.0.3
    */
   onTableTabChange?: CrudTableViewProps['onTabChange'];
   /**
+   * Added 0.0.4
    * table item on check callback
-   * NOTE: added on 0.0.4
    */
   onTableItemCheck?: CrudTableViewProps['onCheck'];
 
@@ -172,21 +174,29 @@ export type CrudPanelViewProps<
    * table columns to be display
    */
   columns?: CrudTableViewProps<
-    IfTypeAny<TColumnData, CrudGraphApiListType<TSchema>, any>
+    IfTypeAny<TColumnData, CrudGraphApiListType<TSchema>, TColumnData>
   >['columns'];
   /**
    * column actions configuration
    */
-  columnActions?: Partial<CrudTableItemActionProps<TSchema>>;
+  columnActions?: Partial<
+    CrudTableItemActionProps<
+      TSchema,
+      IfTypeAny<TColumnData, CrudGraphApiListType<TSchema>, TColumnData>
+    >
+  >;
   /**
    * column actions configuration
    */
-  columnExtraActions?: CrudTableItemActionProps<TSchema>['extraActions'];
+  columnExtraActions?: CrudTableItemActionProps<
+    TSchema,
+    IfTypeAny<TColumnData, CrudGraphApiListType<TSchema>, TColumnData>
+  >['extraActions'];
   /**
    * table data index to for checkbox
    */
   columnDataIndex?: TableDataIndex<
-    IfTypeAny<TColumnData, CrudGraphApiListType<TSchema>, any>
+    IfTypeAny<TColumnData, CrudGraphApiListType<TSchema>, TColumnData>
   >;
   /**
    * column action sequence arrangement
@@ -217,6 +227,12 @@ export type CrudPanelViewProps<
    * VIEW PROPS
    * ===========================
    */
+  /**
+   * Added 0.0.7
+   * whether to show data in table or view form
+   * @default table
+   */
+  contentViewType?: 'table' | 'view';
   /**
    * whether to have detail view shown in modal or drawer form
    * @default true
@@ -269,8 +285,7 @@ export type CrudPanelViewProps<
    */
   enableRowSelection?: boolean;
   /**
-   * Added at version 0.0.7
-   *
+   * Added 0.0.7
    * whether to have column action column
    * NOTE: if all actions in `columnActions` was disabled, even if this props set to true, the column will not be shown
    *
@@ -319,6 +334,13 @@ export type CrudPanelViewProps<
     'renderActionButtons' | 'onPaginateTo' | 'columns'
   >;
   /**
+   * Added 0.0.7
+   * props to override existing crud content props
+   */
+  prepareContentViewProps?: (
+    nodeProps: CrudComponentContentNodeProps<TSchema>
+  ) => Omit<CrudContentViewProps, 'renderActionButtons' | 'onPaginateTo'>;
+  /**
    * props to override details view props
    */
   prepareDetailViewProps?: (
@@ -361,6 +383,14 @@ export type CrudPanelViewProps<
   renderFilterModalView?: (
     nodeProps: CrudComponentFilterModalNodeProps<TSchema>
   ) => ReactNode;
+  /**
+   * Added 0.0.7
+   * function to render row item
+   * NOTE: only applied for `contentViewType` = `view`
+   */
+  renderItemView?: CrudContentViewProps<
+    CrudGraphApiListType<TSchema>
+  >['renderItemView'];
 };
 ```
 

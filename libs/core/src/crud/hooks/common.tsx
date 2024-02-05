@@ -56,8 +56,9 @@ export function makeCrudCommonActionButton<
   const dialog = usePrompt();
 
   // =============== VARIABLES
+  const record = context?.data;
   const resource = isFunction(buttonOptions.resource)
-    ? buttonOptions.resource(context)
+    ? buttonOptions.resource(context, record)
     : buttonOptions.resource;
   const name = get(resource, 'name', 'record');
   const identifier = get(resource, 'identifier', null);
@@ -78,10 +79,10 @@ export function makeCrudCommonActionButton<
     const prompt = async () => {
       // variables
       const titleText =
-        title?.({ action: key, resource }) ??
+        title?.({ action: key, resource, data: record }) ??
         `${nodeTitle ?? startCase(key)} confirmation`;
       const messageText =
-        message?.({ action: key, resource }) ??
+        message?.({ action: key, resource, data: record }) ??
         `Do you confirm that you want to ${
           nodeTitle ?? key
         } this ${name} ${viewing}?`;

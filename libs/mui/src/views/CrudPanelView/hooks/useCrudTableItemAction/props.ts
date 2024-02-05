@@ -1,4 +1,3 @@
-import { ReactNode } from 'react';
 import {
   CrudCommonActionNode,
   CrudCommonActionNodeOptions,
@@ -85,7 +84,7 @@ export type CrudTableItemActionProps<
     node?: CrudCommonActionNode<TSchema, CrudGraphApiGetType<TSchema>>;
     alert?: boolean;
     tooltip?: boolean | string | Omit<TooltipProps, 'children'>;
-    action: CrudCommonActionNodeOptions<
+    action?: CrudCommonActionNodeOptions<
       TSchema,
       CrudGraphApiGetType<TSchema>
     >['onClick'];

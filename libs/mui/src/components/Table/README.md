@@ -13,7 +13,7 @@ import { TableBodyTypeMap } from '@mui/material/TableBody';
 import { TableContainerProps } from '@mui/material/TableContainer';
 import { TableFooterTypeMap } from '@mui/material/TableFooter';
 
-import { TableCheckboxConfig, TableColumnType, TableDataIndex } from '../../@types';
+import { InferDataColumnType, TableCheckboxConfig, TableColumnType } from '../../@types';
 import { TableHeadProps } from '../TableHead';
 import { TablePaginationProps } from '../TablePagination';
 import { TableRowProps } from '../TableRow';
@@ -46,7 +46,7 @@ export type TableProps<TData = any> = TableTypeMap['props'] &
     /**
      * checked items
      */
-    checked?: TableDataIndex<TData>[];
+    checked?: InferDataColumnType<TData>[];
     /**
      * checkbox configuration
      */
@@ -133,7 +133,7 @@ export type TableProps<TData = any> = TableTypeMap['props'] &
     /**
      * On table rows check event handler
      */
-    onCheck?: (checked: TableDataIndex<TData>[]) => void;
+    onCheck?: (checked: InferDataColumnType<TData>[]) => void;
     /**
      * table row click event handler
      */

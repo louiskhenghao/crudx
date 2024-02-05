@@ -74,12 +74,9 @@ export const TableHead = <TData,>(props: TableHeadProps<TData>) => {
       isStringTitle && uppercase ? title.toUpperCase() : title;
     const isCurrent = orderByState === key;
 
-    if (!sortable)
-      return (
-        <Typography fontSize={12} fontWeight={600} whiteSpace="nowrap">
-          {columnTitle}
-        </Typography>
-      );
+    if (!sortable) {
+      return columnTitle;
+    }
     return (
       <TableSortLabel
         active={isCurrent}
@@ -137,6 +134,9 @@ export const TableHead = <TData,>(props: TableHeadProps<TData>) => {
               {...column.headerColumnProps}
               sx={{
                 width: column.width,
+                fontSize: '0.8rem',
+                fontWeight: '600 !important',
+                whiteSpace: 'nowrap',
                 ...column.headerColumnProps?.sx,
               }}
               align={column.align ?? 'left'}
