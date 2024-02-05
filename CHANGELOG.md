@@ -2,6 +2,17 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+## [0.0.13](https://github.com/louiskhenghao/crudx/compare/workspace@0.0.12...workspace@0.0.13) (2024-02-05)
+
+
+### Features
+
+* **core:** fallback to initial type for IfTypeAny ([7519082](https://github.com/louiskhenghao/crudx/commit/75190827e1b1273dc9b1277c43d972bf2f174653))
+* **core:** improve types by adding fallback to CrudCommonActions & CrudTableItemActionProps ([fcfd291](https://github.com/louiskhenghao/crudx/commit/fcfd2918aa84da9b502e86f49ad2e561aa6eb498))
+* **mui:** default table head head style ([1af8e70](https://github.com/louiskhenghao/crudx/commit/1af8e70a6bccc495b133eb5f2d7153c9c27a8c6e))
+* **mui:** make action optional for `extraActions` in CrudTableItemActionProps ([d641a75](https://github.com/louiskhenghao/crudx/commit/d641a75ebb87ca827b7735cde9105c562a9a0ae1))
+* **mui:** update InferDataColumnType ([72fac54](https://github.com/louiskhenghao/crudx/commit/72fac54901b74fabcd5165d28739c63c3db47e7b))
+
 ## [0.0.12](https://github.com/louiskhenghao/crudx/compare/workspace@0.0.11...workspace@0.0.12) (2024-01-18)
 
 
