@@ -174,7 +174,7 @@ export type CrudPanelViewProps<
    * table columns to be display
    */
   columns?: CrudTableViewProps<
-    IfTypeAny<TColumnData, CrudGraphApiListType<TSchema>, any>
+    IfTypeAny<TColumnData, CrudGraphApiListType<TSchema>, TColumnData>
   >['columns'];
   /**
    * column actions configuration
@@ -182,7 +182,7 @@ export type CrudPanelViewProps<
   columnActions?: Partial<
     CrudTableItemActionProps<
       TSchema,
-      IfTypeAny<TColumnData, CrudGraphApiListType<TSchema>, any>
+      IfTypeAny<TColumnData, CrudGraphApiListType<TSchema>, TColumnData>
     >
   >;
   /**
@@ -190,13 +190,13 @@ export type CrudPanelViewProps<
    */
   columnExtraActions?: CrudTableItemActionProps<
     TSchema,
-    IfTypeAny<TColumnData, CrudGraphApiListType<TSchema>, any>
+    IfTypeAny<TColumnData, CrudGraphApiListType<TSchema>, TColumnData>
   >['extraActions'];
   /**
    * table data index to for checkbox
    */
   columnDataIndex?: TableDataIndex<
-    IfTypeAny<TColumnData, CrudGraphApiListType<TSchema>, any>
+    IfTypeAny<TColumnData, CrudGraphApiListType<TSchema>, TColumnData>
   >;
   /**
    * column action sequence arrangement

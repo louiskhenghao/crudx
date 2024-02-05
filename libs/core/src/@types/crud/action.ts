@@ -59,40 +59,40 @@ export interface CrudCommonActions<
 > {
   view?: CrudCommonActionNodeOptions<
     TSchema,
-    IfTypeAny<TData, CrudGraphApiGetType<TSchema>, any>
+    IfTypeAny<TData, CrudGraphApiGetType<TSchema>, TData>
   >;
   update?: CrudCommonActionNodeOptions<
     TSchema,
-    IfTypeAny<TData, CrudGraphApiUpdateType<TSchema>, any>
+    IfTypeAny<TData, CrudGraphApiUpdateType<TSchema>, TData>
   >;
   delete?: CrudCommonActionNodeOptions<
     TSchema,
-    IfTypeAny<TData, CrudGraphApiDeleteType<TSchema>, any>
+    IfTypeAny<TData, CrudGraphApiDeleteType<TSchema>, TData>
   >;
   exports?: CrudCommonActionNodeOptions<
     TSchema,
-    IfTypeAny<TData, CrudGraphApiExportType<TSchema>, any>
+    IfTypeAny<TData, CrudGraphApiExportType<TSchema>, TData>
   >;
   extra?: (CrudCommonActionNodeOptions<
     TSchema,
-    IfTypeAny<TData, CrudGraphApiExportType<TSchema>, any>
+    IfTypeAny<TData, CrudGraphApiExportType<TSchema>, TData>
   > & { key: string })[];
   // the title to be display on dialog
   title?: (options: {
     action: CrudCommonActionButtonType;
     resource?: CrudCommonActionResource;
-    data?: IfTypeAny<TData, CrudGraphApiListType<TSchema>, any>;
+    data?: IfTypeAny<TData, CrudGraphApiListType<TSchema>, TData>;
   }) => string | ReactElement | null;
   // the message to be display on dialog
   message?: (options: {
     action: CrudCommonActionButtonType;
     resource?: CrudCommonActionResource;
-    data?: IfTypeAny<TData, CrudGraphApiListType<TSchema>, any>;
+    data?: IfTypeAny<TData, CrudGraphApiListType<TSchema>, TData>;
   }) => string | ReactElement | null;
   // the resource for dialog
   resource?: (
     context?: CrudCommonActionEventContext<TSchema, TData>,
-    data?: IfTypeAny<TData, CrudGraphApiListType<TSchema>, any>
+    data?: IfTypeAny<TData, CrudGraphApiListType<TSchema>, TData>
   ) => CrudCommonActionResource;
 }
 
