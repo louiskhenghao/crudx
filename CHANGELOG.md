@@ -2,6 +2,17 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+## [0.0.14](https://github.com/louiskhenghao/crudx/compare/workspace@0.0.13...workspace@0.0.14) (2024-02-28)
+
+
+### Features
+
+* **core:** make onClick optional from CrudCommonActionNodeOptions ([9c47e5d](https://github.com/louiskhenghao/crudx/commit/9c47e5d6fd1219f240004e165d7e705bb3b92328))
+* **example:** update example ([a9e424f](https://github.com/louiskhenghao/crudx/commit/a9e424ff2dcd3c7e2a7ba1e6dc47b89a0f8b4a5c))
+* **mui:** render items as specified component from ButtonDropdown ([c54e08c](https://github.com/louiskhenghao/crudx/commit/c54e08cf2bc9c877efe168d7294d75a133a3bb8b))
+* **mui:** support link for table row action button ([8e994b3](https://github.com/louiskhenghao/crudx/commit/8e994b3ccd73ce3e148f3875541849cb59987e7d))
+* shortlist external package ([1926c3f](https://github.com/louiskhenghao/crudx/commit/1926c3f6724138a2857f2bd9446bba28a7f540f2))
+
 ## [0.0.13](https://github.com/louiskhenghao/crudx/compare/workspace@0.0.12...workspace@0.0.13) (2024-02-05)
 
 
