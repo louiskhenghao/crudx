@@ -16,6 +16,8 @@ export type ButtonDropdownItemType = {
   title: ReactNode;
   props?: Omit<MenuItemProps, 'onClick'>;
   onClick?: (...args: any) => void;
+  // if presented will render this
+  as?: ReactNode;
 };
 
 // button dropdown props

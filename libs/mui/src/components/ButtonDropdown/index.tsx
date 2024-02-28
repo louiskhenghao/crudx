@@ -1,4 +1,5 @@
 import { ComponentProps, useMemo, useState } from 'react';
+import { CloneElement } from '@crudx/common';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
@@ -101,6 +102,25 @@ export const ButtonDropdown: React.FC<ButtonDropdownProps> = (props) => {
       >
         {/* =============== MENU ITEM */}
         {items.map((e) => {
+          if (e.as) {
+            return (
+              <CloneElement
+                key={e.key}
+                {...menuItemProps}
+                {...e.props}
+                selected={e.key === selected}
+                onClick={(event) => {
+                  event.stopPropagation();
+                  handleClose();
+                  e.onClick?.();
+                  onItemClick?.(e.key);
+                }}
+              >
+                {e.as}
+              </CloneElement>
+            );
+          }
+
           return (
             <MenuItem
               key={e.key}
