@@ -57,6 +57,7 @@ export const CrudRowItemActions = memo((props: CrudRowItemActionsProps) => {
             key: 'view',
             title: viewButtonNode?.node,
             onClick: viewButtonNode.onClick,
+            as: type === 'menu' ? viewButtonNode.node : null,
           });
         }
       }
@@ -68,6 +69,7 @@ export const CrudRowItemActions = memo((props: CrudRowItemActionsProps) => {
             key: 'update',
             title: updateButtonNode.node,
             onClick: updateButtonNode.onClick,
+            as: type === 'menu' ? updateButtonNode.node : null,
           });
         }
       }
@@ -79,6 +81,7 @@ export const CrudRowItemActions = memo((props: CrudRowItemActionsProps) => {
             key: 'delete',
             title: deleteButtonNode.node,
             onClick: deleteButtonNode.onClick,
+            as: type === 'menu' ? deleteButtonNode.node : null,
           });
         }
       }
@@ -90,6 +93,7 @@ export const CrudRowItemActions = memo((props: CrudRowItemActionsProps) => {
             key: 'export',
             title: exportButtonNode.node,
             onClick: exportButtonNode.onClick,
+            as: type === 'menu' ? exportButtonNode.node : null,
           });
         }
       }
@@ -101,6 +105,7 @@ export const CrudRowItemActions = memo((props: CrudRowItemActionsProps) => {
             key: `extra-${i}`,
             title: e.node,
             onClick: e.onClick,
+            as: type === 'menu' ? e.node : null,
           })),
         ];
       }
@@ -110,7 +115,7 @@ export const CrudRowItemActions = memo((props: CrudRowItemActionsProps) => {
       views,
       items,
     };
-  }, [data, actions, renderActionButtons, renderExtraActionButtons]);
+  }, [type, data, actions, renderActionButtons, renderExtraActionButtons]);
 
   // =============== VIEW
   if (type === 'icon') {

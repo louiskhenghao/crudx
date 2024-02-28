@@ -398,7 +398,7 @@ export function useCrudProps<T extends CrudSchemataTypes = any>(
             enablePrevious={accessibility.enablePrevious}
             columnActions={tableActionList}
             onCheck={(data) => {
-              rowSelection.setSelections(data);
+              rowSelection.setSelections(data as string[]);
               onTableItemCheck?.(data);
             }}
             onPageSizeChange={(size) => {

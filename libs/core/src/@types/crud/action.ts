@@ -119,7 +119,7 @@ export type CrudCommonActionNodeOptions<
   // the node to be show
   node: CrudCommonActionNode<TSchema, TData>;
   // on click event for action
-  onClick: (
+  onClick?: (
     e: any,
     context?: CrudCommonActionEventContext<TSchema, TData>
   ) => void;

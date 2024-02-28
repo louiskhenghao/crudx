@@ -23,13 +23,7 @@
         "rollupConfig": "@nx/react/plugins/bundle-rollup",
         "compiler": "babel",
         "format": ["cjs", "esm"],
-        "external": [
-          "currency-symbol-map",
-          "dayjs",
-          "numeral",
-          "react",
-          "react-dom"
-        ],
+        "external": ["react", "react-dom"],
         "assets": [
           {
             "glob": "libs/common/README.md",

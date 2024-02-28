@@ -27,15 +27,9 @@
           "@crudx/core",
           "@mui/material",
           "@mui/icons-material",
-          "classnames",
-          "currency-symbol-map",
-          "dayjs",
-          "lodash",
           "next",
-          "numeral",
           "react",
-          "react-dom",
-          "react-hot-toast"
+          "react-dom"
         ],
         "rollupConfig": "@nx/react/plugins/bundle-rollup",
         "compiler": "babel",

@@ -300,9 +300,14 @@ export function Index() {
               placement: 'top',
             },
           },
-          viewNode: (context, events) => {
-            return <button onClick={events}>asd</button>;
+          links: {
+            view: 'https://www.google.com',
+            update: { path: 'https://www.youtube.com', openNewTab: true },
+            delete: { path: 'https://www.google.com', openNewTab: false },
           },
+          // viewNode: (context, events) => {
+          //   return <button onClick={events}>asd</button>;
+          // },
           viewAction: (e, ctx) => {
             const dataId = ctx?.data?.bank_id;
             if (!dataId) return;
@@ -353,6 +358,7 @@ export function Index() {
             //     </IconButton>
             //   );
             // },
+            link: 'https://www.google.com',
             title: 'Some Extra Button 1',
             alert: true,
             tooltip: false,
@@ -496,7 +502,7 @@ export function Index() {
             // },
           };
         }}
-        contentViewType="view"
+        // contentViewType="view"
         renderItemView={(record, views, state) => {
           return (
             <div>

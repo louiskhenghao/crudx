@@ -48,6 +48,15 @@ export type CrudTableItemActionProps<
     exportText?: string;
   };
   /**
+   * whether adopt link for action button
+   */
+  links?: {
+    view?: CrudTableItemActionLinkProps;
+    update?: CrudTableItemActionLinkProps;
+    delete?: CrudTableItemActionLinkProps;
+    export?: CrudTableItemActionLinkProps;
+  };
+  /**
    * whether enable view button
    * @default true
    */
@@ -81,8 +90,13 @@ export type CrudTableItemActionProps<
     key: string;
     // text to be display over menu
     title: string;
+    // path link
+    link?: CrudTableItemActionLinkProps;
+    // custom view to be display
     node?: CrudCommonActionNode<TSchema, CrudGraphApiGetType<TSchema>>;
+    // whether to show alert when click on the button
     alert?: boolean;
+    // tooltip when hover for action button
     tooltip?: boolean | string | Omit<TooltipProps, 'children'>;
     action?: CrudCommonActionNodeOptions<
       TSchema,
@@ -142,6 +156,15 @@ export type CrudTableItemActionProps<
     CrudGraphApiExportType<TSchema>
   >['onClick'];
 };
+
+export type CrudTableItemActionLinkProps =
+  | string
+  | {
+      // path link to direct
+      path: string;
+      // whether to open in new tab
+      openNewTab: boolean;
+    };
 
 /**
  * ===========================
