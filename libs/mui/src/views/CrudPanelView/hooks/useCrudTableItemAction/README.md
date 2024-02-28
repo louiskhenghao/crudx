@@ -5,6 +5,15 @@
 ## Types
 
 ```ts
+import { CrudCommonActionNode, CrudCommonActionNodeOptions, CrudCommonActions, CrudGraphApiDeleteType, CrudGraphApiExportType, CrudGraphApiGetType, CrudGraphApiUpdateType, CrudSchemataTypes } from '@crudx/core';
+import { ButtonProps } from '@mui/material/Button';
+import { TooltipProps } from '@mui/material/Tooltip';
+
+/**
+ * ===========================
+ * MAIN
+ * ===========================
+ */
 export type CrudTableItemActionProps<TSchema extends CrudSchemataTypes = any, TData = any> = {
   /**
    * size of the button
@@ -16,7 +25,7 @@ export type CrudTableItemActionProps<TSchema extends CrudSchemataTypes = any, TD
   // the identifier to read from data
   identifier?: string;
   // the button presentation type
-  nodeType?: ((ctx: { node: ReactNode; onClick?: () => void }) => ReactNode) | 'button' | 'menu' | 'icon';
+  nodeType?: 'button' | 'menu' | 'icon';
   /**
    * whether enable alert when click on the button
    * @default ['delete','export']
@@ -32,6 +41,15 @@ export type CrudTableItemActionProps<TSchema extends CrudSchemataTypes = any, TD
     updateText?: string;
     deleteText?: string;
     exportText?: string;
+  };
+  /**
+   * whether adopt link for action button
+   */
+  links?: {
+    view?: CrudTableItemActionLinkProps;
+    update?: CrudTableItemActionLinkProps;
+    delete?: CrudTableItemActionLinkProps;
+    export?: CrudTableItemActionLinkProps;
   };
   /**
    * whether enable view button
@@ -67,17 +85,16 @@ export type CrudTableItemActionProps<TSchema extends CrudSchemataTypes = any, TD
     key: string;
     // text to be display over menu
     title: string;
-    node?: ReactNode;
+    // path link
+    link?: CrudTableItemActionLinkProps;
+    // custom view to be display
+    node?: CrudCommonActionNode<TSchema, CrudGraphApiGetType<TSchema>>;
+    // whether to show alert when click on the button
     alert?: boolean;
+    // tooltip when hover for action button
     tooltip?: boolean | string | Omit<TooltipProps, 'children'>;
-    action: CrudCommonActionNodeOptions<TSchema, CrudGraphApiGetType<TSchema>>['onClick'];
+    action?: CrudCommonActionNodeOptions<TSchema, CrudGraphApiGetType<TSchema>>['onClick'];
   }[];
-
-  /**
-   * CUSTOM PROPS
-   * ===========================
-   */
-  dialogProps?: Omit<DialogProps, 'ref' | 'visible' | 'title' | 'message' | 'onClickAction'> & RefAttributes<DialogRefProps>;
 
   /**
    * TOOLTIPS
@@ -119,6 +136,15 @@ export type CrudTableItemActionProps<TSchema extends CrudSchemataTypes = any, TD
   deleteAction?: CrudCommonActionNodeOptions<TSchema, CrudGraphApiDeleteType<TSchema>>['onClick'];
   exportAction?: CrudCommonActionNodeOptions<TSchema, CrudGraphApiExportType<TSchema>>['onClick'];
 };
+
+export type CrudTableItemActionLinkProps =
+  | string
+  | {
+      // path link to direct
+      path: string;
+      // whether to open in new tab
+      openNewTab: boolean;
+    };
 ```
 
 ---
