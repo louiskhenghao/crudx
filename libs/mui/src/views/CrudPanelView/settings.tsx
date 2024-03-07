@@ -509,10 +509,6 @@ export function useCrudProps<T extends CrudSchemataTypes = any>(
      */
     itemActions: useCrudTableItemAction<T>({
       name,
-      enableView: tableActionState.view,
-      enableUpdate: tableActionState.update,
-      enableDelete: tableActionState.delete,
-      enableExport: tableActionState.export,
       ...(columnActions ?? {}),
       extraActions: columnActions?.extraActions ?? columnExtraActions,
       nodeType: enableItemGroupAction ? 'menu' : columnActions?.nodeType,

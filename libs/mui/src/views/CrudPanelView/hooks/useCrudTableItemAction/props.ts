@@ -1,4 +1,5 @@
 import {
+  CrudCommonActionEventContext,
   CrudCommonActionNode,
   CrudCommonActionNodeOptions,
   CrudCommonActions,
@@ -60,27 +61,27 @@ export type CrudTableItemActionProps<
    * whether enable view button
    * @default true
    */
-  enableView?: boolean;
+  enableView?: CrudTableItemActionEnabler<TSchema, TData>;
   /**
    * whether enable update button
    * @default false
    */
-  enableUpdate?: boolean;
+  enableUpdate?: CrudTableItemActionEnabler<TSchema, TData>;
   /**
    * whether enable delete button
    * @default false
    */
-  enableDelete?: boolean;
+  enableDelete?: CrudTableItemActionEnabler<TSchema, TData>;
   /**
    * whether enable export button
    * @default false
    */
-  enableExport?: boolean;
+  enableExport?: CrudTableItemActionEnabler<TSchema, TData>;
   /**
    * whether enable extra buttons
    * @default true
    */
-  enableExtra?: boolean;
+  enableExtra?: CrudTableItemActionEnabler<TSchema, TData>;
 
   /**
    * EXTRA ACTION
@@ -92,6 +93,8 @@ export type CrudTableItemActionProps<
     title: string;
     // path link
     link?: CrudTableItemActionLinkProps;
+    // whether to show this action
+    enabled?: CrudTableItemActionEnabler<TSchema, TData>;
     // custom view to be display
     node?: CrudCommonActionNode<TSchema, CrudGraphApiGetType<TSchema>>;
     // whether to show alert when click on the button
@@ -165,6 +168,11 @@ export type CrudTableItemActionLinkProps =
       // whether to open in new tab
       openNewTab: boolean;
     };
+
+export type CrudTableItemActionEnabler<
+  TSchema extends CrudSchemataTypes = any,
+  TData = any
+> = ((data: CrudCommonActionEventContext<TSchema, TData>) => boolean) | boolean;
 
 /**
  * ===========================

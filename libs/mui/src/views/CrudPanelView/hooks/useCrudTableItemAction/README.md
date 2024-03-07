@@ -5,7 +5,7 @@
 ## Types
 
 ```ts
-import { CrudCommonActionNode, CrudCommonActionNodeOptions, CrudCommonActions, CrudGraphApiDeleteType, CrudGraphApiExportType, CrudGraphApiGetType, CrudGraphApiUpdateType, CrudSchemataTypes } from '@crudx/core';
+import { CrudCommonActionEventContext, CrudCommonActionNode, CrudCommonActionNodeOptions, CrudCommonActions, CrudGraphApiDeleteType, CrudGraphApiExportType, CrudGraphApiGetType, CrudGraphApiUpdateType, CrudSchemataTypes } from '@crudx/core';
 import { ButtonProps } from '@mui/material/Button';
 import { TooltipProps } from '@mui/material/Tooltip';
 
@@ -55,27 +55,27 @@ export type CrudTableItemActionProps<TSchema extends CrudSchemataTypes = any, TD
    * whether enable view button
    * @default true
    */
-  enableView?: boolean;
+  enableView?: CrudTableItemActionEnabler<TSchema, TData>;
   /**
    * whether enable update button
    * @default false
    */
-  enableUpdate?: boolean;
+  enableUpdate?: CrudTableItemActionEnabler<TSchema, TData>;
   /**
    * whether enable delete button
    * @default false
    */
-  enableDelete?: boolean;
+  enableDelete?: CrudTableItemActionEnabler<TSchema, TData>;
   /**
    * whether enable export button
    * @default false
    */
-  enableExport?: boolean;
+  enableExport?: CrudTableItemActionEnabler<TSchema, TData>;
   /**
    * whether enable extra buttons
    * @default true
    */
-  enableExtra?: boolean;
+  enableExtra?: CrudTableItemActionEnabler<TSchema, TData>;
 
   /**
    * EXTRA ACTION
@@ -87,6 +87,8 @@ export type CrudTableItemActionProps<TSchema extends CrudSchemataTypes = any, TD
     title: string;
     // path link
     link?: CrudTableItemActionLinkProps;
+    // whether to show this action
+    enabled?: CrudTableItemActionEnabler<TSchema, TData>;
     // custom view to be display
     node?: CrudCommonActionNode<TSchema, CrudGraphApiGetType<TSchema>>;
     // whether to show alert when click on the button
@@ -145,6 +147,15 @@ export type CrudTableItemActionLinkProps =
       // whether to open in new tab
       openNewTab: boolean;
     };
+
+export type CrudTableItemActionEnabler<TSchema extends CrudSchemataTypes = any, TData = any> = ((data: CrudCommonActionEventContext<TSchema, TData>) => boolean) | boolean;
+
+/**
+ * ===========================
+ * EXPORTS
+ * ===========================
+ */
+export default CrudTableItemActionProps;
 ```
 
 ---
@@ -162,7 +173,9 @@ const itemActions = useCrudTableItemAction({
   enableAlert: ['view', 'update', 'export', 'delete'],
   enableDelete: true,
   enableExport: true,
-  enableUpdate: true,
+  enableUpdate: (ctx) => {
+    return ctx?.data?.xxx === 'yyy';
+  },
   enableView: true,
   tooltips: {
     view: 'View Item',

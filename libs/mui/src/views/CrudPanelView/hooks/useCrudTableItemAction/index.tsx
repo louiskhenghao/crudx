@@ -23,6 +23,7 @@ import Link from 'next/link';
 import { TooltipView } from '../../../../components/TooltipView';
 
 import {
+  CrudTableItemActionEnabler,
   CrudTableItemActionLinkProps,
   CrudTableItemActionProps,
 } from './props';
@@ -129,12 +130,20 @@ export const useCrudTableItemAction = <T extends CrudSchemataTypes = any>(
     // render actin node
     const renderActionNode =
       (
+        viewer: CrudTableItemActionEnabler,
         type: 'view' | 'update' | 'delete' | 'export' | string,
         node: CrudCommonActionNode<T>,
         title?: boolean | string | Omit<TooltipProps, 'children'>,
         linking?: CrudTableItemActionLinkProps
       ) =>
       (ctx, clickEvent): ReactNode => {
+        if (typeof viewer === 'boolean' && !viewer) {
+          return null;
+        }
+        if (typeof viewer === 'function' && !viewer(ctx)) {
+          return null;
+        }
+
         // if node type = function
         if (typeof node === 'function') {
           return renderTooltip(type, node(ctx, clickEvent), title);
@@ -217,125 +226,117 @@ export const useCrudTableItemAction = <T extends CrudSchemataTypes = any>(
 
     // ========== RETURN
     return {
-      view: enableView
-        ? {
-            onClick: !links?.view
-              ? (e, ctx) => {
-                  if (!ctx) return;
-                  if (viewAction) {
-                    viewAction(e, ctx);
-                    return;
-                  }
-                  if (!ctx.data) return;
-                  ctx.context?.detail?.query({
-                    variables: {
-                      id: ctx.data?.id,
-                    },
-                  });
-                  ctx.context?.controllers?.details?.onShow();
-                }
-              : undefined,
-            // NOTE: we can have custom alert node just like example below
-            // alert: !isEnableAlert('view') ? false : renderAlertNode,
-            alert: !links?.view && isEnableAlert('view'),
-            node: renderActionNode(
-              'view',
-              viewNode ?? <RemoveRedEyeOutlinedIcon fontSize="inherit" />,
-              undefined,
-              links?.view
-            ),
-          }
-        : undefined,
-      update: enableUpdate
-        ? {
-            onClick: !links?.update
-              ? (e, ctx) => {
-                  if (!ctx) return;
-                  if (updateAction) {
-                    updateAction(e, ctx);
-                    return;
-                  }
-                  const data = ctx?.data;
-                  ctx.context?.controllers?.update?.onShow(data);
-                }
-              : undefined,
-            alert: !links?.update && isEnableAlert('update'),
-            node: renderActionNode(
-              'update',
-              updateNode ?? <ModeEditOutlineOutlinedIcon fontSize="inherit" />,
-              undefined,
-              links?.update
-            ),
-          }
-        : undefined,
-      delete: enableDelete
-        ? {
-            onClick: !links?.delete
-              ? (e, ctx) => {
-                  if (!ctx) return;
-                  if (deleteAction) {
-                    deleteAction(e, ctx);
-                    return;
-                  }
-                  const data = ctx?.data;
-                  ctx.context?.controllers?.delete?.onShow(data);
-                }
-              : undefined,
-            alert: !links?.delete && isEnableAlert('delete'),
-            node: renderActionNode(
-              'delete',
-              deleteNode ?? <DeleteOutlineOutlinedIcon fontSize="inherit" />,
-              undefined,
-              links?.delete
-            ),
-          }
-        : undefined,
-      exports: enableExport
-        ? {
-            onClick: !links?.export
-              ? (e, ctx) => {
-                  if (!ctx) return;
-                  if (exportAction) {
-                    exportAction(e, ctx);
-                    return;
-                  }
-                  const data = ctx?.data;
-                  ctx.context?.controllers?.exports?.onShow(data);
-                }
-              : undefined,
-            alert: !links?.export && isEnableAlert('export'),
-            node: renderActionNode(
-              'export',
-              exportNode ?? <CloudDownloadOutlinedIcon fontSize="inherit" />,
-              undefined,
-              links?.export
-            ),
-          }
-        : undefined,
+      view: {
+        onClick: !links?.view
+          ? (e, ctx) => {
+              if (!ctx) return;
+              if (viewAction) {
+                viewAction(e, ctx);
+                return;
+              }
+              if (!ctx.data) return;
+              ctx.context?.detail?.query({
+                variables: {
+                  id: ctx.data?.id,
+                },
+              });
+              ctx.context?.controllers?.details?.onShow();
+            }
+          : undefined,
+        // NOTE: we can have custom alert node just like example below
+        // alert: !isEnableAlert('view') ? false : renderAlertNode,
+        alert: !links?.view && isEnableAlert('view'),
+        node: renderActionNode(
+          enableView,
+          'view',
+          viewNode ?? <RemoveRedEyeOutlinedIcon fontSize="inherit" />,
+          undefined,
+          links?.view
+        ),
+      },
+      update: {
+        onClick: !links?.update
+          ? (e, ctx) => {
+              if (!ctx) return;
+              if (updateAction) {
+                updateAction(e, ctx);
+                return;
+              }
+              const data = ctx?.data;
+              ctx.context?.controllers?.update?.onShow(data);
+            }
+          : undefined,
+        alert: !links?.update && isEnableAlert('update'),
+        node: renderActionNode(
+          enableUpdate,
+          'update',
+          updateNode ?? <ModeEditOutlineOutlinedIcon fontSize="inherit" />,
+          undefined,
+          links?.update
+        ),
+      },
+      delete: {
+        onClick: !links?.delete
+          ? (e, ctx) => {
+              if (!ctx) return;
+              if (deleteAction) {
+                deleteAction(e, ctx);
+                return;
+              }
+              const data = ctx?.data;
+              ctx.context?.controllers?.delete?.onShow(data);
+            }
+          : undefined,
+        alert: !links?.delete && isEnableAlert('delete'),
+        node: renderActionNode(
+          enableDelete,
+          'delete',
+          deleteNode ?? <DeleteOutlineOutlinedIcon fontSize="inherit" />,
+          undefined,
+          links?.delete
+        ),
+      },
+      exports: {
+        onClick: !links?.export
+          ? (e, ctx) => {
+              if (!ctx) return;
+              if (exportAction) {
+                exportAction(e, ctx);
+                return;
+              }
+              const data = ctx?.data;
+              ctx.context?.controllers?.exports?.onShow(data);
+            }
+          : undefined,
+        alert: !links?.export && isEnableAlert('export'),
+        node: renderActionNode(
+          enableExport,
+          'export',
+          exportNode ?? <CloudDownloadOutlinedIcon fontSize="inherit" />,
+          undefined,
+          links?.export
+        ),
+      },
+      extra: extraActions.reduce((result: any, action) => {
+        const tooltipTitle = !isNil(action.tooltip)
+          ? action.tooltip || action.title
+          : action.title;
 
-      extra: enableExtra
-        ? extraActions.reduce((result: any, action) => {
-            const tooltipTitle = !isNil(action.tooltip)
-              ? action.tooltip || action.title
-              : action.title;
-
-            result.push({
-              key: action.key,
-              title: action.title,
-              alert: !action.link && action.alert,
-              node: renderActionNode(
-                action.key,
-                action?.node ?? (
-                  <ExpandCircleDownOutlinedIcon fontSize="inherit" />
-                ),
-                tooltipTitle,
-                action.link
-              ),
-              onClick: !action.link ? action.action : undefined,
-            });
-            return result;
-          }, [])
-        : undefined,
+        result.push({
+          key: action.key,
+          title: action.title,
+          alert: !action.link && action.alert,
+          node: renderActionNode(
+            action.enabled ?? enableExtra ?? true,
+            action.key,
+            action?.node ?? <ExpandCircleDownOutlinedIcon fontSize="inherit" />,
+            tooltipTitle,
+            action.link
+          ),
+          onClick: !action.link ? action.action : undefined,
+        });
+        return result;
+      }, []),
 
       text,
       title: title ? (context) => title(context) : undefined,
