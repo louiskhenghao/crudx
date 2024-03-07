@@ -7,7 +7,7 @@ This library contains common helpers, hooks & components
 ## Installation
 
 ```bash
-yarn add @crudx/common currency-symbol-map dayjs numeral react react-dom
+yarn add @crudx/common currency-symbol-map dayjs lodash numeral react react-dom
 ```
 
 ---
