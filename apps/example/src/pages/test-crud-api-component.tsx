@@ -292,7 +292,9 @@ export function Index() {
           enableDelete: true,
           enableExport: true,
           enableUpdate: true,
-          enableView: true,
+          enableView: (ctx) => {
+            return ctx?.data?.bank_id === 1;
+          },
           enableExtra: true,
           tooltips: {
             view: {
@@ -345,12 +347,16 @@ export function Index() {
             key: 'some-extra-button',
             title: 'Some Extra Button',
             alert: true,
+            enabled: true,
             action(e, context) {
               context?.context?.controllers.details?.onShow();
             },
           },
           {
             key: 'some-extra-button-1',
+            enabled: (ctx) => {
+              return ctx?.data?.bank_id === 3;
+            },
             // node: (ctx, e) => {
             //   return (
             //     <IconButton onClick={e}>
