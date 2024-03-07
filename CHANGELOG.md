@@ -2,6 +2,13 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+## [0.0.15](https://github.com/louiskhenghao/crudx/compare/workspace@0.0.14...workspace@0.0.15) (2024-03-07)
+
+
+### Features
+
+* **mui:** enabled action render per row capability ([21e0fb3](https://github.com/louiskhenghao/crudx/commit/21e0fb3a8fc53c9a07009077800d5005255c989b))
+
 ## [0.0.14](https://github.com/louiskhenghao/crudx/compare/workspace@0.0.13...workspace@0.0.14) (2024-02-28)
 
 
