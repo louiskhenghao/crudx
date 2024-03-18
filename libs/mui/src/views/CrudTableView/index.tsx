@@ -51,6 +51,7 @@ export const CrudTableView = <TData = any,>(
     unstyled,
     spacingMultiplier,
     onCheck,
+    onColumnSort,
     onTabChange,
     onPageChange,
     onPageSizeChange,
@@ -168,6 +169,7 @@ export const CrudTableView = <TData = any,>(
           />
         }
         onCheck={onCheck}
+        onColumnSort={onColumnSort}
         onPageChange={onPageChange}
         onPageSizeChange={onPageSizeChange}
         renderPagination={renderPaginationView}
