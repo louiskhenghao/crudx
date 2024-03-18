@@ -62,7 +62,7 @@ export const TableHead = <TData,>(props: TableHeadProps<TData>) => {
       const nextDirection = isAsc ? 'desc' : 'asc';
       setOrderByState(key);
       setOrderDirectionState(nextDirection);
-      onSort?.(e, key);
+      onSort?.(key, nextDirection, e);
     };
   };
 

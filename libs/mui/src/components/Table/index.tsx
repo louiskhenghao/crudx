@@ -58,6 +58,7 @@ export const Table = <TData,>(props: PropsWithChildren<TableProps<TData>>) => {
     onCheck,
     onRowClick,
     onRowExpand,
+    onColumnSort,
     onPageChange,
     onPageSizeChange,
     renderExpandedView,
@@ -230,6 +231,7 @@ export const Table = <TData,>(props: PropsWithChildren<TableProps<TData>>) => {
             checkbox={checkbox}
             onCheckAll={onHandleCheckAll}
             checked={getCheckedStatus()}
+            onSort={onColumnSort}
             {...tableHeadProps}
             divider={enableTableHeadDivider}
           />
