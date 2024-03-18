@@ -65,6 +65,7 @@ export function useCrudProps<T extends CrudSchemataTypes = any>(
     spacingMultiplier,
     onTableTabChange,
     onTableItemCheck,
+    onTableColumnSort,
     prepareAlertProps,
     prepareHeaderViewProps,
     prepareFilterViewProps,
@@ -401,6 +402,7 @@ export function useCrudProps<T extends CrudSchemataTypes = any>(
               rowSelection.setSelections(data as string[]);
               onTableItemCheck?.(data);
             }}
+            onColumnSort={onTableColumnSort}
             onPageSizeChange={(size) => {
               pagingProps.onUpdatePageSize(size);
             }}
