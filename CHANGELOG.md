@@ -2,6 +2,16 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+## [0.0.16](https://github.com/louiskhenghao/crudx/compare/workspace@0.0.15...workspace@0.0.16) (2024-03-19)
+
+
+### Features
+
+* **mui:** enable link per row configuration for action button ([4a15849](https://github.com/louiskhenghao/crudx/commit/4a158490bff807c9dd0285efd7c3cec45289a3a7))
+* **mui:** expose onColumnSort for CrudTableView ([ce7732a](https://github.com/louiskhenghao/crudx/commit/ce7732a2c6b105cc8c7fe80ecd23e0563d752ed0))
+* **mui:** expose onTableColumnSort for CrudPanelView ([8cec3ae](https://github.com/louiskhenghao/crudx/commit/8cec3ae62be312d4cafc687a0185ec084b7e7632))
+* **mui:** improve table head column sort callback & expose to Table ([9817b06](https://github.com/louiskhenghao/crudx/commit/9817b0663c5f3869d4dd56799ed6497a68e43872))
+
 ## [0.0.15](https://github.com/louiskhenghao/crudx/compare/workspace@0.0.14...workspace@0.0.15) (2024-03-07)
 
 
