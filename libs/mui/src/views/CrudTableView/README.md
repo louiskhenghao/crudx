@@ -33,6 +33,7 @@ export type CrudTableViewProps<TData = any> = Pick<
   | 'pageSize'
   | 'pageSizeOptions'
   | 'onCheck'
+  | 'onColumnSort' // added 0.0.16
   | 'onPageChange'
   | 'onPageSizeChange'
   | 'renderPagination'
@@ -185,6 +186,7 @@ export type CrudTableViewProps<TData = any> = Pick<
       | 'pagination'
       | 'topView'
       | 'onCheck'
+      | 'onColumnSort'
       | 'onPageChange'
       | 'onPageSizeChange'
       | 'renderPagination'

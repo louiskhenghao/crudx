@@ -62,9 +62,14 @@ export type TableHeadProps<TData = any> = TableHeadTypeMap['props'] & {
    */
   tableRowProps?: MuiTableRowProps;
   /**
+   * Added 0.0.16
    * On column sort event handler
    */
-  onSort?: (event: React.MouseEvent, key: string) => void;
+  onSort?: (
+    key: string,
+    direction: 'asc' | 'desc',
+    event: React.MouseEvent
+  ) => void;
   /**
    * On check rows all event handler
    */

@@ -165,6 +165,11 @@ export type CrudPanelViewProps<
    * table item on check callback
    */
   onTableItemCheck?: CrudTableViewProps['onCheck'];
+  /**
+   * Added 0.0.16
+   * table column on sort callback
+   */
+  onTableColumnSort?: CrudTableViewProps['onColumnSort'];
 
   /**
    * TABLE COLUMN PROPS
