@@ -103,7 +103,10 @@ export const useCrudTableItemAction = <T extends CrudSchemataTypes = any>(
     };
 
     // render link
-    const renderLink = (node: any, linking?: CrudTableItemActionLinkProps) => {
+    const renderLink = (
+      node: any,
+      linking?: ReturnType<CrudTableItemActionLinkProps>
+    ) => {
       const isLinkString = typeof linking === 'string';
       const url = isLinkString ? linking : linking?.path;
       const openNewTab =
@@ -137,6 +140,8 @@ export const useCrudTableItemAction = <T extends CrudSchemataTypes = any>(
         linking?: CrudTableItemActionLinkProps
       ) =>
       (ctx, clickEvent): ReactNode => {
+        const link = linking?.(ctx);
+
         if (typeof viewer === 'boolean' && !viewer) {
           return null;
         }
@@ -164,7 +169,7 @@ export const useCrudTableItemAction = <T extends CrudSchemataTypes = any>(
                 {title ?? text?.[`${type}Text`] ?? MenuActionTextMap[type]}
               </span>
             </Stack>,
-            linking
+            link
           );
         }
 
@@ -197,7 +202,7 @@ export const useCrudTableItemAction = <T extends CrudSchemataTypes = any>(
           );
         }
 
-        return renderTooltip(type, renderLink(buttonNode, linking), title);
+        return renderTooltip(type, renderLink(buttonNode, link), title);
       };
 
     /**
