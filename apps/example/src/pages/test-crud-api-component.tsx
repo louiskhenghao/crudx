@@ -303,9 +303,24 @@ export function Index() {
             },
           },
           links: {
-            view: 'https://www.google.com',
-            update: { path: 'https://www.youtube.com', openNewTab: true },
-            delete: { path: 'https://www.google.com', openNewTab: false },
+            view: (ctx) => {
+              const data = ctx.data;
+              return `https://www.google.com?query=view ${data?.bank_name}`;
+            },
+            update: (ctx) => {
+              const data = ctx.data;
+              return {
+                path: `https://www.google.com?query=update ${data?.bank_name}`,
+                openNewTab: false,
+              };
+            },
+            delete: (ctx) => {
+              const data = ctx.data;
+              return {
+                path: `https://www.google.com?query=delete ${data?.bank_name}`,
+                openNewTab: true,
+              };
+            },
           },
           // viewNode: (context, events) => {
           //   return <button onClick={events}>asd</button>;
@@ -364,7 +379,13 @@ export function Index() {
             //     </IconButton>
             //   );
             // },
-            link: 'https://www.google.com',
+            link: (ctx) => {
+              const data = ctx.data;
+              return {
+                path: `https://www.google.com?query=${data?.bank_name}`,
+                openNewTab: true,
+              };
+            },
             title: 'Some Extra Button 1',
             alert: true,
             tooltip: false,
