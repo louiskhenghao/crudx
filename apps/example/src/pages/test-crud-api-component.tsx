@@ -478,11 +478,27 @@ export function Index() {
             ],
           };
         }}
-        prepareTableViewProps={() => {
+        onTableColumnSort={(key, direction, e) => {
+          console.log(
+            'onTableColumnSort [lower priority] ----->',
+            key,
+            direction,
+            e
+          );
+        }}
+        prepareTableViewProps={(node) => {
           return {
             tableProps: {
               striped: true,
               // bordered: false,
+            },
+            onColumnSort: (key, direction, e) => {
+              console.log(
+                'onColumnSort [higher priority] ----->',
+                key,
+                direction,
+                e
+              );
             },
           };
         }}
