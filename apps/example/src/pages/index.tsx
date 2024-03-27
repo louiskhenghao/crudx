@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import FileUploader from "../../../../libs/mui/src/components/FileUploader";
 
 const StyledPage = styled.div`
   .page {
@@ -414,6 +415,7 @@ export function Index() {
               />
             </svg>
           </p>
+          <FileUploader />
         </div>
       </div>
     </StyledPage>
