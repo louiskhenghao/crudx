@@ -46,10 +46,10 @@ export type CrudTableItemActionProps<TSchema extends CrudSchemataTypes = any, TD
    * whether adopt link for action button
    */
   links?: {
-    view?: CrudTableItemActionLinkProps;
-    update?: CrudTableItemActionLinkProps;
-    delete?: CrudTableItemActionLinkProps;
-    export?: CrudTableItemActionLinkProps;
+    view?: CrudTableItemActionLinkProps<TSchema, TData>;
+    update?: CrudTableItemActionLinkProps<TSchema, TData>;
+    delete?: CrudTableItemActionLinkProps<TSchema, TData>;
+    export?: CrudTableItemActionLinkProps<TSchema, TData>;
   };
   /**
    * whether enable view button
@@ -86,7 +86,7 @@ export type CrudTableItemActionProps<TSchema extends CrudSchemataTypes = any, TD
     // text to be display over menu
     title: string;
     // path link
-    link?: CrudTableItemActionLinkProps;
+    link?: CrudTableItemActionLinkProps<TSchema, TData>;
     // whether to show this action
     enabled?: CrudTableItemActionEnabler<TSchema, TData>;
     // custom view to be display
@@ -139,7 +139,7 @@ export type CrudTableItemActionProps<TSchema extends CrudSchemataTypes = any, TD
   exportAction?: CrudCommonActionNodeOptions<TSchema, CrudGraphApiExportType<TSchema>>['onClick'];
 };
 
-export type CrudTableItemActionLinkProps =
+export type CrudTableItemActionLinkProps<TSchema extends CrudSchemataTypes = any, TData = any> = (data: CrudCommonActionEventContext<TSchema, TData>) =>
   | string
   | {
       // path link to direct

@@ -143,6 +143,11 @@ export type TableProps<TData = any> = TableTypeMap['props'] &
      */
     onRowExpand?: (record: TData, expanded: boolean, index: number) => void;
     /**
+     * Added 0.0.16
+     * on table column sort
+     */
+    onColumnSort?: TableHeadProps['onSort'];
+    /**
      * custom function render expanded view
      */
     renderExpandedView?: (record: TData, expanded: boolean, index: number) => React.ReactNode;
