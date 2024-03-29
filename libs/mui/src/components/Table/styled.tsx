@@ -49,7 +49,7 @@ export const StyledTableCell = styled(MuiTableCell, {
     ...(!sticky
       ? {}
       : {
-        position: "sticky !important",
+        position: 'sticky !important' as any,
         left: 0,
         zIndex: 1,
         background: undefined,
