@@ -71,4 +71,14 @@ export type TableColumnType<TData = any> = {
    * Render function for column
    */
   render?: (value: any, record: TData, index: number) => ReactNode;
+  /**
+   * Group Header
+   */
+  group?: Omit<TableColumnType<TData>, 'render' | 'group' | 'sortable' | 'type' | 'dataIndex' | 'dataColumnProps'>;
+  /**
+   * Sticky Column
+   * @default false
+   * @augments not allow with group exist
+   */
+  sticky?: boolean;
 };

@@ -18,7 +18,7 @@ import { TableRowProps } from '../TableRow';
  * MAIN
  * ===========================
  */
-export type TableProps<TData = any> = TableTypeMap['props'] &
+export type TableProps<TData = any> = Omit<TableTypeMap['props'], 'stickyHeader'> &
   Pick<TableRowProps<TData>, 'expandable' | 'expandableProps'> &
   Pick<
     TablePaginationProps<TData>,
@@ -188,6 +188,10 @@ export type TableProps<TData = any> = TableTypeMap['props'] &
         | 'onPageSizeChange'
       >
     ) => ReactNode;
+    /**
+     * sticky header
+     */
+    stickyHeader?: boolean;
   };
 
 /**

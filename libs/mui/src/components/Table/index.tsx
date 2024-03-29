@@ -63,6 +63,7 @@ export const Table = <TData,>(props: PropsWithChildren<TableProps<TData>>) => {
     onPageSizeChange,
     renderExpandedView,
     renderPagination,
+    stickyHeader,
     ...restProps
   } = props;
 
@@ -234,6 +235,7 @@ export const Table = <TData,>(props: PropsWithChildren<TableProps<TData>>) => {
             onSort={onColumnSort}
             {...tableHeadProps}
             divider={enableTableHeadDivider}
+            stickyHeader={stickyHeader}
           />
 
           {/* =============== TABLE BODY */}

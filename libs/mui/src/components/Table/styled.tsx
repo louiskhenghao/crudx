@@ -1,8 +1,10 @@
 import Box from '@mui/material/Box';
 import { styled } from '@mui/material/styles';
 import MuiTable, { TableProps as MuiTableProps } from '@mui/material/Table';
+import MuiTableCell, { TableCellProps as MuiTableCellProps } from "@mui/material/TableCell";
 
 import { TableProps } from './props';
+import {TableColumnType} from "@crudx/mui";
 
 /**
  * ===========================
@@ -34,6 +36,24 @@ export const StyledPaginationWrapper = styled(Box)((props) => {
   const { theme } = props;
   return {
     borderTop: `1px solid ${theme.palette.divider}`,
+  };
+});
+
+
+export const StyledTableCell = styled(MuiTableCell, {
+  shouldForwardProp: (prop) =>
+    !['striped', 'bordered'].includes(prop as string),
+})<MuiTableCellProps & Pick<TableColumnType, 'sticky'>>((props) => {
+  const { sticky } = props;
+  return {
+    ...(!sticky
+      ? {}
+      : {
+        position: "sticky !important",
+        left: 0,
+        zIndex: 1,
+        background: undefined,
+      }),
   };
 });
 
