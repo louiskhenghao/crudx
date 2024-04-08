@@ -22,6 +22,7 @@ import {
 import { CRUD } from '@crudx/core';
 import { Table } from '@crudx/mui';
 import Image from 'next/image';
+import includes from "lodash/includes";
 
 export function Index() {
   const crudHelper = new CRUD<{
@@ -55,6 +56,50 @@ export function Index() {
     {
       paging: {
         strategy: 'OFFSET',
+        custom: {
+          extract: {
+            paging: (context, variables) => {
+              return {
+                pageSize: variables?.paging?.limit,
+              };
+            },
+            pagination: (context, options) => {
+              const { data } = options;
+              const result = data?.getPortalMotorCars;
+              const paginator = result?.pageInfo;
+              const hasMorePages = paginator?.hasNextPage;
+              return {
+                list: result?.nodes ?? [],
+                total: result?.totalCount ?? 0,
+                page: {
+                  next: hasMorePages ? options.intentNext : null,
+                  previous: !includes([0], options.intentPrev)
+                    ? options.intentPrev
+                    : null,
+                  canPaginateToPage: !!paginator,
+                },
+              };
+            },
+          },
+          compose: {
+            variables: (context, options) => {
+              return {
+                ...options,
+                first: context.pageSize,
+                page: context.pageNumber,
+              };
+            },
+            sorting: () => {
+              return {};
+            },
+            pagination: (context) => {
+              return {
+                page: context.pageNumber,
+                first: context.pageSize,
+              };
+            },
+          },
+        },
       },
       nodes: {
         notification: (options) => {
@@ -85,8 +130,14 @@ export function Index() {
           return (
             <Table<PortalMotorCarInfoFragment>
               // <Table<string>
+              tableContainerProps={{
+                sx: {
+                  height: 400
+                }
+              }}
+              stickyHeader={true}
               checkbox={{
-                enabled: true,
+                enabled: false,
                 // dataIndex: 'bank_id',
               }}
               data={data}
@@ -95,6 +146,22 @@ export function Index() {
                   key: 'id',
                   title: 'ID',
                   dataIndex: 'id',
+                  width: 50,
+                  sticky: true,
+                },
+                {
+                  key: 'name',
+                  title: 'Name',
+                  dataIndex: 'modelName',
+                },
+                {
+                  key: 'name',
+                  title: 'Name',
+                  dataIndex: 'modelName',
+                  group: {
+                    key: 'group1',
+                    title: 'Booking'
+                  },
                 },
                 {
                   key: 'name',
@@ -105,21 +172,109 @@ export function Index() {
                   key: 'logo',
                   title: 'Name',
                   dataIndex: 'financialPlan',
+                  group: {
+                    key: 'group',
+                    title: 'Plan',
+                  },
                   render(value, record, index) {
                     // record.financialPlan.
                     //
                     return (
                       <>
                         <Image
-                          alt={record?.images ?? ''}
+                          alt={record?.images?.fullImage?.[0]?.filename ?? ''}
                           width={150}
                           height={30}
                           style={{ objectFit: 'contain' }}
-                          src={value?.fullImages?.url ?? ''}
+                          src={value?.images?.fullImage?.[0]?.url ?? ''}
                         />
-                        {JSON.stringify(value)}
+                        {/*{JSON.stringify(value)}*/}
                       </>
                     );
+                  },
+                },
+                {
+                  key: 'logo',
+                  title: 'Name',
+                  dataIndex: 'financialPlan',
+                  group: {
+                    key: 'group',
+                    title: 'Plan',
+                  },
+                  render(value, record, index) {
+                    // record.financialPlan.
+                    //
+                    return (
+                      <>
+                        <Image
+                          alt={record?.images?.fullImage?.[0]?.filename ?? ''}
+                          width={150}
+                          height={30}
+                          style={{ objectFit: 'contain' }}
+                          src={value?.images?.fullImage?.[0]?.url ?? ''}
+                        />
+                        {/*{JSON.stringify(value)}*/}
+                      </>
+                    );
+                  },
+                },
+                {
+                  key: 'logo',
+                  title: 'Name',
+                  dataIndex: 'financialPlan',
+                  group: {
+                    key: 'group',
+                    title: 'Plan',
+                  },
+                  render(value, record, index) {
+                    // record.financialPlan.
+                    //
+                    return (
+                      <>
+                        <Image
+                          alt={record?.images?.fullImage?.[0]?.filename ?? ''}
+                          width={150}
+                          height={30}
+                          style={{ objectFit: 'contain' }}
+                          src={value?.images?.fullImage?.[0]?.url ?? ''}
+                        />
+                        {/*{JSON.stringify(value)}*/}
+                      </>
+                    );
+                  },
+                },
+                {
+                  key: 'logo',
+                  title: 'Name',
+                  dataIndex: 'financialPlan',
+                  group: {
+                    key: 'group',
+                    title: 'Plan',
+                  },
+                  render(value, record, index) {
+                    // record.financialPlan.
+                    //
+                    return (
+                      <>
+                        <Image
+                          alt={record?.images?.fullImage?.[0]?.filename ?? ''}
+                          width={150}
+                          height={30}
+                          style={{ objectFit: 'contain' }}
+                          src={value?.images?.fullImage?.[0]?.url ?? ''}
+                        />
+                        {/*{JSON.stringify(value)}*/}
+                      </>
+                    );
+                  },
+                },
+                {
+                  key: 'name',
+                  title: 'Name',
+                  dataIndex: 'modelName',
+                  group: {
+                    key: 'group1',
+                    title: 'Booking'
                   },
                 },
               ]}

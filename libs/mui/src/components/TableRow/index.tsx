@@ -5,7 +5,8 @@ import TableCell from '@mui/material/TableCell';
 import MUITableRow from '@mui/material/TableRow';
 import cn from 'classnames';
 
-import { TableColumnType } from '../../@types';
+import { InferDataColumnType, TableColumnType } from '../../@types';
+import { StyledTableCell } from '../Table/styled';
 
 import { TableRowProps } from './props';
 import { StyledTableRow } from './styled';
@@ -54,7 +55,7 @@ export const TableRow = <TData,>(props: TableRowProps<TData>) => {
     if (checkbox?.dataIndex) {
       record = data?.[checkbox.dataIndex] as any;
     }
-    onCheck?.(checkedState, record, {
+    onCheck?.(checkedState, record as InferDataColumnType<TData>, {
       data,
     });
   };
@@ -91,18 +92,23 @@ export const TableRow = <TData,>(props: TableRowProps<TData>) => {
           </TableCell>
         )}
         {columns.map((column, index) => {
+          if (column.sticky && column.group) {
+            console.log('Sticky column is not allowing with group');
+          }
           return (
-            <TableCell
+            <StyledTableCell
               key={`${column.key}-${index}`}
               align={column.align ?? 'left'}
               {...column.dataColumnProps}
               sx={{
                 width: column.width,
+                background: column.sticky ? 'white' : undefined,
                 ...column.dataColumnProps?.sx,
               }}
+              sticky={!column.group ? column.sticky : false}
             >
               <>{renderColumnData(column, index)}</>
-            </TableCell>
+            </StyledTableCell>
           );
         })}
       </StyledTableRow>

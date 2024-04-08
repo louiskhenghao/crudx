@@ -74,4 +74,14 @@ export type TableHeadProps<TData = any> = TableHeadTypeMap['props'] & {
    * On check rows all event handler
    */
   onCheckAll?: (checked: boolean, state: TableCheckAllState) => void;
+  /**
+   * Custom sticky header
+   * @default false
+   */
+  stickyHeader?: boolean;
+  /**
+   * Table border style with mui or preset
+   * @default preset
+   */
+  tableHeadColumnBorder?: 'default' | 'preset';
 };
