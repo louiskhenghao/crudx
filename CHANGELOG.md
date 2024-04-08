@@ -2,6 +2,14 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+## [0.0.17](https://github.com/louiskhenghao/crudx/compare/workspace@0.0.16...workspace@0.0.17) (2024-04-08)
+
+
+### Features
+
+* **mui:** table header with group & sticky column or header ([954fa63](https://github.com/louiskhenghao/crudx/commit/954fa63030847f28afa1f380fd8da7a260294b3a))
+* **mui:** typescript error ([171c002](https://github.com/louiskhenghao/crudx/commit/171c0027e369a590660af86279eff5666eb07c11))
+
 ## [0.0.16](https://github.com/louiskhenghao/crudx/compare/workspace@0.0.15...workspace@0.0.16) (2024-03-19)
 
 
