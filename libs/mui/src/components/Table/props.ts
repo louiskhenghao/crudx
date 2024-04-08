@@ -18,7 +18,10 @@ import { TableRowProps } from '../TableRow';
  * MAIN
  * ===========================
  */
-export type TableProps<TData = any> = Omit<TableTypeMap['props'], 'stickyHeader'> &
+export type TableProps<TData = any> = Omit<
+  TableTypeMap['props'],
+  'stickyHeader'
+> &
   Pick<TableRowProps<TData>, 'expandable' | 'expandableProps'> &
   Pick<
     TablePaginationProps<TData>,

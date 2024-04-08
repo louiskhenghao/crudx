@@ -5,11 +5,11 @@ import TableCell from '@mui/material/TableCell';
 import MUITableRow from '@mui/material/TableRow';
 import cn from 'classnames';
 
-import {InferDataColumnType, TableColumnType} from '../../@types';
+import { InferDataColumnType, TableColumnType } from '../../@types';
+import { StyledTableCell } from '../Table/styled';
 
 import { TableRowProps } from './props';
 import { StyledTableRow } from './styled';
-import {StyledTableCell} from "../Table/styled";
 
 /**
  * ===========================

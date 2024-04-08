@@ -6,13 +6,13 @@ import TableRow from '@mui/material/TableRow';
 import TableSortLabel from '@mui/material/TableSortLabel';
 import { visuallyHidden } from '@mui/utils';
 import cn from 'classnames';
+import isEmpty from 'lodash/isEmpty';
 
 import { TableColumnType } from '../../@types';
+import { StyledTableCell } from '../Table/styled';
 
 import { TableHeadProps } from './props';
 import { StyledTableHead } from './styled';
-import {StyledTableCell} from "../Table/styled";
-import {isEmpty} from "lodash";
 
 /**
  * ===========================
@@ -34,7 +34,7 @@ export const TableHead = <TData,>(props: TableHeadProps<TData>) => {
     dividerProps,
     onSort,
     onCheckAll,
-    tableHeadColumnBorder ,
+    tableHeadColumnBorder,
     stickyHeader,
     ...restProps
   } = props;
@@ -43,24 +43,29 @@ export const TableHead = <TData,>(props: TableHeadProps<TData>) => {
   const enableCheckbox = checkbox?.enabled ?? false;
   const defaultOrderBy = sorting?.defaultOrder;
   const defaultOrderDirection = sorting?.defaultDirection ?? 'asc';
-  const headerGroup = columns.map(item => {
-    if (!item.group) return {
-      content: item,
-      span: 1
-    };
+  const headerGroup = columns.map((item) => {
+    if (!item.group)
+      return {
+        content: item,
+        span: 1,
+      };
     const groupKey = item?.group?.key;
-    const groupItems = columns.filter(subItem => subItem.group && subItem.group.key === groupKey);
+    const groupItems = columns.filter(
+      (subItem) => subItem.group && subItem.group.key === groupKey
+    );
     return {
       group: item.group,
       content: groupItems,
-      span: groupItems.length
+      span: groupItems.length,
     };
   });
 
-  const header = headerGroup.filter((item, index, self) =>
-      index === self.findIndex(t => (
-        t.group && item.group && t.group.key === item.group.key
-      )) || !item?.group
+  const header = headerGroup.filter(
+    (item, index, self) =>
+      index ===
+        self.findIndex(
+          (t) => t.group && item.group && t.group.key === item.group.key
+        ) || !item?.group
   );
   const group = header.filter((col) => !!col?.group);
   const hasGroup = !isEmpty(group);
@@ -119,7 +124,11 @@ export const TableHead = <TData,>(props: TableHeadProps<TData>) => {
     );
   };
 
-  const renderColumn = (column: TableColumnType<TData>, colSpan?: number, rowSpan?: number) => {
+  const renderColumn = (
+    column: TableColumnType<TData>,
+    colSpan?: number,
+    rowSpan?: number
+  ) => {
     const { key, sticky } = column;
     const isCurrent = orderByState === key;
     return (
@@ -145,37 +154,37 @@ export const TableHead = <TData,>(props: TableHeadProps<TData>) => {
         {renderColumnContent(column)}
       </StyledTableCell>
     );
-  }
+  };
 
   const renderHeader = () => {
-
-    if (!hasGroup) return (
-      <TableRow
-        className={cn('table-head-row', tableRowProps?.className)}
-        {...tableRowProps}
-      >
-        {enableCheckbox && (
-          <TableCell padding="checkbox" align="center" valign="middle">
-            <Checkbox
-              color="primary"
-              indeterminate={checked === 'partial'}
-              checked={checked === 'all'}
-              onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-                const checkedState = event.target.checked;
-                onCheckAll?.(checkedState, checked);
-              }}
-              inputProps={{
-                'aria-label': 'Select all',
-              }}
-            />
-          </TableCell>
-        )}
-        {header.map((col) => {
-          if (col?.group) return renderColumn(col.group, col.span)
-          return renderColumn(col.content as TableColumnType<TData>)
-        })}
-      </TableRow>
-    )
+    if (!hasGroup)
+      return (
+        <TableRow
+          className={cn('table-head-row', tableRowProps?.className)}
+          {...tableRowProps}
+        >
+          {enableCheckbox && (
+            <TableCell padding="checkbox" align="center" valign="middle">
+              <Checkbox
+                color="primary"
+                indeterminate={checked === 'partial'}
+                checked={checked === 'all'}
+                onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                  const checkedState = event.target.checked;
+                  onCheckAll?.(checkedState, checked);
+                }}
+                inputProps={{
+                  'aria-label': 'Select all',
+                }}
+              />
+            </TableCell>
+          )}
+          {header.map((col) => {
+            if (col?.group) return renderColumn(col.group, col.span);
+            return renderColumn(col.content as TableColumnType<TData>);
+          })}
+        </TableRow>
+      );
     return (
       <>
         <TableRow
@@ -183,7 +192,12 @@ export const TableHead = <TData,>(props: TableHeadProps<TData>) => {
           {...tableRowProps}
         >
           {enableCheckbox && (
-            <StyledTableCell padding="checkbox" align="center" valign="middle" rowSpan={2}>
+            <StyledTableCell
+              padding="checkbox"
+              align="center"
+              valign="middle"
+              rowSpan={2}
+            >
               <Checkbox
                 color="primary"
                 indeterminate={checked === 'partial'}
@@ -199,8 +213,8 @@ export const TableHead = <TData,>(props: TableHeadProps<TData>) => {
             </StyledTableCell>
           )}
           {header.map((col) => {
-            if (col?.group) return renderColumn(col.group, col.span)
-            return renderColumn(col.content as TableColumnType<TData>, 1, 2)
+            if (col?.group) return renderColumn(col.group, col.span);
+            return renderColumn(col.content as TableColumnType<TData>, 1, 2);
           })}
         </TableRow>
         <TableRow
@@ -212,15 +226,15 @@ export const TableHead = <TData,>(props: TableHeadProps<TData>) => {
             return (
               <>
                 {col?.content?.map((column) => {
-                  return renderColumn(column)
+                  return renderColumn(column);
                 })}
               </>
-            )
+            );
           })}
         </TableRow>
       </>
-    )
-  }
+    );
+  };
 
   // =============== VIEWS
   if (columns.length === 0) return null;
@@ -229,7 +243,9 @@ export const TableHead = <TData,>(props: TableHeadProps<TData>) => {
     <StyledTableHead
       className={cn('table-head', className)}
       divider={divider}
-      tableHeadColumnBorder={tableHeadColumnBorder ?? hasGroup ? 'default' : 'preset'}
+      tableHeadColumnBorder={
+        tableHeadColumnBorder ?? hasGroup ? 'default' : 'preset'
+      }
       options={dividerProps}
       stickyHeader={stickyHeader}
       {...restProps}
