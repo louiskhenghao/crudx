@@ -262,7 +262,7 @@ export class CrudPagingResource<TSchema extends CrudSchemataTypes = any> {
     const variables = result?.variables ?? {};
 
     // --- extract data & get pagination props
-    const dataInfo = this.result.extract(result.data);
+    const dataInfo = this.result.extract(result?.data);
     // --- extract paging information
     const pagingInfo = this.result.paging(variables);
     // --- extract variable info

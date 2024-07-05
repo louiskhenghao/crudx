@@ -84,11 +84,12 @@ export const CrudTableView = <TData = any,>(
 
   // =============== VIEW
   const renderPaginationView = (args): ReactNode => {
-    // custom render pagination
-    if (renderPagination) return renderPagination(args);
     // if the paginate type = `none` return null
+    if (includes(['none'], paginateType)) return null;
+    // custom render pagination
+    if (renderPagination) return renderPagination(args) ?? <></>;
     // if paginate type = `pagination` should return null as well as we doesn't want override existing view
-    if (includes(['none', 'pagination'], paginateType)) return null;
+    if (includes(['pagination'], paginateType)) return null;
 
     return (
       <Stack
@@ -132,6 +133,7 @@ export const CrudTableView = <TData = any,>(
         total={totalRecord}
         columns={tableColumns}
         pageSize={pageSize}
+        pagination={paginateType !== 'none'}
         topView={
           <CrudContentHeaderView
             text={text}

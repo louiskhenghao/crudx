@@ -230,9 +230,9 @@ export const Table = <TData,>(props: PropsWithChildren<TableProps<TData>>) => {
           <TableHead
             columns={columns}
             checkbox={checkbox}
-            onCheckAll={onHandleCheckAll}
-            checked={getCheckedStatus()}
             onSort={onColumnSort}
+            checked={getCheckedStatus()}
+            onCheckAll={onHandleCheckAll}
             {...tableHeadProps}
             divider={enableTableHeadDivider}
             stickyHeader={stickyHeader}
