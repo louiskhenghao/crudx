@@ -87,7 +87,7 @@ export const CrudTableView = <TData = any,>(
     // if the paginate type = `none` return null
     if (includes(['none'], paginateType)) return null;
     // custom render pagination
-    if (renderPagination) return renderPagination(args);
+    if (renderPagination) return renderPagination(args) ?? <></>;
     // if paginate type = `pagination` should return null as well as we doesn't want override existing view
     if (includes(['pagination'], paginateType)) return null;
 
