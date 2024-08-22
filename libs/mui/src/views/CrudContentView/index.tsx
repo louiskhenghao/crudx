@@ -1,5 +1,6 @@
 import { Fragment, ReactNode, useEffect, useMemo, useState } from 'react';
 import { useDeepCompareEffect } from '@crudx/common';
+import { Typography } from '@mui/material';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Checkbox from '@mui/material/Checkbox';
@@ -46,6 +47,8 @@ export const CrudContentView = <TData = any,>(
     itemActions,
     expanded,
     loadingView,
+    emptyView,
+    noDataView,
     headerCustomView,
     headerExpandView,
     headerExtraView,
@@ -83,6 +86,7 @@ export const CrudContentView = <TData = any,>(
     useState<TableDataIndex<TData>[]>(checked);
 
   // =============== VARIABLES
+  const hasData = data?.length > 0;
   const nextText = text?.nextText ?? defaultText?.nextText;
   const previousText = text?.previousText ?? defaultText?.previousText;
 
@@ -198,9 +202,20 @@ export const CrudContentView = <TData = any,>(
       );
     }
 
+    if (!hasData) {
+      return (
+        emptyView ?? (
+          <Typography py={12} textAlign="center">
+            {noDataView ?? 'No Data'}
+          </Typography>
+        )
+      );
+    }
+
     if (!renderItemView) {
       return 'Please implement `renderItemView` for item rendering';
     }
+
     return data.map((record, i) => {
       const checkIndex = extractCheckedValue(record);
       const isChecked = checkIndex ? checkedState.includes(checkIndex) : false;

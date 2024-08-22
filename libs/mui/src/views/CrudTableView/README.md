@@ -76,7 +76,7 @@ export type CrudTableViewProps<TData = any> = Pick<
      * Added 0.0.19
      *
      * Render no data view for table
-     * NOTE: by providing `emptyView`, this will be overwrite
+     * NOTE: by providing `emptyView` this will be overwritten
      *
      * @default "No Data"
      */

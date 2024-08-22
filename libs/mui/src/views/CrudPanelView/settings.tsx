@@ -57,6 +57,8 @@ export function useCrudProps<T extends CrudSchemataTypes = any>(
     columnActionSequence = ['view', 'update', 'delete', 'export', 'extra'],
     detailsViewType = 'drawer',
     filterModalViewType = 'drawer',
+    emptyView,
+    noDataView,
     enableDetailView = true,
     enableNotification = true,
     enableRowSelection = true,
@@ -389,6 +391,8 @@ export function useCrudProps<T extends CrudSchemataTypes = any>(
             headerExpandView={tableExpandView}
             headerExtraView={tableExtraView}
             expanded={tableExpandState}
+            emptyView={emptyView}
+            noDataView={noDataView}
             page={pagination.current}
             pageSize={pagination.defaultPageSize}
             pageSizeOptions={viewProps?.pageSizeOptions}
@@ -466,6 +470,8 @@ export function useCrudProps<T extends CrudSchemataTypes = any>(
             headerExpandView={tableExpandView}
             headerExtraView={tableExtraView}
             expanded={tableExpandState}
+            emptyView={emptyView}
+            noDataView={noDataView}
             page={pagination.current}
             pageSize={pagination.defaultPageSize}
             totalRecord={pagingProps.data.total ?? 0}
