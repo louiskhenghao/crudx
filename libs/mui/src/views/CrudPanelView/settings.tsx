@@ -375,6 +375,7 @@ export function useCrudProps<T extends CrudSchemataTypes = any>(
         const { pagingProps } = context;
         const viewProps = prepareTableViewProps?.(nodeProps);
         const selectable = rowSelection.isSelectable;
+        const restViewProps = omit(viewProps ?? {}, ['tableProps']);
         return (
           <CrudTableView<T>
             data={data}
@@ -417,7 +418,7 @@ export function useCrudProps<T extends CrudSchemataTypes = any>(
             onTriggerSorting={accessibility.onTriggerSorting}
             renderActionButtons={renderActionButtons}
             renderExtraActionButtons={renderExtraActionButtons}
-            {...omit(viewProps ?? {}, ['tableProps'])}
+            {...restViewProps}
             tableProps={{
               enableTableHeadDivider: true,
               ...viewProps?.tableProps,

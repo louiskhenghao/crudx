@@ -77,9 +77,18 @@ export type TableProps<TData = any> = Omit<
      */
     pagination?: boolean;
     /**
-     * table head divider
+     * whether show divider/border on table head column
      */
     enableTableHeadDivider?: TableHeadProps['divider'];
+    /**
+     * Added 0.0.19
+     *
+     * whether should have sticky header
+     *
+     * NOTE: if provided boolean, default max height set to 1000
+     * to override please pass object to this props or use `tableContainerProps.sx` instead
+     */
+    stickyHeader?: boolean | { tableMaxHeight: number };
 
     /**
      * CUSTOM PROPS
@@ -191,10 +200,6 @@ export type TableProps<TData = any> = Omit<
         | 'onPageSizeChange'
       >
     ) => ReactNode;
-    /**
-     * sticky header
-     */
-    stickyHeader?: boolean;
   };
 
 /**

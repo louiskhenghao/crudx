@@ -20,6 +20,7 @@ export const StyledTable = styled(MuiTable, {
 })<MuiTableProps & Pick<TableProps, 'striped' | 'bordered'>>((props) => {
   const { striped, bordered, theme } = props;
   return {
+    borderCollapse: 'separate',
     ...(!striped
       ? {}
       : {
@@ -44,17 +45,16 @@ export const StyledPaginationWrapper = styled(Box)((props) => {
 
 export const StyledTableCell = styled(MuiTableCell, {
   shouldForwardProp: (prop) =>
-    !['striped', 'bordered'].includes(prop as string),
+    !['striped', 'bordered', 'sticky'].includes(prop as string),
 })<MuiTableCellProps & Pick<TableColumnType, 'sticky'>>((props) => {
   const { sticky } = props;
   return {
     ...(!sticky
       ? {}
       : {
-          position: 'sticky !important' as any,
           left: 0,
           zIndex: 1,
-          background: undefined,
+          position: 'sticky !important' as any,
         }),
   };
 });

@@ -143,7 +143,15 @@ export type CrudTableViewProps<TData = any> = Pick<
     /**
      * custom action column props
      */
-    actionColumnProps?: Omit<TableColumnType<TData>, 'render'>;
+    actionColumnProps?: Pick<
+      TableColumnType<TData>,
+      | 'align'
+      | 'width'
+      | 'uppercase'
+      | 'sortable'
+      | 'headerColumnProps'
+      | 'dataColumnProps'
+    >;
     /**
      * whether to group table column actions into a menu
      */
