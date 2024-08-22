@@ -2,6 +2,17 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+## [0.0.19](https://github.com/louiskhenghao/crudx/compare/workspace@0.0.18...workspace@0.0.19) (2024-08-22)
+
+
+### Features
+
+* **core:** default option key ([b40a579](https://github.com/louiskhenghao/crudx/commit/b40a579292900a78c801acbbbbe23cde744a6dff))
+* **core:** update variable name ([e4a9cd7](https://github.com/louiskhenghao/crudx/commit/e4a9cd78052cd4035eb8a86b29b78c922eaaa427))
+* **mui:** add more to table column & handle sticky styling & group item ([709748f](https://github.com/louiskhenghao/crudx/commit/709748f67efda6e8656c57893cd4d7e43151b7b0))
+* **mui:** expose custom empty & no data view for CrudTableView ([d61636d](https://github.com/louiskhenghao/crudx/commit/d61636d455bd63dde98e2dc7cb79c581816685a3))
+* **mui:** expose noDataView & emptyView on CrudPanelView ([f926ef9](https://github.com/louiskhenghao/crudx/commit/f926ef94e2dae625330f54575dacfe1b6e59742d))
+
 ## [0.0.18](https://github.com/louiskhenghao/crudx/compare/workspace@0.0.17...workspace@0.0.18) (2024-07-05)
 
 
