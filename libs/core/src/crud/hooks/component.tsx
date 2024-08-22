@@ -57,7 +57,7 @@ export const useCrudComponentHook = <TSchema extends CrudSchemataTypes = any>(
     extraModal: {},
   };
 
-  const props: CrudComponentAccessibilityProps = {
+  const accessibility: CrudComponentAccessibilityProps = {
     pagination,
     enableNext: !isNil(pagingProps?.data?.page?.next) ?? false,
     enablePrevious: !isNil(pagingProps?.data?.page?.previous) ?? false,
@@ -95,36 +95,44 @@ export const useCrudComponentHook = <TSchema extends CrudSchemataTypes = any>(
   };
 
   // --- form hook
-  const formHook = useModalFormComponentHook(payload, props);
+  const formHook = useModalFormComponentHook(payload, accessibility);
 
   // --- component visibility hook
   controllers = useComponentVisibilityHook(payload, formHook);
 
   // --- component hook
-  const alertHook = useAlertComponentHook(payload, props, controllers);
-  const actionsHook = useActionsComponentHook(payload, props, controllers);
-  const detailsHook = useDetailsComponentHook(payload, props, controllers);
-  const panelHook = usePanelComponentHook(payload, props, controllers);
+  const alertHook = useAlertComponentHook(payload, accessibility, controllers);
+  const actionsHook = useActionsComponentHook(
+    payload,
+    accessibility,
+    controllers
+  );
+  const detailsHook = useDetailsComponentHook(
+    payload,
+    accessibility,
+    controllers
+  );
+  const panelHook = usePanelComponentHook(payload, accessibility, controllers);
   const tableHook = useTableComponentHook(
     payload,
-    props,
+    accessibility,
     controllers,
     actionsHook
   );
   const contentHook = useContentComponentHook(
     payload,
-    props,
+    accessibility,
     controllers,
     actionsHook
   );
   const pageHeaderHook = usePageHeaderComponentHook(
     payload,
-    props,
+    accessibility,
     controllers
   );
   const modalFilterHook = useFilterModalComponentHook(
     payload,
-    props,
+    accessibility,
     controllers
   );
 
