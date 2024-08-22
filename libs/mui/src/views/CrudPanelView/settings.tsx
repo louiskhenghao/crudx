@@ -57,6 +57,8 @@ export function useCrudProps<T extends CrudSchemataTypes = any>(
     columnActionSequence = ['view', 'update', 'delete', 'export', 'extra'],
     detailsViewType = 'drawer',
     filterModalViewType = 'drawer',
+    emptyView,
+    noDataView,
     enableDetailView = true,
     enableNotification = true,
     enableRowSelection = true,
@@ -375,6 +377,7 @@ export function useCrudProps<T extends CrudSchemataTypes = any>(
         const { pagingProps } = context;
         const viewProps = prepareTableViewProps?.(nodeProps);
         const selectable = rowSelection.isSelectable;
+        const restViewProps = omit(viewProps ?? {}, ['tableProps']);
         return (
           <CrudTableView<T>
             data={data}
@@ -388,6 +391,8 @@ export function useCrudProps<T extends CrudSchemataTypes = any>(
             headerExpandView={tableExpandView}
             headerExtraView={tableExtraView}
             expanded={tableExpandState}
+            emptyView={emptyView}
+            noDataView={noDataView}
             page={pagination.current}
             pageSize={pagination.defaultPageSize}
             pageSizeOptions={viewProps?.pageSizeOptions}
@@ -417,7 +422,7 @@ export function useCrudProps<T extends CrudSchemataTypes = any>(
             onTriggerSorting={accessibility.onTriggerSorting}
             renderActionButtons={renderActionButtons}
             renderExtraActionButtons={renderExtraActionButtons}
-            {...omit(viewProps ?? {}, ['tableProps'])}
+            {...restViewProps}
             tableProps={{
               enableTableHeadDivider: true,
               ...viewProps?.tableProps,
@@ -465,6 +470,8 @@ export function useCrudProps<T extends CrudSchemataTypes = any>(
             headerExpandView={tableExpandView}
             headerExtraView={tableExtraView}
             expanded={tableExpandState}
+            emptyView={emptyView}
+            noDataView={noDataView}
             page={pagination.current}
             pageSize={pagination.defaultPageSize}
             totalRecord={pagingProps.data.total ?? 0}

@@ -221,6 +221,21 @@ export type CrudContentViewProps<TData = any> = {
    * ===========================
    */
   /**
+   * Added 0.0.19
+   *
+   * Render empty view for content
+   */
+  emptyView?: React.ReactNode;
+  /**
+   * Added 0.0.19
+   *
+   * Render no data view for content
+   *  NOTE: by providing `emptyView`, this will be overwritten
+   *
+   * @default "No Data"
+   */
+  noDataView?: React.ReactNode;
+  /**
    * custom loading view
    */
   loadingView?: ReactNode;

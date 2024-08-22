@@ -63,6 +63,33 @@ export type TableHeadProps<TData = any> = TableHeadTypeMap['props'] & {
   tableRowProps?: MuiTableRowProps;
   /**
    * Added 0.0.16
+   *
+   * Custom sticky header
+   * @default false
+   */
+  stickyHeader?: boolean;
+  /**
+   * Added 0.0.16
+   * * updated 0.0.19
+   * rename from `tableHeadColumnBorder` to `columnBorder`
+   *
+   * Table border style with mui or preset,
+   * only applied when `divider` is true
+   * when column has group setting will forced to `default` even this props presented
+   *
+   * @default preset
+   */
+  columnBorder?: 'default' | 'preset';
+  /**
+   * Added 0.0.19
+   *
+   * The table head background color
+   * @default #eeeeee
+   */
+  backgroundColor?: string;
+  /**
+   * Added 0.0.16
+   *
    * On column sort event handler
    */
   onSort?: (
@@ -74,14 +101,4 @@ export type TableHeadProps<TData = any> = TableHeadTypeMap['props'] & {
    * On check rows all event handler
    */
   onCheckAll?: (checked: boolean, state: TableCheckAllState) => void;
-  /**
-   * Custom sticky header
-   * @default false
-   */
-  stickyHeader?: boolean;
-  /**
-   * Table border style with mui or preset
-   * @default preset
-   */
-  tableHeadColumnBorder?: 'default' | 'preset';
 };

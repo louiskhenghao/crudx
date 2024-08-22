@@ -169,7 +169,7 @@ export type CrudTableItemActionLinkProps<
       // path link to direct
       path: string;
       // whether to open in new tab
-      openNewTab: boolean;
+      openNewTab?: boolean;
     };
 
 export type CrudTableItemActionEnabler<

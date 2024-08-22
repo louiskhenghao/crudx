@@ -7,22 +7,6 @@ Easy configuration for table that comes with row selection, pagination etc
 ## Props
 
 ```ts
-import { ReactNode } from 'react';
-import { TableTypeMap } from '@mui/material/Table';
-import { TableBodyTypeMap } from '@mui/material/TableBody';
-import { TableContainerProps } from '@mui/material/TableContainer';
-import { TableFooterTypeMap } from '@mui/material/TableFooter';
-
-import { InferDataColumnType, TableCheckboxConfig, TableColumnType } from '../../@types';
-import { TableHeadProps } from '../TableHead';
-import { TablePaginationProps } from '../TablePagination';
-import { TableRowProps } from '../TableRow';
-
-/**
- * ===========================
- * MAIN
- * ===========================
- */
 export type TableProps<TData = any> = Omit<TableTypeMap['props'], 'stickyHeader'> &
   Pick<TableRowProps<TData>, 'expandable' | 'expandableProps'> &
   Pick<TablePaginationProps<TData>, 'page' | 'pageSize' | 'pageSizeOptions' | 'onPageChange' | 'onPageSizeChange'> & {
@@ -72,9 +56,18 @@ export type TableProps<TData = any> = Omit<TableTypeMap['props'], 'stickyHeader'
      */
     pagination?: boolean;
     /**
-     * table head divider
+     * whether show divider/border on table head column
      */
     enableTableHeadDivider?: TableHeadProps['divider'];
+    /**
+     * Added 0.0.19
+     *
+     * whether should have sticky header
+     *
+     * NOTE: if provided boolean, default max height set to 1000
+     * to override please pass object to this props or use `tableContainerProps.sx` instead
+     */
+    stickyHeader?: boolean | { tableMaxHeight: number };
 
     /**
      * CUSTOM PROPS
@@ -113,10 +106,19 @@ export type TableProps<TData = any> = Omit<TableTypeMap['props'], 'stickyHeader'
      * Render extra top view
      */
     topView?: React.ReactNode;
-    /**
-     * Render empty view
+    **
+     * Render empty view for table
      */
     emptyView?: React.ReactNode;
+    /**
+     * Added 0.0.19
+     *
+     * Render no data view for table
+     * NOTE: by providing `emptyView`, this will be overwrite
+     *
+     * @default "No Data"
+     */
+    noDataView?: React.ReactNode;
     /**
      * custom loading view
      */

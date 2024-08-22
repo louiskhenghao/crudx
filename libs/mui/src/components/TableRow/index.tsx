@@ -102,7 +102,7 @@ export const TableRow = <TData,>(props: TableRowProps<TData>) => {
               {...column.dataColumnProps}
               sx={{
                 width: column.width,
-                background: column.sticky ? 'white' : undefined,
+                minWidth: column.minWidth,
                 ...column.dataColumnProps?.sx,
               }}
               sticky={!column.group ? column.sticky : false}

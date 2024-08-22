@@ -38,6 +38,14 @@ export type TableColumnType<TData = any> = {
    */
   title?: string | ReactNode;
   /**
+   * Added 0.0.19
+   *
+   * title alignment on column
+   * NOTE: if not provided will fallback to `align` otherwise `left`
+   * @default 'left'
+   */
+  alignTitle?: 'left' | 'center' | 'right';
+  /**
    * content alignment for column
    * @default 'left'
    */
@@ -46,6 +54,12 @@ export type TableColumnType<TData = any> = {
    * column width
    */
   width?: string | number;
+  /**
+   * Added 0.0.19
+   *
+   * column minimum width
+   */
+  minWidth?: string | number;
   /**
    * whether show title in uppercase form
    */
@@ -60,7 +74,7 @@ export type TableColumnType<TData = any> = {
    */
   headerColumnProps?: MuiTableCellProps;
   /**
-   * MUI TableCell props for date cell
+   * MUI TableCell props for data cell
    */
   dataColumnProps?: MuiTableCellProps;
   /**
@@ -72,9 +86,15 @@ export type TableColumnType<TData = any> = {
    */
   render?: (value: any, record: TData, index: number) => ReactNode;
   /**
+   * Added 0.0.16
+   *
    * Group Header
+   * Only first group setting will take effect
    */
-  group?: Omit<TableColumnType<TData>, 'render' | 'group' | 'sortable' | 'type' | 'dataIndex' | 'dataColumnProps'>;
+  group?: Omit<
+    TableColumnType<TData>,
+    'render' | 'group' | 'sortable' | 'type' | 'dataIndex' | 'dataColumnProps'
+  >;
   /**
    * Sticky Column
    * @default false

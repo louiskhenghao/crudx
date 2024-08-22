@@ -37,6 +37,7 @@ export const Table = <TData,>(props: PropsWithChildren<TableProps<TData>>) => {
     pagination = true,
     expandable = false,
     enableTableHeadDivider = true,
+    stickyHeader = false,
     page,
     pageSize,
     pageSizeOptions,
@@ -45,6 +46,7 @@ export const Table = <TData,>(props: PropsWithChildren<TableProps<TData>>) => {
     // custom view
     topView,
     emptyView,
+    noDataView,
     loadingView,
     footerView,
     // view props
@@ -63,7 +65,6 @@ export const Table = <TData,>(props: PropsWithChildren<TableProps<TData>>) => {
     onPageSizeChange,
     renderExpandedView,
     renderPagination,
-    stickyHeader,
     ...restProps
   } = props;
 
@@ -77,6 +78,11 @@ export const Table = <TData,>(props: PropsWithChildren<TableProps<TData>>) => {
   const hasChecked = checkedState?.length > 0;
   const enableCheckbox = checkbox?.enabled ?? false;
   const columnLength = enableCheckbox ? columns.length + 1 : columns.length;
+  const hasStickySet = !isNil(stickyHeader);
+  const isStickyEnabled =
+    hasStickySet &&
+    ((typeof stickyHeader === 'boolean' && stickyHeader) ||
+      typeof stickyHeader === 'object');
 
   // ================== HELPERS
   const getCheckedStatus = (): TableHeadProps<TData>['checked'] => {
@@ -182,7 +188,7 @@ export const Table = <TData,>(props: PropsWithChildren<TableProps<TData>>) => {
           <MuiTableCell colSpan={columnLength} align="center" padding="none">
             {emptyView ?? (
               <Typography py={12} height={'100%'}>
-                No data
+                {noDataView ?? 'No Data'}
               </Typography>
             )}
           </MuiTableCell>
@@ -218,7 +224,22 @@ export const Table = <TData,>(props: PropsWithChildren<TableProps<TData>>) => {
   return (
     <div className="table-main-wrapper">
       {topView && <div className="table-top-container">{topView}</div>}
-      <MuiTableContainer sx={{ position: 'relative' }} {...tableContainerProps}>
+      <MuiTableContainer
+        {...tableContainerProps}
+        sx={{
+          position: 'relative',
+          // if sticky enabled, set for table height
+          ...(isStickyEnabled
+            ? {
+                maxHeight:
+                  typeof stickyHeader !== 'boolean'
+                    ? stickyHeader.tableMaxHeight || 1000
+                    : 1000,
+              }
+            : {}),
+          ...tableContainerProps?.sx,
+        }}
+      >
         {/* =============== TABLE */}
         <StyledTable
           sx={{ opacity: loading ? 0.4 : 1, ...restProps.sx }}
@@ -230,12 +251,12 @@ export const Table = <TData,>(props: PropsWithChildren<TableProps<TData>>) => {
           <TableHead
             columns={columns}
             checkbox={checkbox}
+            stickyHeader={isStickyEnabled}
+            divider={enableTableHeadDivider}
             onSort={onColumnSort}
             checked={getCheckedStatus()}
             onCheckAll={onHandleCheckAll}
             {...tableHeadProps}
-            divider={enableTableHeadDivider}
-            stickyHeader={stickyHeader}
           />
 
           {/* =============== TABLE BODY */}

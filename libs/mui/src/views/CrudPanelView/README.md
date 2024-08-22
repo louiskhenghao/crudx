@@ -249,6 +249,21 @@ export type CrudPanelViewProps<
    */
   filterModalViewType?: 'drawer' | 'modal';
   /**
+   * Added 0.0.19
+   *
+   * Render empty view for table / content
+   */
+  emptyView?: ReactNode;
+  /**
+   * Added 0.0.19
+   *
+   * Render no data view for table / content
+   * NOTE: by providing `emptyView`, this will be overwritten
+   *
+   * @default "No Data"
+   */
+  noDataView?: ReactNode;
+  /**
    * whether to have unstyled view
    */
   unstyled?: boolean;

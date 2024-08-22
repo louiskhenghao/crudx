@@ -2,6 +2,20 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+## [0.0.18](https://github.com/louiskhenghao/crudx/compare/workspace@0.0.17...workspace@0.0.18) (2024-07-05)
+
+
+### Features
+
+* add codecov github action workflow ([f8f4b98](https://github.com/louiskhenghao/crudx/commit/f8f4b98af1bafdf774133baba43294647a566f12))
+
+
+### Bug Fixes
+
+* **core:** handle possible null data break application ([35000a2](https://github.com/louiskhenghao/crudx/commit/35000a25b741262cf8fe3dfdd11722410be1a97b))
+* **mui:** fallback empty pagination rendered if custom render was null ([16f400c](https://github.com/louiskhenghao/crudx/commit/16f400c2c45aaac757d85188f9aa31a373b0db66))
+* **mui:** pagination rendering weight change ([6d76b45](https://github.com/louiskhenghao/crudx/commit/6d76b4504242e39d0a0892562bb95ea6dd5f47fe))
+
 ## [0.0.17](https://github.com/louiskhenghao/crudx/compare/workspace@0.0.16...workspace@0.0.17) (2024-04-08)
 
 

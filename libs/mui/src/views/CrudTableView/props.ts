@@ -84,6 +84,21 @@ export type CrudTableViewProps<TData = any> = Pick<
       sorting?: { default: string; asc: string; desc: string };
       density?: { default: string; small: string; medium: string };
     };
+    /**
+     * Added 0.0.19
+     *
+     * Render empty view for table
+     */
+    emptyView?: React.ReactNode;
+    /**
+     * Added 0.0.19
+     *
+     * Render no data view for table
+     * NOTE: by providing `emptyView` this will be overwritten
+     *
+     * @default "No Data"
+     */
+    noDataView?: React.ReactNode;
 
     /**
      * CONFIGURATION
@@ -143,7 +158,15 @@ export type CrudTableViewProps<TData = any> = Pick<
     /**
      * custom action column props
      */
-    actionColumnProps?: Omit<TableColumnType<TData>, 'render'>;
+    actionColumnProps?: Pick<
+      TableColumnType<TData>,
+      | 'align'
+      | 'width'
+      | 'uppercase'
+      | 'sortable'
+      | 'headerColumnProps'
+      | 'dataColumnProps'
+    >;
     /**
      * whether to group table column actions into a menu
      */

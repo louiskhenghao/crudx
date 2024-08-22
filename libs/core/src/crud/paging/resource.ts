@@ -67,7 +67,7 @@ export class CrudPagingResource<TSchema extends CrudSchemataTypes = any> {
     filter: 'filter',
     paging: 'paging',
     sorting: 'sorting',
-    totalCount: 'total',
+    totalCount: 'totalCount',
   };
 
   public custom: NonNullable<CrudPagingOptions<TSchema>['custom']>;
@@ -109,16 +109,18 @@ export class CrudPagingResource<TSchema extends CrudSchemataTypes = any> {
     this.custom = options.custom ?? fallbackCustomPagingOptions;
 
     this.keys = {
-      totalCount: keys?.totalCount ?? 'total',
+      totalCount:
+        keys?.totalCount ??
+        CrudPagingResource.getDefaultOptionsKey(this.strategy, 'totalCount'),
       filter:
         keys?.filter ??
-        CrudPagingResource.getOptionsKey(this.strategy, 'filter'),
+        CrudPagingResource.getDefaultOptionsKey(this.strategy, 'filter'),
       paging:
         keys?.paging ??
-        CrudPagingResource.getOptionsKey(this.strategy, 'paging'),
+        CrudPagingResource.getDefaultOptionsKey(this.strategy, 'paging'),
       sorting:
         keys?.sorting ??
-        CrudPagingResource.getOptionsKey(this.strategy, 'sorting'),
+        CrudPagingResource.getDefaultOptionsKey(this.strategy, 'sorting'),
     };
 
     // initialize paging paginate resource
@@ -129,21 +131,27 @@ export class CrudPagingResource<TSchema extends CrudSchemataTypes = any> {
   }
 
   // =============== STATIC
-  static getOptionsKey = (
+  static getDefaultOptionsKey = (
     strategy: CrudPagingStrategy = 'OFFSET',
     type: CrudPagingKeyType
   ): string | null => {
     if (strategy === 'CURSOR') {
       if (type === 'paging') return 'paging';
-      return type === 'sorting' ? 'sorting' : 'filter';
+      if (type === 'sorting') return 'sorting';
+      if (type === 'totalCount') return 'totalCount';
+      return 'filter';
     }
     if (strategy === 'OFFSET') {
       if (type === 'paging') return 'paging';
-      return type === 'sorting' ? 'sorting' : 'filter';
+      if (type === 'sorting') return 'sorting';
+      if (type === 'totalCount') return 'totalCount';
+      return 'filter';
     }
     if (strategy === 'NONE') {
       if (type === 'paging') return null;
-      return type === 'sorting' ? 'sorting' : 'filter';
+      if (type === 'totalCount') return 'total';
+      if (type === 'sorting') return 'sorting';
+      return 'filter';
     }
     // if custom strategy always return null;
     return null;
@@ -185,6 +193,10 @@ export class CrudPagingResource<TSchema extends CrudSchemataTypes = any> {
 
   get keyPaging(): string {
     return this.keys.paging ?? 'paging';
+  }
+
+  get keyTotalCount(): string {
+    return this.keys.totalCount ?? 'totalCount';
   }
 
   // =============== SETTER
