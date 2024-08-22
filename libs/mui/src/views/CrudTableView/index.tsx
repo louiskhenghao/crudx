@@ -50,6 +50,8 @@ export const CrudTableView = <TData = any,>(
     headerInfos,
     unstyled,
     spacingMultiplier,
+    emptyView,
+    noDataView,
     onCheck,
     onColumnSort,
     onTabChange,
@@ -134,6 +136,8 @@ export const CrudTableView = <TData = any,>(
         columns={tableColumns}
         pageSize={pageSize}
         pagination={paginateType !== 'none'}
+        emptyView={emptyView}
+        noDataView={noDataView}
         topView={
           <CrudContentHeaderView
             text={text}

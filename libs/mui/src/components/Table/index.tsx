@@ -46,6 +46,7 @@ export const Table = <TData,>(props: PropsWithChildren<TableProps<TData>>) => {
     // custom view
     topView,
     emptyView,
+    noDataView,
     loadingView,
     footerView,
     // view props
@@ -187,7 +188,7 @@ export const Table = <TData,>(props: PropsWithChildren<TableProps<TData>>) => {
           <MuiTableCell colSpan={columnLength} align="center" padding="none">
             {emptyView ?? (
               <Typography py={12} height={'100%'}>
-                No data
+                {noDataView ?? 'No Data'}
               </Typography>
             )}
           </MuiTableCell>

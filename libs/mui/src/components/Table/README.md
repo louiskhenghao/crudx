@@ -106,10 +106,19 @@ export type TableProps<TData = any> = Omit<TableTypeMap['props'], 'stickyHeader'
      * Render extra top view
      */
     topView?: React.ReactNode;
-    /**
-     * Render empty view
+    **
+     * Render empty view for table
      */
     emptyView?: React.ReactNode;
+    /**
+     * Added 0.0.19
+     *
+     * Render no data view for table
+     * NOTE: by providing `emptyView`, this will be overwrite
+     *
+     * @default "No Data"
+     */
+    noDataView?: React.ReactNode;
     /**
      * custom loading view
      */

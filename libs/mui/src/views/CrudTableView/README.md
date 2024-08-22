@@ -6,22 +6,7 @@ Crud table view
 
 ## Props
 
-```TypeScript
-import { ReactNode } from 'react';
-import {
-  CrudCommonActionNodeProps,
-  CrudComponentActionProps,
-} from '@crudx/core';
-
-import { CrudRowItemActionType, TableColumnType } from '../../@types';
-import { TableProps } from '../../components/Table';
-import { CrudContentHeaderViewProps } from '../CrudContentHeaderView';
-
-/**
- * ===========================
- * MAIN
- * ===========================
- */
+```ts
 export type CrudTableViewProps<TData = any> = Pick<
   TableProps<TData>,
   | 'size'
@@ -38,19 +23,7 @@ export type CrudTableViewProps<TData = any> = Pick<
   | 'onPageSizeChange'
   | 'renderPagination'
 > &
-  Pick<
-    CrudContentHeaderViewProps,
-    | 'headerInfos'
-    | 'headerActions'
-    | 'headerCustomView'
-    | 'headerExpandView'
-    | 'headerExtraView'
-    | 'headerTabs'
-    | 'headerTabState'
-    | 'headerTabsProps'
-    | 'headerActionSize'
-    | 'headerBulkOptions'
-  > & {
+  Pick<CrudContentHeaderViewProps, 'headerInfos' | 'headerActions' | 'headerCustomView' | 'headerExpandView' | 'headerExtraView' | 'headerTabs' | 'headerTabState' | 'headerTabsProps' | 'headerActionSize' | 'headerBulkOptions'> & {
     /**
      * custom class name for table
      */
@@ -93,6 +66,21 @@ export type CrudTableViewProps<TData = any> = Pick<
       sorting?: { default: string; asc: string; desc: string };
       density?: { default: string; small: string; medium: string };
     };
+    /**
+     * Added 0.0.19
+     *
+     * Render empty view for table
+     */
+    emptyView?: React.ReactNode;
+    /**
+     * Added 0.0.19
+     *
+     * Render no data view for table
+     * NOTE: by providing `emptyView`, this will be overwrite
+     *
+     * @default "No Data"
+     */
+    noDataView?: React.ReactNode;
 
     /**
      * CONFIGURATION
@@ -152,7 +140,7 @@ export type CrudTableViewProps<TData = any> = Pick<
     /**
      * custom action column props
      */
-    actionColumnProps?: Omit<TableColumnType<TData>, 'render'>;
+    actionColumnProps?: Pick<TableColumnType<TData>, 'align' | 'width' | 'uppercase' | 'sortable' | 'headerColumnProps' | 'dataColumnProps'>;
     /**
      * whether to group table column actions into a menu
      */
@@ -160,9 +148,7 @@ export type CrudTableViewProps<TData = any> = Pick<
     /**
      * custom render action column buttons
      */
-    renderActionButtons?: (context?: {
-      data: TData;
-    }) => CrudComponentActionProps;
+    renderActionButtons?: (context?: { data: TData }) => CrudComponentActionProps;
     /**
      * extra action columns button
      */
@@ -174,23 +160,7 @@ export type CrudTableViewProps<TData = any> = Pick<
     /**
      * custom table props
      */
-    tableProps?: Omit<
-      TableProps<TData>,
-      | 'size'
-      | 'data'
-      | 'columns'
-      | 'loading'
-      | 'page'
-      | 'pageSize'
-      | 'total'
-      | 'pagination'
-      | 'topView'
-      | 'onCheck'
-      | 'onColumnSort'
-      | 'onPageChange'
-      | 'onPageSizeChange'
-      | 'renderPagination'
-    >;
+    tableProps?: Omit<TableProps<TData>, 'size' | 'data' | 'columns' | 'loading' | 'page' | 'pageSize' | 'total' | 'pagination' | 'topView' | 'onCheck' | 'onColumnSort' | 'onPageChange' | 'onPageSizeChange' | 'renderPagination'>;
 
     /**
      * EVENTS
