@@ -164,6 +164,7 @@ export type CrudTableViewProps<TData = any> = Pick<
       | 'width'
       | 'uppercase'
       | 'sortable'
+      | 'sticky'
       | 'headerColumnProps'
       | 'dataColumnProps'
     >;

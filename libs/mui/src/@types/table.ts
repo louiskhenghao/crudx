@@ -26,6 +26,12 @@ export type TableCheckboxConfig<TData> = {
   enabled: boolean;
   // the data index
   dataIndex?: TableColumnDataIndex<TData>;
+  /**
+   * Added 0.0.20
+   * whether should fixed column for checkbox
+   * NOTE: this will be ignored if is not table view
+   */
+  sticky?: boolean;
 };
 
 export type TableColumnType<TData = any> = {

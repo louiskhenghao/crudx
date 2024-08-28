@@ -69,7 +69,7 @@ export type CrudContentViewProps<TData = any> = {
   /**
    * checkbox configuration
    */
-  checkbox?: TableCheckboxConfig<TData>;
+  checkbox?: Omit<TableCheckboxConfig<TData>, 'sticky'>;
   /**
    * checkbox on change event handler
    */
