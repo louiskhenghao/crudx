@@ -16,7 +16,7 @@ export const TablePagination = <TData,>(props: TablePaginationProps<TData>) => {
     page = 0,
     total,
     pageSize = 10,
-    pageSizeOptions = [10, 25, 50, 75, 100],
+    pageSizeOptions = [10, 25, 50],
     onPageChange,
     onPageSizeChange,
     ...restProps
