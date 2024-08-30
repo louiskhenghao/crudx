@@ -2,6 +2,13 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+## [0.0.20](https://github.com/louiskhenghao/crudx/compare/workspace@0.0.19...workspace@0.0.20) (2024-08-30)
+
+
+### Features
+
+* **mui:** add disable esc & backdrop close props ([3b11f1f](https://github.com/louiskhenghao/crudx/commit/3b11f1f509c49dd9359eaf8afea723c6758abf5f))
+
 ## [0.0.19](https://github.com/louiskhenghao/crudx/compare/workspace@0.0.18...workspace@0.0.19) (2024-08-22)
 
 
