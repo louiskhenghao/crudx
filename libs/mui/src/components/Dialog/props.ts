@@ -57,6 +57,18 @@ export type DialogProps = PropsWithChildren<
      * @default text
      */
     secondaryButtonVariant?: ButtonProps['variant'];
+    /**
+     * Added 0.0.20
+     *
+     * disable backdrop close
+     */
+    disableBackdropClose?: boolean;
+    /**
+     * Added 0.0.20
+     *
+     * disable esc button close
+     */
+    disableEscapeClose?: boolean;
 
     // the title of the dialog
     title?: string | ReactElement;

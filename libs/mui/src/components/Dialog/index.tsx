@@ -31,6 +31,8 @@ export const Dialog = forwardRef<DialogRefProps, DialogProps>((props, ref) => {
     title,
     message,
     visible = false,
+    disableEscapeClose = false,
+    disableBackdropClose = false,
     enableCloseButton = false,
     actions = [],
     titleProps,
@@ -107,6 +109,12 @@ export const Dialog = forwardRef<DialogRefProps, DialogProps>((props, ref) => {
       {...restProps}
       open={visibleState}
       onClose={(event, reason) => {
+        if (disableBackdropClose && reason === 'backdropClick') {
+          return;
+        }
+        if (disableEscapeClose && reason === 'escapeKeyDown') {
+          return;
+        }
         setVisibleState(false);
         onClose?.(event, reason);
       }}
