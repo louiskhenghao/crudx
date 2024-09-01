@@ -156,6 +156,22 @@ export type CrudPanelViewProps<
    */
   tableExtraView?: CrudTableViewProps['headerExtraView'];
   /**
+   * Added 0.0.21
+   * whether should fixed column for checkbox
+   * NOTE: this will be ignored if `contentViewType` is not `table`
+   *
+   * @default false
+   */
+  tableCheckboxSticky?: boolean;
+  /**
+   * Added 0.0.21
+   * whether should fixed column for action column
+   * NOTE: this will be ignored if `contentViewType` is not `table`
+   *
+   * @default false
+   */
+  tableActionColumnSticky?: boolean;
+  /**
    * Added 0.0.3
    * table tab on change callback
    */

@@ -43,7 +43,8 @@ export function useCrudProps<T extends CrudSchemataTypes = any>(
     tableExpandView,
     tableExpandState,
     tableExtraView,
-    tableCheckboxSticky = true,
+    tableCheckboxSticky = false,
+    tableActionColumnSticky = false,
     variables = {},
     events,
     paging,
@@ -380,7 +381,6 @@ export function useCrudProps<T extends CrudSchemataTypes = any>(
         const selectable = rowSelection.isSelectable;
         const restViewProps = omit(viewProps ?? {}, ['tableProps']);
 
-        console.log('===============>', selectable);
         return (
           <CrudTableView<T>
             data={data}
@@ -401,6 +401,7 @@ export function useCrudProps<T extends CrudSchemataTypes = any>(
             pageSizeOptions={viewProps?.pageSizeOptions}
             totalRecord={pagingProps.data.total ?? 0}
             totalSelected={accessibility.totalSelected}
+            actionColumnSticky={tableActionColumnSticky}
             enableActionColumn={enableActionColumn}
             enableItemGroupAction={enableItemGroupAction}
             enableNext={accessibility.enableNext}
