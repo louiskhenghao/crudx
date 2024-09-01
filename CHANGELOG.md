@@ -2,6 +2,22 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+## [0.0.21](https://github.com/louiskhenghao/crudx/compare/workspace@0.0.20...workspace@0.0.21) (2024-09-01)
+
+
+### Features
+
+* **mui:** add column action sticky props ([648e433](https://github.com/louiskhenghao/crudx/commit/648e43307cc1aeaa2324c57594f368c23bc461fc))
+* **mui:** change data wrapper className for CrudContentView ([1f96af1](https://github.com/louiskhenghao/crudx/commit/1f96af1422f2b018c37632ae26eeb0e371895b95))
+* **mui:** default paging size max to 50 by default ([782b9f0](https://github.com/louiskhenghao/crudx/commit/782b9f0547a69da2fbf49192512edb592fadd2b5))
+* **mui:** handle table checkbox sticky with props ([f8f8b09](https://github.com/louiskhenghao/crudx/commit/f8f8b0925b5bfbc32d6b9e46fc9c869137eeec2d))
+* **mui:** rename tableCheckboxSticky to tableCheckboxColumnSticky ([828350f](https://github.com/louiskhenghao/crudx/commit/828350ff4b16f106f82e6c9b0544decbbcfc9071))
+
+
+### Bug Fixes
+
+* **mui:** fix checkbox partial toggle ([834f810](https://github.com/louiskhenghao/crudx/commit/834f810317553fba7515939a2bc8e1822bbc9051))
+
 ## [0.0.20](https://github.com/louiskhenghao/crudx/compare/workspace@0.0.19...workspace@0.0.20) (2024-08-30)
 
 
