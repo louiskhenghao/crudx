@@ -72,14 +72,33 @@ export type TableProps<TData = any> = Omit<
      */
     bordered?: boolean;
     /**
+     * Added 0.0.21
+     *
+     * the border style of the table
+     * `default`: have border on every row + column
+     * `preset`: header have divider, row + column no border
+     */
+    borderStyle?: 'default' | 'preset';
+    /**
+     * Added 0.0.21
+     *
+     * the custom border style
+     */
+    borderStyleOptions?: {
+      color?: string;
+      width?: number | string;
+      height?: number | string;
+    };
+    /**
      * whether enable pagination
      * @default true
      */
     pagination?: boolean;
+
     /**
-     * whether show divider/border on table head column
+     * TABLE HEAD
+     * ===========================
      */
-    enableTableHeadDivider?: TableHeadProps['divider'];
     /**
      * Added 0.0.19
      *
@@ -89,19 +108,23 @@ export type TableProps<TData = any> = Omit<
      * to override please pass object to this props or use `tableContainerProps.sx` instead
      */
     stickyHeader?: boolean | { tableMaxHeight: number };
-
-    /**
-     * CUSTOM PROPS
-     * ===========================
-     */
-    /**
-     * MUI TableContainer props
-     */
-    tableContainerProps?: TableContainerProps;
     /**
      * table head props
+     * override with this props or use it separately with exposed props
      */
     tableHeadProps?: Omit<TableHeadProps<TData>, 'columns' | 'checkbox'>;
+    /**
+     * Added 0.0.21
+     *
+     * The table head background color
+     * @default theme.palette.background.default
+     */
+    tableHeadBackgroundColor?: string;
+
+    /**
+     * TABLE ROW
+     * ===========================
+     */
     /**
      * table row props
      */
@@ -115,6 +138,18 @@ export type TableProps<TData = any> = Omit<
       | 'onExpand'
       | 'renderExpandedView'
     >;
+    tableRowBackgroundColor?: string;
+    tableRowStripeBackgroundColor?: string;
+
+    /**
+     * CUSTOM PROPS
+     * ===========================
+     */
+    /**
+     * MUI TableContainer props
+     */
+    tableContainerProps?: TableContainerProps;
+
     /**
      * MUI TableBody props
      */
