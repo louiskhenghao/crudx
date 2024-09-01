@@ -2,6 +2,8 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+## [0.0.22](https://github.com/louiskhenghao/crudx/compare/workspace@0.0.21...workspace@0.0.22) (2024-09-01)
+
 ## [0.0.21](https://github.com/louiskhenghao/crudx/compare/workspace@0.0.20...workspace@0.0.21) (2024-09-01)
 
 
