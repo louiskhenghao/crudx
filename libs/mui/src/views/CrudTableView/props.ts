@@ -161,10 +161,12 @@ export type CrudTableViewProps<TData = any> = Pick<
     actionColumnProps?: Pick<
       TableColumnType<TData>,
       | 'align'
+      | 'alignTitle'
+      | 'className'
       | 'width'
-      | 'uppercase'
-      | 'sortable'
+      | 'minWidth'
       | 'sticky'
+      | 'uppercase'
       | 'headerColumnProps'
       | 'dataColumnProps'
     >;

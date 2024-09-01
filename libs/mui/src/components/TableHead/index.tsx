@@ -201,7 +201,7 @@ export const TableHead = <TData,>(props: TableHeadProps<TData>) => {
         {enableCheckbox && (
           <MuiTableCell
             className={cn('table-head-row-item checkbox-column ', {
-              'sticky border-right': enableCheckboxSticky,
+              'sticky border-right': hasCheckBoxSticky,
             })}
             padding="checkbox"
             align="center"

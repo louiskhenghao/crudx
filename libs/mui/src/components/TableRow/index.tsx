@@ -87,7 +87,7 @@ export const TableRow = <TData,>(props: TableRowProps<TData>) => {
         {enableCheckbox && (
           <TableCell
             className={cn('table-row-item checkbox-column ', {
-              'sticky border-right': enableCheckboxSticky,
+              'sticky border-right': hasCheckBoxSticky,
             })}
             padding="checkbox"
             align="center"

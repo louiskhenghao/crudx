@@ -147,7 +147,7 @@ export type CrudPanelViewProps<
    */
   tableExtraView?: CrudTableViewProps['headerExtraView'];
   /**
-   * Added 0.0.20
+   * Added 0.0.21
    * whether should fixed column for checkbox
    * NOTE: this will be ignored if `contentViewType` is not `table`
    *

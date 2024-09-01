@@ -43,7 +43,7 @@ export function useCrudProps<T extends CrudSchemataTypes = any>(
     tableExpandView,
     tableExpandState,
     tableExtraView,
-    tableCheckboxSticky,
+    tableCheckboxSticky = true,
     variables = {},
     events,
     paging,
@@ -379,6 +379,8 @@ export function useCrudProps<T extends CrudSchemataTypes = any>(
         const viewProps = prepareTableViewProps?.(nodeProps);
         const selectable = rowSelection.isSelectable;
         const restViewProps = omit(viewProps ?? {}, ['tableProps']);
+
+        console.log('===============>', selectable);
         return (
           <CrudTableView<T>
             data={data}
@@ -425,7 +427,6 @@ export function useCrudProps<T extends CrudSchemataTypes = any>(
             renderExtraActionButtons={renderExtraActionButtons}
             {...restViewProps}
             tableProps={{
-              enableTableHeadDivider: true,
               ...viewProps?.tableProps,
               checkbox: {
                 enabled: selectable,

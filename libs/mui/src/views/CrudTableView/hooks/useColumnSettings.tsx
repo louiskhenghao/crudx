@@ -50,6 +50,7 @@ export const useColumnSettings = <TData = any,>(
         ? (columnActions ?? []).length
         : 1;
 
+    // TODO: handle column position
     // const isActionColLast = actionColumnPosition === 'last';
     // const isActionCoFirst = actionColumnPosition === 'first';
     // const colFixedRight = isActionColLast ? 'right' : undefined;
