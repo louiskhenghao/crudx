@@ -148,8 +148,9 @@ export const Table = <TData,>(props: PropsWithChildren<TableProps<TData>>) => {
 
     // if checkbox in checked state
     if (state === 'partial') {
-      if (indexes.some((e) => e === checkedState)) {
-        triggerCheckboxUpdate([]);
+      if (indexes.some((e) => checkedState.includes(e))) {
+        const filtered = checkedState.filter((e) => !indexes.includes(e));
+        triggerCheckboxUpdate(filtered);
         return;
       }
     }
