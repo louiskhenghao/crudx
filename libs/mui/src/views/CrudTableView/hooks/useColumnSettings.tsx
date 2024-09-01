@@ -22,6 +22,7 @@ export const useColumnSettings = <TData = any,>(
     enableActionColumn,
     enableItemGroupAction = false,
     columnActionsGroupIcon,
+    actionColumnSticky = false,
     actionColumnProps = {},
     actionColumnExtraWidth,
     actionColumnPosition = 'last',
@@ -50,6 +51,7 @@ export const useColumnSettings = <TData = any,>(
         ? (columnActions ?? []).length
         : 1;
 
+    // TODO: handle column position
     // const isActionColLast = actionColumnPosition === 'last';
     // const isActionCoFirst = actionColumnPosition === 'first';
     // const colFixedRight = isActionColLast ? 'right' : undefined;
@@ -62,6 +64,7 @@ export const useColumnSettings = <TData = any,>(
       title: text?.columnActionText ?? 'Action',
       align: 'center',
       width: actionLength * getActionColSize() + (actionColumnExtraWidth ?? 0),
+      sticky: actionColumnSticky,
       // fixed: enableActionFixedWidth ? colFixed : undefined,
       ...actionColumnProps,
       render: (record) => {

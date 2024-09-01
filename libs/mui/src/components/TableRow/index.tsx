@@ -6,10 +6,9 @@ import MUITableRow from '@mui/material/TableRow';
 import cn from 'classnames';
 
 import { InferDataColumnType, TableColumnType } from '../../@types';
-import { StyledTableCell } from '../Table/styled';
+import { StyledTableRow } from '../Table/styled';
 
 import { TableRowProps } from './props';
-import { StyledTableRow } from './styled';
 
 /**
  * ===========================
@@ -35,6 +34,9 @@ export const TableRow = <TData,>(props: TableRowProps<TData>) => {
   // =============== VARIABLES
   const clickable = !!onClick || expandable;
   const enableCheckbox = checkbox?.enabled ?? false;
+  const enableCheckboxSticky = checkbox?.sticky ?? false;
+  const hasCheckBoxSticky = enableCheckbox && enableCheckboxSticky;
+  const columnLength = columns.length;
 
   // =============== STATE
   const [expanded, setExpanded] = useState(false);
@@ -81,8 +83,16 @@ export const TableRow = <TData,>(props: TableRowProps<TData>) => {
         onClick={onClickRow}
         {...restProps}
       >
+        {/* CHECKBOX  */}
         {enableCheckbox && (
-          <TableCell padding="checkbox" align="center">
+          <TableCell
+            className={cn('table-row-item checkbox-column ', {
+              'sticky border-right': hasCheckBoxSticky,
+            })}
+            padding="checkbox"
+            align="center"
+            valign="middle"
+          >
             <Checkbox
               color="primary"
               checked={checked}
@@ -92,12 +102,31 @@ export const TableRow = <TData,>(props: TableRowProps<TData>) => {
           </TableCell>
         )}
         {columns.map((column, index) => {
-          if (column.sticky && column.group) {
-            console.log('Sticky column is not allowing with group');
-          }
+          const { key, sticky, dataIndex } = column;
+          const isFirstItem = index === 0;
+          const isLastItem = columnLength === index + 1;
+          const isFirstSticky = isFirstItem && (sticky || hasCheckBoxSticky);
+          const isPrevSticky = !isFirstItem && columns[index - 1].sticky;
+          const isNextSticky = !isLastItem && columns[index + 1].sticky;
+          const hideBorderLeft = (isFirstSticky || isPrevSticky) && !isLastItem;
+          const hideBorderRight = isLastItem || isNextSticky;
+
+          const result = dataIndex ? data[dataIndex] : data;
+          const finalClassName =
+            typeof column?.className === 'function'
+              ? column.className?.(result, data, index)
+              : column.className;
+
           return (
-            <StyledTableCell
-              key={`${column.key}-${index}`}
+            <TableCell
+              className={cn('table-row-item', `column-${key}`, finalClassName, {
+                'sticky position-right': sticky,
+                'border-left': sticky,
+                'border-right': sticky,
+                'none-border-left': hideBorderLeft,
+                'none-border-right': hideBorderRight,
+              })}
+              key={`${key}-${index}`}
               align={column.align ?? 'left'}
               {...column.dataColumnProps}
               sx={{
@@ -105,10 +134,9 @@ export const TableRow = <TData,>(props: TableRowProps<TData>) => {
                 minWidth: column.minWidth,
                 ...column.dataColumnProps?.sx,
               }}
-              sticky={!column.group ? column.sticky : false}
             >
               <>{renderColumnData(column, index)}</>
-            </StyledTableCell>
+            </TableCell>
           );
         })}
       </StyledTableRow>

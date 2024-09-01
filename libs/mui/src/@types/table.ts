@@ -26,9 +26,20 @@ export type TableCheckboxConfig<TData> = {
   enabled: boolean;
   // the data index
   dataIndex?: TableColumnDataIndex<TData>;
+  /**
+   * Added 0.0.21
+   * whether should fixed column for checkbox
+   * NOTE: this will be ignored if is not table view
+   */
+  sticky?: boolean;
 };
 
 export type TableColumnType<TData = any> = {
+  /**
+   * Added 0.0.21
+   * custom class name for table row column
+   */
+  className?: ((value: any, record: TData, index: number) => string) | string;
   /**
    * unique key for column
    */
@@ -97,8 +108,8 @@ export type TableColumnType<TData = any> = {
   >;
   /**
    * Sticky Column
+   * not allow with group exist
    * @default false
-   * @augments not allow with group exist
    */
   sticky?: boolean;
 };

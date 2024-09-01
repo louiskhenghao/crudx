@@ -7,6 +7,7 @@ import MuiTableContainer from '@mui/material/TableContainer';
 import MuiTableFooter from '@mui/material/TableFooter';
 import MuiTableRow from '@mui/material/TableRow';
 import Typography from '@mui/material/Typography';
+import cn from 'classnames';
 import isNil from 'lodash/isNil';
 import uniq from 'lodash/uniq';
 
@@ -32,17 +33,24 @@ export const Table = <TData,>(props: PropsWithChildren<TableProps<TData>>) => {
     total,
     loading = false,
     bordered = true,
+    borderStyle = 'preset',
+    borderStyleOptions,
     striped = false,
     loadingRows = 10,
     pagination = true,
     expandable = false,
-    enableTableHeadDivider = true,
     stickyHeader = false,
     page,
     pageSize,
     pageSizeOptions,
     checkbox,
     children,
+    // table head
+    tableHeadProps,
+    tableHeadBackgroundColor,
+    // table row
+    tableRowBackgroundColor,
+    tableRowStripeBackgroundColor,
     // custom view
     topView,
     emptyView,
@@ -51,7 +59,6 @@ export const Table = <TData,>(props: PropsWithChildren<TableProps<TData>>) => {
     footerView,
     // view props
     tableContainerProps,
-    tableHeadProps,
     tableBodyProps,
     tableRowProps,
     tableFooterProps,
@@ -141,8 +148,9 @@ export const Table = <TData,>(props: PropsWithChildren<TableProps<TData>>) => {
 
     // if checkbox in checked state
     if (state === 'partial') {
-      if (indexes.some((e) => e === checkedState)) {
-        triggerCheckboxUpdate([]);
+      if (indexes.some((e) => checkedState.includes(e))) {
+        const filtered = checkedState.filter((e) => !indexes.includes(e));
+        triggerCheckboxUpdate(filtered);
         return;
       }
     }
@@ -242,17 +250,17 @@ export const Table = <TData,>(props: PropsWithChildren<TableProps<TData>>) => {
       >
         {/* =============== TABLE */}
         <StyledTable
+          className={cn('table', `style-${borderStyle}`, { striped, bordered })}
+          borderStyleOptions={borderStyleOptions}
+          tableHeadBackgroundColor={tableHeadBackgroundColor}
           sx={{ opacity: loading ? 0.4 : 1, ...restProps.sx }}
-          striped={striped}
-          bordered={bordered}
           {...restProps}
         >
           {/* =============== TABLE HEAD */}
           <TableHead
             columns={columns}
             checkbox={checkbox}
-            stickyHeader={isStickyEnabled}
-            divider={enableTableHeadDivider}
+            sticky={isStickyEnabled}
             onSort={onColumnSort}
             checked={getCheckedStatus()}
             onCheckAll={onHandleCheckAll}

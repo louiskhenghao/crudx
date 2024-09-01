@@ -1,18 +1,17 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import Box from '@mui/material/Box';
 import Checkbox from '@mui/material/Checkbox';
-import TableCell from '@mui/material/TableCell';
-import TableRow from '@mui/material/TableRow';
+import MuiTableCell from '@mui/material/TableCell';
+import MuiTableHead from '@mui/material/TableHead';
+import MuiTableRow from '@mui/material/TableRow';
 import TableSortLabel from '@mui/material/TableSortLabel';
 import { visuallyHidden } from '@mui/utils';
 import cn from 'classnames';
 import isEmpty from 'lodash/isEmpty';
 
 import { TableColumnType } from '../../@types';
-import { StyledTableCell } from '../Table/styled';
 
 import { TableHeadProps } from './props';
-import { StyledTableHead } from './styled';
 
 /**
  * ===========================
@@ -30,18 +29,18 @@ export const TableHead = <TData,>(props: TableHeadProps<TData>) => {
     },
     checkbox,
     tableRowProps,
-    divider = true,
-    dividerProps,
-    stickyHeader,
-    columnBorder,
-    backgroundColor = '#eeeeee',
+    sticky: stickyHeader,
+    backgroundColor,
     onSort,
     onCheckAll,
     ...restProps
   } = props;
 
   // =============== VARIABLES
+  const columnLength = columns.length;
   const enableCheckbox = checkbox?.enabled ?? false;
+  const enableCheckboxSticky = checkbox?.sticky ?? false;
+  const hasCheckBoxSticky = enableCheckbox && enableCheckboxSticky;
   const defaultOrderBy = sorting?.defaultOrder;
   const defaultOrderDirection = sorting?.defaultDirection ?? 'asc';
   // restructure header based on its settings
@@ -72,9 +71,6 @@ export const TableHead = <TData,>(props: TableHeadProps<TData>) => {
     const group = header.filter((col) => !!col?.group);
     return !isEmpty(group);
   }, [header]);
-  const isColumnBorderDefault = columnBorder === 'default';
-  const columnBorderStyle =
-    isColumnBorderDefault || hasGroup ? 'default' : 'preset';
 
   // =============== STATE
   const [orderByState, setOrderByState] = useState(defaultOrderBy);
@@ -134,18 +130,34 @@ export const TableHead = <TData,>(props: TableHeadProps<TData>) => {
 
   const renderColumn = (
     column: TableColumnType<TData>,
+    index: number,
     colSpan?: number,
     rowSpan?: number,
     groupType?: 'group' | 'item'
   ) => {
     const { key, sticky } = column;
     const isCurrent = orderByState === key;
+
+    const isFirstItem = index === 0;
+    const isLastItem = columnLength === index + 1;
+    const isFirstSticky = isFirstItem && (sticky || hasCheckBoxSticky);
+    const isPrevSticky = !isFirstItem && columns[index - 1].sticky;
+    const isNextSticky = !isLastItem && columns[index + 1].sticky;
+    const hideBorderLeft = (isFirstSticky || isPrevSticky) && !isLastItem;
+    const hideBorderRight = isLastItem || isNextSticky;
+
     return (
-      <StyledTableCell
+      <MuiTableCell
         key={key}
-        className={cn({
+        className={cn('table-head-row-item', `column-${key}`, {
+          sticky: sticky,
+          'position-right': sticky,
           'table-head-group': groupType === 'group',
           'table-head-group-item': groupType === 'item',
+          'border-left': sticky,
+          'border-right': sticky,
+          'none-border-left': hideBorderLeft,
+          'none-border-right': hideBorderRight,
         })}
         {...column.headerColumnProps}
         sx={{
@@ -154,18 +166,17 @@ export const TableHead = <TData,>(props: TableHeadProps<TData>) => {
           fontSize: '0.8rem',
           fontWeight: '600 !important',
           whiteSpace: 'nowrap',
-          zIndex: sticky ? 3 : undefined,
+          zIndex: sticky ? 4 : undefined,
           ...column.headerColumnProps?.sx,
         }}
         align={column.alignTitle ?? column.align ?? 'left'}
         valign={'middle'}
         sortDirection={isCurrent ? defaultOrderDirection : false}
-        sticky={sticky}
         colSpan={colSpan}
         rowSpan={rowSpan}
       >
         {renderColumnContent(column)}
-      </StyledTableCell>
+      </MuiTableCell>
     );
   };
 
@@ -173,21 +184,25 @@ export const TableHead = <TData,>(props: TableHeadProps<TData>) => {
   if (columns.length === 0) return null;
 
   return (
-    <StyledTableHead
-      className={cn('table-head', className)}
-      divider={divider}
-      options={dividerProps}
-      stickyHeader={stickyHeader}
-      columnBorder={columnBorderStyle}
-      backgroundColor={backgroundColor}
+    <MuiTableHead
+      className={cn('table-head', className, {
+        sticky: stickyHeader,
+      })}
       {...restProps}
+      sx={{
+        backgroundColor,
+        ...restProps.sx,
+      }}
     >
-      <TableRow
+      <MuiTableRow
         className={cn('table-head-row', tableRowProps?.className)}
         {...tableRowProps}
       >
         {enableCheckbox && (
-          <TableCell
+          <MuiTableCell
+            className={cn('table-head-row-item checkbox-column ', {
+              'sticky border-right': hasCheckBoxSticky,
+            })}
             padding="checkbox"
             align="center"
             valign="middle"
@@ -205,35 +220,40 @@ export const TableHead = <TData,>(props: TableHeadProps<TData>) => {
                 'aria-label': 'Select all',
               }}
             />
-          </TableCell>
+          </MuiTableCell>
         )}
-        {header.map((col) => {
+        {header.map((col, index) => {
           if (col?.group) {
-            return renderColumn(col.group, col.span, undefined, 'group');
+            return renderColumn(col.group, index, col.span, undefined, 'group');
           }
           if (!hasGroup) {
-            return renderColumn(col.content as TableColumnType<TData>);
+            return renderColumn(col.content as TableColumnType<TData>, index);
           }
-          return renderColumn(col.content as TableColumnType<TData>, 1, 2);
+          return renderColumn(
+            col.content as TableColumnType<TData>,
+            index,
+            1,
+            2
+          );
         })}
-      </TableRow>
+      </MuiTableRow>
       {hasGroup && (
-        <TableRow
+        <MuiTableRow
           className={cn(
-            'table-head-row grouping-column',
+            'table-head-row-item grouping-column',
             tableRowProps?.className
           )}
           {...tableRowProps}
         >
           {header.map((col) => {
             if (!col?.group) return null;
-            return col?.content?.map((column) => {
-              return renderColumn(column, undefined, undefined, 'item');
+            return col?.content?.map((column, index) => {
+              return renderColumn(column, index, undefined, undefined, 'item');
             });
           })}
-        </TableRow>
+        </MuiTableRow>
       )}
-    </StyledTableHead>
+    </MuiTableHead>
   );
 };
 

@@ -156,14 +156,25 @@ export type CrudTableViewProps<TData = any> = Pick<
      */
     actionColumnPosition?: 'last' | 'first' | number;
     /**
+     * Added 0.0.21
+     * whether sticky for action column
+     * NOTE: can be override by `actionColumnProps`
+     *
+     * @default false
+     */
+    actionColumnSticky?: boolean;
+    /**
      * custom action column props
      */
     actionColumnProps?: Pick<
       TableColumnType<TData>,
       | 'align'
+      | 'alignTitle'
+      | 'className'
       | 'width'
+      | 'minWidth'
+      | 'sticky'
       | 'uppercase'
-      | 'sortable'
       | 'headerColumnProps'
       | 'dataColumnProps'
     >;

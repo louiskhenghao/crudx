@@ -45,41 +45,19 @@ export type TableHeadProps<TData = any> = TableHeadTypeMap['props'] & {
    */
   checked?: TableCheckAllState;
   /**
-   * whether show divider between header cells
-   * @default false
-   */
-  divider?: boolean;
-  /**
-   * divider props for customizing color, width & height
-   */
-  dividerProps?: {
-    color?: string;
-    width?: number | string;
-    height?: number | string;
-  };
-  /**
    * MUI TableRow props
    */
   tableRowProps?: MuiTableRowProps;
   /**
    * Added 0.0.16
    *
-   * Custom sticky header
+   * * Updates 0.0.21
+   * rename from `stickyHeader` to `sticky`
+   *
+   * whether is sticky header
    * @default false
    */
-  stickyHeader?: boolean;
-  /**
-   * Added 0.0.16
-   * * updated 0.0.19
-   * rename from `tableHeadColumnBorder` to `columnBorder`
-   *
-   * Table border style with mui or preset,
-   * only applied when `divider` is true
-   * when column has group setting will forced to `default` even this props presented
-   *
-   * @default preset
-   */
-  columnBorder?: 'default' | 'preset';
+  sticky?: boolean;
   /**
    * Added 0.0.19
    *
