@@ -162,7 +162,7 @@ export type CrudPanelViewProps<
    *
    * @default false
    */
-  tableCheckboxSticky?: boolean;
+  tableCheckboxColumnSticky?: boolean;
   /**
    * Added 0.0.21
    * whether should fixed column for action column

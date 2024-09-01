@@ -43,7 +43,7 @@ export function useCrudProps<T extends CrudSchemataTypes = any>(
     tableExpandView,
     tableExpandState,
     tableExtraView,
-    tableCheckboxSticky = false,
+    tableCheckboxColumnSticky = false,
     tableActionColumnSticky = false,
     variables = {},
     events,
@@ -432,7 +432,7 @@ export function useCrudProps<T extends CrudSchemataTypes = any>(
               checkbox: {
                 enabled: selectable,
                 dataIndex: columnDataIndex,
-                sticky: tableCheckboxSticky,
+                sticky: tableCheckboxColumnSticky,
               },
               checked:
                 checked?.length === 0
