@@ -194,21 +194,25 @@ export const CrudContentView = <TData = any,>(
     // if loading
     if (loading) {
       return (
-        loadingView ?? (
-          <Box sx={{ padding: 20, textAlign: 'center' }}>
-            <CircularProgress size={50} />
-          </Box>
-        )
+        <div className="crud-content-data-loading">
+          {loadingView ?? (
+            <Box sx={{ padding: 20, textAlign: 'center' }}>
+              <CircularProgress size={50} />
+            </Box>
+          )}
+        </div>
       );
     }
 
     if (!hasData) {
       return (
-        emptyView ?? (
-          <Typography py={12} textAlign="center">
-            {noDataView ?? 'No Data'}
-          </Typography>
-        )
+        <div className="crud-content-data-empty">
+          {emptyView ?? (
+            <Typography py={12} textAlign="center">
+              {noDataView ?? 'No Data'}
+            </Typography>
+          )}
+        </div>
       );
     }
 
@@ -216,47 +220,53 @@ export const CrudContentView = <TData = any,>(
       return 'Please implement `renderItemView` for item rendering';
     }
 
-    return data.map((record, i) => {
-      const checkIndex = extractCheckedValue(record);
-      const isChecked = checkIndex ? checkedState.includes(checkIndex) : false;
+    return (
+      <div className="crud-content-data-items">
+        {data.map((record, i) => {
+          const checkIndex = extractCheckedValue(record);
+          const isChecked = checkIndex
+            ? checkedState.includes(checkIndex)
+            : false;
 
-      return (
-        <Fragment key={`content-item-${i}`}>
-          {renderItemView(
-            record,
-            {
-              checkbox: () => {
-                if (!checkbox?.enabled) return null;
-                return (
-                  <Checkbox
-                    color="primary"
-                    checked={isChecked}
-                    onClick={(e) => e.stopPropagation()}
-                    onChange={onHandleCheckbox(record)}
-                  />
-                );
-              },
-              action: () => {
-                return (
-                  <CrudRowItemActions
-                    data={record}
-                    actions={itemActions}
-                    node={itemActionGroupIcon}
-                    type={enableItemGroupAction ? 'menu' : 'icon'}
-                    renderActionButtons={renderActionButtons}
-                    renderExtraActionButtons={renderExtraActionButtons}
-                  />
-                );
-              },
-            },
-            {
-              checked: isChecked,
-              onCheck: (state) => checkedItemByRecord(record, state),
-            }
-          )}
-        </Fragment>
-      );
-    });
+          return (
+            <Fragment key={`content-item-${i}`}>
+              {renderItemView(
+                record,
+                {
+                  checkbox: () => {
+                    if (!checkbox?.enabled) return null;
+                    return (
+                      <Checkbox
+                        color="primary"
+                        checked={isChecked}
+                        onClick={(e) => e.stopPropagation()}
+                        onChange={onHandleCheckbox(record)}
+                      />
+                    );
+                  },
+                  action: () => {
+                    return (
+                      <CrudRowItemActions
+                        data={record}
+                        actions={itemActions}
+                        node={itemActionGroupIcon}
+                        type={enableItemGroupAction ? 'menu' : 'icon'}
+                        renderActionButtons={renderActionButtons}
+                        renderExtraActionButtons={renderExtraActionButtons}
+                      />
+                    );
+                  },
+                },
+                {
+                  checked: isChecked,
+                  onCheck: (state) => checkedItemByRecord(record, state),
+                }
+              )}
+            </Fragment>
+          );
+        })}
+      </div>
+    );
   };
 
   // =============== VIEW
@@ -302,7 +312,7 @@ export const CrudContentView = <TData = any,>(
       />
 
       {/* ==== CONTENT */}
-      <div className="crud-content-items-wrapper">{renderContentView()}</div>
+      <div className="crud-content-data-wrapper">{renderContentView()}</div>
 
       {/* ==== PAGINATION */}
       <div className="crud-content-pagination-wrapper">
