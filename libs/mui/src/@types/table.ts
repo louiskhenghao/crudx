@@ -62,6 +62,11 @@ export type TableColumnType<TData = any> = {
    */
   align?: 'left' | 'center' | 'right';
   /**
+   * vertical alignment for column content
+   * @default 'middle'
+   */
+  valign?: 'top' | 'middle' | 'bottom' | 'baseline' | undefined;
+  /**
    * column width
    */
   width?: string | number;

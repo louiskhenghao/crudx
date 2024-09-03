@@ -153,8 +153,16 @@ export type TableProps<TData = any> = Omit<
       | 'onExpand'
       | 'renderExpandedView'
     >;
-    // table content v-align
+    /**
+     * Added 0.0.23
+     * Table cell content vertical align
+     */
     tableRowContentVAlign?: TableCellProps['valign'];
+    /**
+     * Added 0.0.24
+     * Table cell checkbox content vertical align
+     */
+    tableRowCheckboxVAlign?: TableCellProps['valign'];
 
     /**
      * CUSTOM PROPS

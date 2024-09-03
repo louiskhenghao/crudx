@@ -65,6 +65,7 @@ export const useColumnSettings = <TData = any,>(
       align: 'center',
       width: actionLength * getActionColSize() + (actionColumnExtraWidth ?? 0),
       sticky: actionColumnSticky,
+      valign: 'middle',
       // fixed: enableActionFixedWidth ? colFixed : undefined,
       ...actionColumnProps,
       render: (record) => {
@@ -102,6 +103,7 @@ export const useColumnSettings = <TData = any,>(
     columns,
     columnActions,
     enableActionColumn,
+    actionColumnSticky,
     columnActionsGroupIcon,
     actionColumnExtraWidth,
     actionColumnProps,

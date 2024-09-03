@@ -39,6 +39,11 @@ export type TableRowProps<TData = any> = Omit<MUITableRowProps, 'onClick'> & {
    */
   valign?: MUITableCellProps['valign'];
   /**
+   * Added 0.0.23
+   * Table cell checkbox vertical align
+   */
+  valignCheckbox?: MUITableCellProps['valign'];
+  /**
    * checkbox on change event handler
    */
   onCheck?: (

@@ -24,7 +24,8 @@ export const TableRow = <TData,>(props: TableRowProps<TData>) => {
     checked = false,
     expandable = false,
     expandableProps,
-    valign = 'middle',
+    valign,
+    valignCheckbox,
     onCheck,
     onClick,
     onExpand,
@@ -92,7 +93,7 @@ export const TableRow = <TData,>(props: TableRowProps<TData>) => {
             })}
             padding="checkbox"
             align="center"
-            valign={valign ?? 'middle'}
+            sx={{ verticalAlign: valignCheckbox ?? 'middle' }}
           >
             <Checkbox
               color="primary"
@@ -102,6 +103,7 @@ export const TableRow = <TData,>(props: TableRowProps<TData>) => {
             />
           </TableCell>
         )}
+        {/* OTHER COLUMNS  */}
         {columns.map((column, index) => {
           const { key, sticky, dataIndex } = column;
           const isFirstItem = index === 0;
@@ -129,12 +131,11 @@ export const TableRow = <TData,>(props: TableRowProps<TData>) => {
               })}
               key={`${key}-${index}`}
               align={column.align ?? 'left'}
-              valign={valign}
               {...column.dataColumnProps}
               sx={{
                 width: column.width,
                 minWidth: column.minWidth,
-                verticalAlign: valign,
+                verticalAlign: column.valign ?? valign ?? 'middle',
                 ...column.dataColumnProps?.sx,
               }}
             >
