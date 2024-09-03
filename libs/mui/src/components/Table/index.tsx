@@ -213,6 +213,7 @@ export const Table = <TData,>(props: PropsWithChildren<TableProps<TData>>) => {
           {...tableRowProps}
           key={i}
           data={e}
+          position={i}
           columns={columns}
           checkbox={checkbox}
           checked={isChecked}

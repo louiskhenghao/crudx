@@ -9,6 +9,12 @@ import {
 
 export type TableRowProps<TData = any> = Omit<MUITableRowProps, 'onClick'> & {
   /**
+   * Added 0.0.25
+   *
+   * the index position of the row
+   */
+  position?: number;
+  /**
    * data for row
    */
   data: TData;

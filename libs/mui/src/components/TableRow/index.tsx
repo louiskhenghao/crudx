@@ -18,6 +18,7 @@ import { TableRowProps } from './props';
 export const TableRow = <TData,>(props: TableRowProps<TData>) => {
   const {
     className,
+    position,
     data,
     checkbox,
     columns = [],
@@ -69,7 +70,7 @@ export const TableRow = <TData,>(props: TableRowProps<TData>) => {
     if (!data) return null;
     const { dataIndex, render } = column;
     const result = dataIndex ? data[dataIndex] : data;
-    if (render) return render(result, data, index);
+    if (render) return render(result, data, position ?? -1, index);
     if (typeof result === 'object') return JSON.stringify(result);
 
     return result;

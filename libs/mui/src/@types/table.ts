@@ -100,7 +100,12 @@ export type TableColumnType<TData = any> = {
   /**
    * Render function for column
    */
-  render?: (value: any, record: TData, index: number) => ReactNode;
+  render?: (
+    value: any,
+    record: TData,
+    rowIndex: number,
+    columnIndex: number
+  ) => ReactNode;
   /**
    * Added 0.0.16
    *
