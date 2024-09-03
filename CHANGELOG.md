@@ -2,6 +2,19 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+## [0.0.23](https://github.com/louiskhenghao/crudx/compare/workspace@0.0.22...workspace@0.0.23) (2024-09-03)
+
+
+### Features
+
+* **mui:** add valign to table row ([b1cc220](https://github.com/louiskhenghao/crudx/commit/b1cc2200ad5452d184a8b569fd93939b000d2fec))
+* **mui:** improve border style & add props to show/hide border ([89f1199](https://github.com/louiskhenghao/crudx/commit/89f11990fcb6fa623a3e959217e2c57633af9dbd))
+
+
+### Bug Fixes
+
+* **mui:** server compatible pseudo-class ([99251ef](https://github.com/louiskhenghao/crudx/commit/99251ef40cd68d14eb1f839befd6c441845a44bc))
+
 ## [0.0.22](https://github.com/louiskhenghao/crudx/compare/workspace@0.0.21...workspace@0.0.22) (2024-09-01)
 
 ## [0.0.21](https://github.com/louiskhenghao/crudx/compare/workspace@0.0.20...workspace@0.0.21) (2024-09-01)
