@@ -46,41 +46,6 @@ export const StyledTable = styled(MuiTable, {
     },
 
     /**
-     * general table row column border
-     * ------------------------------
-     */
-    '.MuiTableHead-root .MuiTableCell-root, .MuiTableRow-root .MuiTableCell-root':
-      {
-        '&.border-left': {
-          borderLeft: `${dividerWidth}px solid ${dividerColor}`,
-        },
-        '&.border-right': {
-          borderRight: `${dividerWidth}px solid ${dividerColor}`,
-        },
-        '&.border-top': {
-          borderTop: `${dividerWidth}px solid ${dividerColor}`,
-        },
-        '&.border-bottom': {
-          borderBottom: `${dividerWidth}px solid ${dividerColor}`,
-        },
-        '&.none-border-left': {
-          borderLeft: 0,
-        },
-        '&.none-border-right': {
-          borderRight: 0,
-        },
-        '&.none-border-top': {
-          borderTop: 0,
-        },
-        '&.none-border-bottom': {
-          borderBottom: 0,
-        },
-        '&.position-right': {
-          right: 0,
-        },
-      },
-
-    /**
      * bordered table style
      * ------------------------------
      */
@@ -220,6 +185,41 @@ export const StyledTable = styled(MuiTable, {
         },
       },
     },
+
+    /**
+     * general table row column border
+     * ------------------------------
+     */
+    '.MuiTableHead-root .MuiTableCell-root, .MuiTableRow-root .MuiTableCell-root':
+      {
+        '&.border-left': {
+          borderLeft: `${dividerWidth}px solid ${dividerColor}`,
+        },
+        '&.border-right': {
+          borderRight: `${dividerWidth}px solid ${dividerColor}`,
+        },
+        '&.border-top': {
+          borderTop: `${dividerWidth}px solid ${dividerColor}`,
+        },
+        '&.border-bottom': {
+          borderBottom: `${dividerWidth}px solid ${dividerColor}`,
+        },
+        '&.none-border-left': {
+          borderLeft: 0,
+        },
+        '&.none-border-right': {
+          borderRight: 0,
+        },
+        '&.none-border-top': {
+          borderTop: 0,
+        },
+        '&.none-border-bottom': {
+          borderBottom: 0,
+        },
+        '&.position-right': {
+          right: 0,
+        },
+      },
   };
 });
 

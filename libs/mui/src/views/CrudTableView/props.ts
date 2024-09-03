@@ -172,6 +172,7 @@ export type CrudTableViewProps<TData = any> = Pick<
       | 'alignTitle'
       | 'className'
       | 'width'
+      | 'valign'
       | 'minWidth'
       | 'sticky'
       | 'uppercase'
