@@ -54,14 +54,14 @@ export const StyledTable = styled(MuiTable, {
         borderTop: `${dividerWidth}px solid ${dividerColor}`,
         borderLeft: `${dividerWidth}px solid ${dividerColor}`,
         borderBottom: `${dividerWidth}px solid ${dividerColor}`,
-        '&:first-child': {
+        '&:first-of-type': {
           borderLeft: 0,
         },
       },
       '.MuiTableRow-root .MuiTableCell-body': {
         borderBottom: `${dividerWidth}px solid ${dividerColor}`,
         borderLeft: `${dividerWidth}px solid ${dividerColor}`,
-        '&:first-child': {
+        '&:first-of-type': {
           borderLeft: 0,
         },
       },
@@ -97,7 +97,7 @@ export const StyledTable = styled(MuiTable, {
           marginBottom: 'auto',
           background: dividerColor,
         },
-        '&.sticky:first-child::before, :first-child::before': {
+        '&.sticky:first-of-type::before, :first-of-type::before': {
           content: 'none',
         },
         '&.sticky::after, ::after': {
