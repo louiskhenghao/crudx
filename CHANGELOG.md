@@ -2,6 +2,13 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+## [0.0.24](https://github.com/louiskhenghao/crudx/compare/workspace@0.0.23...workspace@0.0.24) (2024-09-03)
+
+
+### Features
+
+* **mui:** support valign on column & valign for checkbox ([8e308df](https://github.com/louiskhenghao/crudx/commit/8e308df9cecf0befc4827e7ad4e2d59dbb0ee961))
+
 ## [0.0.23](https://github.com/louiskhenghao/crudx/compare/workspace@0.0.22...workspace@0.0.23) (2024-09-03)
 
 
