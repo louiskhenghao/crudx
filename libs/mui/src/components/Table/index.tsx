@@ -48,6 +48,8 @@ export const Table = <TData,>(props: PropsWithChildren<TableProps<TData>>) => {
     // table head
     tableHeadProps,
     tableHeadBackgroundColor,
+    tableHeadBorderTop,
+    tableHeadBorderBottom,
     // table row
     tableRowContentVAlign = 'middle',
     // custom view
@@ -261,6 +263,8 @@ export const Table = <TData,>(props: PropsWithChildren<TableProps<TData>>) => {
             columns={columns}
             checkbox={checkbox}
             sticky={isStickyEnabled}
+            borderTop={tableHeadBorderTop}
+            borderBottom={tableHeadBorderBottom}
             onSort={onColumnSort}
             checked={getCheckedStatus()}
             onCheckAll={onHandleCheckAll}

@@ -121,6 +121,20 @@ export type TableProps<TData = any> = Omit<
      * @default theme.palette.background.default
      */
     tableHeadBackgroundColor?: string;
+    /**
+     * Added 0.0.23
+     *
+     * Whether has border top on table head row
+     * @default undefined
+     */
+    tableHeadBorderTop?: boolean;
+    /**
+     * Added 0.0.23
+     *
+     * Whether has border top on table head row
+     * @default undefined
+     */
+    tableHeadBorderBottom?: boolean;
 
     /**
      * TABLE ROW

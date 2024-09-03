@@ -30,6 +30,8 @@ export const TableHead = <TData,>(props: TableHeadProps<TData>) => {
     checkbox,
     tableRowProps,
     sticky: stickyHeader,
+    borderTop = true,
+    borderBottom = true,
     backgroundColor,
     onSort,
     onCheckAll,
@@ -156,8 +158,12 @@ export const TableHead = <TData,>(props: TableHeadProps<TData>) => {
           'table-head-group-item': groupType === 'item',
           'border-left': sticky,
           'border-right': sticky,
+          'border-top': borderTop,
+          'border-bottom': borderBottom,
           'none-border-left': hideBorderLeft,
           'none-border-right': hideBorderRight,
+          'none-border-top': !borderTop,
+          'none-border-bottom': !borderBottom,
         })}
         {...column.headerColumnProps}
         sx={{
@@ -202,6 +208,10 @@ export const TableHead = <TData,>(props: TableHeadProps<TData>) => {
           <MuiTableCell
             className={cn('table-head-row-item checkbox-column ', {
               'sticky border-right': hasCheckBoxSticky,
+              'border-top': borderTop,
+              'border-bottom': borderBottom,
+              'none-border-top': !borderTop,
+              'none-border-bottom': !borderBottom,
             })}
             padding="checkbox"
             align="center"

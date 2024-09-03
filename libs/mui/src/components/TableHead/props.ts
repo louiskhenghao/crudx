@@ -66,6 +66,20 @@ export type TableHeadProps<TData = any> = TableHeadTypeMap['props'] & {
    */
   backgroundColor?: string;
   /**
+   * Added 0.0.23
+   *
+   * Whether has border top on table head row
+   * @default undefined
+   */
+  borderTop?: boolean;
+  /**
+   * Added 0.0.23
+   *
+   * Whether has border top on table head row
+   * @default undefined
+   */
+  borderBottom?: boolean;
+  /**
    * Added 0.0.16
    *
    * On column sort event handler
