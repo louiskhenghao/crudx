@@ -2,6 +2,14 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+## [0.0.25](https://github.com/louiskhenghao/crudx/compare/workspace@0.0.24...workspace@0.0.25) (2024-09-03)
+
+
+### Features
+
+* **mui:** expose row index for column render ([43f2848](https://github.com/louiskhenghao/crudx/commit/43f2848e3fa1e969f57e5d6aa67acbd3bd457554))
+* **mui:** expose valign for actionColumnProps & fix border style ([61064e0](https://github.com/louiskhenghao/crudx/commit/61064e0c792ae51b2eacba48be12c7c6fd0a3541))
+
 ## [0.0.24](https://github.com/louiskhenghao/crudx/compare/workspace@0.0.23...workspace@0.0.24) (2024-09-03)
 
 
