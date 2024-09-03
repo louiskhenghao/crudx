@@ -46,6 +46,41 @@ export const StyledTable = styled(MuiTable, {
     },
 
     /**
+     * general table row column border
+     * ------------------------------
+     */
+    '.MuiTableHead-root .MuiTableCell-root, .MuiTableRow-root .MuiTableCell-root':
+      {
+        '&.border-left': {
+          borderLeft: `${dividerWidth}px solid ${dividerColor}`,
+        },
+        '&.border-right': {
+          borderRight: `${dividerWidth}px solid ${dividerColor}`,
+        },
+        '&.border-top': {
+          borderTop: `${dividerWidth}px solid ${dividerColor}`,
+        },
+        '&.border-bottom': {
+          borderBottom: `${dividerWidth}px solid ${dividerColor}`,
+        },
+        '&.none-border-left': {
+          borderLeft: 0,
+        },
+        '&.none-border-right': {
+          borderRight: 0,
+        },
+        '&.none-border-top': {
+          borderTop: 0,
+        },
+        '&.none-border-bottom': {
+          borderBottom: 0,
+        },
+        '&.position-right': {
+          right: 0,
+        },
+      },
+
+    /**
      * bordered table style
      * ------------------------------
      */
@@ -54,14 +89,14 @@ export const StyledTable = styled(MuiTable, {
         borderTop: `${dividerWidth}px solid ${dividerColor}`,
         borderLeft: `${dividerWidth}px solid ${dividerColor}`,
         borderBottom: `${dividerWidth}px solid ${dividerColor}`,
-        '&:first-child': {
+        '&:first-of-type': {
           borderLeft: 0,
         },
       },
       '.MuiTableRow-root .MuiTableCell-body': {
         borderBottom: `${dividerWidth}px solid ${dividerColor}`,
         borderLeft: `${dividerWidth}px solid ${dividerColor}`,
-        '&:first-child': {
+        '&:first-of-type': {
           borderLeft: 0,
         },
       },
@@ -77,18 +112,24 @@ export const StyledTable = styled(MuiTable, {
     '&.style-default': {},
     '&.style-preset': {
       // preset style for table head
+      '.MuiTableHead-root:not(.sticky) .MuiTableCell-head': {
+        '&:not(.border-top)': {
+          borderTop: '0 !important',
+        },
+        '&:not(.border-bottom)': {
+          borderBottom: '0 !important',
+        },
+      },
       '.MuiTableHead-root  .MuiTableCell-head': {
         position: 'relative',
-        borderTop: '0 !important',
         borderLeft: '0 !important',
         borderRight: '0 !important',
-        borderBottom: '0 !important',
         '&.sticky::before, ::before': {
           content: '""',
           display: 'block',
           position: 'absolute',
           width: dividerWidth,
-          height: '40%',
+          height: '30%',
           top: 0,
           left: 0,
           right: 'initial',
@@ -97,7 +138,7 @@ export const StyledTable = styled(MuiTable, {
           marginBottom: 'auto',
           background: dividerColor,
         },
-        '&.sticky:first-child::before, :first-child::before': {
+        '&.sticky:first-of-type::before, :first-of-type::before': {
           content: 'none',
         },
         '&.sticky::after, ::after': {
@@ -105,7 +146,7 @@ export const StyledTable = styled(MuiTable, {
           display: 'block',
           position: 'absolute',
           width: dividerWidth,
-          height: '40%',
+          height: '30%',
           left: 'initial',
           top: 0,
           right: 0,
@@ -116,6 +157,14 @@ export const StyledTable = styled(MuiTable, {
         },
         ':last-child::after': {
           content: 'none',
+        },
+      },
+
+      '.MuiTableRow-root .MuiTableCell-body': {
+        '&:not(.sticky)': {
+          borderTop: 0,
+          borderLeft: 0,
+          borderRight: 0,
         },
       },
     },
@@ -151,21 +200,6 @@ export const StyledTable = styled(MuiTable, {
           left: 0,
           zIndex: 2,
         },
-        '&.border-left': {
-          borderLeft: `${dividerWidth}px solid ${dividerColor}`,
-        },
-        '&.border-right': {
-          borderRight: `${dividerWidth}px solid ${dividerColor}`,
-        },
-        '&.none-border-left': {
-          borderLeft: 0,
-        },
-        '&.none-border-right': {
-          borderRight: 0,
-        },
-        '&.position-right': {
-          right: 0,
-        },
       },
     },
 
@@ -181,20 +215,6 @@ export const StyledTable = styled(MuiTable, {
           zIndex: 1,
           position: 'sticky',
         },
-
-        '&.border-left': {
-          borderLeft: `${dividerWidth}px solid ${dividerColor}`,
-        },
-        '&.border-right': {
-          borderRight: `${dividerWidth}px solid ${dividerColor}`,
-        },
-        '&.none-border-left': {
-          borderLeft: 0,
-        },
-        '&.none-border-right': {
-          borderRight: 0,
-        },
-
         '&.position-right': {
           right: 0,
         },

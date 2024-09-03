@@ -7,6 +7,23 @@ Easy configuration for table that comes with row selection, pagination etc
 ## Props
 
 ```ts
+import { ReactNode } from 'react';
+import { TableTypeMap } from '@mui/material/Table';
+import { TableBodyTypeMap } from '@mui/material/TableBody';
+import { TableCellProps } from '@mui/material/TableCell';
+import { TableContainerProps } from '@mui/material/TableContainer';
+import { TableFooterTypeMap } from '@mui/material/TableFooter';
+
+import { InferDataColumnType, TableCheckboxConfig, TableColumnType } from '../../@types';
+import { TableHeadProps } from '../TableHead';
+import { TablePaginationProps } from '../TablePagination';
+import { TableRowProps } from '../TableRow';
+
+/**
+ * ===========================
+ * MAIN
+ * ===========================
+ */
 export type TableProps<TData = any> = Omit<TableTypeMap['props'], 'stickyHeader'> &
   Pick<TableRowProps<TData>, 'expandable' | 'expandableProps'> &
   Pick<TablePaginationProps<TData>, 'page' | 'pageSize' | 'pageSizeOptions' | 'onPageChange' | 'onPageSizeChange'> & {
@@ -51,14 +68,33 @@ export type TableProps<TData = any> = Omit<TableTypeMap['props'], 'stickyHeader'
      */
     bordered?: boolean;
     /**
+     * Added 0.0.21
+     *
+     * the border style of the table
+     * `default`: have border on every row + column
+     * `preset`: header have divider, row + column no border
+     */
+    borderStyle?: 'default' | 'preset';
+    /**
+     * Added 0.0.21
+     *
+     * the custom border style
+     */
+    borderStyleOptions?: {
+      color?: string;
+      width?: number | string;
+      height?: number | string;
+    };
+    /**
      * whether enable pagination
      * @default true
      */
     pagination?: boolean;
+
     /**
-     * whether show divider/border on table head column
+     * TABLE HEAD
+     * ===========================
      */
-    enableTableHeadDivider?: TableHeadProps['divider'];
     /**
      * Added 0.0.19
      *
@@ -68,6 +104,43 @@ export type TableProps<TData = any> = Omit<TableTypeMap['props'], 'stickyHeader'
      * to override please pass object to this props or use `tableContainerProps.sx` instead
      */
     stickyHeader?: boolean | { tableMaxHeight: number };
+    /**
+     * table head props
+     * override with this props or use it separately with exposed props
+     */
+    tableHeadProps?: Omit<TableHeadProps<TData>, 'columns' | 'checkbox'>;
+    /**
+     * Added 0.0.21
+     *
+     * The table head background color
+     * @default theme.palette.background.default
+     */
+    tableHeadBackgroundColor?: string;
+    /**
+     * Added 0.0.23
+     *
+     * Whether has border top on table head row
+     * @default undefined
+     */
+    tableHeadBorderTop?: boolean;
+    /**
+     * Added 0.0.23
+     *
+     * Whether has border top on table head row
+     * @default undefined
+     */
+    tableHeadBorderBottom?: boolean;
+
+    /**
+     * TABLE ROW
+     * ===========================
+     */
+    /**
+     * table row props
+     */
+    tableRowProps?: Omit<TableRowProps<TData>, 'columns' | 'data' | 'checkbox' | 'onCheck' | 'onClick' | 'onExpand' | 'renderExpandedView'>;
+    // table content v-align
+    tableRowContentVAlign?: TableCellProps['valign'];
 
     /**
      * CUSTOM PROPS
@@ -77,14 +150,7 @@ export type TableProps<TData = any> = Omit<TableTypeMap['props'], 'stickyHeader'
      * MUI TableContainer props
      */
     tableContainerProps?: TableContainerProps;
-    /**
-     * table head props
-     */
-    tableHeadProps?: Omit<TableHeadProps<TData>, 'columns' | 'checkbox'>;
-    /**
-     * table row props
-     */
-    tableRowProps?: Omit<TableRowProps<TData>, 'columns' | 'data' | 'checkbox' | 'onCheck' | 'onClick' | 'onExpand' | 'renderExpandedView'>;
+
     /**
      * MUI TableBody props
      */
@@ -106,7 +172,7 @@ export type TableProps<TData = any> = Omit<TableTypeMap['props'], 'stickyHeader'
      * Render extra top view
      */
     topView?: React.ReactNode;
-    **
+    /**
      * Render empty view for table
      */
     emptyView?: React.ReactNode;
