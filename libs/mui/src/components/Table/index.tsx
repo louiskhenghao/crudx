@@ -49,8 +49,7 @@ export const Table = <TData,>(props: PropsWithChildren<TableProps<TData>>) => {
     tableHeadProps,
     tableHeadBackgroundColor,
     // table row
-    tableRowBackgroundColor,
-    tableRowStripeBackgroundColor,
+    tableRowContentVAlign = 'middle',
     // custom view
     topView,
     emptyView,
@@ -215,6 +214,7 @@ export const Table = <TData,>(props: PropsWithChildren<TableProps<TData>>) => {
           checkbox={checkbox}
           checked={isChecked}
           expandable={expandable}
+          valign={tableRowContentVAlign}
           onCheck={onHandleCheckItem}
           onClick={onRowClick ? (r, e) => onRowClick(r, e, i) : undefined}
           onExpand={onRowExpand ? (r, e) => onRowExpand(r, e, i) : undefined}

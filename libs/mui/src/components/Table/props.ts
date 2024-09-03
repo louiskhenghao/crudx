@@ -1,6 +1,7 @@
 import { ReactNode } from 'react';
 import { TableTypeMap } from '@mui/material/Table';
 import { TableBodyTypeMap } from '@mui/material/TableBody';
+import { TableCellProps } from '@mui/material/TableCell';
 import { TableContainerProps } from '@mui/material/TableContainer';
 import { TableFooterTypeMap } from '@mui/material/TableFooter';
 
@@ -138,8 +139,8 @@ export type TableProps<TData = any> = Omit<
       | 'onExpand'
       | 'renderExpandedView'
     >;
-    tableRowBackgroundColor?: string;
-    tableRowStripeBackgroundColor?: string;
+    // table content v-align
+    tableRowContentVAlign?: TableCellProps['valign'];
 
     /**
      * CUSTOM PROPS

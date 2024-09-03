@@ -118,6 +118,15 @@ export const StyledTable = styled(MuiTable, {
           content: 'none',
         },
       },
+
+      '.MuiTableRow-root .MuiTableCell-body': {
+        '&:not(.sticky)': {
+          border: 0,
+        },
+        '&.sticky': {
+          borderBottom: 0,
+        },
+      },
     },
 
     /**

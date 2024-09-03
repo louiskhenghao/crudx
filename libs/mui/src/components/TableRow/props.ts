@@ -1,4 +1,4 @@
-import { TableCellProps } from '@mui/material/TableCell';
+import { TableCellProps as MUITableCellProps } from '@mui/material/TableCell';
 import { TableRowProps as MUITableRowProps } from '@mui/material/TableRow';
 
 import {
@@ -32,7 +32,12 @@ export type TableRowProps<TData = any> = Omit<MUITableRowProps, 'onClick'> & {
   /**
    * expandable table cell props
    */
-  expandableProps?: TableCellProps;
+  expandableProps?: MUITableCellProps;
+  /**
+   * Added 0.0.23
+   * Table cell content vertical align
+   */
+  valign?: MUITableCellProps['valign'];
   /**
    * checkbox on change event handler
    */
