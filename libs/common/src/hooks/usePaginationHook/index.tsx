@@ -17,27 +17,21 @@ export const usePaginationHook = (
 
   // ==================== STATE
   const [currentState, setCurrentState] = useState<number>(defaultCurrent);
+  const [pageSizeState, setPageSizeState] = useState<number>(defaultPageSize);
 
   // ==================== EFFECTS
   useEffect(() => {
     setCurrentState(defaultCurrent);
   }, [defaultCurrent]);
 
+  useEffect(() => {
+    setPageSizeState(defaultPageSize);
+  }, [defaultPageSize]);
+
   // ==================== EVENTS
   const reset = () => {
     setCurrentState(defaultCurrent);
-  };
-
-  const paginateTo = (input: number) => {
-    if (!isNil(maxPageNumber) && input > maxPageNumber) {
-      setCurrentState(maxPageNumber);
-      return;
-    }
-    if (input <= 0) {
-      setCurrentState(1);
-      return;
-    }
-    setCurrentState(input);
+    setPageSizeState(defaultPageSize);
   };
 
   const next = () => {
@@ -50,13 +44,37 @@ export const usePaginationHook = (
     paginateTo(intent);
   };
 
+  // paginate to
+  const paginateTo = (input: number) => {
+    if (!isNil(maxPageNumber) && input > maxPageNumber) {
+      setCurrentState(maxPageNumber);
+      return;
+    }
+    if (input <= 0) {
+      setCurrentState(1);
+      return;
+    }
+    setCurrentState(input);
+  };
+
+  // set page size
+  const setPageSize = (input: number) => {
+    if (input <= 0) {
+      setPageSizeState(defaultPageSize);
+      return;
+    }
+    setPageSizeState(input);
+  };
+
   // ==================== RETURN
   return {
     reset,
     next,
     previous,
     paginateTo,
+    setPageSize,
     current: currentState,
+    pageSize: pageSizeState,
     defaultPageSize,
     defaultCurrent,
   };
@@ -75,12 +93,14 @@ export type UsePaginationHookOptions = {
 
 export type UsePaginationHookProps = {
   current: number;
+  pageSize: number;
   defaultCurrent: number;
   defaultPageSize: number;
   reset: () => void;
   next: () => void;
   previous: () => void;
   paginateTo: (input: number) => void;
+  setPageSize: (input: number) => void;
 };
 
 export default usePaginationHook;

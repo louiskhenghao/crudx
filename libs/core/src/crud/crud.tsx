@@ -149,10 +149,10 @@ export class CRUD<TSchema extends CrudSchemataTypes = any> {
       // control pagination API request & state handling
       pagination: {
         current: paginationHook.current,
+        pageSize: paginationHook.pageSize,
         defaultCurrent: paginationHook.defaultCurrent,
         defaultPageSize: paginationHook.defaultPageSize,
         reset: () => {
-          paginationHook.reset();
           pagingProps.clearAndRefresh();
         },
         next: () => {
@@ -163,6 +163,9 @@ export class CRUD<TSchema extends CrudSchemataTypes = any> {
         },
         paginateTo: (page: number) => {
           pagingProps.onPaginateTo(page);
+        },
+        setPageSize: (size: number) => {
+          pagingProps.onUpdatePageSize(size);
         },
       },
     };

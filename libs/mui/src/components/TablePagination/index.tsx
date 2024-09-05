@@ -34,6 +34,10 @@ export const TablePagination = <TData,>(props: TablePaginationProps<TData>) => {
     setPageState(page);
   }, [page]);
 
+  useEffect(() => {
+    setRowsPerPageState(pageSize);
+  }, [pageSize]);
+
   // =============== EVENTS
   const onHandlePageChange = (
     _event: React.MouseEvent<HTMLButtonElement> | null,

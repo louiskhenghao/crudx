@@ -35,6 +35,7 @@ export const CrudTableView = <TData = any,>(
     paginateType,
     enableNext,
     enablePrevious,
+    pageSizeOptions,
     totalRecord,
     totalSelected,
     tableProps,
@@ -135,6 +136,7 @@ export const CrudTableView = <TData = any,>(
         total={totalRecord}
         columns={tableColumns}
         pageSize={pageSize}
+        pageSizeOptions={pageSizeOptions}
         pagination={paginateType !== 'none'}
         emptyView={emptyView}
         noDataView={noDataView}

@@ -328,6 +328,7 @@ export class CrudPagingResource<TSchema extends CrudSchemataTypes = any> {
       nativeFetch: this.nativeFetch,
       refresh: () => this.fetch(),
       clearAndRefresh: () => {
+        paginate.reset();
         this.fetch(
           this.constructInitialValue(this.initialQueryVariables),
           true
@@ -336,6 +337,8 @@ export class CrudPagingResource<TSchema extends CrudSchemataTypes = any> {
       onUpdatePageSize: (size = 10) => {
         this.pageSize = size;
         this.pageNumber = this.defaultPageNumber;
+        paginate.setPageSize(size);
+        paginate.paginateTo(this.defaultPageNumber);
         this.setVariables({
           [`${this.keyPaging}`]: null,
         });
