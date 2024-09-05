@@ -2,6 +2,13 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+## [0.0.26](https://github.com/louiskhenghao/crudx/compare/workspace@0.0.25...workspace@0.0.26) (2024-09-05)
+
+
+### Features
+
+* handle pagination ui state on pagingProps ([1dd0319](https://github.com/louiskhenghao/crudx/commit/1dd03199fdd64e56d36c0ded79af4a23157c8b60))
+
 ## [0.0.25](https://github.com/louiskhenghao/crudx/compare/workspace@0.0.24...workspace@0.0.25) (2024-09-03)
 
 
