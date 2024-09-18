@@ -251,6 +251,11 @@ export type CrudContentViewProps<TData = any> = {
       checkbox: () => ReactNode;
     },
     state: {
+      /**
+       * Added 0.0.27
+       * index of the record item
+       */
+      index: number;
       // the current state of selection
       checked: boolean;
       // the function to trigger check

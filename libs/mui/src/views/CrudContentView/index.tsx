@@ -258,6 +258,7 @@ export const CrudContentView = <TData = any,>(
                   },
                 },
                 {
+                  index: i,
                   checked: isChecked,
                   onCheck: (state) => checkedItemByRecord(record, state),
                 }
