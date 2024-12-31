@@ -2,6 +2,18 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+## [0.0.27](https://github.com/louiskhenghao/crudx/compare/workspace@0.0.26...workspace@0.0.27) (2024-12-31)
+
+
+### Features
+
+* **mui:** expose index from CrudContentView renderItemView ([b465dbd](https://github.com/louiskhenghao/crudx/commit/b465dbd4205db4bea88072de8811d125fc21af93))
+
+
+### Bug Fixes
+
+* do not paginate to first page when page size changed on component level ([ff94c8d](https://github.com/louiskhenghao/crudx/commit/ff94c8db2ed33a10f550b17420fa984f7c63bc45))
+
 ## [0.0.26](https://github.com/louiskhenghao/crudx/compare/workspace@0.0.25...workspace@0.0.26) (2024-09-05)
 
 
