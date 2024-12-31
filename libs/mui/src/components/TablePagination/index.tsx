@@ -51,8 +51,6 @@ export const TablePagination = <TData,>(props: TablePaginationProps<TData>) => {
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     const perPage = parseInt(event.target.value, 10);
-    setPageState(0);
-    onPageChange?.(0);
     setRowsPerPageState(perPage);
     onPageSizeChange?.(perPage);
   };

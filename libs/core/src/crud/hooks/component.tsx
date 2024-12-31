@@ -59,8 +59,8 @@ export const useCrudComponentHook = <TSchema extends CrudSchemataTypes = any>(
 
   const accessibility: CrudComponentAccessibilityProps = {
     pagination,
-    enableNext: !isNil(pagingProps?.data?.page?.next) ?? false,
-    enablePrevious: !isNil(pagingProps?.data?.page?.previous) ?? false,
+    enableNext: !isNil(pagingProps?.data?.page?.next),
+    enablePrevious: !isNil(pagingProps?.data?.page?.previous),
     enableBulkAction: !!rowSelection.isSelectable,
     totalSelected: rowSelection.selections?.length || 0,
     selections: rowSelection.selections,

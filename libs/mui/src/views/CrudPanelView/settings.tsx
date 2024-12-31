@@ -413,14 +413,14 @@ export function useCrudProps<T extends CrudSchemataTypes = any>(
             }}
             onColumnSort={onTableColumnSort}
             onPageSizeChange={(size) => {
-              pagingProps.onUpdatePageSize(size);
+              pagination.setPageSize(size);
             }}
             onPageChange={(page) => {
               pagination.paginateTo(page);
             }}
             onTabChange={onTableTabChange}
-            onPaginateNext={pagingProps.onPaginateNext}
-            onPaginatePrevious={pagingProps.onPaginatePrevious}
+            onPaginateNext={pagination.next}
+            onPaginatePrevious={pagination.previous}
             onTriggerCreate={accessibility.onTriggerCreate}
             onTriggerRefresh={accessibility.onTriggerRefresh}
             onTriggerSorting={accessibility.onTriggerSorting}
@@ -502,8 +502,8 @@ export function useCrudProps<T extends CrudSchemataTypes = any>(
               pagination.paginateTo(page);
             }}
             onTabChange={onTableTabChange}
-            onPaginateNext={pagingProps.onPaginateNext}
-            onPaginatePrevious={pagingProps.onPaginatePrevious}
+            onPaginateNext={pagination.next}
+            onPaginatePrevious={pagination.previous}
             onTriggerCreate={accessibility.onTriggerCreate}
             onTriggerRefresh={accessibility.onTriggerRefresh}
             onTriggerSorting={accessibility.onTriggerSorting}
