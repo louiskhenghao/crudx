@@ -4,3 +4,4 @@ export * from './usePaginationHook';
 export * from './usePrompt';
 export * from './useRowSelectionHook';
 export * from './useVisibilityStateHook';
+export * from './useVideoUploaderHook';
