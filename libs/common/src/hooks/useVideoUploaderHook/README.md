@@ -5,7 +5,7 @@ A React hook for uploading videos to Tencent Cloud Video-On-Demand (VOD) service
 ## Usage
 
 ```TypeScript
-import { useVideoUploader } from 'your-package-name';
+import { useVideoUploader } from '@crudx/common';
 
 const Demo = () => {
   const { uploadVideo, isUploading, progress, result, error } = useVideoUploader({
