@@ -51,6 +51,7 @@
     "stylis": "^4.3.0",
     "stylis-plugin-rtl": "^2.1.1",
     "tslib": "^2.3.0",
+    "vod-js-sdk-v6": "^1.7.1-beta.1",
     "zustand": "^4.4.1"
   },
   "devDependencies": {
