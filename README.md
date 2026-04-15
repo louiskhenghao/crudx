@@ -6,15 +6,15 @@ This repository is the main repository that hosted code that will be used to bui
 
 ### @crudx/common
 
-Please refer to [documentation](./libs/common/README.md)
+Please refer to [documentation](https://github.com/louiskhenghao/crudx/blob/main/libs/common/README.md)
 
 ### @crudx/core
 
-Please refer to [documentation](./libs/core/README.md)
+Please refer to [documentation](https://github.com/louiskhenghao/crudx/blob/main/libs/core/README.md)
 
 ### @crudx/mui
 
-Please refer to [documentation](./libs/mui/README.md)
+Please refer to [documentation](https://github.com/louiskhenghao/crudx/blob/main/libs/mui/README.md)
 
 ---
 
