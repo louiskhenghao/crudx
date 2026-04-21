@@ -173,7 +173,13 @@ export const useCrudTableItemAction = <T extends CrudSchemataTypes = any>(
               {node}
               <span className="ml-1">
                 &nbsp;
-                {tipTitle ?? text?.[`${type}Text` as 'viewText'] ?? MenuActionTextMap[type]}
+                {(typeof tipTitle === 'string'
+                  ? tipTitle
+                  : typeof tipTitle === 'object'
+                  ? tipTitle.title
+                  : undefined) ??
+                  text?.[`${type}Text` as 'viewText'] ??
+                  MenuActionTextMap[type]}
               </span>
             </span>,
             link

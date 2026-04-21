@@ -162,8 +162,12 @@ export const useHeaderActionSettings = (
       // ----- expand
       if (type === 'expand' && !!headerExpandView && enabled) {
         const f = field as any;
-        const collapseIcon = f?.icon?.collapse ?? <ChevronUp className="h-4 w-4" />;
-        const expandIcon = f?.icon?.expand ?? <ChevronDown className="h-4 w-4" />;
+        const collapseIcon = f?.icon?.collapse ?? (
+          <ChevronUp className="h-4 w-4" />
+        );
+        const expandIcon = f?.icon?.expand ?? (
+          <ChevronDown className="h-4 w-4" />
+        );
         const finalExpandText = f?.text?.expand ?? expandText;
         const finalCollapseText = f?.text?.collapse ?? collapseText;
         viewList.push({
@@ -200,10 +204,12 @@ export const useHeaderActionSettings = (
             const tooltips = getTooltipText(f.key, { tooltip });
             return (
               <TooltipView {...tooltips}>
-                {f.render?.({
-                  tableSize: headerActionSize,
-                  expanded: expanded ?? false,
-                }) as any}
+                {
+                  f.render?.({
+                    tableSize: headerActionSize,
+                    expanded: expanded ?? false,
+                  }) as any
+                }
               </TooltipView>
             );
           },

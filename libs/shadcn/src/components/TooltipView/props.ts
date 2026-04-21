@@ -11,7 +11,7 @@ type ContentProps = React.ComponentPropsWithoutRef<
  * MAIN
  * ===========================
  */
-export type TooltipViewProps = Omit<ContentProps, 'content'> &
+export type TooltipViewProps = Omit<ContentProps, 'content' | 'title'> &
   Pick<RootProps, 'defaultOpen' | 'open' | 'onOpenChange' | 'delayDuration'> & {
     /**
      * whether enabled tooltip, by default will see if title is provided

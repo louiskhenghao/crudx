@@ -1,5 +1,5 @@
 import React, { memo } from 'react';
-import { Rows3 } from 'lucide-react';
+import { Rows } from 'lucide-react';
 
 import { ButtonDropdown } from '../ButtonDropdown';
 
@@ -40,7 +40,7 @@ export const TableSettingsDensityOptions: React.FC<TableSettingsDensityOptionsPr
         {...restProps}
         onItemClick={(e) => onChange?.(e)}
       >
-        {icon ?? <Rows3 className="h-4 w-4" />}
+        {icon ?? <Rows className="h-4 w-4" />}
       </ButtonDropdown>
     );
   });
