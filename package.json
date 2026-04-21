@@ -18,9 +18,11 @@
     "build:lib:mui": "yarn build mui",
     "build:lib:shadcn": "yarn build shadcn",
     "build:libs": "yarn build:lib:common && yarn build:lib:core && yarn build:lib:mui && yarn build:lib:shadcn",
-    "release": "yarn nx run workspace:version --releaseAs=patch && yarn build:libs",
-    "release:minor": "yarn nx run workspace:version --releaseAs=minor && yarn build:libs",
-    "release:major": "yarn nx run workspace:version --releaseAs=major && yarn build:libs"
+    "release:common": "yarn nx run common:version",
+    "release:core": "yarn nx run core:version",
+    "release:mui": "yarn nx run mui:version",
+    "release:shadcn": "yarn nx run shadcn:version",
+    "release:all": "yarn nx run-many --target=version --projects=common,core,mui,shadcn"
   },
   "dependencies": {
     "@apollo/client": "^3.8.5",

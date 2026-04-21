@@ -11,5 +11,9 @@
     "graphql",
     "material-ui",
     "mui"
-  ]
+  ],
+  "peerDependencies": {
+    "@crudx/common": "^0.0.27",
+    "@crudx/core": "^0.0.27"
+  }
 }

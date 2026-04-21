@@ -56,6 +56,16 @@
           "codeCoverage": true
         }
       }
+    },
+    "version": {
+      "executor": "@jscutlery/semver:version",
+      "options": {
+        "preset": "conventional",
+        "commitMessageFormat": "chore(${projectName}): release ${version}",
+        "tagPrefix": "${projectName}@",
+        "trackDeps": true,
+        "postTargets": ["core:build"]
+      }
     }
   }
 }

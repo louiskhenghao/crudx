@@ -10,5 +10,8 @@
     "core",
     "apollo",
     "graphql"
-  ]
+  ],
+  "peerDependencies": {
+    "@crudx/common": "^0.0.27"
+  }
 }
