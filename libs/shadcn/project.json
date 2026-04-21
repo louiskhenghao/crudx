@@ -1,0 +1,79 @@
+{
+  "name": "shadcn",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/shadcn/src",
+  "projectType": "library",
+  "tags": [],
+  "targets": {
+    "lint": {
+      "executor": "@nx/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["libs/shadcn/**/*.{ts,tsx,js,jsx}"]
+      }
+    },
+    "build": {
+      "executor": "@nx/rollup:rollup",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/shadcn",
+        "tsConfig": "libs/shadcn/tsconfig.lib.json",
+        "project": "libs/shadcn/package.json",
+        "entryFile": "libs/shadcn/src/index.ts",
+        "format": ["cjs", "esm"],
+        "external": [
+          "@crudx/common",
+          "@crudx/core",
+          "@radix-ui/react-checkbox",
+          "@radix-ui/react-collapsible",
+          "@radix-ui/react-dialog",
+          "@radix-ui/react-dropdown-menu",
+          "@radix-ui/react-label",
+          "@radix-ui/react-popover",
+          "@radix-ui/react-select",
+          "@radix-ui/react-separator",
+          "@radix-ui/react-slot",
+          "@radix-ui/react-tabs",
+          "@radix-ui/react-tooltip",
+          "@tanstack/react-table",
+          "class-variance-authority",
+          "classnames",
+          "clsx",
+          "currency-symbol-map",
+          "dayjs",
+          "lodash",
+          "lucide-react",
+          "next",
+          "numeral",
+          "react",
+          "react-dom",
+          "react-hot-toast",
+          "tailwind-merge"
+        ],
+        "rollupConfig": "@nx/react/plugins/bundle-rollup",
+        "compiler": "babel",
+        "assets": [
+          {
+            "glob": "libs/shadcn/README.md",
+            "input": ".",
+            "output": "."
+          }
+        ]
+      }
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "libs/shadcn/jest.config.ts",
+        "passWithNoTests": true
+      },
+      "configurations": {
+        "ci": {
+          "ci": true,
+          "codeCoverage": true
+        }
+      }
+    }
+  }
+}
