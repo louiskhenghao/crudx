@@ -22,6 +22,7 @@
       "@crudx/common": ["libs/common/src/index.ts"],
       "@crudx/core": ["libs/core/src/index.ts"],
       "@crudx/mui": ["libs/mui/src/index.ts"],
+      "@crudx/shadcn": ["libs/shadcn/src/index.ts"],
       "@types": ["apps/example/src/@types/index.ts"],
       "@apps/*": ["apps/example/src/*"]
     }

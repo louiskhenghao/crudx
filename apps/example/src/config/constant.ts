@@ -53,6 +53,7 @@ export const PATHS_ONLY_ALLOWED_BEFORE_AUTH = [
   SIGN_IN_PATH,
   '/404',
   '/500',
+  '/test-crud-shadcn',
   '/test-crud',
   '/test-crud-api',
   '/test-crud-api-component',

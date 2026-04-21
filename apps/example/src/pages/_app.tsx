@@ -16,6 +16,7 @@ import { useThemeConfig } from '../config/theme.config';
 
 import 'animate.css';
 import 'react-perfect-scrollbar/dist/css/styles.css';
+import './shadcn.css';
 
 type ExtendedAppProps = AppProps & {
   Component: NextPage;
