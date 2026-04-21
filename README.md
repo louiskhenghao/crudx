@@ -61,11 +61,43 @@ The shadcn package ships classnames only; Tailwind runs on the consumer side.
 
 # Release
 
-To release sync version for all packages under this repository
+Each library in this repository is versioned **independently**. `@crudx/mui` and `@crudx/shadcn` are alternative UI adapters — a change in one shouldn't force a republish of the other. `@crudx/common` and `@crudx/core` are the foundation layer; bumps there cascade into the UI packages automatically via [`@jscutlery/semver`](https://github.com/jscutlery/semver)'s `trackDeps`.
+
+## Per-package release
 
 ```bash
-# sync version for all projects in workspace
-yarn release # to publish patch updates (x.x.<version>)
-yarn release:minor # to publish minor updates (x.<version>.x)
-yarn release:major # to publish major updates (<version>.x.x)
+yarn release:common   # bumps @crudx/common
+yarn release:core     # bumps @crudx/core    (cascades to mui + shadcn)
+yarn release:mui      # bumps @crudx/mui
+yarn release:shadcn   # bumps @crudx/shadcn
+yarn release:all      # bumps every lib that has unreleased commits in its scope
 ```
+
+Each command runs the version bump, updates the lib's `package.json` + `CHANGELOG.md`, creates a git tag (`<project>@<version>` — e.g. `shadcn@0.1.0`), commits the change, and finally builds the lib into `dist/libs/<project>/`.
+
+## Release type (patch / minor / major)
+
+By default bumps are derived from conventional-commit messages (`fix:` → patch, `feat:` → minor, `BREAKING CHANGE:` → major). Force a specific bump level with:
+
+```bash
+yarn release:shadcn --releaseAs=minor
+yarn release:shadcn --releaseAs=major
+yarn release:shadcn --releaseAs=0.3.0   # any explicit version
+```
+
+## Commit convention
+
+Only commits **scoped to the project being released** contribute to its changelog and version bump. Use conventional-commit scopes that match the lib name:
+
+```
+feat(shadcn): add data-table column resizing
+fix(core): null guard in useCrudQuery
+chore(common): tidy exports
+```
+
+A bump in `@crudx/core` will auto-bump `@crudx/mui` and `@crudx/shadcn` (via `trackDeps`) because they declare `@crudx/core` as a `peerDependency`.
+
+## First-time setup notes
+
+- Tags are prefixed per project (`common@*`, `core@*`, `mui@*`, `shadcn@*`). Legacy `workspace@*` tags from the old sync-versioning scheme remain for history.
+- The `version` Nx target lives on each lib's `project.json`; the root `project.json` no longer owns a workspace-wide version target.
