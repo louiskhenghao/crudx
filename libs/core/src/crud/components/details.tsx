@@ -28,7 +28,13 @@ export const useDetailsComponentHook = <
   // =============== VARIABLES
   const getAction = schema.get;
   const getResults = result?.get;
-  const detailsResult = getResults?.data?.[getAction?.key ?? ''];
+  const rawData = getResults?.data;
+  // GraphQL responses wrap the entity under the operation name
+  // (e.g. `{ post: {...} }`), so we extract via the schema key. REST
+  // adapters return the entity directly with no wrapper, so when the
+  // keyed lookup yields nothing fall back to the raw payload.
+  const keyedData = getAction?.key ? rawData?.[getAction.key] : undefined;
+  const detailsResult = keyedData ?? rawData;
   const data = getAction ? detailsResult : null;
   const loading = getResults?.loading ?? false;
 
