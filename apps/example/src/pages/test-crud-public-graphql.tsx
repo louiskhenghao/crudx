@@ -39,7 +39,7 @@ import {
   Typography,
 } from '@mui/material';
 
-import { DemoAppBar } from '../components';
+import { DemoAppBar, JsonView } from '../components';
 
 /**
  * --------------------------
@@ -420,6 +420,15 @@ function PostsPanel() {
           ),
         },
       }}
+      renderDetailsView={(nodeProps) => (
+        <Box sx={{ p: 2 }}>
+          <JsonView
+            data={nodeProps.data}
+            loading={nodeProps.loading}
+            title="Post"
+          />
+        </Box>
+      )}
     />
   );
 }

@@ -15,13 +15,13 @@
 import { useMemo, useState } from 'react';
 import toast from 'react-hot-toast';
 import { CrudProps } from '@crudx/core';
+import { CrudPanelView, Dialog } from '@crudx/mui';
 import {
   restGet,
   restList,
   restMutation,
   restOffsetPagination,
 } from '@crudx/rest';
-import { CrudPanelView, Dialog } from '@crudx/mui';
 import {
   Box,
   Button,
@@ -31,7 +31,7 @@ import {
 } from '@mui/material';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
-import { DemoAppBar } from '../components';
+import { DemoAppBar, JsonView } from '../components';
 
 /**
  * --------------------------
@@ -309,6 +309,16 @@ function PostsPanel() {
           ),
         },
       }}
+      detailsViewType="drawer"
+      renderDetailsView={(nodeProps) => (
+        <Box sx={{ p: 2 }}>
+          <JsonView
+            data={nodeProps.data}
+            loading={nodeProps.loading}
+            title="Post"
+          />
+        </Box>
+      )}
     />
   );
 }

@@ -31,7 +31,7 @@ import {
 } from '@crudx/graphql';
 import { CrudPanelView, Dialog } from '@crudx/shadcn';
 
-import { ShadcnAppBar } from '../components';
+import { ShadcnAppBar, ShadcnJsonView } from '../components';
 
 /**
  * --------------------------
@@ -415,6 +415,15 @@ function PostsPanel() {
           ),
         },
       }}
+      renderDetailsView={(nodeProps) => (
+        <div className="p-4">
+          <ShadcnJsonView
+            data={nodeProps.data}
+            loading={nodeProps.loading}
+            title="Post"
+          />
+        </div>
+      )}
     />
   );
 }

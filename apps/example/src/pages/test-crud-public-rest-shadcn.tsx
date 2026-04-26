@@ -20,7 +20,7 @@ import {
 import { CrudPanelView, Dialog } from '@crudx/shadcn';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
-import { ShadcnAppBar } from '../components';
+import { ShadcnAppBar, ShadcnJsonView } from '../components';
 
 /**
  * --------------------------
@@ -308,6 +308,16 @@ function PostsPanel() {
           ),
         },
       }}
+      detailsViewType="drawer"
+      renderDetailsView={(nodeProps) => (
+        <div className="p-4">
+          <ShadcnJsonView
+            data={nodeProps.data}
+            loading={nodeProps.loading}
+            title="Post"
+          />
+        </div>
+      )}
     />
   );
 }
