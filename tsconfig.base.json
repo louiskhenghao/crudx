@@ -21,6 +21,7 @@
       "@crudx/core": ["libs/core/src/index.ts"],
       "@crudx/graphql": ["libs/graphql/src/index.ts"],
       "@crudx/mui": ["libs/mui/src/index.ts"],
+      "@crudx/rest": ["libs/rest/src/index.ts"],
       "@crudx/shadcn": ["libs/shadcn/src/index.ts"],
       "@crudx/shadcn/*": ["libs/shadcn/src/*"]
     }

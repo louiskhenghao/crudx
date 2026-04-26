@@ -1,0 +1,19 @@
+{
+  "name": "@crudx/rest",
+  "version": "0.0.0",
+  "license": "MIT",
+  "author": "Louis Loo <louiskhenghao@gmail.com> (https://github.com/louiskhenghao)",
+  "homepage": "https://github.com/louiskhenghao/crudx/blob/main/libs/rest#readme",
+  "keywords": [
+    "react",
+    "crud",
+    "rest",
+    "tanstack-query",
+    "transport-adapter"
+  ],
+  "peerDependencies": {
+    "@crudx/core": "^0.0.27",
+    "@tanstack/react-query": ">=4",
+    "react": ">=17"
+  }
+}
