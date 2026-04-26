@@ -17,6 +17,7 @@ import {
   useBankUpdateMutation,
 } from '@apps/graphql-api';
 import { CrudProps } from '@crudx/core';
+import { graphqlGet, graphqlList, graphqlMutation } from '@crudx/graphql';
 import { CrudPanelView, CrudTableViewProps } from '@crudx/mui';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import HomeIcon from '@mui/icons-material/Home';
@@ -104,19 +105,19 @@ export function Index() {
          * --------------------
          */
         schema={{
-          get: { key: 'BankDetail', query: useBankDetailLazyQuery },
-          list: { key: 'BankListing', query: useBankListingQuery },
+          get: { key: 'BankDetail', query: graphqlGet(useBankDetailLazyQuery) },
+          list: { key: 'BankListing', query: graphqlList(useBankListingQuery) },
           create: {
             key: 'BankCreate',
-            query: useBankCreateMutation,
+            query: graphqlMutation(useBankCreateMutation),
           },
           update: {
             key: 'BankUpdate',
-            query: useBankUpdateMutation,
+            query: graphqlMutation(useBankUpdateMutation),
           },
           delete: {
             key: 'BankDelete',
-            query: useBankDeleteMutation,
+            query: graphqlMutation(useBankDeleteMutation),
           },
         }}
         paging={{
