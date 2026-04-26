@@ -1,7 +1,10 @@
-import { ApolloQueryResult, QueryResult } from '@apollo/client';
 import { UsePaginationHookProps } from '@crudx/common';
 import merge from 'lodash/merge';
 
+import {
+  TransportFetchResult,
+  TransportQueryResult,
+} from '../../@types/transport';
 import { UseOperationVariables } from '../../@types/apollo';
 import {
   CrudPagingExtractInfo,
@@ -84,7 +87,7 @@ export class CrudPagingResource<TSchema extends CrudSchemataTypes = any> {
 
   private fetchMethod: (
     variables?: Partial<UseOperationVariables<TSchema['list'][1]>>
-  ) => Promise<ApolloQueryResult<TSchema['list'][0]>> = defaultFetch;
+  ) => Promise<TransportFetchResult<TSchema['list'][0]>> = defaultFetch;
 
   // =============== CONSTRUCTOR
   constructor(
@@ -269,7 +272,7 @@ export class CrudPagingResource<TSchema extends CrudSchemataTypes = any> {
 
   // =============== HELPERS - Extract Paging Data
   private extract = (
-    result: QueryResult<TSchema['list'][0], TSchema['list'][1]>
+    result: TransportQueryResult<TSchema['list'][0], TSchema['list'][1]>
   ): CrudPagingExtractInfo => {
     const variables = result?.variables ?? {};
 
@@ -295,14 +298,14 @@ export class CrudPagingResource<TSchema extends CrudSchemataTypes = any> {
   public fetch = (
     inVariables?: UseOperationVariables<TSchema['list'][1]>,
     empty = false
-  ): Promise<ApolloQueryResult<any>> => {
+  ): Promise<TransportFetchResult<any>> => {
     const options = this.setVariables(inVariables, empty);
     return this.fetchMethod(options);
   };
 
   public nativeFetch = (
     inVariables?: UseOperationVariables<TSchema['list'][1]>
-  ): Promise<ApolloQueryResult<any>> => {
+  ): Promise<TransportFetchResult<any>> => {
     return this.fetchMethod(inVariables);
   };
 
@@ -310,7 +313,7 @@ export class CrudPagingResource<TSchema extends CrudSchemataTypes = any> {
    * compose paging props
    */
   public compose = (
-    result: QueryResult<TSchema['list'][0], TSchema['list'][1]>,
+    result: TransportQueryResult<TSchema['list'][0], TSchema['list'][1]>,
     paginate: UsePaginationHookProps
   ): CrudPagingProps<TSchema> => {
     this.pageNumber = paginate.current;

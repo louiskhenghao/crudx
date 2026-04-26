@@ -1,16 +1,16 @@
 import { useState } from 'react';
-import {
-  BaseMutationOptions,
-  FetchResult,
-  MutationFunctionOptions,
-  MutationResult,
-  OperationVariables,
-} from '@apollo/client';
 import axios from 'axios';
 import { File } from 'buffer';
 import random from 'lodash/random';
 
 import { UseMutationAction } from '../../@types';
+import {
+  TransportBaseMutationOptions,
+  TransportFetchResult,
+  TransportMutationHookOptions,
+  TransportMutationResult,
+  TransportOperationVariables,
+} from '../../@types/transport';
 /**
  * ===========================
  * MAIN
@@ -18,13 +18,13 @@ import { UseMutationAction } from '../../@types';
  */
 export const useApolloFileUploader = <
   TData = any,
-  TVariables extends OperationVariables = OperationVariables
+  TVariables extends TransportOperationVariables = TransportOperationVariables
 >(
   // mutation configuration
   hook: {
     key: string;
     query: UseMutationAction<TData, TVariables>;
-    options?: BaseMutationOptions<TData, TVariables>;
+    options?: TransportBaseMutationOptions<TData, TVariables>;
   },
   /**
    * function to construct result to a format that can be consumed by this hook
@@ -127,7 +127,10 @@ export const useApolloFileUploader = <
  * EXPORTS
  * ===========================
  */
-export type ApolloFileUploaderProps<TData = any, TVariables = any> = {
+export type ApolloFileUploaderProps<
+  TData = any,
+  TVariables extends TransportOperationVariables = TransportOperationVariables
+> = {
   // function to get signed-url with given unique id
   get: (uid: string) => [string, string];
   // function to upload file
@@ -136,12 +139,12 @@ export type ApolloFileUploaderProps<TData = any, TVariables = any> = {
     file: File | Blob,
     headers?: (() => Record<string, any>) | Record<string, any>
   ) => Promise<any>;
-  // function to generate signed-url from Apollo mutation hook
+  // function to generate signed-url from the mutation hook
   generate: (
-    options?: MutationFunctionOptions<TData, TVariables>
-  ) => Promise<FetchResult<TData>>;
-  // the mutation results from apollo
-  result: MutationResult<TData>;
+    options?: TransportMutationHookOptions<TData, TVariables>
+  ) => Promise<TransportFetchResult<TData>>;
+  // the mutation results from the transport layer
+  result: TransportMutationResult<TData>;
 };
 
 export default useApolloFileUploader;

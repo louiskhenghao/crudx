@@ -1,21 +1,31 @@
-import {
-  LazyQueryHookOptions,
-  MutationHookOptions,
-  MutationTuple,
-  OperationVariables,
-  QueryHookOptions,
-  QueryResult,
-  QueryTuple,
-} from '@apollo/client';
-
 /**
  * ===========================
- * MAIN
+ * LEGACY APOLLO ALIASES
  * ===========================
+ *
+ * Historic public type names — kept as thin aliases over the new
+ * transport-agnostic contracts in `./transport`.
+ *
+ * Prefer `Transport*` types in new code; the GraphQL-flavoured names
+ * here remain exported so existing consumers (and `@crudx/graphql`)
+ * keep compiling.
  */
 
+import {
+  TransportLazyQueryHook,
+  TransportLazyQueryHookOptions,
+  TransportLazyQueryResult,
+  TransportMutationHook,
+  TransportMutationHookOptions,
+  TransportMutationTuple,
+  TransportOperationVariables,
+  TransportQueryHook,
+  TransportQueryHookOptions,
+  TransportQueryResult,
+} from './transport';
+
 // use graphql operation variable
-export type UseOperationVariables<V = any> = V | OperationVariables;
+export type UseOperationVariables<V = any> = V | TransportOperationVariables;
 
 /**
  * ------------------------
@@ -24,13 +34,13 @@ export type UseOperationVariables<V = any> = V | OperationVariables;
  */
 export type UseLazyQueryHookOptions<
   Q = any,
-  V extends OperationVariables = OperationVariables
-> = LazyQueryHookOptions<Q, V>;
+  V extends TransportOperationVariables = TransportOperationVariables
+> = TransportLazyQueryHookOptions<Q, V>;
 
 export type UseLazyQueryAction<
   Q = any,
-  V extends OperationVariables = OperationVariables
-> = (options: LazyQueryHookOptions<Q, V>) => QueryTuple<Q, V>;
+  V extends TransportOperationVariables = TransportOperationVariables
+> = TransportLazyQueryHook<Q, V>;
 
 /**
  * ------------------------
@@ -39,13 +49,13 @@ export type UseLazyQueryAction<
  */
 export type UseQueryHookOptions<
   Q = any,
-  V extends OperationVariables = OperationVariables
-> = QueryHookOptions<Q, V>;
+  V extends TransportOperationVariables = TransportOperationVariables
+> = TransportQueryHookOptions<Q, V>;
 
 export type UseQueryAction<
   Q = any,
-  V extends OperationVariables = OperationVariables
-> = (options: QueryHookOptions<Q, V>) => QueryResult<Q, V>;
+  V extends TransportOperationVariables = TransportOperationVariables
+> = TransportQueryHook<Q, V>;
 
 /**
  * ------------------------
@@ -54,10 +64,30 @@ export type UseQueryAction<
  */
 export type UseMutationHookOptions<
   Q = any,
-  V extends OperationVariables = OperationVariables
-> = MutationHookOptions<Q, V>;
+  V extends TransportOperationVariables = TransportOperationVariables
+> = TransportMutationHookOptions<Q, V>;
 
 export type UseMutationAction<
   Q = any,
-  V extends OperationVariables = OperationVariables
-> = (options: MutationHookOptions<Q, V>) => MutationTuple<Q, V>;
+  V extends TransportOperationVariables = TransportOperationVariables
+> = TransportMutationHook<Q, V>;
+
+/**
+ * ------------------------
+ * RESULT TUPLES
+ * ------------------------
+ */
+export type UseQueryResult<
+  Q = any,
+  V extends TransportOperationVariables = TransportOperationVariables
+> = TransportQueryResult<Q, V>;
+
+export type UseLazyQueryResult<
+  Q = any,
+  V extends TransportOperationVariables = TransportOperationVariables
+> = TransportLazyQueryResult<Q, V>;
+
+export type UseMutationTuple<
+  Q = any,
+  V extends TransportOperationVariables = TransportOperationVariables
+> = TransportMutationTuple<Q, V>;

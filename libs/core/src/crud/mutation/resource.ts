@@ -1,5 +1,7 @@
-import { MutationTuple, OperationVariables } from '@apollo/client';
-
+import {
+  TransportMutationTuple,
+  TransportOperationVariables,
+} from '../../@types/transport';
 import { CrudComponents } from '../../@types/crud/components';
 import {
   CrudMutateEventCallback,
@@ -32,10 +34,10 @@ export class CrudMutationResource<TSchema extends CrudSchemataTypes = any> {
 
   private events: CrudMutationResourceEvents<TSchema>;
 
-  create?: MutationTuple<TSchema['create'][0], TSchema['create'][1]>;
-  update?: MutationTuple<TSchema['update'][0], TSchema['update'][1]>;
-  delete?: MutationTuple<TSchema['delete'][0], TSchema['delete'][1]>;
-  exports?: MutationTuple<TSchema['exports'][0], TSchema['exports'][1]>;
+  create?: TransportMutationTuple<TSchema['create'][0], TSchema['create'][1]>;
+  update?: TransportMutationTuple<TSchema['update'][0], TSchema['update'][1]>;
+  delete?: TransportMutationTuple<TSchema['delete'][0], TSchema['delete'][1]>;
+  exports?: TransportMutationTuple<TSchema['exports'][0], TSchema['exports'][1]>;
 
   /**
    * constructor of mutation resource
@@ -60,10 +62,13 @@ export class CrudMutationResource<TSchema extends CrudSchemataTypes = any> {
     const clearSelections = options?.rowSelection?.clear;
 
     // =============== HELPERS
-    const createResource = <Q, V = OperationVariables>(
+    const createResource = <
+      Q,
+      V extends TransportOperationVariables = TransportOperationVariables
+    >(
       type: 'create' | 'update' | 'delete' | 'exports',
       inCallbacks: CrudMutateEventCallback<Q, V>[]
-    ): MutationTuple<Q, V> | any => {
+    ): TransportMutationTuple<Q, V> | any => {
       const action = schema?.[type];
       if (!action) {
         // if doesn't has action query, first item in tuple will throw error message

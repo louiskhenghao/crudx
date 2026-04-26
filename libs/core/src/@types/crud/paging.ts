@@ -1,5 +1,7 @@
-import { ApolloQueryResult, QueryResult } from '@apollo/client';
-
+import {
+  TransportFetchResult,
+  TransportQueryResult,
+} from '../transport';
 import { UseOperationVariables } from '../apollo';
 
 import { CrudGraphApiListType } from './api';
@@ -34,7 +36,7 @@ export type CrudPagingOptions<TSchema extends CrudSchemataTypes = any> = {
       pagination: (
         context: { pageNumber: number; pageSize: number },
         options: {
-          data?: QueryResult<TSchema['list'][0], TSchema['list'][1]>['data'];
+          data?: TransportQueryResult<TSchema['list'][0], TSchema['list'][1]>['data'];
           intentNext: number;
           intentPrev: number;
         }
@@ -89,10 +91,10 @@ export type CrudPagingProps<TSchema extends CrudSchemataTypes> =
       loading: boolean;
       fetch: (
         variables?: UseOperationVariables<TSchema['list'][1]>
-      ) => Promise<ApolloQueryResult<TSchema['list'][0]>>;
+      ) => Promise<TransportFetchResult<TSchema['list'][0]>>;
       nativeFetch: (
         variables?: UseOperationVariables<TSchema['list'][1]>
-      ) => Promise<ApolloQueryResult<TSchema['list'][0]>>;
+      ) => Promise<TransportFetchResult<TSchema['list'][0]>>;
       refresh: () => void;
       clearAndRefresh: () => void;
       onUpdatePageSize: (size: number) => void;
