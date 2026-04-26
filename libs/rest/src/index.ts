@@ -40,10 +40,12 @@
 import {
   useMutation,
   useQuery,
+  useQueryClient,
   UseMutationOptions,
   UseQueryOptions,
 } from '@tanstack/react-query';
 import {
+  CrudPagingOptions,
   TransportFetchResult,
   TransportLazyQueryHook,
   TransportLazyQueryHookOptions,
@@ -92,6 +94,13 @@ export interface RestMutationAdapterOptions<
   resource?: RestQueryKey;
   /** Function that performs the mutation request. */
   request: (ctx: RestFetchContext<TVariables>) => Promise<TData>;
+  /**
+   * Query keys to invalidate after a successful mutation. Strings are
+   * matched as prefix segments (TanStack Query default behaviour), so
+   * `'banks'` will invalidate every list/get registered under that
+   * resource. Pass an array for multiple keys.
+   */
+  invalidates?: RestQueryKey | RestQueryKey[];
   /** Forwarded TanStack Query options. */
   mutationOptions?: Partial<UseMutationOptions<TData, unknown, TVariables>>;
 }
@@ -231,15 +240,29 @@ export const restMutation = <
 >(
   options: RestMutationAdapterOptions<TData, TVariables>
 ): TransportMutationHook<TData, TVariables> => {
-  const { request, mutationOptions } = options;
+  const { request, invalidates, mutationOptions } = options;
+
+  // Normalise invalidate targets into an array of TanStack Query keys.
+  const invalidateTargets: readonly unknown[][] = (() => {
+    if (!invalidates) return [];
+    const list = Array.isArray(invalidates) ? invalidates : [invalidates];
+    return list.map((key) => (Array.isArray(key) ? key : [key]));
+  })();
 
   return ((
     inOptions?: TransportMutationHookOptions<TData, TVariables>
   ): TransportMutationTuple<TData, TVariables> => {
+    const queryClient = useQueryClient();
+
     const mutation = useMutation<TData, unknown, TVariables>({
       ...(mutationOptions ?? {}),
       mutationFn: (variables: TVariables) => request({ variables }),
       onSuccess: (data, vars, ctx) => {
+        if (invalidateTargets.length > 0) {
+          invalidateTargets.forEach((queryKey) => {
+            void queryClient.invalidateQueries({ queryKey });
+          });
+        }
         mutationOptions?.onSuccess?.(data, vars, ctx);
         inOptions?.onCompleted?.(data);
       },
@@ -269,4 +292,167 @@ export const restMutation = <
 
     return [trigger, result];
   }) as TransportMutationHook<TData, TVariables>;
+};
+
+/**
+ * --------------------------
+ * PAGINATION PRESETS
+ * --------------------------
+ *
+ * `@crudx/core`'s pagination engine supports a `'CUSTOM'` strategy
+ * with consumer-supplied `extract` / `compose` callbacks. The two
+ * helpers below pre-fill those callbacks for the page shapes that
+ * appear in the vast majority of REST APIs:
+ *
+ *   - `restOffsetPagination` — `{ data, total, page, pageSize }` /
+ *     `?page=N&pageSize=M` query params.
+ *   - `restCursorPagination` — `{ data, nextCursor, prevCursor }` /
+ *     `?cursor=…&limit=…` query params.
+ *
+ * Drop the result into `new CRUD(name, schema, { paging: <preset> })`
+ * — no need to hand-roll the four extract/compose functions.
+ */
+export interface RestOffsetPaginationPreset {
+  /** Variable key used to carry the page number. Default: `page`. */
+  pageKey?: string;
+  /** Variable key used to carry the page size. Default: `pageSize`. */
+  pageSizeKey?: string;
+  /**
+   * How to read the list, total, and page metadata out of the API
+   * response. Defaults assume `{ data, total, page, pageSize }`.
+   */
+  extract?: {
+    list?: (response: any) => any[];
+    total?: (response: any) => number;
+  };
+}
+
+export interface RestCursorPaginationPreset {
+  /** Variable key used to carry the cursor. Default: `cursor`. */
+  cursorKey?: string;
+  /** Variable key used to carry the page size. Default: `limit`. */
+  limitKey?: string;
+  extract?: {
+    list?: (response: any) => any[];
+    nextCursor?: (response: any) => string | null;
+    prevCursor?: (response: any) => string | null;
+  };
+}
+
+export const restOffsetPagination = (
+  preset: RestOffsetPaginationPreset = {}
+): NonNullable<CrudPagingOptions['custom']> => {
+  const pageKey = preset.pageKey ?? 'page';
+  const pageSizeKey = preset.pageSizeKey ?? 'pageSize';
+  const readList =
+    preset.extract?.list ?? ((response: any) => response?.data ?? []);
+  const readTotal =
+    preset.extract?.total ?? ((response: any) => response?.total ?? 0);
+
+  return {
+    extract: {
+      paging: (context, variables) => ({
+        pageSize: variables?.[pageSizeKey] ?? context.pageSize,
+      }),
+      pagination: (context, options) => {
+        const list = readList(options.data);
+        const total = readTotal(options.data);
+        const lastPage = Math.max(
+          1,
+          Math.ceil(total / Math.max(1, context.pageSize))
+        );
+        return {
+          list,
+          total,
+          page: {
+            next: context.pageNumber < lastPage ? options.intentNext : null,
+            previous:
+              context.pageNumber > 1 && options.intentPrev > 0
+                ? options.intentPrev
+                : null,
+            canPaginateToPage: true,
+          },
+        };
+      },
+    },
+    compose: {
+      variables: (context, variables) => ({
+        ...variables,
+        [pageKey]: context.pageNumber,
+        [pageSizeKey]: context.pageSize,
+      }),
+      sorting: (sortContext, variables) => {
+        if ('reset' in sortContext) {
+          const { sort: _omit, sortBy: _omitBy, ...rest } = variables ?? {};
+          return rest;
+        }
+        return {
+          ...(variables ?? {}),
+          sort: sortContext.direction,
+          sortBy: sortContext.field,
+        };
+      },
+      pagination: (context) => ({
+        [pageKey]: context.pageNumber,
+        [pageSizeKey]: context.pageSize,
+      }),
+    },
+  };
+};
+
+export const restCursorPagination = (
+  preset: RestCursorPaginationPreset = {}
+): NonNullable<CrudPagingOptions['custom']> => {
+  const cursorKey = preset.cursorKey ?? 'cursor';
+  const limitKey = preset.limitKey ?? 'limit';
+  const readList =
+    preset.extract?.list ?? ((response: any) => response?.data ?? []);
+  const readNext =
+    preset.extract?.nextCursor ??
+    ((response: any) => response?.nextCursor ?? null);
+  const readPrev =
+    preset.extract?.prevCursor ??
+    ((response: any) => response?.prevCursor ?? null);
+
+  return {
+    extract: {
+      paging: (context, variables) => ({
+        pageSize: variables?.[limitKey] ?? context.pageSize,
+      }),
+      pagination: (_context, options) => {
+        const list = readList(options.data);
+        return {
+          list,
+          total: list.length,
+          page: {
+            next: readNext(options.data),
+            previous: readPrev(options.data),
+            // cursor pagination doesn't support jump-to-page
+            canPaginateToPage: false,
+          },
+        };
+      },
+    },
+    compose: {
+      variables: (context, variables) => ({
+        ...variables,
+        [limitKey]: context.pageSize,
+      }),
+      sorting: (sortContext, variables) => {
+        if ('reset' in sortContext) {
+          const { sort: _omit, sortBy: _omitBy, ...rest } = variables ?? {};
+          return rest;
+        }
+        return {
+          ...(variables ?? {}),
+          sort: sortContext.direction,
+          sortBy: sortContext.field,
+        };
+      },
+      pagination: (context) => ({
+        [cursorKey]: null,
+        [limitKey]: context.pageSize,
+      }),
+    },
+  };
 };

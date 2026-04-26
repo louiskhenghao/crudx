@@ -46,16 +46,61 @@ new CRUD<BankSchemata>('bank', {
 });
 ```
 
+## Cache invalidation
+
+Pass `invalidates` to `restMutation` and the adapter will call
+`queryClient.invalidateQueries` for each key on success — the bound
+list/get queries refetch automatically.
+
+```ts
+const create = restMutation<Bank, CreateVars>({
+  resource: ['banks', 'create'],
+  request: ({ variables }) =>
+    fetch('/api/banks', { method: 'POST', body: JSON.stringify(variables) })
+      .then((r) => r.json()),
+  invalidates: 'banks', // or [['banks'], ['analytics', 'banks']]
+});
+```
+
+String keys are matched as prefix segments by TanStack Query, so the
+example above invalidates every list/get registered under `'banks'`.
+
+## Pagination presets
+
+Wire either preset into `CRUD`'s `paging` option to skip the manual
+extract / compose plumbing for the two common REST page shapes.
+
+```ts
+import { CRUD } from '@crudx/core';
+import { restOffsetPagination, restCursorPagination } from '@crudx/rest';
+
+new CRUD<BankSchemata>('bank', schema, {
+  paging: {
+    strategy: 'CUSTOM',
+    pageSize: 25,
+    custom: restOffsetPagination(),
+    // or, with a non-default response shape:
+    //   custom: restOffsetPagination({
+    //     pageKey: 'p',
+    //     pageSizeKey: 'limit',
+    //     extract: { list: (r) => r.results, total: (r) => r.count },
+    //   }),
+  },
+});
+```
+
+`restOffsetPagination` defaults assume a `{ data, total }` response
+with `?page=N&pageSize=M` query variables. `restCursorPagination`
+defaults assume `{ data, nextCursor, prevCursor }` with `?cursor=…&limit=…`.
+
 ## Status
 
-This adapter is a scaffold. The core wiring is in place and matches
-the transport contract end-to-end, but the following polish work is
-still on the roadmap:
+The core wiring (transport contract, mutation invalidation, pagination
+presets) is in place. Roadmap:
 
-- Pagination strategy bridge (cursor / offset translation onto
-  TanStack Query's `useInfiniteQuery`).
-- Cache-invalidation helpers tied into `CrudCallbackComposer`.
-- An optional SWR-backed sibling (`@crudx/rest-swr`) that mirrors
-  the same surface.
+- An optional SWR-backed sibling (`@crudx/rest-swr`) that mirrors the
+  same surface.
+- `useInfiniteQuery`-based "load more" mode for cursor APIs that
+  prefer infinite scroll over discrete pages.
 
 Contributions welcome.
