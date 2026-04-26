@@ -157,7 +157,7 @@ export const Dialog = forwardRef<DialogRefProps, DialogProps>((props, ref) => {
           onClose?.(e as unknown as Event, 'backdropClick');
         }}
       >
-        {title && (
+        {title ? (
           <DialogHeader>
             <DialogTitle {...titleProps}>
               <div className="flex items-center gap-2">
@@ -166,6 +166,12 @@ export const Dialog = forwardRef<DialogRefProps, DialogProps>((props, ref) => {
               </div>
             </DialogTitle>
           </DialogHeader>
+        ) : (
+          // Radix Dialog (v1.1+) logs `console.error` when a
+          // DialogContent opens without a DialogTitle. Always emit a
+          // screen-reader-only fallback so headless usage stays
+          // accessible and silent.
+          <DialogTitle className="sr-only">Dialog</DialogTitle>
         )}
         <div className="py-2">
           {message && (

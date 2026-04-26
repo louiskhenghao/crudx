@@ -24,7 +24,7 @@ export type ShadcnAppBarProps = {
 export function ShadcnAppBar({ context, actions }: ShadcnAppBarProps) {
   return (
     <header className="sticky top-0 z-40 border-b border-border bg-background/85 backdrop-blur-md">
-      <div className="mx-auto flex h-14 max-w-screen-lg items-center gap-3 px-4">
+      <div className="mx-auto flex h-14 items-center gap-3 px-4">
         <Link
           href="/"
           className="flex items-center gap-2 text-foreground hover:text-foreground/90"
