@@ -29,12 +29,22 @@ yarn install
 yarn example:dev   # http://localhost:3333
 ```
 
-The example app (`apps/example`) ships four reference pages:
+The example app (`apps/example`) ships a polished landing page at `/` and four
+public CRUD demos covering the transport × UI matrix:
 
-- `/test-crud-api-component` — `@crudx/mui` against the internal API
-- `/test-crud-shadcn` — `@crudx/shadcn` (requires the Tailwind setup documented below)
-- `/test-crud-public-graphql` — full **CRUD** demo via `@crudx/mui` + `@crudx/graphql` against the public [GraphQLZero API](https://graphqlzero.almansi.me/api). No auth, no local backend, no codegen — Create / Read / Update / Delete all wired live.
-- `/test-crud-public-rest` — full **CRUD** demo via `@crudx/mui` + `@crudx/rest` against the public [JSONPlaceholder API](https://jsonplaceholder.typicode.com), backed by TanStack Query. Mutations use the adapter's `invalidates` option to refetch the list automatically.
+| | GraphQL (Apollo) | REST (TanStack Query) |
+| --- | --- | --- |
+| **MUI** | `/test-crud-public-graphql` | `/test-crud-public-rest` |
+| **shadcn** | `/test-crud-public-graphql-shadcn` | `/test-crud-public-rest-shadcn` |
+
+The GraphQL demos hit [GraphQLZero](https://graphqlzero.almansi.me/api); the
+REST demos hit [JSONPlaceholder](https://jsonplaceholder.typicode.com). No
+auth, no local backend, no codegen — Create / Read / Update / Delete all
+wired live. Both adapters share the same `@crudx/core` orchestration; both
+UI packages share the same surface, so the four demos are just different
+combinations of the same primitives.
+
+The shadcn demos require the Tailwind setup documented below.
 
 ## Tailwind setup (for `@crudx/shadcn` consumers)
 

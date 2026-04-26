@@ -28,6 +28,7 @@ import { DemoAppBar, REPO_URL } from '../components';
 
 type DemoCardProps = {
   badge: string;
+  ui: 'MUI' | 'shadcn';
   title: string;
   tagline: string;
   packages: string[];
@@ -39,6 +40,7 @@ type DemoCardProps = {
 const DEMOS: DemoCardProps[] = [
   {
     badge: 'GraphQL',
+    ui: 'MUI',
     title: 'GraphQL CRUD',
     tagline:
       'Apollo Client wired through @crudx/graphql against the public GraphQLZero API. Read, create, update, delete — all live, no auth.',
@@ -48,12 +50,35 @@ const DEMOS: DemoCardProps[] = [
     endpoint: 'graphqlzero.almansi.me/api',
   },
   {
+    badge: 'GraphQL',
+    ui: 'shadcn',
+    title: 'GraphQL CRUD',
+    tagline:
+      'Same GraphQLZero CRUD flow, rendered through @crudx/shadcn (Tailwind + Radix). API-compatible with the MUI variant.',
+    packages: ['@crudx/core', '@crudx/graphql', '@crudx/shadcn'],
+    href: '/test-crud-public-graphql-shadcn',
+    icon: <HubIcon fontSize="large" />,
+    endpoint: 'graphqlzero.almansi.me/api',
+  },
+  {
     badge: 'REST',
+    ui: 'MUI',
     title: 'REST CRUD',
     tagline:
       'TanStack Query wired through @crudx/rest against the public JSONPlaceholder API. Mutations auto-invalidate the list cache via the adapter.',
     packages: ['@crudx/core', '@crudx/rest', '@crudx/mui'],
     href: '/test-crud-public-rest',
+    icon: <ApiIcon fontSize="large" />,
+    endpoint: 'jsonplaceholder.typicode.com',
+  },
+  {
+    badge: 'REST',
+    ui: 'shadcn',
+    title: 'REST CRUD',
+    tagline:
+      'Same JSONPlaceholder CRUD flow, rendered through @crudx/shadcn (Tailwind + Radix). Drop-in alternative to the MUI variant.',
+    packages: ['@crudx/core', '@crudx/rest', '@crudx/shadcn'],
+    href: '/test-crud-public-rest-shadcn',
     icon: <ApiIcon fontSize="large" />,
     endpoint: 'jsonplaceholder.typicode.com',
   },
@@ -93,7 +118,7 @@ const PACKAGES: { name: string; description: string }[] = [
 ];
 
 function DemoCard(props: DemoCardProps) {
-  const { badge, title, tagline, packages, href, icon, endpoint } = props;
+  const { badge, ui, title, tagline, packages, href, icon, endpoint } = props;
 
   return (
     <Card
@@ -133,7 +158,15 @@ function DemoCard(props: DemoCardProps) {
               {icon}
             </Box>
             <Box>
-              <Chip size="small" label={badge} color="primary" />
+              <Stack direction="row" spacing={0.75} alignItems="center">
+                <Chip size="small" label={badge} color="primary" />
+                <Chip
+                  size="small"
+                  label={ui}
+                  variant="outlined"
+                  sx={{ fontFamily: 'monospace' }}
+                />
+              </Stack>
               <Typography variant="h6" sx={{ mt: 0.5, fontWeight: 700 }}>
                 {title}
               </Typography>
@@ -243,9 +276,13 @@ export function Index() {
           </Typography>
           <Typography
             variant="h4"
-            sx={{ fontWeight: 700, mb: 3, mt: 0.5 }}
+            sx={{ fontWeight: 700, mt: 0.5 }}
           >
-            Pick your transport
+            Pick your transport, pick your UI
+          </Typography>
+          <Typography variant="body2" color="text.secondary" sx={{ mb: 3, mt: 1 }}>
+            The same CRUD orchestration, four entry points: GraphQL or REST,
+            Material UI or shadcn/ui — fully interchangeable.
           </Typography>
           <Box
             sx={{
