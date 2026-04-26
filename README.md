@@ -29,11 +29,12 @@ yarn install
 yarn example:dev   # http://localhost:3333
 ```
 
-The example app (`apps/example`) ships three reference pages:
+The example app (`apps/example`) ships four reference pages:
 
 - `/test-crud-api-component` — `@crudx/mui` against the internal API
 - `/test-crud-shadcn` — `@crudx/shadcn` (requires the Tailwind setup documented below)
-- `/test-crud-public-graphql` — `@crudx/mui` + `@crudx/graphql` against the public [Rick & Morty GraphQL API](https://rickandmortyapi.com/graphql); a self-contained demo of the transport adapter that needs no auth or local backend.
+- `/test-crud-public-graphql` — full **CRUD** demo via `@crudx/mui` + `@crudx/graphql` against the public [GraphQLZero API](https://graphqlzero.almansi.me/api). No auth, no local backend, no codegen — Create / Read / Update / Delete all wired live.
+- `/test-crud-public-rest` — full **CRUD** demo via `@crudx/mui` + `@crudx/rest` against the public [JSONPlaceholder API](https://jsonplaceholder.typicode.com), backed by TanStack Query. Mutations use the adapter's `invalidates` option to refetch the list automatically.
 
 ## Tailwind setup (for `@crudx/shadcn` consumers)
 
