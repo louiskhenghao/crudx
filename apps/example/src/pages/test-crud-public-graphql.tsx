@@ -2,15 +2,18 @@
  * test-crud-public-graphql.tsx
  * --------------------------------
  *
- * Self-contained demo of `@crudx/core` + `@crudx/graphql` against the
- * public Rick & Morty GraphQL API (https://rickandmortyapi.com/graphql).
+ * Self-contained CRUD demo of `@crudx/core` + `@crudx/graphql` against
+ * the public GraphQLZero API (https://graphqlzero.almansi.me/api), a
+ * free GraphQL mirror of JSONPlaceholder.
  *
- * Proves the transport adapter works end-to-end without depending on
- * the internal API in the rest of this example app — just open the
- * page and the table renders live data.
+ * Demonstrates the full Read / Create / Update / Delete surface end-
+ * to-end with no auth and no local backend. GraphQLZero accepts the
+ * mutations and returns success payloads — they don't persist on the
+ * server, but the round-trip and UI flow are fully exercised.
  */
 
 import { useMemo, useState } from 'react';
+import toast from 'react-hot-toast';
 import {
   ApolloClient,
   ApolloProvider,
@@ -18,25 +21,31 @@ import {
   HttpLink,
   InMemoryCache,
   useLazyQuery,
+  useMutation,
   useQuery,
 } from '@apollo/client';
-import { CrudProps, CRUD } from '@crudx/core';
-import { graphqlGet, graphqlList } from '@crudx/graphql';
-import { CrudPanelView } from '@crudx/mui';
+import { CrudProps } from '@crudx/core';
+import {
+  graphqlGet,
+  graphqlList,
+  graphqlMutation,
+} from '@crudx/graphql';
+import { CrudPanelView, Dialog } from '@crudx/mui';
 import HomeIcon from '@mui/icons-material/Home';
-import { Box, Chip, TextField } from '@mui/material';
+import {
+  Box,
+  Button,
+  Stack,
+  TextField,
+  Typography,
+} from '@mui/material';
 
 /**
  * --------------------------
  * Public Apollo client
  * --------------------------
- *
- * Pointed at Rick & Morty's free, unauthenticated GraphQL endpoint.
- * Defined inline so the demo page is self-contained — the rest of the
- * example app uses a different (authenticated) Apollo client wired via
- * `_app.tsx`, and `ApolloProvider` happily nests.
  */
-const PUBLIC_ENDPOINT = 'https://rickandmortyapi.com/graphql';
+const PUBLIC_ENDPOINT = 'https://graphqlzero.almansi.me/api';
 
 const createPublicClient = () =>
   new ApolloClient({
@@ -49,139 +58,256 @@ const createPublicClient = () =>
  * Schema typings
  * --------------------------
  */
-type Character = {
+type Post = {
   id: string;
-  name: string;
-  species?: string | null;
-  status?: string | null;
-  gender?: string | null;
-  image?: string | null;
+  title: string;
+  body: string;
 };
 
-type CharactersListResponse = {
-  characters: {
-    info: {
-      count: number;
-      pages: number;
-      next: number | null;
-      prev: number | null;
-    };
-    results: Character[];
+type PostsListResponse = {
+  posts: { data: Post[]; meta: { totalCount: number } };
+};
+type PostsListVariables = {
+  options?: {
+    paginate?: { page?: number; limit?: number };
+    search?: { q?: string };
   };
 };
 
-type CharactersListVariables = {
-  page?: number;
-  filter?: { name?: string; status?: string; species?: string };
+type PostDetailResponse = { post: Post };
+type PostDetailVariables = { id: string };
+
+type PostCreateResponse = { createPost: Post };
+type PostCreateVariables = { input: { title: string; body: string } };
+
+type PostUpdateResponse = { updatePost: Post };
+type PostUpdateVariables = {
+  id: string;
+  input: { title?: string; body?: string };
 };
 
-type CharacterDetailResponse = { character: Character };
-type CharacterDetailVariables = { id: string };
+type PostDeleteResponse = { deletePost: boolean };
+type PostDeleteVariables = { id: string };
 
 /**
  * --------------------------
  * Hand-rolled Apollo hooks
  * --------------------------
  *
- * No codegen needed for a demo — `gql` + `useQuery` / `useLazyQuery`
- * already produce the shape `@crudx/graphql` expects.
+ * No codegen — `gql` + `useQuery`/`useMutation` produce the exact
+ * shape `@crudx/graphql` expects.
  */
-const CHARACTERS_LIST = gql`
-  query CharactersList($page: Int, $filter: FilterCharacter) {
-    characters(page: $page, filter: $filter) {
-      info {
-        count
-        pages
-        next
-        prev
-      }
-      results {
+const POSTS_LIST = gql`
+  query PostsList($options: PageQueryOptions) {
+    posts(options: $options) {
+      data {
         id
-        name
-        species
-        status
-        gender
-        image
+        title
+        body
+      }
+      meta {
+        totalCount
       }
     }
   }
 `;
 
-const CHARACTER_DETAIL = gql`
-  query CharacterDetail($id: ID!) {
-    character(id: $id) {
+const POST_DETAIL = gql`
+  query PostDetail($id: ID!) {
+    post(id: $id) {
       id
-      name
-      species
-      status
-      gender
-      image
+      title
+      body
     }
   }
 `;
 
-const useCharactersListQuery = (
-  options?: Parameters<
-    typeof useQuery<CharactersListResponse, CharactersListVariables>
-  >[1]
-) => useQuery<CharactersListResponse, CharactersListVariables>(
-    CHARACTERS_LIST,
-    options
-  );
+const POST_CREATE = gql`
+  mutation PostCreate($input: CreatePostInput!) {
+    createPost(input: $input) {
+      id
+      title
+      body
+    }
+  }
+`;
 
-const useCharacterDetailLazyQuery = (
+const POST_UPDATE = gql`
+  mutation PostUpdate($id: ID!, $input: UpdatePostInput!) {
+    updatePost(id: $id, input: $input) {
+      id
+      title
+      body
+    }
+  }
+`;
+
+const POST_DELETE = gql`
+  mutation PostDelete($id: ID!) {
+    deletePost(id: $id)
+  }
+`;
+
+const usePostsListQuery = (
   options?: Parameters<
-    typeof useLazyQuery<CharacterDetailResponse, CharacterDetailVariables>
+    typeof useQuery<PostsListResponse, PostsListVariables>
   >[1]
-) => useLazyQuery<CharacterDetailResponse, CharacterDetailVariables>(
-    CHARACTER_DETAIL,
-    options
-  );
+) => useQuery<PostsListResponse, PostsListVariables>(POSTS_LIST, options);
+
+const usePostDetailLazyQuery = (
+  options?: Parameters<
+    typeof useLazyQuery<PostDetailResponse, PostDetailVariables>
+  >[1]
+) => useLazyQuery<PostDetailResponse, PostDetailVariables>(POST_DETAIL, options);
+
+const usePostCreateMutation = (
+  options?: Parameters<
+    typeof useMutation<PostCreateResponse, PostCreateVariables>
+  >[1]
+) =>
+  useMutation<PostCreateResponse, PostCreateVariables>(POST_CREATE, options);
+
+const usePostUpdateMutation = (
+  options?: Parameters<
+    typeof useMutation<PostUpdateResponse, PostUpdateVariables>
+  >[1]
+) =>
+  useMutation<PostUpdateResponse, PostUpdateVariables>(POST_UPDATE, options);
+
+const usePostDeleteMutation = (
+  options?: Parameters<
+    typeof useMutation<PostDeleteResponse, PostDeleteVariables>
+  >[1]
+) =>
+  useMutation<PostDeleteResponse, PostDeleteVariables>(POST_DELETE, options);
 
 /**
  * --------------------------
  * The CRUD page
  * --------------------------
  */
-type CharacterSchemata = {
-  get: [CharacterDetailResponse, CharacterDetailVariables, Character];
-  list: [CharactersListResponse, CharactersListVariables, Character];
+type PostSchemata = {
+  get: [PostDetailResponse, PostDetailVariables, Post];
+  list: [PostsListResponse, PostsListVariables, Post];
+  create: [PostCreateResponse, PostCreateVariables];
+  update: [PostUpdateResponse, PostUpdateVariables];
+  delete: [PostDeleteResponse, PostDeleteVariables];
 };
 
-function CharactersPanel() {
-  const [search, setSearch] = useState('');
+/**
+ * Inline form used by both create and update modals. Updating
+ * pre-fills from `initial`; submit fires the relevant mutation and
+ * closes the modal on success.
+ */
+function PostForm(props: {
+  mode: 'create' | 'update';
+  initial?: Partial<Post>;
+  onSubmit: (values: { title: string; body: string }) => Promise<unknown>;
+  onCancel: () => void;
+}) {
+  const { mode, initial, onSubmit, onCancel } = props;
+  const [title, setTitle] = useState(initial?.title ?? '');
+  const [body, setBody] = useState(initial?.body ?? '');
+  const [submitting, setSubmitting] = useState(false);
+
+  const handleSubmit = async () => {
+    if (!title.trim() || !body.trim()) {
+      toast.error('Title and body are required');
+      return;
+    }
+    setSubmitting(true);
+    try {
+      await onSubmit({ title, body });
+      onCancel();
+    } finally {
+      setSubmitting(false);
+    }
+  };
 
   return (
-    <CrudPanelView<CharacterSchemata>
-      name="character"
+    <Stack spacing={2} sx={{ minWidth: 360, p: 2 }}>
+      <Typography variant="body2" color="text.secondary">
+        GraphQLZero accepts the {mode} mutation and echoes the new
+        record, but does not persist server-side — refreshes will
+        return the original 100 posts.
+      </Typography>
+      <TextField
+        label="Title"
+        size="small"
+        value={title}
+        onChange={(e) => setTitle(e.target.value)}
+        fullWidth
+      />
+      <TextField
+        label="Body"
+        size="small"
+        multiline
+        minRows={3}
+        value={body}
+        onChange={(e) => setBody(e.target.value)}
+        fullWidth
+      />
+      <Stack direction="row" spacing={1} justifyContent="flex-end">
+        <Button variant="text" onClick={onCancel} disabled={submitting}>
+          Cancel
+        </Button>
+        <Button
+          variant="contained"
+          onClick={handleSubmit}
+          disabled={submitting}
+        >
+          {mode === 'create' ? 'Create post' : 'Save changes'}
+        </Button>
+      </Stack>
+    </Stack>
+  );
+}
+
+function PostsPanel() {
+  return (
+    <CrudPanelView<PostSchemata>
+      name="post"
       schema={{
-        list: {
-          key: 'characters',
-          query: graphqlList(useCharactersListQuery),
+        list: { key: 'posts', query: graphqlList(usePostsListQuery) },
+        get: { key: 'post', query: graphqlGet(usePostDetailLazyQuery) },
+        create: {
+          key: 'createPost',
+          query: graphqlMutation(usePostCreateMutation),
         },
-        get: {
-          key: 'character',
-          query: graphqlGet(useCharacterDetailLazyQuery),
+        update: {
+          key: 'updatePost',
+          query: graphqlMutation(usePostUpdateMutation),
+        },
+        delete: {
+          key: 'deletePost',
+          query: graphqlMutation(usePostDeleteMutation),
         },
       }}
-      /**
-       * Rick & Morty's pagination is page-based with a `{ info: { pages,
-       * next, prev } }` envelope — classic "CUSTOM" strategy territory.
-       */
       paging={{
         strategy: 'CUSTOM',
-        pageSize: 20,
+        pageSize: 10,
         custom: {
           extract: {
-            paging: () => ({ pageSize: 20 }),
-            pagination: (_context, options) => {
-              const data = options.data?.characters;
+            paging: (_ctx, variables) => ({
+              pageSize: variables?.options?.paginate?.limit ?? 10,
+            }),
+            pagination: (context, options) => {
+              const result = options.data?.posts;
+              const total = result?.meta?.totalCount ?? 0;
+              const lastPage = Math.max(
+                1,
+                Math.ceil(total / Math.max(1, context.pageSize))
+              );
               return {
-                list: data?.results ?? [],
-                total: data?.info?.count ?? 0,
+                list: result?.data ?? [],
+                total,
                 page: {
-                  next: data?.info?.next ?? null,
-                  previous: data?.info?.prev ?? null,
+                  next:
+                    context.pageNumber < lastPage ? options.intentNext : null,
+                  previous:
+                    context.pageNumber > 1 && options.intentPrev > 0
+                      ? options.intentPrev
+                      : null,
                   canPaginateToPage: true,
                 },
               };
@@ -190,79 +316,108 @@ function CharactersPanel() {
           compose: {
             variables: (context, variables) => ({
               ...(variables ?? {}),
-              page: context.pageNumber,
+              options: {
+                ...((variables as any)?.options ?? {}),
+                paginate: {
+                  page: context.pageNumber,
+                  limit: context.pageSize,
+                },
+              },
             }),
             sorting: (_ctx, variables) => variables ?? {},
-            pagination: (context) => ({ page: context.pageNumber }),
+            pagination: (context) => ({
+              options: {
+                paginate: {
+                  page: context.pageNumber,
+                  limit: context.pageSize,
+                },
+              },
+            }),
           },
         },
       }}
-      pageTitle="Rick & Morty Characters"
+      pageTitle="GraphQLZero Posts (full CRUD)"
       pageBackPath="/"
       pageBreadcrumbs={[
         { icon: <HomeIcon />, label: 'Home', url: '/' },
-        { label: 'Public GraphQL demo' },
+        { label: 'Public GraphQL CRUD demo' },
       ]}
-      filterTitle="Search by name"
+      filterTitle="Search"
       filterNode={
         <Box>
-          <TextField
-            value={search}
-            placeholder="Try: rick, morty, beth…"
-            onChange={(e) => setSearch(e.target.value)}
-          />
+          <Typography variant="body2" color="text.secondary">
+            100 fake posts served by GraphQLZero — Create, Update,
+            Delete buttons are wired live.
+          </Typography>
         </Box>
       }
-      tableActions={[{ action: 'refresh' }]}
+      tableActions={[{ action: 'create' }, { action: 'refresh' }]}
       columnDataIndex="id"
       columns={[
         { key: 'id', title: 'ID', width: 80, dataIndex: 'id' },
-        { key: 'name', title: 'Name', width: 220, dataIndex: 'name' },
-        {
-          key: 'image',
-          title: 'Avatar',
-          width: 80,
-          render: (_value, record) =>
-            record?.image ? (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img
-                alt={record.name}
-                src={record.image}
-                width={48}
-                height={48}
-                style={{ borderRadius: '50%', objectFit: 'cover' }}
-              />
-            ) : null,
-        },
-        { key: 'species', title: 'Species', dataIndex: 'species' },
-        { key: 'gender', title: 'Gender', dataIndex: 'gender' },
-        {
-          key: 'status',
-          title: 'Status',
-          render: (_value, record) => (
-            <Chip
-              size="small"
-              label={record?.status ?? '—'}
-              color={
-                record?.status === 'Alive'
-                  ? 'success'
-                  : record?.status === 'Dead'
-                  ? 'error'
-                  : 'default'
-              }
-            />
-          ),
-        },
+        { key: 'title', title: 'Title', width: 300, dataIndex: 'title' },
+        { key: 'body', title: 'Body', dataIndex: 'body' },
       ]}
       columnActions={{
-        name: 'character',
-        identifier: 'name',
+        name: 'post',
+        identifier: 'title',
         enableView: true,
-        enableUpdate: false,
-        enableDelete: false,
+        enableUpdate: true,
+        enableDelete: true,
         enableExport: false,
+        enableAlert: ['delete'],
       }}
       enableRowSelection={false}
+      modalForms={{
+        create: {
+          title: 'Create post',
+          render: (options) => (
+            <Dialog
+              type="custom"
+              title={options.title}
+              visible={options.visible}
+              onClose={() => options.onHide()}
+            >
+              <PostForm
+                mode="create"
+                onCancel={() => options.onHide()}
+                onSubmit={async ({ title, body }) => {
+                  const trigger = options.mutation?.create?.[0];
+                  if (!trigger) return;
+                  await trigger({ variables: { input: { title, body } } });
+                  toast.success('Post created');
+                }}
+              />
+            </Dialog>
+          ),
+        },
+        update: {
+          title: 'Edit post',
+          render: (options) => (
+            <Dialog
+              type="custom"
+              title={options.title}
+              visible={options.visible}
+              onClose={() => options.onHide()}
+            >
+              <PostForm
+                mode="update"
+                initial={options.data ?? undefined}
+                onCancel={() => options.onHide()}
+                onSubmit={async ({ title, body }) => {
+                  const trigger = options.mutation?.update?.[0];
+                  const id = options.data?.id;
+                  if (!trigger || !id) return;
+                  await trigger({
+                    variables: { id, input: { title, body } },
+                  });
+                  toast.success('Post updated');
+                }}
+              />
+            </Dialog>
+          ),
+        },
+      }}
     />
   );
 }
@@ -272,11 +427,11 @@ export function Index() {
 
   return (
     <ApolloProvider client={client}>
-      <CharactersPanel />
+      <PostsPanel />
     </ApolloProvider>
   );
 }
 
 export default Index;
 // keep CrudProps imported so future ref-based interactions stay typed
-export type _CharactersCrudProps = CrudProps<CharacterSchemata>;
+export type _PostsCrudProps = CrudProps<PostSchemata>;
