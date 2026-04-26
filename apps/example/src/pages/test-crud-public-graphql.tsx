@@ -31,7 +31,6 @@ import {
   graphqlMutation,
 } from '@crudx/graphql';
 import { CrudPanelView, Dialog } from '@crudx/mui';
-import HomeIcon from '@mui/icons-material/Home';
 import {
   Box,
   Button,
@@ -39,6 +38,8 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
+
+import { DemoAppBar } from '../components';
 
 /**
  * --------------------------
@@ -336,18 +337,19 @@ function PostsPanel() {
           },
         },
       }}
-      pageTitle="GraphQLZero Posts (full CRUD)"
+      pageTitle="Posts"
       pageBackPath="/"
       pageBreadcrumbs={[
-        { icon: <HomeIcon />, label: 'Home', url: '/' },
-        { label: 'Public GraphQL CRUD demo' },
+        { label: 'Demos', url: '/' },
+        { label: 'GraphQL CRUD' },
       ]}
-      filterTitle="Search"
       filterNode={
         <Box>
           <Typography variant="body2" color="text.secondary">
-            100 fake posts served by GraphQLZero — Create, Update,
-            Delete buttons are wired live.
+            Read, create, update, and delete are all wired live against{' '}
+            <code>graphqlzero.almansi.me/api</code>. Mutations succeed
+            but the server never persists, so refreshes return the
+            original 100 posts.
           </Typography>
         </Box>
       }
@@ -427,7 +429,10 @@ export function Index() {
 
   return (
     <ApolloProvider client={client}>
-      <PostsPanel />
+      <DemoAppBar context="GraphQL CRUD" />
+      <Box sx={{ py: 4, px: { xs: 2, md: 4 } }}>
+        <PostsPanel />
+      </Box>
     </ApolloProvider>
   );
 }

@@ -22,7 +22,6 @@ import {
   restOffsetPagination,
 } from '@crudx/rest';
 import { CrudPanelView, Dialog } from '@crudx/mui';
-import HomeIcon from '@mui/icons-material/Home';
 import {
   Box,
   Button,
@@ -31,6 +30,8 @@ import {
   Typography,
 } from '@mui/material';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+
+import { DemoAppBar } from '../components';
 
 /**
  * --------------------------
@@ -227,20 +228,19 @@ function PostsPanel() {
           pageSizeKey: '_limit',
         }),
       }}
-      pageTitle="JSONPlaceholder Posts (REST CRUD)"
+      pageTitle="Posts"
       pageBackPath="/"
       pageBreadcrumbs={[
-        { icon: <HomeIcon />, label: 'Home', url: '/' },
-        { label: 'Public REST CRUD demo' },
+        { label: 'Demos', url: '/' },
+        { label: 'REST CRUD' },
       ]}
-      filterTitle="About this demo"
       filterNode={
         <Box>
           <Typography variant="body2" color="text.secondary">
-            100 fake posts served by JSONPlaceholder over plain REST,
-            wired through <code>@crudx/rest</code> on top of TanStack
-            Query. Mutations invalidate the <code>posts</code> cache key,
-            so the list refreshes after each Create / Update / Delete.
+            Read, create, update, and delete are all wired live against{' '}
+            <code>jsonplaceholder.typicode.com</code> through TanStack
+            Query. Mutations declare <code>invalidates: &apos;posts&apos;</code>{' '}
+            so the list refetches after every mutation succeeds.
           </Typography>
         </Box>
       }
@@ -326,7 +326,10 @@ export function Index() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <PostsPanel />
+      <DemoAppBar context="REST CRUD" />
+      <Box sx={{ py: 4, px: { xs: 2, md: 4 } }}>
+        <PostsPanel />
+      </Box>
     </QueryClientProvider>
   );
 }
