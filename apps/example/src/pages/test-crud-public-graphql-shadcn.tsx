@@ -418,7 +418,7 @@ function PostsPanel() {
       renderDetailsView={(nodeProps) => (
         <div className="p-4">
           <ShadcnJsonView
-            data={nodeProps.data}
+            data={nodeProps?.data ?? {}}
             loading={nodeProps.loading}
             title="Post"
           />
