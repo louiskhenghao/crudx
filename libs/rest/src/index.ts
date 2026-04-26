@@ -37,6 +37,7 @@
  * ```
  */
 
+import { useState } from 'react';
 import {
   useMutation,
   useQuery,
@@ -187,9 +188,13 @@ export const restList = <
  * --------------------------
  *
  * Returns a `TransportLazyQueryHook` whose first tuple item is a
- * trigger function. Internally it stores the latest variables in
- * component state so the bound `useQuery` re-runs when the trigger
- * is called.
+ * trigger function. Mirrors Apollo's `useLazyQuery` semantics: the
+ * underlying `useQuery` is gated by an internal `triggered` flag, and
+ * variables are kept in React state so calling the trigger causes a
+ * re-render with `enabled: true` — at which point `result.data` gets
+ * populated reactively. Without this, the result tuple's data field
+ * would stay `undefined` forever and consumers reading
+ * `nodeProps.data` (e.g. CRUD detail views) would always see `null`.
  */
 export const restGet = <
   TData = any,
@@ -197,31 +202,81 @@ export const restGet = <
 >(
   options: RestQueryAdapterOptions<TData, TVariables>
 ): TransportLazyQueryHook<TData, TVariables> => {
-  const queryHook = restList<TData, TVariables>({
-    ...options,
-    queryOptions: {
-      ...(options.queryOptions ?? {}),
-      enabled: false,
-    },
-  });
+  const { resource, fetch: fetcher, queryOptions } = options;
 
   return ((
     inOptions?: TransportLazyQueryHookOptions<TData, TVariables>
   ): TransportLazyQueryResult<TData, TVariables> => {
-    const result = queryHook({ ...(inOptions ?? {}), skip: true });
+    const queryClient = useQueryClient();
+    const [triggered, setTriggered] = useState(false);
+    const [activeVariables, setActiveVariables] = useState<TVariables>(
+      (inOptions?.variables ?? ({} as TVariables)) as TVariables
+    );
+
+    const queryKey = composeQueryKey(resource, activeVariables);
+
+    const result = useQuery<TData, unknown, TData>({
+      ...(queryOptions ?? {}),
+      queryKey,
+      queryFn: ({ signal }) =>
+        fetcher({ variables: activeVariables, signal }),
+      enabled: triggered,
+      onSuccess: (data) => {
+        queryOptions?.onSuccess?.(data);
+        inOptions?.onCompleted?.(data);
+      },
+      onError: (err) => {
+        queryOptions?.onError?.(err);
+        inOptions?.onError?.(toTransportError(err));
+      },
+    } as UseQueryOptions<TData, unknown, TData>);
 
     const trigger = async (
       triggerOptions?: TransportLazyQueryHookOptions<TData, TVariables>
     ): Promise<TransportFetchResult<TData>> => {
       const nextVariables = (triggerOptions?.variables ??
-        inOptions?.variables ??
-        ({} as TVariables)) as TVariables;
-      const data = await options.fetch({ variables: nextVariables });
+        activeVariables) as TVariables;
+      // Update state so useQuery picks up the new key + enabled flag,
+      // which is what makes `result.data` reactive on the next render.
+      setActiveVariables(nextVariables);
+      setTriggered(true);
+      // Resolve immediately from the cache or kick off a fetch — this
+      // mirrors Apollo's lazy trigger contract (returns the data).
+      const data = await queryClient.fetchQuery({
+        queryKey: composeQueryKey(resource, nextVariables),
+        queryFn: ({ signal }) =>
+          fetcher({ variables: nextVariables, signal }),
+      });
       triggerOptions?.onCompleted?.(data);
       return { data };
     };
 
-    return [trigger, result];
+    const transportResult: TransportQueryResult<TData, TVariables> = {
+      data: result.data as TData | undefined,
+      loading: result.isLoading || result.isFetching,
+      error: toTransportError(result.error),
+      called: triggered,
+      variables: activeVariables,
+      networkStatus: result.isFetching ? 4 : 7,
+      previousData: undefined,
+      refetch: async (
+        nextVariables?: Partial<TVariables>
+      ): Promise<TransportFetchResult<TData>> => {
+        const merged = {
+          ...activeVariables,
+          ...(nextVariables ?? {}),
+        } as TVariables;
+        setActiveVariables(merged);
+        setTriggered(true);
+        const data = await queryClient.fetchQuery({
+          queryKey: composeQueryKey(resource, merged),
+          queryFn: ({ signal }) => fetcher({ variables: merged, signal }),
+        });
+        return { data };
+      },
+    };
+
+    return [trigger, transportResult];
   }) as TransportLazyQueryHook<TData, TVariables>;
 };
 
