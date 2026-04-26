@@ -8,8 +8,9 @@
     "react",
     "crud",
     "core",
-    "apollo",
-    "graphql"
+    "transport-agnostic",
+    "graphql",
+    "rest"
   ],
   "peerDependencies": {
     "@crudx/common": "^0.0.27"
