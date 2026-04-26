@@ -12,6 +12,7 @@ import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import HubIcon from '@mui/icons-material/Hub';
 import LaunchIcon from '@mui/icons-material/Launch';
 import {
+  alpha,
   Box,
   Button,
   Card,
@@ -26,9 +27,32 @@ import Link from 'next/link';
 
 import { DemoAppBar, REPO_URL } from '../components';
 
+/**
+ * --------------------------
+ * Visual theming per quadrant
+ * --------------------------
+ *
+ * Each (transport, ui) combination gets its own colour pair so the
+ * four cards read at a glance. Transport colour follows convention
+ * (Apollo pink for GraphQL, amber for REST). UI colour distinguishes
+ * MUI (Material blue) from shadcn (zinc/black).
+ */
+type Transport = 'GraphQL' | 'REST';
+type Ui = 'MUI' | 'shadcn';
+
+const TRANSPORT_COLOR: Record<Transport, string> = {
+  GraphQL: '#E535AB', // Apollo pink
+  REST: '#F76707', // amber-orange
+};
+
+const UI_COLOR: Record<Ui, string> = {
+  MUI: '#1976D2', // Material blue
+  shadcn: '#18181B', // zinc-900
+};
+
 type DemoCardProps = {
-  badge: string;
-  ui: 'MUI' | 'shadcn';
+  badge: Transport;
+  ui: Ui;
   title: string;
   tagline: string;
   packages: string[];
@@ -41,7 +65,7 @@ const DEMOS: DemoCardProps[] = [
   {
     badge: 'GraphQL',
     ui: 'MUI',
-    title: 'GraphQL CRUD',
+    title: 'GraphQL · Material UI',
     tagline:
       'Apollo Client wired through @crudx/graphql against the public GraphQLZero API. Read, create, update, delete — all live, no auth.',
     packages: ['@crudx/core', '@crudx/graphql', '@crudx/mui'],
@@ -52,7 +76,7 @@ const DEMOS: DemoCardProps[] = [
   {
     badge: 'GraphQL',
     ui: 'shadcn',
-    title: 'GraphQL CRUD',
+    title: 'GraphQL · shadcn/ui',
     tagline:
       'Same GraphQLZero CRUD flow, rendered through @crudx/shadcn (Tailwind + Radix). API-compatible with the MUI variant.',
     packages: ['@crudx/core', '@crudx/graphql', '@crudx/shadcn'],
@@ -63,7 +87,7 @@ const DEMOS: DemoCardProps[] = [
   {
     badge: 'REST',
     ui: 'MUI',
-    title: 'REST CRUD',
+    title: 'REST · Material UI',
     tagline:
       'TanStack Query wired through @crudx/rest against the public JSONPlaceholder API. Mutations auto-invalidate the list cache via the adapter.',
     packages: ['@crudx/core', '@crudx/rest', '@crudx/mui'],
@@ -74,7 +98,7 @@ const DEMOS: DemoCardProps[] = [
   {
     badge: 'REST',
     ui: 'shadcn',
-    title: 'REST CRUD',
+    title: 'REST · shadcn/ui',
     tagline:
       'Same JSONPlaceholder CRUD flow, rendered through @crudx/shadcn (Tailwind + Radix). Drop-in alternative to the MUI variant.',
     packages: ['@crudx/core', '@crudx/rest', '@crudx/shadcn'],
@@ -117,16 +141,239 @@ const PACKAGES: { name: string; description: string }[] = [
   },
 ];
 
+/**
+ * Tiny mock UI rendered inside each demo card so the visual identity
+ * of the chosen UI library reads at a glance — rounded blue MUI
+ * controls vs. sharp zinc shadcn controls.
+ */
+function UiPreview({ ui, transport }: { ui: Ui; transport: Transport }) {
+  const transportColor = TRANSPORT_COLOR[transport];
+
+  if (ui === 'MUI') {
+    return (
+      <Box
+        sx={{
+          borderRadius: 2,
+          border: 1,
+          borderColor: alpha(UI_COLOR.MUI, 0.2),
+          bgcolor: alpha(UI_COLOR.MUI, 0.04),
+          p: 1.5,
+          display: 'flex',
+          flexDirection: 'column',
+          gap: 1,
+        }}
+      >
+        <Box
+          sx={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            gap: 1,
+          }}
+        >
+          <Box sx={{ display: 'flex', gap: 0.5 }}>
+            <Box
+              sx={{
+                width: 36,
+                height: 8,
+                borderRadius: '999px',
+                bgcolor: alpha(UI_COLOR.MUI, 0.4),
+              }}
+            />
+            <Box
+              sx={{
+                width: 24,
+                height: 8,
+                borderRadius: '999px',
+                bgcolor: alpha(UI_COLOR.MUI, 0.2),
+              }}
+            />
+          </Box>
+          <Box
+            sx={{
+              fontSize: 10,
+              fontWeight: 700,
+              borderRadius: '999px',
+              px: 1,
+              py: 0.25,
+              bgcolor: UI_COLOR.MUI,
+              color: '#fff',
+              boxShadow: 1,
+            }}
+          >
+            CREATE
+          </Box>
+        </Box>
+        {[0, 1, 2].map((i) => (
+          <Box
+            key={i}
+            sx={{
+              display: 'flex',
+              gap: 1,
+              alignItems: 'center',
+            }}
+          >
+            <Box
+              sx={{
+                width: 12,
+                height: 12,
+                borderRadius: '999px',
+                bgcolor: alpha(transportColor, 0.18),
+                border: 1,
+                borderColor: alpha(transportColor, 0.45),
+              }}
+            />
+            <Box
+              sx={{
+                flex: 1,
+                height: 6,
+                borderRadius: '999px',
+                bgcolor: alpha(UI_COLOR.MUI, 0.12),
+              }}
+            />
+            <Box
+              sx={{
+                width: 30,
+                height: 6,
+                borderRadius: '999px',
+                bgcolor: alpha(UI_COLOR.MUI, 0.18),
+              }}
+            />
+          </Box>
+        ))}
+      </Box>
+    );
+  }
+
+  // shadcn variant — sharper, monospace, zinc-toned
+  return (
+    <Box
+      sx={{
+        borderRadius: 1,
+        border: 1,
+        borderColor: alpha(UI_COLOR.shadcn, 0.18),
+        bgcolor: alpha(UI_COLOR.shadcn, 0.03),
+        p: 1.5,
+        display: 'flex',
+        flexDirection: 'column',
+        gap: 1,
+        fontFamily: 'monospace',
+      }}
+    >
+      <Box
+        sx={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          gap: 1,
+        }}
+      >
+        <Box sx={{ display: 'flex', gap: 0.5 }}>
+          <Box
+            sx={{
+              width: 36,
+              height: 8,
+              borderRadius: 0.5,
+              bgcolor: alpha(UI_COLOR.shadcn, 0.6),
+            }}
+          />
+          <Box
+            sx={{
+              width: 24,
+              height: 8,
+              borderRadius: 0.5,
+              bgcolor: alpha(UI_COLOR.shadcn, 0.25),
+            }}
+          />
+        </Box>
+        <Box
+          sx={{
+            fontSize: 10,
+            fontWeight: 600,
+            borderRadius: 0.75,
+            px: 1,
+            py: 0.25,
+            bgcolor: UI_COLOR.shadcn,
+            color: '#fff',
+          }}
+        >
+          + create
+        </Box>
+      </Box>
+      {[0, 1, 2].map((i) => (
+        <Box
+          key={i}
+          sx={{
+            display: 'flex',
+            gap: 1,
+            alignItems: 'center',
+            borderTop: i === 0 ? 0 : '1px dashed',
+            borderColor: alpha(UI_COLOR.shadcn, 0.12),
+            pt: i === 0 ? 0 : 0.75,
+          }}
+        >
+          <Box
+            sx={{
+              width: 12,
+              height: 12,
+              borderRadius: 0.5,
+              bgcolor: alpha(transportColor, 0.18),
+              border: 1,
+              borderColor: alpha(transportColor, 0.5),
+            }}
+          />
+          <Box
+            sx={{
+              flex: 1,
+              height: 6,
+              borderRadius: 0.5,
+              bgcolor: alpha(UI_COLOR.shadcn, 0.18),
+            }}
+          />
+          <Box
+            sx={{
+              width: 30,
+              height: 6,
+              borderRadius: 0.5,
+              bgcolor: alpha(UI_COLOR.shadcn, 0.32),
+            }}
+          />
+        </Box>
+      ))}
+    </Box>
+  );
+}
+
 function DemoCard(props: DemoCardProps) {
   const { badge, ui, title, tagline, packages, href, icon, endpoint } = props;
+  const transportColor = TRANSPORT_COLOR[badge];
+  const uiColor = UI_COLOR[ui];
+  const isShadcn = ui === 'shadcn';
 
   return (
     <Card
       variant="outlined"
       sx={{
         height: '100%',
-        transition: 'border-color 120ms, transform 120ms',
-        '&:hover': { borderColor: 'primary.main', transform: 'translateY(-2px)' },
+        position: 'relative',
+        overflow: 'hidden',
+        borderRadius: isShadcn ? 1 : 2,
+        borderColor: alpha(transportColor, 0.25),
+        transition: 'border-color 120ms, transform 120ms, box-shadow 120ms',
+        '&:hover': {
+          borderColor: transportColor,
+          transform: 'translateY(-2px)',
+          boxShadow: `0 8px 24px ${alpha(transportColor, 0.18)}`,
+        },
+        // Coloured stripe indicating the transport
+        '&::before': {
+          content: '""',
+          position: 'absolute',
+          inset: 0,
+          height: 4,
+          bottom: 'auto',
+          background: `linear-gradient(90deg, ${transportColor} 0%, ${uiColor} 100%)`,
+        },
       }}
     >
       <CardActionArea
@@ -141,60 +388,114 @@ function DemoCard(props: DemoCardProps) {
             gap: 2,
             flex: 1,
             width: '100%',
+            pt: 3, // breathing room below the gradient stripe
           }}
         >
+          {/* Header row — icon + tags + title */}
           <Stack direction="row" alignItems="center" spacing={2}>
             <Box
               sx={{
                 width: 48,
                 height: 48,
-                borderRadius: 1.5,
-                bgcolor: 'primary.50',
-                color: 'primary.main',
+                borderRadius: isShadcn ? 1 : 1.5,
+                bgcolor: alpha(transportColor, 0.12),
+                color: transportColor,
                 display: 'grid',
                 placeItems: 'center',
               }}
             >
               {icon}
             </Box>
-            <Box>
+            <Box sx={{ minWidth: 0 }}>
               <Stack direction="row" spacing={0.75} alignItems="center">
-                <Chip size="small" label={badge} color="primary" />
+                <Chip
+                  size="small"
+                  label={badge}
+                  sx={{
+                    bgcolor: transportColor,
+                    color: '#fff',
+                    fontWeight: 700,
+                    height: 22,
+                  }}
+                />
                 <Chip
                   size="small"
                   label={ui}
                   variant="outlined"
-                  sx={{ fontFamily: 'monospace' }}
+                  sx={{
+                    fontFamily: 'monospace',
+                    height: 22,
+                    borderColor: uiColor,
+                    color: uiColor,
+                    bgcolor: alpha(uiColor, 0.04),
+                    borderRadius: isShadcn ? 0.5 : '999px',
+                    borderStyle: isShadcn ? 'dashed' : 'solid',
+                  }}
                 />
               </Stack>
-              <Typography variant="h6" sx={{ mt: 0.5, fontWeight: 700 }}>
+              <Typography
+                variant="h6"
+                sx={{
+                  mt: 0.5,
+                  fontWeight: 700,
+                  fontFamily: isShadcn ? 'monospace' : undefined,
+                }}
+              >
                 {title}
               </Typography>
             </Box>
           </Stack>
+
+          {/* UI preview tile */}
+          <UiPreview ui={ui} transport={badge} />
+
+          {/* Tagline */}
           <Typography variant="body2" color="text.secondary">
             {tagline}
           </Typography>
+
           <Box sx={{ flex: 1 }} />
-          <Stack direction="row" spacing={1} flexWrap="wrap" useFlexGap>
+
+          {/* Package chips */}
+          <Stack direction="row" spacing={0.75} flexWrap="wrap" useFlexGap>
             {packages.map((p) => (
-              <Chip key={p} size="small" label={p} variant="outlined" />
+              <Chip
+                key={p}
+                size="small"
+                label={p}
+                variant="outlined"
+                sx={{
+                  fontFamily: 'monospace',
+                  fontSize: 11,
+                  height: 20,
+                  borderRadius: isShadcn ? 0.5 : '999px',
+                }}
+              />
             ))}
           </Stack>
+
+          {/* Footer row — endpoint + open demo */}
           <Stack
             direction="row"
             alignItems="center"
             justifyContent="space-between"
             sx={{ mt: 1 }}
           >
-            <Typography variant="caption" color="text.secondary">
-              Endpoint: {endpoint}
+            <Typography
+              variant="caption"
+              color="text.secondary"
+              sx={{ fontFamily: 'monospace' }}
+            >
+              {endpoint}
             </Typography>
             <Stack direction="row" alignItems="center" spacing={0.5}>
-              <Typography variant="button" color="primary.main">
+              <Typography
+                variant="button"
+                sx={{ color: transportColor, fontWeight: 700 }}
+              >
                 Open demo
               </Typography>
-              <ArrowForwardIcon fontSize="small" color="primary" />
+              <ArrowForwardIcon fontSize="small" sx={{ color: transportColor }} />
             </Stack>
           </Stack>
         </CardContent>
@@ -244,15 +545,23 @@ export function Index() {
               variant="contained"
               size="large"
               endIcon={<ArrowForwardIcon />}
+              sx={{
+                bgcolor: TRANSPORT_COLOR.GraphQL,
+                '&:hover': { bgcolor: alpha(TRANSPORT_COLOR.GraphQL, 0.9) },
+              }}
             >
               Try the GraphQL demo
             </Button>
             <Button
               component={Link}
               href="/test-crud-public-rest"
-              variant="outlined"
+              variant="contained"
               size="large"
               endIcon={<ArrowForwardIcon />}
+              sx={{
+                bgcolor: TRANSPORT_COLOR.REST,
+                '&:hover': { bgcolor: alpha(TRANSPORT_COLOR.REST, 0.9) },
+              }}
             >
               Try the REST demo
             </Button>
@@ -274,13 +583,14 @@ export function Index() {
           <Typography variant="overline" color="text.secondary">
             Live demos
           </Typography>
-          <Typography
-            variant="h4"
-            sx={{ fontWeight: 700, mt: 0.5 }}
-          >
+          <Typography variant="h4" sx={{ fontWeight: 700, mt: 0.5 }}>
             Pick your transport, pick your UI
           </Typography>
-          <Typography variant="body2" color="text.secondary" sx={{ mb: 3, mt: 1 }}>
+          <Typography
+            variant="body2"
+            color="text.secondary"
+            sx={{ mb: 3, mt: 1 }}
+          >
             The same CRUD orchestration, four entry points: GraphQL or REST,
             Material UI or shadcn/ui — fully interchangeable.
           </Typography>
