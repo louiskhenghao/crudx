@@ -29,10 +29,11 @@ yarn install
 yarn example:dev   # http://localhost:3333
 ```
 
-The example app (`apps/example`) ships two reference pages:
+The example app (`apps/example`) ships three reference pages:
 
-- `/test-crud-api-component` — `@crudx/mui`
+- `/test-crud-api-component` — `@crudx/mui` against the internal API
 - `/test-crud-shadcn` — `@crudx/shadcn` (requires the Tailwind setup documented below)
+- `/test-crud-public-graphql` — `@crudx/mui` + `@crudx/graphql` against the public [Rick & Morty GraphQL API](https://rickandmortyapi.com/graphql); a self-contained demo of the transport adapter that needs no auth or local backend.
 
 ## Tailwind setup (for `@crudx/shadcn` consumers)
 

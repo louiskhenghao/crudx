@@ -57,6 +57,7 @@ export const PATHS_ONLY_ALLOWED_BEFORE_AUTH = [
   '/test-crud',
   '/test-crud-api',
   '/test-crud-api-component',
+  '/test-crud-public-graphql',
 ];
 
 // restricted path that can't be accessed if user has already signed in
