@@ -15,14 +15,16 @@
     "example:graphql:api": "graphql-codegen --config apps/example/codegen-api.yml",
     "build:lib:common": "yarn build common",
     "build:lib:core": "yarn build core",
+    "build:lib:graphql": "yarn build graphql",
     "build:lib:mui": "yarn build mui",
     "build:lib:shadcn": "yarn build shadcn",
-    "build:libs": "yarn build:lib:common && yarn build:lib:core && yarn build:lib:mui && yarn build:lib:shadcn",
+    "build:libs": "yarn build:lib:common && yarn build:lib:core && yarn build:lib:graphql && yarn build:lib:mui && yarn build:lib:shadcn",
     "release:common": "yarn nx run common:version",
     "release:core": "yarn nx run core:version",
+    "release:graphql": "yarn nx run graphql:version",
     "release:mui": "yarn nx run mui:version",
     "release:shadcn": "yarn nx run shadcn:version",
-    "release:all": "yarn nx run-many --target=version --projects=common,core,mui,shadcn"
+    "release:all": "yarn nx run-many --target=version --projects=common,core,graphql,mui,shadcn"
   },
   "dependencies": {
     "@apollo/client": "^3.8.5",
