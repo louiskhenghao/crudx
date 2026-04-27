@@ -24,6 +24,12 @@ common packages are shared by all combinations. Adapter packages are named
 TanStack, future SWR, …) is visible at install time — see
 [`ADAPTERS.md`](./ADAPTERS.md) for the convention and the adapter-author guide.
 
+Want to contribute?
+
+- General flow (install, branch naming, PRs, releases): [`CONTRIBUTING.md`](./CONTRIBUTING.md).
+- Building a transport adapter: [`ADAPTERS.md`](./ADAPTERS.md) → deep guide at [`libs/core/docs/adapters.md`](./libs/core/docs/adapters.md).
+- Scaffolding a new (non-adapter) library: [`libs/core/docs/library-setup.md`](./libs/core/docs/library-setup.md).
+
 ## Picking a stack
 
 **Transport adapter — pick one:**

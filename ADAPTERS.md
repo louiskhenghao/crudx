@@ -53,3 +53,8 @@ before opening a PR for a new adapter.
   (e.g. `feat(rest-swr-adapter): ...`). Per-package versioning via
   [`@jscutlery/semver`](https://github.com/jscutlery/semver) keys off the
   scope; commits without it won't bump your adapter.
+
+For the general contribution flow (install, branch naming, PRs, releases)
+see [`CONTRIBUTING.md`](./CONTRIBUTING.md). For scaffolding a new
+non-adapter library see
+[`libs/core/docs/library-setup.md`](./libs/core/docs/library-setup.md).
