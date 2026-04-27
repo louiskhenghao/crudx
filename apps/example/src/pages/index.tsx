@@ -7,7 +7,14 @@
  */
 
 import { ReactNode } from 'react';
-import { ArrowRight, ExternalLink, Network, Server } from 'lucide-react';
+import {
+  ArrowRight,
+  Boxes,
+  ExternalLink,
+  LayoutGrid,
+  Network,
+  Server,
+} from 'lucide-react';
 import Link from 'next/link';
 
 import { AppBar, REPO_URL } from '../components';
@@ -420,6 +427,106 @@ export function Index() {
             {DEMOS.map((d) => (
               <DemoCard key={d.href} {...d} />
             ))}
+          </div>
+        </section>
+
+        {/* COMPONENT REFERENCE */}
+        <section className="mb-12 md:mb-20">
+          <div className="text-xs font-bold uppercase tracking-wider text-zinc-500">
+            Component reference
+          </div>
+          <h2 className="mt-1 text-2xl font-bold md:text-3xl">
+            Browse every UI primitive
+          </h2>
+          <p className="mt-2 text-sm text-zinc-600">
+            Below the high-level{' '}
+            <code className="rounded bg-zinc-100 px-1 font-mono text-[13px]">
+              CrudPanelView
+            </code>{' '}
+            sit the lower-level building blocks each UI package ships — tables,
+            dropdowns, dialogs, breadcrumbs and more. Each reference page
+            renders every export next to the JSX snippet that produced it.
+          </p>
+          <div className="mt-6 grid grid-cols-1 gap-4 md:grid-cols-2">
+            <Link
+              href="/components-mui"
+              className="group flex items-center gap-4 rounded-xl border bg-white p-5 transition-all hover:-translate-y-0.5 hover:shadow-md"
+              style={{ borderColor: `${UI_COLOR.MUI}40` }}
+            >
+              <div
+                className="grid h-12 w-12 place-items-center rounded-lg"
+                style={{
+                  backgroundColor: `${UI_COLOR.MUI}1F`,
+                  color: UI_COLOR.MUI,
+                }}
+              >
+                <LayoutGrid className="h-6 w-6" />
+              </div>
+              <div className="min-w-0 flex-1">
+                <div className="flex items-center gap-2">
+                  <span
+                    className="rounded-full border px-2 py-0.5 font-mono text-[11px] font-medium"
+                    style={{
+                      color: UI_COLOR.MUI,
+                      borderColor: UI_COLOR.MUI,
+                      backgroundColor: `${UI_COLOR.MUI}0A`,
+                    }}
+                  >
+                    @crudx/mui
+                  </span>
+                </div>
+                <div className="mt-1 text-base font-bold text-zinc-900">
+                  Material UI components
+                </div>
+                <p className="mt-0.5 text-xs text-zinc-600">
+                  Tables, drop-downs, dialogs and more — Emotion-styled.
+                </p>
+              </div>
+              <ArrowRight
+                className="h-5 w-5 transition-transform group-hover:translate-x-0.5"
+                style={{ color: UI_COLOR.MUI }}
+              />
+            </Link>
+
+            <Link
+              href="/components-shadcn"
+              className="group flex items-center gap-4 rounded-md border bg-white p-5 transition-all hover:-translate-y-0.5 hover:shadow-md"
+              style={{ borderColor: `${UI_COLOR.shadcn}33` }}
+            >
+              <div
+                className="grid h-12 w-12 place-items-center rounded-md"
+                style={{
+                  backgroundColor: `${UI_COLOR.shadcn}14`,
+                  color: UI_COLOR.shadcn,
+                }}
+              >
+                <Boxes className="h-6 w-6" />
+              </div>
+              <div className="min-w-0 flex-1">
+                <div className="flex items-center gap-2">
+                  <span
+                    className="rounded-sm border border-dashed px-2 py-0.5 font-mono text-[11px] font-medium"
+                    style={{
+                      color: UI_COLOR.shadcn,
+                      borderColor: UI_COLOR.shadcn,
+                      backgroundColor: `${UI_COLOR.shadcn}08`,
+                    }}
+                  >
+                    @crudx/shadcn
+                  </span>
+                </div>
+                <div className="mt-1 font-mono text-base font-bold text-zinc-900">
+                  shadcn/ui components
+                </div>
+                <p className="mt-0.5 text-xs text-zinc-600">
+                  Tailwind + Radix primitives — sharp, monospace, themeable.
+                </p>
+              </div>
+              <ArrowRight
+                className="h-5 w-5 transition-transform group-hover:translate-x-0.5"
+                style={{ color: UI_COLOR.shadcn }}
+              />
+            </Link>
           </div>
         </section>
 
