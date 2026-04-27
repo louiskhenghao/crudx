@@ -1,0 +1,142 @@
+name: Release packages
+
+on:
+  workflow_dispatch:
+    inputs:
+      common:
+        description: '@crudx/common'
+        type: choice
+        default: skip
+        options: [skip, auto, patch, minor, major]
+      core:
+        description: '@crudx/core'
+        type: choice
+        default: skip
+        options: [skip, auto, patch, minor, major]
+      graphql-apollo-adapter:
+        description: '@crudx/graphql-apollo-adapter'
+        type: choice
+        default: skip
+        options: [skip, auto, patch, minor, major]
+      rest-tanstack-adapter:
+        description: '@crudx/rest-tanstack-adapter'
+        type: choice
+        default: skip
+        options: [skip, auto, patch, minor, major]
+      mui:
+        description: '@crudx/mui'
+        type: choice
+        default: skip
+        options: [skip, auto, patch, minor, major]
+      shadcn:
+        description: '@crudx/shadcn'
+        type: choice
+        default: skip
+        options: [skip, auto, patch, minor, major]
+
+# `auto` defers to conventional commits via @jscutlery/semver. The other
+# levels (patch/minor/major) force the bump regardless of commit history.
+# `skip` leaves the package alone.
+#
+# Note: `core:version` cascades into `mui` + `shadcn` via @jscutlery/semver
+# `trackDeps`, so picking `core: auto` may also bump them even if you
+# selected `skip` for those.
+
+permissions:
+  contents: write
+
+# Only one release at a time. Don't cancel in flight — version commits +
+# tags + npm publish happen across multiple steps and a half-run is
+# worse than a slow run.
+concurrency:
+  group: release
+  cancel-in-progress: false
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # @jscutlery/semver needs full history to compute bumps from
+          # conventional commits.
+          fetch-depth: 0
+          # Use the default GITHUB_TOKEN to push the version commits +
+          # tags back. If branch protection blocks bot pushes to main,
+          # swap this for a PAT secret with bypass permission.
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: yarn
+          registry-url: 'https://registry.npmjs.org'
+          scope: '@crudx'
+
+      - run: yarn install --frozen-lockfile
+
+      - name: Configure git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+      - name: Version + publish each selected package
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: |
+          set -euo pipefail
+
+          # entries are `package:mode` so we don't need bash associative arrays.
+          entries=(
+            "common:${{ inputs.common }}"
+            "core:${{ inputs.core }}"
+            "graphql-apollo-adapter:${{ inputs['graphql-apollo-adapter'] }}"
+            "rest-tanstack-adapter:${{ inputs['rest-tanstack-adapter'] }}"
+            "mui:${{ inputs.mui }}"
+            "shadcn:${{ inputs.shadcn }}"
+          )
+
+          published=0
+          for entry in "${entries[@]}"; do
+            pkg="${entry%%:*}"
+            mode="${entry#*:}"
+
+            if [ "$mode" = "skip" ]; then
+              echo "::group::$pkg → skip"
+              echo "Skipped."
+              echo "::endgroup::"
+              continue
+            fi
+
+            echo "::group::$pkg → $mode"
+
+            if [ "$mode" = "auto" ]; then
+              yarn nx run "$pkg:version"
+            else
+              yarn nx run "$pkg:version" --releaseAs="$mode"
+            fi
+
+            # Version target's postTarget chain ran the build, so dist
+            # is already populated. Publish it.
+            if [ -d "dist/libs/$pkg" ]; then
+              npm publish "dist/libs/$pkg" --access public
+              published=$((published + 1))
+            else
+              echo "::error::dist/libs/$pkg not found — version target did not build"
+              exit 1
+            fi
+
+            echo "::endgroup::"
+          done
+
+          echo "Published $published package(s)."
+
+      - name: Push version commits and tags
+        run: |
+          # Only push if there's something to push (workflow may run
+          # with everything set to skip).
+          if [ -n "$(git log @{u}..HEAD 2>/dev/null)" ] || [ -n "$(git tag --points-at HEAD)" ]; then
+            git push --follow-tags origin HEAD
+          else
+            echo "Nothing to push."
+          fi
