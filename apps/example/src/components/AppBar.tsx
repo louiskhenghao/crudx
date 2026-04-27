@@ -47,6 +47,12 @@ export function AppBar({ context, actions }: AppBarProps) {
         >
           Demos
         </Link>
+        <Link
+          href="/docs"
+          className="rounded-md px-2.5 py-1.5 text-sm font-medium text-zinc-900 hover:bg-zinc-100"
+        >
+          Docs
+        </Link>
         <a
           href={REPO_URL}
           target="_blank"
