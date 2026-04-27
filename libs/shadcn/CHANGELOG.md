@@ -2,6 +2,14 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+## [1.0.0](https://github.com/louiskhenghao/crudx/compare/shadcn@0.0.1...shadcn@1.0.0) (2026-04-27)
+
+
+### Bug Fixes
+
+* **shadcn:** always emit DialogTitle so Sheet/Dialog satisfy radix a11y ([647bdad](https://github.com/louiskhenghao/crudx/commit/647bdad6ad35baddcbf9efa570e3a25c72cd26ed))
+* **shadcn:** lighter overlay for dialog & sheet ([319b2c1](https://github.com/louiskhenghao/crudx/commit/319b2c1da50d1ce38ed8591119e98d2513138c0a))
+
 ## [0.0.1](https://github.com/louiskhenghao/crudx/compare/shadcn@0.0.0...shadcn@0.0.1) (2026-04-21)
 
 
