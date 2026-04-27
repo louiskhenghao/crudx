@@ -29,6 +29,16 @@ const nextConfig = {
     // For other options, see https://nextjs.org/docs/architecture/nextjs-compiler#emotion
     emotion: true,
   },
+  // Render docs by importing raw .md content (CONTRIBUTING.md, the
+  // adapters guide, etc.) and feeding it to `react-markdown`. The
+  // `asset/source` rule turns each `.md` import into its UTF-8 string.
+  webpack(config) {
+    config.module.rules.push({
+      test: /\.md$/,
+      type: 'asset/source',
+    });
+    return config;
+  },
 };
 
 const plugins = [

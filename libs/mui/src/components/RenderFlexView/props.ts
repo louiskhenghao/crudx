@@ -1,19 +1,33 @@
-import { GridProps } from '@mui/material/Grid';
+import { BoxProps } from '@mui/material/Box';
 
 /**
  * ===========================
  * MAIN
  * ===========================
+ *
+ * The original surface mirrored MUI v5 `GridProps`. Since v5 `Grid` was
+ * deprecated upstream (renamed `Grid2` in v6, breaking prop API), this
+ * lib's flex rows now render through `Box` + flexbox instead.
+ *
+ * The breakpoint props (`xs`/`sm`/`md`/`lg`/`xl`) are still accepted as
+ * 1–12 column counts and translated into responsive `width` values, so
+ * existing consumers keep working.
  */
-export type GridFlexRowType = Omit<
-  GridProps,
-  'item' | 'container' | 'children'
->;
+type Breakpoints = {
+  xs?: number;
+  sm?: number;
+  md?: number;
+  lg?: number;
+  xl?: number;
+};
 
-export type GridFlexItemType = Omit<
-  GridProps,
-  'item' | 'container' | 'spacing' | 'columns'
->;
+export type GridFlexRowType = Omit<BoxProps, 'children'> &
+  Breakpoints & {
+    /** Spacing in MUI theme units between items in this row. Default: 2. */
+    spacing?: number;
+  };
+
+export type GridFlexItemType = BoxProps & Breakpoints;
 
 export type RenderFlexViewProps = {
   /**

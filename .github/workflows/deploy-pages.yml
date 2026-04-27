@@ -29,15 +29,6 @@ jobs:
 
       - run: yarn install --frozen-lockfile
 
-      # `apps/example/src/pages/test-crud{,-shadcn}.tsx` are local-only
-      # dev fixtures that import codegen output for private localhost
-      # GraphQL schemas. Strip them so the public build doesn't fail on
-      # the missing modules.
-      - name: Strip local-only demo pages
-        run: |
-          rm -f apps/example/src/pages/test-crud.tsx
-          rm -f apps/example/src/pages/test-crud-shadcn.tsx
-
       - name: Build + export Next.js static site
         run: yarn nx run example:export
         env:
