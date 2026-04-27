@@ -207,8 +207,8 @@ export const getStaticPaths: GetStaticPaths = async () => ({
 });
 
 export const getStaticProps: GetStaticProps<Props> = async ({ params }) => {
-  const slug = params!.slug as DocSlug;
-  const meta = DOCS[slug];
+  const slug = params?.slug as DocSlug | undefined;
+  const meta = slug ? DOCS[slug] : undefined;
   if (!meta) return { notFound: true };
   return { props: { meta } };
 };

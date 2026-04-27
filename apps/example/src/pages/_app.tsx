@@ -1,4 +1,6 @@
+import { LinkProvider } from '@crudx/common';
 import Head from 'next/head';
+import NextLink from 'next/link';
 
 import 'animate.css';
 import 'react-perfect-scrollbar/dist/css/styles.css';
@@ -8,7 +10,7 @@ const MyApp = (props) => {
   const { Component, pageProps } = props;
 
   return (
-    <>
+    <LinkProvider Link={NextLink as any}>
       <Head>
         <meta
           name="viewport"
@@ -17,7 +19,7 @@ const MyApp = (props) => {
         <title>Crudx Example</title>
       </Head>
       <Component {...pageProps} />
-    </>
+    </LinkProvider>
   );
 };
 

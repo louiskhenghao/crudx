@@ -5,17 +5,13 @@
  * published artifacts.
  */
 
-import dynamic from 'next/dynamic';
-import { GetStaticPaths, GetStaticProps } from 'next';
 import { ArrowLeft } from 'lucide-react';
+import { GetStaticPaths, GetStaticProps } from 'next';
+import dynamic from 'next/dynamic';
 import Link from 'next/link';
 
 import { AppBar } from '../../components';
-import {
-  PRESETS,
-  Preset,
-  PresetSlug,
-} from '../../data/playground-presets';
+import { Preset, PRESETS, PresetSlug } from '../../data/playground-presets';
 
 // Sandpack ships its own Monaco-style editor and pulls in a fair bit
 // of code; load it client-side only so it doesn't bloat the initial
@@ -70,8 +66,8 @@ export const getStaticPaths: GetStaticPaths = async () => ({
 });
 
 export const getStaticProps: GetStaticProps<Props> = async ({ params }) => {
-  const slug = params!.slug as PresetSlug;
-  const preset = PRESETS[slug];
+  const slug = params?.slug as PresetSlug | undefined;
+  const preset = slug ? PRESETS[slug] : undefined;
   if (!preset) return { notFound: true };
   return { props: { preset } };
 };

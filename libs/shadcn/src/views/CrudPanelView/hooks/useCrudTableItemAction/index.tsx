@@ -1,4 +1,5 @@
 import { ReactNode, useMemo } from 'react';
+import { Link } from '@crudx/common';
 import {
   CrudCommonActionNode,
   CrudCommonActions,
@@ -11,7 +12,6 @@ import {
   Pencil,
   Trash2,
 } from 'lucide-react';
-import Link from 'next/link';
 import includes from 'lodash/includes';
 import isNil from 'lodash/isNil';
 import startCase from 'lodash/startCase';

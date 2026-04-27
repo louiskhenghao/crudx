@@ -1,6 +1,6 @@
 import { memo } from 'react';
+import { Link as NextLink } from '@crudx/common';
 import { ChevronLeft } from 'lucide-react';
-import NextLink from 'next/link';
 
 import { cn } from '../../lib/cn';
 import { BreadcrumbView } from '../../components/BreadcrumbView';
