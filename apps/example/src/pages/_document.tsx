@@ -1,6 +1,4 @@
 import { Children } from 'react';
-import createEmotionServer from '@emotion/server/create-instance';
-import { createEmotionCache } from '@webbyx/mui';
 import Document, {
   DocumentContext,
   DocumentInitialProps,
@@ -20,8 +18,6 @@ export default class CustomDocument extends Document {
     ctx: DocumentContext
   ): Promise<DocumentInitialProps> {
     const originalRenderPage = ctx.renderPage;
-    const cache = createEmotionCache();
-    const { extractCriticalToChunks } = createEmotionServer(cache);
 
     ctx.renderPage = () =>
       originalRenderPage({
@@ -30,26 +26,15 @@ export default class CustomDocument extends Document {
             <App
               // eslint-disable-next-line @typescript-eslint/ban-ts-comment
               {...props} // @ts-ignore
-              emotionCache={cache}
             />
           ),
       });
 
     const initialProps = await Document.getInitialProps(ctx);
-    const emotionStyles = extractCriticalToChunks(initialProps.html);
-    const emotionStyleTags = emotionStyles.styles.map((style) => {
-      return (
-        <style
-          key={style.key}
-          dangerouslySetInnerHTML={{ __html: style.css }}
-          data-emotion={`${style.key} ${style.ids.join(' ')}`}
-        />
-      );
-    });
 
     return {
       ...initialProps,
-      styles: [...Children.toArray(initialProps.styles), ...emotionStyleTags],
+      styles: [...Children.toArray(initialProps.styles)],
     };
   }
 
