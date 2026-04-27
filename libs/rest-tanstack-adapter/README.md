@@ -6,11 +6,18 @@ by [`@tanstack/react-query`](https://tanstack.com/query/latest).
 ## Install
 
 ```bash
-yarn add @crudx/rest-tanstack-adapter @crudx/core @tanstack/react-query
+yarn add @crudx/rest-tanstack-adapter @crudx/core @crudx/common \
+  react react-dom \
+  axios currency-symbol-map dayjs lodash numeral \
+  @tanstack/react-query
 ```
 
 `@tanstack/react-query` is a peer dependency — wrap your app in a
 `QueryClientProvider` as you would for any TanStack Query usage.
+Everything from `react` onward is a peer too — `@crudx/{core,common}`'s
+helpers (date / currency / numeric formatters, axios, lodash) come
+from there. Yarn 1 doesn't auto-install peers, so install them all
+explicitly.
 
 ## Usage
 

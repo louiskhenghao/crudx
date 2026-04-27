@@ -13,6 +13,13 @@
     "rest"
   ],
   "peerDependencies": {
-    "@crudx/common": "^0.0.27"
+    "@crudx/common": "^1.0.0",
+    "axios": "^1.0.0",
+    "currency-symbol-map": "^5.0.0",
+    "dayjs": "^1.11.0",
+    "lodash": "^4.0.0",
+    "numeral": "^2.0.0",
+    "react": ">=17",
+    "react-dom": ">=17"
   }
 }

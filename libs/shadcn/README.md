@@ -9,7 +9,16 @@ engine.
 ## Install
 
 ```sh
-yarn add @crudx/shadcn @crudx/core @crudx/common
+yarn add @crudx/shadcn @crudx/core @crudx/common \
+  react react-dom \
+  axios currency-symbol-map dayjs lodash numeral \
+  @tanstack/react-table \
+  @radix-ui/react-checkbox @radix-ui/react-collapsible @radix-ui/react-dialog \
+  @radix-ui/react-dropdown-menu @radix-ui/react-label @radix-ui/react-popover \
+  @radix-ui/react-select @radix-ui/react-separator @radix-ui/react-slot \
+  @radix-ui/react-tabs @radix-ui/react-tooltip \
+  class-variance-authority classnames clsx lucide-react tailwind-merge \
+  react-hot-toast
 
 # plus a transport adapter — choose one:
 yarn add @crudx/graphql-apollo-adapter @apollo/client graphql
@@ -17,8 +26,15 @@ yarn add @crudx/graphql-apollo-adapter @apollo/client graphql
 yarn add @crudx/rest-tanstack-adapter @tanstack/react-query
 ```
 
-Peer runtime: `react`, `react-dom`, `@tanstack/react-table`, `@radix-ui/*`,
-`class-variance-authority`, `clsx`, `tailwind-merge`, `lucide-react`.
+Everything above is a peer dependency. Group by row: `@crudx/*` core,
+React, `@crudx/{core,common}` helpers, the table engine, the 11 Radix
+primitives the shadcn surface composes from, and the small utility
+set. Yarn 1 doesn't auto-install peer deps — install them explicitly.
+
+`@crudx/shadcn` no longer pulls in `next/link` directly — to keep
+client-side routing under Next.js, React Router, etc. wrap your app
+once with `<LinkProvider Link={...} />` from `@crudx/common`.
+See [`@crudx/common`](../common#readme) for usage.
 
 The transport choice only affects the schema slots fed into `CrudPanelView`;
 the component surface itself is transport-neutral. See the [main README](https://github.com/louiskhenghao/crudx#available-packages)

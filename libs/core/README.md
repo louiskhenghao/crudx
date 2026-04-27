@@ -21,13 +21,33 @@ for the naming convention and the build-your-own adapter guide.
 
 ## Installation
 
+`@crudx/core` and `@crudx/common` declare their runtime helpers as
+**peer dependencies** (currency / date / numeric formatters, axios,
+lodash) so consumers control versions. Install everything in one go:
+
 ```bash
-yarn add @crudx/core @crudx/common react react-dom
-# plus a transport adapter — choose one:
+# core + common + their peers
+yarn add @crudx/core @crudx/common \
+  react react-dom \
+  axios currency-symbol-map dayjs lodash numeral
+```
+
+Then add a transport adapter — either GraphQL (Apollo) or REST
+(TanStack Query). Each adapter inherits core's peers, so its install
+command is mostly the adapter-specific bits:
+
+```bash
+# GraphQL via Apollo
 yarn add @crudx/graphql-apollo-adapter @apollo/client graphql
-# or:
+
+# OR — REST via TanStack Query
 yarn add @crudx/rest-tanstack-adapter @tanstack/react-query
 ```
+
+> Yarn 1 doesn't auto-install peer dependencies. The exhaustive lists
+> above are intentional — copy/paste avoids mid-build "Could not find
+> dependency" errors. If you use npm 7+ or pnpm, peer auto-install
+> covers most of these for you.
 
 ---
 

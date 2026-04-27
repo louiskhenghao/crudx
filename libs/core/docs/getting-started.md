@@ -19,25 +19,44 @@ adapter / UI package is the cheapest way in.
 
 ## 2. Install
 
+All `@crudx/*` runtime helpers (date / currency / numeric formatters,
+axios, lodash, …) are peer dependencies — the libs don't bundle them
+so you control versions. Yarn 1 doesn't auto-install peer deps, so the
+commands below are intentionally exhaustive.
+
 REST + shadcn:
 
 ```bash
 yarn add @crudx/core @crudx/common \
-         @crudx/rest-tanstack-adapter @tanstack/react-query \
-         @crudx/shadcn react-hot-toast lodash classnames
+  @crudx/rest-tanstack-adapter @crudx/shadcn \
+  react react-dom \
+  axios currency-symbol-map dayjs lodash numeral \
+  @tanstack/react-query @tanstack/react-table \
+  @radix-ui/react-checkbox @radix-ui/react-collapsible @radix-ui/react-dialog \
+  @radix-ui/react-dropdown-menu @radix-ui/react-label @radix-ui/react-popover \
+  @radix-ui/react-select @radix-ui/react-separator @radix-ui/react-slot \
+  @radix-ui/react-tabs @radix-ui/react-tooltip \
+  class-variance-authority classnames clsx lucide-react tailwind-merge \
+  react-hot-toast
 ```
 
 GraphQL + MUI:
 
 ```bash
 yarn add @crudx/core @crudx/common \
-         @crudx/graphql-apollo-adapter @apollo/client graphql \
-         @crudx/mui @mui/material @mui/icons-material \
-         @emotion/react @emotion/styled react-hot-toast lodash classnames
+  @crudx/graphql-apollo-adapter @crudx/mui \
+  react react-dom \
+  axios currency-symbol-map dayjs lodash numeral \
+  @apollo/client graphql \
+  @mui/material @mui/icons-material @emotion/react @emotion/styled \
+  classnames react-hot-toast
 ```
 
 The transport adapter and the UI library are both consumer-driven peer
 deps — `@crudx/*` won't bundle Apollo, TanStack Query, MUI, or Radix.
+Each package's `peerDependencies` lists everything it needs at runtime;
+running `yarn add` against a single `@crudx/*` package will surface a
+warning for any missing peer.
 
 ## 3. Provide the transport context
 

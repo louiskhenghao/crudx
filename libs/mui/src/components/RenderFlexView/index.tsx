@@ -46,7 +46,7 @@ const stripGridLegacyProps = <T extends Record<string, unknown>>(
  *
  * Layout helper that mirrors the legacy `Grid container/item` ergonomics
  * but renders through `Box` + flexbox so it stays compatible with
- * `@mui/material` v5 (where v5 `Grid` is deprecated), v6, and v7.
+ * `@mui/material` v5 (where v5 `Grid` is deprecated) through v9.
  *
  * The `xs`/`sm`/`md`/`lg`/`xl` numeric props are preserved and mapped
  * onto a responsive `width` value. New code should compose `Box` /

@@ -9,5 +9,13 @@
     "react-components",
     "hooks",
     "utility"
-  ]
+  ],
+  "peerDependencies": {
+    "currency-symbol-map": "^5.0.0",
+    "dayjs": "^1.11.0",
+    "lodash": "^4.0.0",
+    "numeral": "^2.0.0",
+    "react": ">=17",
+    "react-dom": ">=17"
+  }
 }

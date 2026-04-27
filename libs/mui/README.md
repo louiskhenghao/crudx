@@ -14,14 +14,28 @@ swap the import to switch UI stacks.
 
 ```bash
 yarn add @crudx/mui @crudx/core @crudx/common \
+  react react-dom \
+  axios currency-symbol-map dayjs lodash numeral \
   @mui/material @mui/icons-material @emotion/react @emotion/styled \
-  react react-dom react-hot-toast lodash classnames
+  classnames react-hot-toast
 
 # plus a transport adapter — choose one:
 yarn add @crudx/graphql-apollo-adapter @apollo/client graphql
 # or:
 yarn add @crudx/rest-tanstack-adapter @tanstack/react-query
 ```
+
+Everything in the first command is a peer dependency. The first row is
+the `@crudx/*` packages; the second row covers `@crudx/{core,common}`'s
+helpers (date / currency / numeric formatters, axios, lodash); the
+third is the MUI + Emotion stack; the fourth is the small utilities
+this package uses directly. Yarn 1 doesn't auto-install peer deps, so
+install them explicitly.
+
+`@crudx/mui` no longer pulls in `next/link` directly — to keep
+client-side routing under Next.js, React Router, etc. wrap your app
+once with `<LinkProvider Link={...} />` from `@crudx/common`.
+See [`@crudx/common`](../common#readme) for usage.
 
 The transport choice only affects the schema slots fed into `CrudPanelView`;
 the component surface itself is transport-neutral.

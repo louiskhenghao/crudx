@@ -11,11 +11,17 @@ explicit at the call site.
 ## Install
 
 ```bash
-yarn add @crudx/graphql-apollo-adapter @crudx/core @apollo/client graphql
+yarn add @crudx/graphql-apollo-adapter @crudx/core @crudx/common \
+  react react-dom \
+  axios currency-symbol-map dayjs lodash numeral \
+  @apollo/client graphql
 ```
 
-`@apollo/client` and `graphql` are peer dependencies so the adapter
-shares the consumer's Apollo client.
+Everything from `react` onward is a peer dependency. `@apollo/client`
+and `graphql` are required so the adapter shares your existing Apollo
+client; the rest come from `@crudx/{core,common}`'s helpers (date /
+currency / numeric formatters, axios, lodash). Yarn 1 won't pull peer
+deps automatically — install them all explicitly.
 
 ## Usage
 

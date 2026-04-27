@@ -4,7 +4,7 @@ Render rows of flex items from a flat config. Originally a thin wrapper
 around MUI v5's `Grid container/item` API; since v5 `Grid` was
 deprecated upstream (renamed `Grid2` in v6, breaking prop API), this
 component now renders through `Box` + flexbox so it works on
-`@mui/material` v5, v6, and v7.
+`@mui/material` v5, v6, v7, v8, and v9.
 
 The `xs`/`sm`/`md`/`lg`/`xl` numeric props are still accepted as 1–12
 column counts and translated into a responsive `width` value, so
