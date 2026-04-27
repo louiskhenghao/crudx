@@ -30,49 +30,109 @@ export type Preset = {
 const CRUDX_VERSION = '^1.0.0';
 
 /**
- * Inline `<style>` block holding the shadcn theme variables. Pasted
- * straight into the Sandpack `index.html` for the shadcn presets. We
- * also load Tailwind via the Play CDN so the classnames the lib emits
- * actually render — Tailwind normally runs on the consumer side.
+ * shadcn classnames (`bg-background`, `border-border`, …) need
+ * Tailwind's `colors.<token> = 'hsl(var(--<token>))'` extension AND
+ * the shadcn CSS variables on `:root`. Earlier attempts overrode
+ * `/public/index.html` with `<script src="cdn.tailwindcss.com">` +
+ * inline config; Sandpack's react-ts template didn't pick it up
+ * reliably (Play CDN never initialised, classes rendered with no
+ * colour at all).
+ *
+ * We now bootstrap from the entry script: load the Play CDN, set
+ * `tailwind.config`, append a `<style type="text/tailwindcss">` with
+ * the variables, then mount React. Deterministic — no HTML override.
  */
-const SHADCN_TAILWIND_HTML = `<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Crudx playground</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-      @layer base {
-        :root {
-          --background: 0 0% 100%;
-          --foreground: 222.2 47.4% 11.2%;
-          --muted: 210 40% 96.1%;
-          --muted-foreground: 215.4 16.3% 46.9%;
-          --popover: 0 0% 100%;
-          --popover-foreground: 222.2 47.4% 11.2%;
-          --card: 0 0% 100%;
-          --card-foreground: 222.2 47.4% 11.2%;
-          --border: 214.3 31.8% 91.4%;
-          --input: 214.3 31.8% 91.4%;
-          --primary: 222.2 47.4% 11.2%;
-          --primary-foreground: 210 40% 98%;
-          --secondary: 210 40% 96.1%;
-          --secondary-foreground: 222.2 47.4% 11.2%;
-          --accent: 210 40% 96.1%;
-          --accent-foreground: 222.2 47.4% 11.2%;
-          --destructive: 0 100% 50%;
-          --destructive-foreground: 210 40% 98%;
-          --ring: 215 20.2% 65.1%;
-          --radius: 0.5rem;
-        }
-      }
-    </style>
-  </head>
-  <body>
-    <div id="root"></div>
-  </body>
-</html>
+const SHADCN_TAILWIND_BOOTSTRAP = `const TAILWIND_CONFIG = {
+  darkMode: 'class',
+  theme: {
+    extend: {
+      colors: {
+        border: 'hsl(var(--border))',
+        input: 'hsl(var(--input))',
+        ring: 'hsl(var(--ring))',
+        background: 'hsl(var(--background))',
+        foreground: 'hsl(var(--foreground))',
+        primary: {
+          DEFAULT: 'hsl(var(--primary))',
+          foreground: 'hsl(var(--primary-foreground))',
+        },
+        secondary: {
+          DEFAULT: 'hsl(var(--secondary))',
+          foreground: 'hsl(var(--secondary-foreground))',
+        },
+        destructive: {
+          DEFAULT: 'hsl(var(--destructive))',
+          foreground: 'hsl(var(--destructive-foreground))',
+        },
+        muted: {
+          DEFAULT: 'hsl(var(--muted))',
+          foreground: 'hsl(var(--muted-foreground))',
+        },
+        accent: {
+          DEFAULT: 'hsl(var(--accent))',
+          foreground: 'hsl(var(--accent-foreground))',
+        },
+        popover: {
+          DEFAULT: 'hsl(var(--popover))',
+          foreground: 'hsl(var(--popover-foreground))',
+        },
+        card: {
+          DEFAULT: 'hsl(var(--card))',
+          foreground: 'hsl(var(--card-foreground))',
+        },
+      },
+      borderRadius: {
+        lg: 'var(--radius)',
+        md: 'calc(var(--radius) - 2px)',
+        sm: 'calc(var(--radius) - 4px)',
+      },
+    },
+  },
+};
+
+const SHADCN_VARS = \`@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222.2 47.4% 11.2%;
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 47.4% 11.2%;
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 47.4% 11.2%;
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --primary: 222.2 47.4% 11.2%;
+    --primary-foreground: 210 40% 98%;
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 222.2 47.4% 11.2%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+    --ring: 215 20.2% 65.1%;
+    --radius: 0.5rem;
+  }
+}\`;
+
+function loadTailwind() {
+  return new Promise<void>((resolve) => {
+    const script = document.createElement('script');
+    script.src = 'https://cdn.tailwindcss.com';
+    script.onload = () => {
+      // Configure Tailwind BEFORE any React render kicks in so the
+      // MutationObserver picks up shadcn's classnames as they're
+      // added to the DOM.
+      (window as any).tailwind.config = TAILWIND_CONFIG;
+      const style = document.createElement('style');
+      style.setAttribute('type', 'text/tailwindcss');
+      style.textContent = SHADCN_VARS;
+      document.head.appendChild(style);
+      resolve();
+    };
+    document.head.appendChild(script);
+  });
+}
 `;
 
 const MUI_INDEX_TSX = `import { createRoot } from 'react-dom/client';
@@ -81,7 +141,14 @@ import App from './App';
 createRoot(document.getElementById('root')!).render(<App />);
 `;
 
-const SHADCN_INDEX_TSX = MUI_INDEX_TSX;
+const SHADCN_INDEX_TSX = `${SHADCN_TAILWIND_BOOTSTRAP}
+import { createRoot } from 'react-dom/client';
+import App from './App';
+
+loadTailwind().then(() => {
+  createRoot(document.getElementById('root')!).render(<App />);
+});
+`;
 
 const MUI_TABLE_APP = `import { useState } from 'react';
 import { Table } from '@crudx/mui';
@@ -312,10 +379,11 @@ export default withQuery(PostsPanel);
  * Sandpack's React template doesn't auto-install peer deps, so we
  * spread these into every preset.
  *
- * From `@crudx/common`'s rollup `external` list (so they're not
- * bundled into common.esm.js):
+ * Mirrored from each lib's rollup `external` list (the source of truth
+ * for what consumers have to provide):
  *
- *   currency-symbol-map, dayjs, lodash, numeral
+ *   `@crudx/core`   → axios + the common set below
+ *   `@crudx/common` → currency-symbol-map, dayjs, lodash, numeral
  *
  * Plus `next` — the currently-published 1.0.0 bundles of `@crudx/mui`
  * and `@crudx/shadcn` still import `next/link`. The LinkProvider
@@ -323,6 +391,7 @@ export default withQuery(PostsPanel);
  * can drop `next` from this list.
  */
 const TRANSITIVE_PEERS = {
+  axios: '^1.6.0',
   'currency-symbol-map': '^5.1.0',
   dayjs: '^1.11.0',
   lodash: '^4.17.0',
@@ -398,11 +467,10 @@ export const PRESETS: Record<PresetSlug, Preset> = {
     slug: 'shadcn-table',
     title: 'shadcn · Table',
     description:
-      'Standalone Table component from @crudx/shadcn. Tailwind via the Play CDN, shadcn theme variables inlined into index.html.',
+      'Standalone Table component from @crudx/shadcn. Tailwind Play CDN + shadcn theme variables bootstrapped from index.tsx.',
     ui: 'shadcn',
     kind: 'component',
     files: {
-      '/public/index.html': SHADCN_TAILWIND_HTML,
       '/index.tsx': SHADCN_INDEX_TSX,
       '/App.tsx': SHADCN_TABLE_APP,
     },
@@ -430,7 +498,6 @@ export const PRESETS: Record<PresetSlug, Preset> = {
     ui: 'shadcn',
     kind: 'crud',
     files: {
-      '/public/index.html': SHADCN_TAILWIND_HTML,
       '/index.tsx': SHADCN_INDEX_TSX,
       '/crud.tsx': CRUD_REST_HOOK,
       '/App.tsx': SHADCN_CRUD_APP,
