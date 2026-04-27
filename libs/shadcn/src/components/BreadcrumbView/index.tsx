@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react';
-import NextLink from 'next/link';
+import { Link as NextLink } from '@crudx/common';
 
 import { cn } from '../../lib/cn';
 

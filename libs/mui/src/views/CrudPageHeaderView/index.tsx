@@ -1,11 +1,11 @@
 import { memo } from 'react';
+import { Link as CrudLink } from '@crudx/common';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import Box from '@mui/material/Box';
 import Link from '@mui/material/Link';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import cn from 'classnames';
-import NextLink from 'next/link';
 
 import { BreadcrumbView } from '../../components/BreadcrumbView';
 import { RenderNodeView } from '../../components/RenderNodeView';
@@ -82,7 +82,7 @@ export const CrudPageHeaderView = memo((props: CrudPageHeaderViewProps) => {
               <Link
                 className="crud-page-header-title-back"
                 sx={{ display: 'flex', alignItems: 'center' }}
-                component={NextLink}
+                component={CrudLink}
                 href={backPath}
                 {...backPathProps}
               >

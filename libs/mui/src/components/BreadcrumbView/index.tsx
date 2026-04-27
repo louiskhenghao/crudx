@@ -1,9 +1,9 @@
 import React from 'react';
+import { Link as CrudLink } from '@crudx/common';
 import Breadcrumbs from '@mui/material/Breadcrumbs';
 import Link from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
 import cn from 'classnames';
-import NextLink from 'next/link';
 
 import { BreadcrumbViewProps } from './props';
 import { StyledChip } from './styled';
@@ -43,7 +43,7 @@ export const BreadcrumbView: React.FC<BreadcrumbViewProps> = (props) => {
                 key={i}
                 href={url}
                 color="inherit"
-                component={NextLink}
+                component={CrudLink}
                 {...linkProps}
               >
                 <StyledChip icon={icon} label={label} {...chipProps} />
@@ -84,7 +84,7 @@ export const BreadcrumbView: React.FC<BreadcrumbViewProps> = (props) => {
             sx={{ display: 'flex', alignItems: 'center' }}
             color="inherit"
             underline="hover"
-            component={NextLink}
+            component={CrudLink}
             {...linkProps}
           >
             {icon}

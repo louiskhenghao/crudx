@@ -1,4 +1,5 @@
 import { ReactNode, useMemo } from 'react';
+import { Link } from '@crudx/common';
 import {
   CrudCommonActionNode,
   CrudCommonActions,
@@ -18,7 +19,6 @@ import cn from 'classnames';
 import includes from 'lodash/includes';
 import isNil from 'lodash/isNil';
 import startCase from 'lodash/startCase';
-import Link from 'next/link';
 
 import { TooltipView } from '../../../../components/TooltipView';
 
