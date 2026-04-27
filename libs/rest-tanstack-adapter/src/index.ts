@@ -511,3 +511,5 @@ export const restCursorPagination = (
     },
   };
 };
+
+export * from './adapter';
