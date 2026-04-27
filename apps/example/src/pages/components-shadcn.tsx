@@ -29,7 +29,7 @@ import {
 } from '@crudx/shadcn';
 import { Edit, Heart, Home } from 'lucide-react';
 
-import { ShadcnAppBar } from '../components';
+import { AppBar } from '../components';
 
 type Row = { id: number; name: string; role: string; salary: number };
 
@@ -314,7 +314,7 @@ function TabViewDemo() {
 export function ComponentsShadcnPage() {
   return (
     <div className="min-h-screen bg-background text-foreground">
-      <ShadcnAppBar context="@crudx/shadcn · Components" />
+      <AppBar context="@crudx/shadcn · Components" />
       <main className="mx-auto max-w-6xl px-4 py-8 md:py-12">
         <div className="mb-10 flex flex-col gap-3">
           <span className="self-start rounded-full border border-border px-2.5 py-0.5 text-xs font-medium text-muted-foreground">

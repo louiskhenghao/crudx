@@ -1,4 +1,2 @@
-export * from './DemoAppBar';
+export * from './AppBar';
 export * from './JsonView';
-export * from './ShadcnAppBar';
-export * from './ShadcnJsonView';

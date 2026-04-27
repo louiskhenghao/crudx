@@ -31,7 +31,7 @@ import {
 } from '@crudx/graphql';
 import { CrudPanelView, Dialog } from '@crudx/shadcn';
 
-import { ShadcnAppBar, ShadcnJsonView } from '../components';
+import { AppBar, JsonView } from '../components';
 
 /**
  * --------------------------
@@ -429,7 +429,7 @@ function PostsPanel() {
       }}
       renderDetailsView={(nodeProps) => (
         <div className="p-4">
-          <ShadcnJsonView
+          <JsonView
             data={nodeProps?.data ?? {}}
             loading={nodeProps.loading}
             title="Post"
@@ -445,7 +445,7 @@ export function Index() {
 
   return (
     <ApolloProvider client={client}>
-      <ShadcnAppBar context="GraphQL CRUD · shadcn" />
+      <AppBar context="GraphQL CRUD · shadcn" />
       <div className="px-4 py-6 md:px-8">
         <PostsPanel />
       </div>

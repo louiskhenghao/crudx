@@ -2,54 +2,37 @@
  * JsonView
  * --------------------------------
  *
- * Pretty-printed JSON panel used inside `renderDetailsView` on the
- * demo pages. Renders a syntax-highlighted code block with keys,
- * strings, numbers, booleans and `null` in distinct colours, plus a
- * "Copy" affordance and graceful loading / empty states.
+ * Framework-neutral JSON code panel used inside `renderDetailsView`
+ * across every demo page (MUI and shadcn alike). Plain HTML + Tailwind
+ * — no MUI, no shadcn primitives — so the same component works on
+ * either rendering surface.
  *
- * Hand-rolled tokeniser (no dep on a syntax-highlighter package) —
- * the input is `JSON.stringify` output, which is a small and well-
- * defined grammar.
+ * Hand-rolled tokeniser; no syntax-highlighter dep.
  */
 
 import { Fragment, ReactNode, useMemo, useState } from 'react';
-import ContentCopyIcon from '@mui/icons-material/ContentCopy';
-import {
-  Box,
-  CircularProgress,
-  IconButton,
-  Stack,
-  Tooltip,
-  Typography,
-} from '@mui/material';
+import { Check, Copy } from 'lucide-react';
 
 export type JsonViewProps = {
   /** The value to render. Anything `JSON.stringify` accepts. */
   data: unknown;
   /** Loading state — shows a spinner instead of the JSON. */
   loading?: boolean;
-  /** Extra header rendered to the right of the title. */
+  /** Extra header content rendered to the right of the title. */
   headerActions?: ReactNode;
   /** Title shown in the header bar. */
   title?: string;
 };
 
-const TOKEN_COLORS = {
-  key: '#9333EA', // purple
-  string: '#16A34A', // green
-  number: '#EA580C', // orange
-  boolean: '#2563EB', // blue
-  null: '#737373', // gray
-  punctuation: '#52525B', // slate
-} as const;
+const TOKEN_CLASS: Record<string, string> = {
+  key: 'text-fuchsia-600 font-semibold',
+  string: 'text-emerald-600',
+  number: 'text-orange-600',
+  boolean: 'text-blue-600',
+  null: 'text-zinc-400',
+  punctuation: 'text-zinc-500',
+};
 
-/**
- * Walk the JSON.stringify output and emit `{ type, value }` tokens
- * we can colour-code. Strings and keys are detected by tracking
- * whether we're inside a string literal and whether the next
- * non-whitespace char after the closing quote is `:` (key) or
- * something else (string value).
- */
 type Token =
   | { type: 'key'; value: string }
   | { type: 'string'; value: string }
@@ -65,7 +48,6 @@ function tokenize(json: string): Token[] {
   while (i < json.length) {
     const ch = json[i];
 
-    // string literal
     if (ch === '"') {
       let j = i + 1;
       while (j < json.length) {
@@ -77,7 +59,6 @@ function tokenize(json: string): Token[] {
         j += 1;
       }
       const value = json.slice(i, j + 1);
-      // peek past whitespace to decide key vs string
       let k = j + 1;
       while (k < json.length && /\s/.test(json[k])) k += 1;
       const isKey = json[k] === ':';
@@ -86,7 +67,6 @@ function tokenize(json: string): Token[] {
       continue;
     }
 
-    // number
     if (/[-0-9]/.test(ch)) {
       let j = i;
       while (j < json.length && /[-0-9.eE+]/.test(json[j])) j += 1;
@@ -95,7 +75,6 @@ function tokenize(json: string): Token[] {
       continue;
     }
 
-    // true / false
     if (json.startsWith('true', i) || json.startsWith('false', i)) {
       const value = json.startsWith('true', i) ? 'true' : 'false';
       tokens.push({ type: 'boolean', value });
@@ -103,14 +82,12 @@ function tokenize(json: string): Token[] {
       continue;
     }
 
-    // null
     if (json.startsWith('null', i)) {
       tokens.push({ type: 'null', value: 'null' });
       i += 4;
       continue;
     }
 
-    // whitespace (preserve newlines + indent so output is readable)
     if (/\s/.test(ch)) {
       let j = i;
       while (j < json.length && /\s/.test(json[j])) j += 1;
@@ -119,48 +96,10 @@ function tokenize(json: string): Token[] {
       continue;
     }
 
-    // punctuation: { } [ ] : ,
     tokens.push({ type: 'punctuation', value: ch });
     i += 1;
   }
   return tokens;
-}
-
-function HighlightedJson({ value }: { value: string }) {
-  const tokens = useMemo(() => tokenize(value), [value]);
-  return (
-    <Box
-      component="pre"
-      sx={{
-        m: 0,
-        fontFamily:
-          '"JetBrains Mono", "Fira Code", "SF Mono", Menlo, Consolas, monospace',
-        fontSize: 13,
-        lineHeight: 1.55,
-        whiteSpace: 'pre',
-        overflow: 'auto',
-      }}
-    >
-      <code>
-        {tokens.map((tok, idx) => {
-          if (tok.type === 'whitespace') {
-            return <Fragment key={idx}>{tok.value}</Fragment>;
-          }
-          return (
-            <span
-              key={idx}
-              style={{
-                color: TOKEN_COLORS[tok.type],
-                fontWeight: tok.type === 'key' ? 600 : 400,
-              }}
-            >
-              {tok.value}
-            </span>
-          );
-        })}
-      </code>
-    </Box>
-  );
 }
 
 export function JsonView({
@@ -173,11 +112,13 @@ export function JsonView({
 
   const json = useMemo(() => {
     try {
-      return JSON.stringify(data, null, 2);
+      return JSON.stringify(data ?? {}, null, 2);
     } catch {
       return String(data);
     }
   }, [data]);
+
+  const tokens = useMemo(() => tokenize(json), [json]);
 
   const handleCopy = async () => {
     try {
@@ -192,96 +133,65 @@ export function JsonView({
   const isEmpty = data === null || data === undefined;
 
   return (
-    <Box
-      sx={{
-        borderRadius: 2,
-        border: 1,
-        borderColor: 'divider',
-        overflow: 'hidden',
-        bgcolor: '#FAFAFA',
-      }}
-    >
-      <Stack
-        direction="row"
-        alignItems="center"
-        justifyContent="space-between"
-        sx={{
-          px: 2,
-          py: 1,
-          borderBottom: 1,
-          borderColor: 'divider',
-          bgcolor: '#F4F4F5',
-        }}
-      >
-        <Stack direction="row" alignItems="center" spacing={1}>
-          <Box
-            sx={{
-              fontFamily: 'monospace',
-              fontSize: 11,
-              fontWeight: 700,
-              letterSpacing: 0.5,
-              color: 'text.secondary',
-              textTransform: 'uppercase',
-            }}
-          >
+    <div className="overflow-hidden rounded-md border border-zinc-200 bg-zinc-50">
+      <div className="flex items-center justify-between border-b border-zinc-200 bg-zinc-100 px-3 py-2">
+        <div className="flex items-center gap-2">
+          <span className="font-mono text-[11px] font-bold uppercase tracking-wider text-zinc-600">
             {title}
-          </Box>
+          </span>
           {!loading && !isEmpty ? (
-            <Box
-              sx={{
-                fontSize: 10,
-                fontFamily: 'monospace',
-                color: 'text.secondary',
-                bgcolor: 'background.paper',
-                border: 1,
-                borderColor: 'divider',
-                borderRadius: 0.75,
-                px: 0.75,
-                py: 0.125,
-              }}
-            >
+            <span className="rounded border border-zinc-200 bg-white px-1.5 py-0 font-mono text-[10px] text-zinc-600">
               JSON
-            </Box>
+            </span>
           ) : null}
-        </Stack>
-        <Stack direction="row" alignItems="center" spacing={0.5}>
+        </div>
+        <div className="flex items-center gap-1">
           {headerActions}
           {!loading && !isEmpty ? (
-            <Tooltip title={copied ? 'Copied!' : 'Copy JSON'}>
-              <IconButton
-                size="small"
-                onClick={handleCopy}
-                aria-label="Copy JSON"
-              >
-                <ContentCopyIcon fontSize="small" />
-              </IconButton>
-            </Tooltip>
+            <button
+              type="button"
+              onClick={handleCopy}
+              aria-label="Copy JSON"
+              className="grid h-7 w-7 place-items-center rounded text-zinc-600 hover:bg-zinc-200"
+              title={copied ? 'Copied!' : 'Copy JSON'}
+            >
+              {copied ? (
+                <Check className="h-3.5 w-3.5" />
+              ) : (
+                <Copy className="h-3.5 w-3.5" />
+              )}
+            </button>
           ) : null}
-        </Stack>
-      </Stack>
-      <Box sx={{ px: 2, py: 1.5, maxHeight: 480, overflow: 'auto' }}>
+        </div>
+      </div>
+      <div className="max-h-[480px] overflow-auto px-3 py-2">
         {loading ? (
-          <Stack
-            alignItems="center"
-            justifyContent="center"
-            sx={{ py: 4, gap: 1.5 }}
-          >
-            <CircularProgress size={22} />
-            <Typography variant="caption" color="text.secondary">
-              Loading…
-            </Typography>
-          </Stack>
+          <div className="flex flex-col items-center gap-2 py-8 text-sm text-zinc-500">
+            <span className="h-4 w-4 animate-spin rounded-full border-2 border-zinc-200 border-t-zinc-700" />
+            <span>Loading…</span>
+          </div>
         ) : isEmpty ? (
-          <Box sx={{ py: 4, textAlign: 'center' }}>
-            <Typography variant="caption" color="text.secondary">
-              No data to display.
-            </Typography>
-          </Box>
+          <div className="py-8 text-center text-xs text-zinc-500">
+            No data to display.
+          </div>
         ) : (
-          <HighlightedJson value={json} />
+          <pre className="m-0 whitespace-pre font-mono text-[13px] leading-[1.55]">
+            <code>
+              {tokens.map((tok, idx) => {
+                if (tok.type === 'whitespace') {
+                  return <Fragment key={idx}>{tok.value}</Fragment>;
+                }
+                return (
+                  <span key={idx} className={TOKEN_CLASS[tok.type]}>
+                    {tok.value}
+                  </span>
+                );
+              })}
+            </code>
+          </pre>
         )}
-      </Box>
-    </Box>
+      </div>
+    </div>
   );
 }
 

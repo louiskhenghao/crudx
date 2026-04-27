@@ -20,7 +20,7 @@ import {
 import { CrudPanelView, Dialog } from '@crudx/shadcn';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
-import { ShadcnAppBar, ShadcnJsonView } from '../components';
+import { AppBar, JsonView } from '../components';
 
 /**
  * --------------------------
@@ -323,7 +323,7 @@ function PostsPanel() {
       detailsViewType="drawer"
       renderDetailsView={(nodeProps) => (
         <div className="p-4">
-          <ShadcnJsonView
+          <JsonView
             data={nodeProps?.data ?? {}}
             loading={nodeProps.loading}
             title="Post"
@@ -347,7 +347,7 @@ export function Index() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <ShadcnAppBar context="REST CRUD · shadcn" />
+      <AppBar context="REST CRUD · shadcn" />
       <div className="px-4 py-6 md:px-8">
         <PostsPanel />
       </div>

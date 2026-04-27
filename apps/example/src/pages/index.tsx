@@ -1,31 +1,16 @@
 /**
  * Landing page for the @crudx example app.
  *
- * Replaces the original Nx-welcome boilerplate with a clean entry
- * point that explains what the project is and links into the
- * working CRUD demos.
+ * Plain HTML + Tailwind only — no MUI, no shadcn primitives — so the
+ * page is framework-neutral and stays in sync with the unified
+ * `AppBar` chrome shared by every demo.
  */
 
 import { ReactNode } from 'react';
-import ApiIcon from '@mui/icons-material/Api';
-import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
-import HubIcon from '@mui/icons-material/Hub';
-import LaunchIcon from '@mui/icons-material/Launch';
-import {
-  alpha,
-  Box,
-  Button,
-  Card,
-  CardActionArea,
-  CardContent,
-  Chip,
-  Container,
-  Stack,
-  Typography,
-} from '@mui/material';
+import { ArrowRight, ExternalLink, Network, Server } from 'lucide-react';
 import Link from 'next/link';
 
-import { DemoAppBar, REPO_URL } from '../components';
+import { AppBar, REPO_URL } from '../components';
 
 /**
  * --------------------------
@@ -70,7 +55,7 @@ const DEMOS: DemoCardProps[] = [
       'Apollo Client wired through @crudx/graphql against the public GraphQLZero API. Read, create, update, delete — all live, no auth.',
     packages: ['@crudx/core', '@crudx/graphql', '@crudx/mui'],
     href: '/test-crud-public-graphql',
-    icon: <HubIcon fontSize="large" />,
+    icon: <Network className="h-7 w-7" />,
     endpoint: 'graphqlzero.almansi.me/api',
   },
   {
@@ -81,7 +66,7 @@ const DEMOS: DemoCardProps[] = [
       'Same GraphQLZero CRUD flow, rendered through @crudx/shadcn (Tailwind + Radix). API-compatible with the MUI variant.',
     packages: ['@crudx/core', '@crudx/graphql', '@crudx/shadcn'],
     href: '/test-crud-public-graphql-shadcn',
-    icon: <HubIcon fontSize="large" />,
+    icon: <Network className="h-7 w-7" />,
     endpoint: 'graphqlzero.almansi.me/api',
   },
   {
@@ -92,7 +77,7 @@ const DEMOS: DemoCardProps[] = [
       'TanStack Query wired through @crudx/rest against the public JSONPlaceholder API. Mutations auto-invalidate the list cache via the adapter.',
     packages: ['@crudx/core', '@crudx/rest', '@crudx/mui'],
     href: '/test-crud-public-rest',
-    icon: <ApiIcon fontSize="large" />,
+    icon: <Server className="h-7 w-7" />,
     endpoint: 'jsonplaceholder.typicode.com',
   },
   {
@@ -103,7 +88,7 @@ const DEMOS: DemoCardProps[] = [
       'Same JSONPlaceholder CRUD flow, rendered through @crudx/shadcn (Tailwind + Radix). Drop-in alternative to the MUI variant.',
     packages: ['@crudx/core', '@crudx/rest', '@crudx/shadcn'],
     href: '/test-crud-public-rest-shadcn',
-    icon: <ApiIcon fontSize="large" />,
+    icon: <Server className="h-7 w-7" />,
     endpoint: 'jsonplaceholder.typicode.com',
   },
 ];
@@ -148,199 +133,111 @@ const PACKAGES: { name: string; description: string }[] = [
  */
 function UiPreview({ ui, transport }: { ui: Ui; transport: Transport }) {
   const transportColor = TRANSPORT_COLOR[transport];
+  const uiColor = UI_COLOR[ui];
 
   if (ui === 'MUI') {
     return (
-      <Box
-        sx={{
-          borderRadius: 2,
-          border: 1,
-          borderColor: alpha(UI_COLOR.MUI, 0.2),
-          bgcolor: alpha(UI_COLOR.MUI, 0.04),
-          p: 1.5,
-          display: 'flex',
-          flexDirection: 'column',
-          gap: 1,
+      <div
+        className="flex flex-col gap-2 rounded-lg border p-3"
+        style={{
+          borderColor: `${uiColor}33`,
+          backgroundColor: `${uiColor}0A`,
         }}
       >
-        <Box
-          sx={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            gap: 1,
-          }}
-        >
-          <Box sx={{ display: 'flex', gap: 0.5 }}>
-            <Box
-              sx={{
-                width: 36,
-                height: 8,
-                borderRadius: '999px',
-                bgcolor: alpha(UI_COLOR.MUI, 0.4),
-              }}
+        <div className="flex items-center justify-between gap-2">
+          <div className="flex gap-1">
+            <span
+              className="h-2 w-9 rounded-full"
+              style={{ backgroundColor: `${uiColor}66` }}
             />
-            <Box
-              sx={{
-                width: 24,
-                height: 8,
-                borderRadius: '999px',
-                bgcolor: alpha(UI_COLOR.MUI, 0.2),
-              }}
+            <span
+              className="h-2 w-6 rounded-full"
+              style={{ backgroundColor: `${uiColor}33` }}
             />
-          </Box>
-          <Box
-            sx={{
-              fontSize: 10,
-              fontWeight: 700,
-              borderRadius: '999px',
-              px: 1,
-              py: 0.25,
-              bgcolor: UI_COLOR.MUI,
-              color: '#fff',
-              boxShadow: 1,
-            }}
+          </div>
+          <span
+            className="rounded-full px-2 py-0.5 text-[10px] font-bold text-white shadow"
+            style={{ backgroundColor: uiColor }}
           >
             CREATE
-          </Box>
-        </Box>
+          </span>
+        </div>
         {[0, 1, 2].map((i) => (
-          <Box
-            key={i}
-            sx={{
-              display: 'flex',
-              gap: 1,
-              alignItems: 'center',
-            }}
-          >
-            <Box
-              sx={{
-                width: 12,
-                height: 12,
-                borderRadius: '999px',
-                bgcolor: alpha(transportColor, 0.18),
-                border: 1,
-                borderColor: alpha(transportColor, 0.45),
+          <div key={i} className="flex items-center gap-2">
+            <span
+              className="h-3 w-3 rounded-full border"
+              style={{
+                backgroundColor: `${transportColor}2E`,
+                borderColor: `${transportColor}73`,
               }}
             />
-            <Box
-              sx={{
-                flex: 1,
-                height: 6,
-                borderRadius: '999px',
-                bgcolor: alpha(UI_COLOR.MUI, 0.12),
-              }}
+            <span
+              className="h-1.5 flex-1 rounded-full"
+              style={{ backgroundColor: `${uiColor}1F` }}
             />
-            <Box
-              sx={{
-                width: 30,
-                height: 6,
-                borderRadius: '999px',
-                bgcolor: alpha(UI_COLOR.MUI, 0.18),
-              }}
+            <span
+              className="h-1.5 w-8 rounded-full"
+              style={{ backgroundColor: `${uiColor}2E` }}
             />
-          </Box>
+          </div>
         ))}
-      </Box>
+      </div>
     );
   }
 
-  // shadcn variant — sharper, monospace, zinc-toned
+  // shadcn variant — sharper corners, monospace, zinc tones
   return (
-    <Box
-      sx={{
-        borderRadius: 1,
-        border: 1,
-        borderColor: alpha(UI_COLOR.shadcn, 0.18),
-        bgcolor: alpha(UI_COLOR.shadcn, 0.03),
-        p: 1.5,
-        display: 'flex',
-        flexDirection: 'column',
-        gap: 1,
-        fontFamily: 'monospace',
+    <div
+      className="flex flex-col gap-2 rounded-md border p-3 font-mono"
+      style={{
+        borderColor: `${uiColor}2E`,
+        backgroundColor: `${uiColor}08`,
       }}
     >
-      <Box
-        sx={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          gap: 1,
-        }}
-      >
-        <Box sx={{ display: 'flex', gap: 0.5 }}>
-          <Box
-            sx={{
-              width: 36,
-              height: 8,
-              borderRadius: 0.5,
-              bgcolor: alpha(UI_COLOR.shadcn, 0.6),
-            }}
+      <div className="flex items-center justify-between gap-2">
+        <div className="flex gap-1">
+          <span
+            className="h-2 w-9 rounded-sm"
+            style={{ backgroundColor: `${uiColor}99` }}
           />
-          <Box
-            sx={{
-              width: 24,
-              height: 8,
-              borderRadius: 0.5,
-              bgcolor: alpha(UI_COLOR.shadcn, 0.25),
-            }}
+          <span
+            className="h-2 w-6 rounded-sm"
+            style={{ backgroundColor: `${uiColor}40` }}
           />
-        </Box>
-        <Box
-          sx={{
-            fontSize: 10,
-            fontWeight: 600,
-            borderRadius: 0.75,
-            px: 1,
-            py: 0.25,
-            bgcolor: UI_COLOR.shadcn,
-            color: '#fff',
-          }}
+        </div>
+        <span
+          className="rounded-sm px-2 py-0.5 text-[10px] font-semibold text-white"
+          style={{ backgroundColor: uiColor }}
         >
           + create
-        </Box>
-      </Box>
+        </span>
+      </div>
       {[0, 1, 2].map((i) => (
-        <Box
+        <div
           key={i}
-          sx={{
-            display: 'flex',
-            gap: 1,
-            alignItems: 'center',
-            borderTop: i === 0 ? 0 : '1px dashed',
-            borderColor: alpha(UI_COLOR.shadcn, 0.12),
-            pt: i === 0 ? 0 : 0.75,
-          }}
+          className={`flex items-center gap-2 ${
+            i === 0 ? '' : 'border-t border-dashed pt-2'
+          }`}
+          style={i === 0 ? undefined : { borderColor: `${uiColor}1F` }}
         >
-          <Box
-            sx={{
-              width: 12,
-              height: 12,
-              borderRadius: 0.5,
-              bgcolor: alpha(transportColor, 0.18),
-              border: 1,
-              borderColor: alpha(transportColor, 0.5),
+          <span
+            className="h-3 w-3 rounded-sm border"
+            style={{
+              backgroundColor: `${transportColor}2E`,
+              borderColor: `${transportColor}80`,
             }}
           />
-          <Box
-            sx={{
-              flex: 1,
-              height: 6,
-              borderRadius: 0.5,
-              bgcolor: alpha(UI_COLOR.shadcn, 0.18),
-            }}
+          <span
+            className="h-1.5 flex-1 rounded-sm"
+            style={{ backgroundColor: `${uiColor}2E` }}
           />
-          <Box
-            sx={{
-              width: 30,
-              height: 6,
-              borderRadius: 0.5,
-              bgcolor: alpha(UI_COLOR.shadcn, 0.32),
-            }}
+          <span
+            className="h-1.5 w-8 rounded-sm"
+            style={{ backgroundColor: `${uiColor}52` }}
           />
-        </Box>
+        </div>
       ))}
-    </Box>
+    </div>
   );
 }
 
@@ -351,504 +248,228 @@ function DemoCard(props: DemoCardProps) {
   const isShadcn = ui === 'shadcn';
 
   return (
-    <Card
-      variant="outlined"
-      sx={{
-        height: '100%',
-        position: 'relative',
-        overflow: 'hidden',
-        borderRadius: isShadcn ? 1 : 2,
-        borderColor: alpha(transportColor, 0.25),
-        transition: 'border-color 120ms, transform 120ms, box-shadow 120ms',
-        '&:hover': {
-          borderColor: transportColor,
-          transform: 'translateY(-2px)',
-          boxShadow: `0 8px 24px ${alpha(transportColor, 0.18)}`,
-        },
-        // Coloured stripe indicating the transport
-        '&::before': {
-          content: '""',
-          position: 'absolute',
-          inset: 0,
-          height: 4,
-          bottom: 'auto',
-          background: `linear-gradient(90deg, ${transportColor} 0%, ${uiColor} 100%)`,
-        },
+    <Link
+      href={href}
+      className={`group relative flex h-full flex-col overflow-hidden border bg-white p-5 pt-6 transition-all hover:-translate-y-0.5 hover:shadow-lg ${
+        isShadcn ? 'rounded-md' : 'rounded-xl'
+      }`}
+      style={{
+        borderColor: `${transportColor}40`,
+        boxShadow: undefined,
       }}
     >
-      <CardActionArea
-        component={Link}
-        href={href}
-        sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}
-      >
-        <CardContent
-          sx={{
-            display: 'flex',
-            flexDirection: 'column',
-            gap: 2,
-            flex: 1,
-            width: '100%',
-            pt: 3, // breathing room below the gradient stripe
+      {/* Top gradient stripe — transport color → UI color */}
+      <span
+        className="absolute inset-x-0 top-0 h-1"
+        style={{
+          background: `linear-gradient(90deg, ${transportColor} 0%, ${uiColor} 100%)`,
+        }}
+      />
+
+      {/* Header row — icon + tags + title */}
+      <div className="flex items-center gap-3">
+        <div
+          className={`grid place-items-center ${
+            isShadcn ? 'h-12 w-12 rounded-md' : 'h-12 w-12 rounded-lg'
+          }`}
+          style={{
+            backgroundColor: `${transportColor}1F`,
+            color: transportColor,
           }}
         >
-          {/* Header row — icon + tags + title */}
-          <Stack direction="row" alignItems="center" spacing={2}>
-            <Box
-              sx={{
-                width: 48,
-                height: 48,
-                borderRadius: isShadcn ? 1 : 1.5,
-                bgcolor: alpha(transportColor, 0.12),
-                color: transportColor,
-                display: 'grid',
-                placeItems: 'center',
+          {icon}
+        </div>
+        <div className="min-w-0">
+          <div className="flex items-center gap-1.5">
+            <span
+              className="rounded-full px-2 py-0.5 text-[11px] font-bold text-white"
+              style={{ backgroundColor: transportColor }}
+            >
+              {badge}
+            </span>
+            <span
+              className={`px-2 py-0.5 font-mono text-[11px] font-medium ${
+                isShadcn
+                  ? 'rounded-sm border border-dashed'
+                  : 'rounded-full border'
+              }`}
+              style={{
+                color: uiColor,
+                borderColor: uiColor,
+                backgroundColor: `${uiColor}0A`,
               }}
             >
-              {icon}
-            </Box>
-            <Box sx={{ minWidth: 0 }}>
-              <Stack direction="row" spacing={0.75} alignItems="center">
-                <Chip
-                  size="small"
-                  label={badge}
-                  sx={{
-                    bgcolor: transportColor,
-                    color: '#fff',
-                    fontWeight: 700,
-                    height: 22,
-                  }}
-                />
-                <Chip
-                  size="small"
-                  label={ui}
-                  variant="outlined"
-                  sx={{
-                    fontFamily: 'monospace',
-                    height: 22,
-                    borderColor: uiColor,
-                    color: uiColor,
-                    bgcolor: alpha(uiColor, 0.04),
-                    borderRadius: isShadcn ? 0.5 : '999px',
-                    borderStyle: isShadcn ? 'dashed' : 'solid',
-                  }}
-                />
-              </Stack>
-              <Typography
-                variant="h6"
-                sx={{
-                  mt: 0.5,
-                  fontWeight: 700,
-                  fontFamily: isShadcn ? 'monospace' : undefined,
-                }}
-              >
-                {title}
-              </Typography>
-            </Box>
-          </Stack>
-
-          {/* UI preview tile */}
-          <UiPreview ui={ui} transport={badge} />
-
-          {/* Tagline */}
-          <Typography variant="body2" color="text.secondary">
-            {tagline}
-          </Typography>
-
-          <Box sx={{ flex: 1 }} />
-
-          {/* Package chips */}
-          <Stack direction="row" spacing={0.75} flexWrap="wrap" useFlexGap>
-            {packages.map((p) => (
-              <Chip
-                key={p}
-                size="small"
-                label={p}
-                variant="outlined"
-                sx={{
-                  fontFamily: 'monospace',
-                  fontSize: 11,
-                  height: 20,
-                  borderRadius: isShadcn ? 0.5 : '999px',
-                }}
-              />
-            ))}
-          </Stack>
-
-          {/* Footer row — endpoint + open demo */}
-          <Stack
-            direction="row"
-            alignItems="center"
-            justifyContent="space-between"
-            sx={{ mt: 1 }}
+              {ui}
+            </span>
+          </div>
+          <div
+            className={`mt-1 text-base font-bold text-zinc-900 ${
+              isShadcn ? 'font-mono' : ''
+            }`}
           >
-            <Typography
-              variant="caption"
-              color="text.secondary"
-              sx={{ fontFamily: 'monospace' }}
-            >
-              {endpoint}
-            </Typography>
-            <Stack direction="row" alignItems="center" spacing={0.5}>
-              <Typography
-                variant="button"
-                sx={{ color: transportColor, fontWeight: 700 }}
-              >
-                Open demo
-              </Typography>
-              <ArrowForwardIcon fontSize="small" sx={{ color: transportColor }} />
-            </Stack>
-          </Stack>
-        </CardContent>
-      </CardActionArea>
-    </Card>
+            {title}
+          </div>
+        </div>
+      </div>
+
+      {/* UI preview tile */}
+      <div className="mt-4">
+        <UiPreview ui={ui} transport={badge} />
+      </div>
+
+      {/* Tagline */}
+      <p className="mt-3 text-sm text-zinc-600">{tagline}</p>
+
+      <div className="flex-1" />
+
+      {/* Package chips */}
+      <div className="mt-4 flex flex-wrap gap-1.5">
+        {packages.map((p) => (
+          <span
+            key={p}
+            className={`px-2 py-0.5 font-mono text-[11px] text-zinc-600 ${
+              isShadcn
+                ? 'rounded-sm border border-zinc-200'
+                : 'rounded-full border border-zinc-200'
+            }`}
+          >
+            {p}
+          </span>
+        ))}
+      </div>
+
+      {/* Footer row — endpoint + open demo */}
+      <div className="mt-3 flex items-center justify-between">
+        <span className="font-mono text-xs text-zinc-500">{endpoint}</span>
+        <span
+          className="flex items-center gap-1 text-sm font-bold uppercase tracking-wide"
+          style={{ color: transportColor }}
+        >
+          Open demo
+          <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+        </span>
+      </div>
+    </Link>
   );
 }
 
 export function Index() {
   return (
-    <Box sx={{ bgcolor: 'background.default', minHeight: '100vh' }}>
-      <DemoAppBar />
-      <Container maxWidth="lg" sx={{ py: { xs: 6, md: 10 } }}>
+    <div className="min-h-screen bg-white text-zinc-900">
+      <AppBar />
+      <div className="mx-auto max-w-screen-lg px-4 py-12 md:py-14">
         {/* HERO */}
-        <Stack spacing={3} sx={{ mb: { xs: 6, md: 10 } }}>
-          <Chip
-            label="Transport-agnostic CRUD primitives for React"
-            color="primary"
-            variant="outlined"
-            sx={{ alignSelf: 'flex-start' }}
-          />
-          <Typography
-            variant="h2"
-            sx={{
-              fontWeight: 800,
-              letterSpacing: '-0.02em',
-              fontSize: { xs: '2.25rem', md: '3.5rem' },
-              lineHeight: 1.1,
-            }}
-          >
+        <section className="mb-12 md:mb-20">
+          <span className="inline-block rounded-full border border-zinc-300 px-3 py-1 text-xs font-medium text-zinc-700">
+            Transport-agnostic CRUD primitives for React
+          </span>
+          <h1 className="mt-6 text-4xl font-extrabold leading-[1.05] tracking-tight md:text-6xl">
             CRUD apps without the wiring tax.
-          </Typography>
-          <Typography
-            variant="h6"
-            color="text.secondary"
-            sx={{ maxWidth: 720, fontWeight: 400 }}
-          >
-            <code>@crudx</code> gives you a tiny core that orchestrates list,
-            detail, create, update, and delete operations — and pluggable
-            transport adapters so you can ship the same UI on top of GraphQL,
-            REST, or anything you wire up next.
-          </Typography>
-          <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
-            <Button
-              component={Link}
+          </h1>
+          <p className="mt-5 max-w-2xl text-lg text-zinc-600">
+            <code className="rounded bg-zinc-100 px-1.5 py-0.5 font-mono text-base">
+              @crudx
+            </code>{' '}
+            gives you a tiny core that orchestrates list, detail, create,
+            update, and delete operations — and pluggable transport adapters so
+            you can ship the same UI on top of GraphQL, REST, or anything you
+            wire up next.
+          </p>
+          <div className="mt-7 flex flex-col gap-3 sm:flex-row">
+            <Link
               href="/test-crud-public-graphql"
-              variant="contained"
-              size="large"
-              endIcon={<ArrowForwardIcon />}
-              sx={{
-                bgcolor: TRANSPORT_COLOR.GraphQL,
-                '&:hover': { bgcolor: alpha(TRANSPORT_COLOR.GraphQL, 0.9) },
-              }}
+              className="inline-flex items-center justify-center gap-2 rounded-md px-5 py-3 text-sm font-semibold text-white shadow-sm transition-opacity hover:opacity-90"
+              style={{ backgroundColor: TRANSPORT_COLOR.GraphQL }}
             >
               Try the GraphQL demo
-            </Button>
-            <Button
-              component={Link}
+              <ArrowRight className="h-4 w-4" />
+            </Link>
+            <Link
               href="/test-crud-public-rest"
-              variant="contained"
-              size="large"
-              endIcon={<ArrowForwardIcon />}
-              sx={{
-                bgcolor: TRANSPORT_COLOR.REST,
-                '&:hover': { bgcolor: alpha(TRANSPORT_COLOR.REST, 0.9) },
-              }}
+              className="inline-flex items-center justify-center gap-2 rounded-md px-5 py-3 text-sm font-semibold text-white shadow-sm transition-opacity hover:opacity-90"
+              style={{ backgroundColor: TRANSPORT_COLOR.REST }}
             >
               Try the REST demo
-            </Button>
-            <Button
-              component="a"
+              <ArrowRight className="h-4 w-4" />
+            </Link>
+            <a
               href={REPO_URL}
               target="_blank"
               rel="noreferrer"
-              size="large"
-              endIcon={<LaunchIcon />}
+              className="inline-flex items-center justify-center gap-2 rounded-md border border-zinc-300 px-5 py-3 text-sm font-semibold text-zinc-900 hover:bg-zinc-50"
             >
               View on GitHub
-            </Button>
-          </Stack>
-        </Stack>
+              <ExternalLink className="h-4 w-4" />
+            </a>
+          </div>
+        </section>
 
         {/* DEMO CARDS */}
-        <Box sx={{ mb: { xs: 6, md: 10 } }}>
-          <Typography variant="overline" color="text.secondary">
+        <section className="mb-12 md:mb-20">
+          <div className="text-xs font-bold uppercase tracking-wider text-zinc-500">
             Live demos
-          </Typography>
-          <Typography variant="h4" sx={{ fontWeight: 700, mt: 0.5 }}>
+          </div>
+          <h2 className="mt-1 text-2xl font-bold md:text-3xl">
             Pick your transport, pick your UI
-          </Typography>
-          <Typography
-            variant="body2"
-            color="text.secondary"
-            sx={{ mb: 3, mt: 1 }}
-          >
+          </h2>
+          <p className="mt-2 text-sm text-zinc-600">
             The same CRUD orchestration, four entry points: GraphQL or REST,
             Material UI or shadcn/ui — fully interchangeable.
-          </Typography>
-          <Box
-            sx={{
-              display: 'grid',
-              gridTemplateColumns: { xs: '1fr', md: '1fr 1fr' },
-              gap: 3,
-            }}
-          >
+          </p>
+          <div className="mt-6 grid grid-cols-1 gap-5 md:grid-cols-2">
             {DEMOS.map((d) => (
               <DemoCard key={d.href} {...d} />
             ))}
-          </Box>
-        </Box>
-
-        {/* COMPONENT REFERENCE */}
-        <Box sx={{ mb: { xs: 6, md: 10 } }}>
-          <Typography variant="overline" color="text.secondary">
-            Component reference
-          </Typography>
-          <Typography variant="h4" sx={{ fontWeight: 700, mt: 0.5 }}>
-            Browse every component, live
-          </Typography>
-          <Typography
-            variant="body2"
-            color="text.secondary"
-            sx={{ mb: 3, mt: 1 }}
-          >
-            Each UI library exports the same 16 building blocks —{' '}
-            <code>BreadcrumbView</code>, <code>Table</code>,{' '}
-            <code>TabView</code>, <code>Dialog</code>, and friends. Render
-            them live with copy-pasteable JSX.
-          </Typography>
-          <Box
-            sx={{
-              display: 'grid',
-              gridTemplateColumns: { xs: '1fr', md: '1fr 1fr' },
-              gap: 3,
-            }}
-          >
-            <Card
-              variant="outlined"
-              sx={{
-                borderRadius: 2,
-                borderColor: alpha(UI_COLOR.MUI, 0.3),
-                transition: 'border-color 120ms, transform 120ms',
-                '&:hover': {
-                  borderColor: UI_COLOR.MUI,
-                  transform: 'translateY(-2px)',
-                },
-              }}
-            >
-              <CardActionArea
-                component={Link}
-                href="/components-mui"
-                sx={{ p: 2 }}
-              >
-                <CardContent>
-                  <Stack
-                    direction="row"
-                    alignItems="center"
-                    spacing={1}
-                    sx={{ mb: 1 }}
-                  >
-                    <Chip
-                      size="small"
-                      label="@crudx/mui"
-                      sx={{
-                        bgcolor: UI_COLOR.MUI,
-                        color: '#fff',
-                        fontWeight: 700,
-                        height: 22,
-                      }}
-                    />
-                    <Chip
-                      size="small"
-                      label="16 components"
-                      variant="outlined"
-                      sx={{ height: 22, fontFamily: 'monospace' }}
-                    />
-                  </Stack>
-                  <Typography variant="h6" sx={{ fontWeight: 700 }}>
-                    Material UI components
-                  </Typography>
-                  <Typography
-                    variant="body2"
-                    color="text.secondary"
-                    sx={{ mt: 1 }}
-                  >
-                    BreadcrumbView, ButtonDropdown, Dialog, Table, TabView,
-                    TooltipView and the rest — all rendered with their
-                    JSX snippet.
-                  </Typography>
-                  <Stack
-                    direction="row"
-                    alignItems="center"
-                    spacing={0.5}
-                    sx={{ mt: 2, color: UI_COLOR.MUI }}
-                  >
-                    <Typography variant="button" sx={{ fontWeight: 700 }}>
-                      Open reference
-                    </Typography>
-                    <ArrowForwardIcon fontSize="small" />
-                  </Stack>
-                </CardContent>
-              </CardActionArea>
-            </Card>
-
-            <Card
-              variant="outlined"
-              sx={{
-                borderRadius: 1,
-                borderColor: alpha(UI_COLOR.shadcn, 0.3),
-                transition: 'border-color 120ms, transform 120ms',
-                '&:hover': {
-                  borderColor: UI_COLOR.shadcn,
-                  transform: 'translateY(-2px)',
-                },
-              }}
-            >
-              <CardActionArea
-                component={Link}
-                href="/components-shadcn"
-                sx={{ p: 2 }}
-              >
-                <CardContent>
-                  <Stack
-                    direction="row"
-                    alignItems="center"
-                    spacing={1}
-                    sx={{ mb: 1 }}
-                  >
-                    <Chip
-                      size="small"
-                      label="@crudx/shadcn"
-                      sx={{
-                        bgcolor: UI_COLOR.shadcn,
-                        color: '#fff',
-                        fontWeight: 700,
-                        height: 22,
-                        borderRadius: 0.5,
-                      }}
-                    />
-                    <Chip
-                      size="small"
-                      label="16 components"
-                      variant="outlined"
-                      sx={{
-                        height: 22,
-                        fontFamily: 'monospace',
-                        borderRadius: 0.5,
-                        borderStyle: 'dashed',
-                      }}
-                    />
-                  </Stack>
-                  <Typography
-                    variant="h6"
-                    sx={{ fontWeight: 700, fontFamily: 'monospace' }}
-                  >
-                    shadcn/ui components
-                  </Typography>
-                  <Typography
-                    variant="body2"
-                    color="text.secondary"
-                    sx={{ mt: 1 }}
-                  >
-                    API-compatible Tailwind + Radix variants — same names,
-                    same callback shapes, same example coverage.
-                  </Typography>
-                  <Stack
-                    direction="row"
-                    alignItems="center"
-                    spacing={0.5}
-                    sx={{ mt: 2, color: UI_COLOR.shadcn }}
-                  >
-                    <Typography variant="button" sx={{ fontWeight: 700 }}>
-                      Open reference
-                    </Typography>
-                    <ArrowForwardIcon fontSize="small" />
-                  </Stack>
-                </CardContent>
-              </CardActionArea>
-            </Card>
-          </Box>
-        </Box>
+          </div>
+        </section>
 
         {/* PACKAGES */}
-        <Box sx={{ mb: { xs: 6, md: 10 } }}>
-          <Typography variant="overline" color="text.secondary">
+        <section className="mb-12 md:mb-20">
+          <div className="text-xs font-bold uppercase tracking-wider text-zinc-500">
             Packages
-          </Typography>
-          <Typography variant="h4" sx={{ fontWeight: 700, mb: 3, mt: 0.5 }}>
+          </div>
+          <h2 className="mt-1 text-2xl font-bold md:text-3xl">
             Six packages, one mental model
-          </Typography>
-          <Box
-            sx={{
-              display: 'grid',
-              gridTemplateColumns: {
-                xs: '1fr',
-                sm: '1fr 1fr',
-                md: '1fr 1fr 1fr',
-              },
-              gap: 2,
-            }}
-          >
+          </h2>
+          <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3">
             {PACKAGES.map((pkg) => (
-              <Card key={pkg.name} variant="outlined">
-                <CardContent>
-                  <Typography
-                    variant="subtitle2"
-                    sx={{ fontWeight: 700, fontFamily: 'monospace' }}
-                  >
-                    {pkg.name}
-                  </Typography>
-                  <Typography
-                    variant="body2"
-                    color="text.secondary"
-                    sx={{ mt: 1 }}
-                  >
-                    {pkg.description}
-                  </Typography>
-                </CardContent>
-              </Card>
+              <div
+                key={pkg.name}
+                className="rounded-lg border border-zinc-200 bg-white p-4"
+              >
+                <div className="font-mono text-sm font-bold text-zinc-900">
+                  {pkg.name}
+                </div>
+                <p className="mt-2 text-sm text-zinc-600">{pkg.description}</p>
+              </div>
             ))}
-          </Box>
-        </Box>
+          </div>
+        </section>
 
         {/* FOOTER */}
-        <Box
-          sx={{
-            borderTop: 1,
-            borderColor: 'divider',
-            pt: 4,
-            display: 'flex',
-            justifyContent: 'space-between',
-            flexWrap: 'wrap',
-            gap: 2,
-          }}
-        >
-          <Typography variant="caption" color="text.secondary">
+        <footer className="flex flex-wrap justify-between gap-2 border-t border-zinc-200 pt-6 text-xs text-zinc-500">
+          <div>
             MIT licensed · maintained by{' '}
             <a
               href="https://github.com/louiskhenghao"
               target="_blank"
               rel="noreferrer"
+              className="text-zinc-700 hover:underline"
             >
               louiskhenghao
             </a>
-          </Typography>
-          <Typography variant="caption" color="text.secondary">
-            <a href={REPO_URL} target="_blank" rel="noreferrer">
-              github.com/louiskhenghao/crudx
-            </a>
-          </Typography>
-        </Box>
-      </Container>
-    </Box>
+          </div>
+          <a
+            href={REPO_URL}
+            target="_blank"
+            rel="noreferrer"
+            className="text-zinc-700 hover:underline"
+          >
+            github.com/louiskhenghao/crudx
+          </a>
+        </footer>
+      </div>
+    </div>
   );
 }
 

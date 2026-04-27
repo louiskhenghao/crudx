@@ -31,7 +31,7 @@ import {
 } from '@mui/material';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
-import { DemoAppBar, JsonView } from '../components';
+import { AppBar, JsonView } from '../components';
 
 /**
  * --------------------------
@@ -351,7 +351,7 @@ export function Index() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <DemoAppBar context="REST CRUD" />
+      <AppBar context="REST CRUD" />
       <Box sx={{ py: 4, px: { xs: 2, md: 4 } }}>
         <PostsPanel />
       </Box>

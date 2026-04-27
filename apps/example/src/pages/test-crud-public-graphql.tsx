@@ -39,7 +39,7 @@ import {
   Typography,
 } from '@mui/material';
 
-import { DemoAppBar, JsonView } from '../components';
+import { AppBar, JsonView } from '../components';
 
 /**
  * --------------------------
@@ -452,7 +452,7 @@ export function Index() {
 
   return (
     <ApolloProvider client={client}>
-      <DemoAppBar context="GraphQL CRUD" />
+      <AppBar context="GraphQL CRUD" />
       <Box sx={{ py: 4, px: { xs: 2, md: 4 } }}>
         <PostsPanel />
       </Box>

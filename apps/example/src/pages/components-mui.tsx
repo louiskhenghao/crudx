@@ -46,7 +46,7 @@ import {
   Typography,
 } from '@mui/material';
 
-import { DemoAppBar } from '../components';
+import { AppBar } from '../components';
 
 type Row = { id: number; name: string; role: string; salary: number };
 
@@ -398,7 +398,7 @@ function TabViewDemo() {
 export function ComponentsMuiPage() {
   return (
     <Box sx={{ bgcolor: 'background.default', minHeight: '100vh' }}>
-      <DemoAppBar context="@crudx/mui · Components" />
+      <AppBar context="@crudx/mui · Components" />
       <Container maxWidth="lg" sx={{ py: { xs: 4, md: 6 } }}>
         <Stack spacing={1.5} sx={{ mb: 5 }}>
           <Chip
