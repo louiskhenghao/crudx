@@ -104,3 +104,5 @@ export const graphqlMutation = <
   hook: GraphqlMutationHook<TData, TVariables>
 ): TransportMutationHook<TData, TVariables> =>
   hook as unknown as TransportMutationHook<TData, TVariables>;
+
+export * from './adapter';
