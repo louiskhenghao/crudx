@@ -2,6 +2,8 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+## [1.0.1](https://github.com/louiskhenghao/crudx/compare/rest-tanstack-adapter@1.0.0...rest-tanstack-adapter@1.0.1) (2026-04-27)
+
 ## 1.0.0 (2026-04-27)
 
 
