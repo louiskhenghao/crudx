@@ -1,6 +1,6 @@
 {
   "name": "@crudx/graphql-apollo-adapter",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "license": "MIT",
   "author": "Louis Loo <louiskhenghao@gmail.com> (https://github.com/louiskhenghao)",
   "homepage": "https://github.com/louiskhenghao/crudx/blob/main/libs/graphql-apollo-adapter#readme",
