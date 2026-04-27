@@ -11,8 +11,8 @@ import Link from 'next/link';
 import { AppBar } from '../../components';
 import {
   DemoKind,
-  PRESETS,
   PRESET_ORDER,
+  PRESETS,
   PresetSlug,
   UiKind,
 } from '../../data/playground-presets';
@@ -47,7 +47,9 @@ export default function PlaygroundIndexPage() {
           <h1 className="text-3xl font-bold tracking-tight">Playground</h1>
           <p className="mt-2 text-zinc-600">
             Each preset boots a Sandpack sandbox that installs{' '}
-            <code className="rounded bg-zinc-100 px-1.5 py-0.5 text-sm">@crudx/*</code>{' '}
+            <code className="rounded bg-zinc-100 px-1.5 py-0.5 text-sm">
+              @crudx/*
+            </code>{' '}
             from npm — so you're exercising the actually-published bundle, not
             the workspace source. Edit the code on the left, see the rendered
             output on the right.
@@ -96,8 +98,8 @@ export default function PlaygroundIndexPage() {
         </ul>
 
         <p className="mt-8 text-xs text-zinc-500">
-          Sandpack pulls dependencies from the public npm registry. If a
-          preset fails to load, double-check that the matching{' '}
+          Sandpack pulls dependencies from the public npm registry. If a preset
+          fails to load, double-check that the matching{' '}
           <code className="rounded bg-zinc-100 px-1 py-0.5">@crudx/*</code>{' '}
           version has actually been published.
         </p>
