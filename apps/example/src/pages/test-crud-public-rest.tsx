@@ -259,6 +259,21 @@ function PostsPanel() {
         enableDelete: true,
         enableExport: false,
         enableAlert: ['delete'],
+        deleteAction: async (_e, ctx) => {
+          const id = ctx?.data?.id;
+          const trigger = ctx?.mutation?.delete?.[0];
+          if (!id || !trigger) return;
+          try {
+            await trigger({ variables: { id } });
+            toast.success('Post deleted');
+            // The mutation declares `invalidates: 'posts'`, so the
+            // list cache is already busted by the adapter — calling
+            // refresh here is belt-and-braces.
+            ctx?.context?.pagingProps?.refresh?.();
+          } catch {
+            toast.error('Failed to delete post');
+          }
+        },
       }}
       enableRowSelection={false}
       modalForms={{
