@@ -16,12 +16,7 @@ import { useMemo, useState } from 'react';
 import toast from 'react-hot-toast';
 import { CrudProps } from '@crudx/core';
 import { CrudPanelView, Dialog } from '@crudx/mui';
-import {
-  restGet,
-  restList,
-  restMutation,
-  restOffsetPagination,
-} from '@crudx/rest-tanstack-adapter';
+import { createRestTanstackAdapter } from '@crudx/rest-tanstack-adapter';
 import {
   Box,
   Button,
@@ -65,74 +60,6 @@ const BASE = 'https://jsonplaceholder.typicode.com';
 
 /**
  * --------------------------
- * REST hooks built via @crudx/rest-tanstack-adapter
- * --------------------------
- *
- * The fetch / request closures are the only consumer-supplied bits;
- * `restList` / `restGet` / `restMutation` shape the result into the
- * transport contract that `@crudx/core` consumes.
- */
-const useListPostsQuery = restList<PostsListResponse, PostsListVariables>({
-  resource: 'posts',
-  fetch: async ({ variables, signal }) => {
-    const params = new URLSearchParams();
-    if (variables._page) params.set('_page', String(variables._page));
-    if (variables._limit) params.set('_limit', String(variables._limit));
-    const res = await fetch(`${BASE}/posts?${params.toString()}`, { signal });
-    const data = (await res.json()) as Post[];
-    const total = parseInt(res.headers.get('x-total-count') ?? '0', 10);
-    // Reshape into { data, total } so `restOffsetPagination`'s default
-    // extractors find what they need.
-    return { data, total };
-  },
-});
-
-const useGetPostQuery = restGet<Post, PostDetailVariables>({
-  resource: ['posts', 'detail'],
-  fetch: async ({ variables, signal }) => {
-    const res = await fetch(`${BASE}/posts/${variables.id}`, { signal });
-    return (await res.json()) as Post;
-  },
-});
-
-const useCreatePostMutation = restMutation<Post, PostCreateVariables>({
-  resource: ['posts', 'create'],
-  invalidates: 'posts',
-  request: async ({ variables }) => {
-    const res = await fetch(`${BASE}/posts`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ userId: 1, ...variables }),
-    });
-    return (await res.json()) as Post;
-  },
-});
-
-const useUpdatePostMutation = restMutation<Post, PostUpdateVariables>({
-  resource: ['posts', 'update'],
-  invalidates: 'posts',
-  request: async ({ variables }) => {
-    const { id, ...body } = variables;
-    const res = await fetch(`${BASE}/posts/${id}`, {
-      method: 'PATCH',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(body),
-    });
-    return (await res.json()) as Post;
-  },
-});
-
-const useDeletePostMutation = restMutation<{ id: number }, PostDeleteVariables>({
-  resource: ['posts', 'delete'],
-  invalidates: 'posts',
-  request: async ({ variables }) => {
-    await fetch(`${BASE}/posts/${variables.id}`, { method: 'DELETE' });
-    return { id: variables.id };
-  },
-});
-
-/**
- * --------------------------
  * The CRUD page
  * --------------------------
  */
@@ -143,6 +70,81 @@ type PostSchemata = {
   update: [Post, PostUpdateVariables];
   delete: [{ id: number }, PostDeleteVariables];
 };
+
+/**
+ * --------------------------
+ * Adapter + schema (builder path)
+ * --------------------------
+ *
+ * `createRestTanstackAdapter().schema()` collapses the per-slot
+ * `restList` / `restGet` / `restMutation` factories into a single
+ * config block per CRUD operation and returns a fully-typed
+ * `CrudSchemata` ready to drop into `<CrudPanelView />`.
+ *
+ * The shadcn variant of this demo (`test-crud-public-rest-shadcn.tsx`)
+ * keeps using the raw factories so both styles stay in-tree.
+ */
+const restAdapter = createRestTanstackAdapter();
+
+const postsSchema = restAdapter.schema<PostSchemata>({
+  list: {
+    key: 'posts',
+    resource: 'posts',
+    fetch: async ({ variables, signal }) => {
+      const params = new URLSearchParams();
+      if (variables._page) params.set('_page', String(variables._page));
+      if (variables._limit) params.set('_limit', String(variables._limit));
+      const res = await fetch(`${BASE}/posts?${params.toString()}`, { signal });
+      const data = (await res.json()) as Post[];
+      const total = parseInt(res.headers.get('x-total-count') ?? '0', 10);
+      return { data, total };
+    },
+  },
+  get: {
+    key: 'post',
+    resource: ['posts', 'detail'],
+    fetch: async ({ variables, signal }) => {
+      const res = await fetch(`${BASE}/posts/${variables.id}`, { signal });
+      return (await res.json()) as Post;
+    },
+  },
+  create: {
+    key: 'post',
+    resource: ['posts', 'create'],
+    invalidates: 'posts',
+    request: async ({ variables }) => {
+      const res = await fetch(`${BASE}/posts`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ userId: 1, ...variables }),
+      });
+      return (await res.json()) as Post;
+    },
+  },
+  update: {
+    key: 'post',
+    resource: ['posts', 'update'],
+    invalidates: 'posts',
+    request: async ({ variables }) => {
+      const { id, ...body } = variables;
+      const res = await fetch(`${BASE}/posts/${id}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body),
+      });
+      return (await res.json()) as Post;
+    },
+  },
+  delete: {
+    key: 'post',
+    resource: ['posts', 'delete'],
+    invalidates: 'posts',
+    request: async ({ variables }) => {
+      await fetch(`${BASE}/posts/${variables.id}`, { method: 'DELETE' });
+      return { id: variables.id };
+    },
+  },
+});
 
 function PostForm(props: {
   mode: 'create' | 'update';
@@ -213,17 +215,11 @@ function PostsPanel() {
   return (
     <CrudPanelView<PostSchemata>
       name="post"
-      schema={{
-        list: { key: 'posts', query: useListPostsQuery },
-        get: { key: 'post', query: useGetPostQuery },
-        create: { key: 'post', query: useCreatePostMutation },
-        update: { key: 'post', query: useUpdatePostMutation },
-        delete: { key: 'post', query: useDeletePostMutation },
-      }}
+      schema={postsSchema}
       paging={{
         strategy: 'CUSTOM',
         pageSize: 10,
-        custom: restOffsetPagination({
+        custom: restAdapter.offsetPagination({
           pageKey: '_page',
           pageSizeKey: '_limit',
         }),

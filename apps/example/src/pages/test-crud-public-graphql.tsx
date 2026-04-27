@@ -25,11 +25,7 @@ import {
   useQuery,
 } from '@apollo/client';
 import { CrudProps } from '@crudx/core';
-import {
-  graphqlGet,
-  graphqlList,
-  graphqlMutation,
-} from '@crudx/graphql-apollo-adapter';
+import { createGraphqlApolloAdapter } from '@crudx/graphql-apollo-adapter';
 import { CrudPanelView, Dialog } from '@crudx/mui';
 import {
   Box,
@@ -196,6 +192,28 @@ type PostSchemata = {
 };
 
 /**
+ * --------------------------
+ * Adapter + schema (builder path)
+ * --------------------------
+ *
+ * `createGraphqlApolloAdapter().schema()` collapses the per-slot
+ * `graphqlList` / `graphqlGet` / `graphqlMutation` helpers into a
+ * single config block per CRUD operation and returns a fully-typed
+ * `CrudSchemata`. The shadcn variant of this demo
+ * (`test-crud-public-graphql-shadcn.tsx`) keeps using the raw helpers
+ * so both styles stay in-tree.
+ */
+const graphqlAdapter = createGraphqlApolloAdapter();
+
+const postsSchema = graphqlAdapter.schema<PostSchemata>({
+  list: { key: 'posts', hook: usePostsListQuery },
+  get: { key: 'post', hook: usePostDetailLazyQuery },
+  create: { key: 'createPost', hook: usePostCreateMutation },
+  update: { key: 'updatePost', hook: usePostUpdateMutation },
+  delete: { key: 'deletePost', hook: usePostDeleteMutation },
+});
+
+/**
  * Inline form used by both create and update modals. Updating
  * pre-fills from `initial`; submit fires the relevant mutation and
  * closes the modal on success.
@@ -268,22 +286,7 @@ function PostsPanel() {
   return (
     <CrudPanelView<PostSchemata>
       name="post"
-      schema={{
-        list: { key: 'posts', query: graphqlList(usePostsListQuery) },
-        get: { key: 'post', query: graphqlGet(usePostDetailLazyQuery) },
-        create: {
-          key: 'createPost',
-          query: graphqlMutation(usePostCreateMutation),
-        },
-        update: {
-          key: 'updatePost',
-          query: graphqlMutation(usePostUpdateMutation),
-        },
-        delete: {
-          key: 'deletePost',
-          query: graphqlMutation(usePostDeleteMutation),
-        },
-      }}
+      schema={postsSchema}
       paging={{
         strategy: 'CUSTOM',
         pageSize: 10,
