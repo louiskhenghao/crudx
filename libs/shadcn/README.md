@@ -1,14 +1,28 @@
 # @crudx/shadcn
 
-Tailwind + Radix implementation of `@crudx/mui` with an identical public API. Drop-in replacement for consumers who prefer a shadcn-style UI over MUI. Uses [`@tanstack/react-table`](https://tanstack.com/table) as the internal table engine.
+Tailwind + Radix implementation of the `@crudx/core` CRUD surface, with an
+identical public API to [`@crudx/mui`](https://github.com/louiskhenghao/crudx/blob/main/libs/mui/README.md).
+Drop-in replacement for consumers who prefer a shadcn-style UI over MUI. Uses
+[`@tanstack/react-table`](https://tanstack.com/table) as the internal table
+engine.
 
 ## Install
 
 ```sh
-yarn add @crudx/shadcn @crudx/common @crudx/core
+yarn add @crudx/shadcn @crudx/core @crudx/common
+
+# plus a transport adapter — choose one:
+yarn add @crudx/graphql @apollo/client graphql
+# or:
+yarn add @crudx/rest @tanstack/react-query
 ```
 
-Peer runtime: `react`, `react-dom`, `@tanstack/react-table`, `@radix-ui/*`, `class-variance-authority`, `clsx`, `tailwind-merge`, `lucide-react`.
+Peer runtime: `react`, `react-dom`, `@tanstack/react-table`, `@radix-ui/*`,
+`class-variance-authority`, `clsx`, `tailwind-merge`, `lucide-react`.
+
+The transport choice only affects the schema slots fed into `CrudPanelView`;
+the component surface itself is transport-neutral. See the [main README](https://github.com/louiskhenghao/crudx#available-packages)
+for end-to-end live demos.
 
 ## Tailwind setup (required)
 
