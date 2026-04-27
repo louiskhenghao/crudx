@@ -3,6 +3,12 @@
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const { composePlugins, withNx } = require('@nx/next');
 
+// `NEXT_PUBLIC_BASE_PATH` is set by the GitHub Pages deploy workflow
+// (`/crudx`) and left empty for local dev. When it's set we treat the
+// build as a static export: image optimization is disabled and the
+// asset/base prefixes line up with the deployed sub-path.
+const basePath = process.env.NEXT_PUBLIC_BASE_PATH || '';
+
 /**
  * @type {import('@nx/next/plugins/with-nx').WithNxOptions}
  **/
@@ -13,8 +19,12 @@ const nextConfig = {
     svgr: false,
   },
   images: {
+    unoptimized: !!basePath,
     domains: [process.env.NEXT_PUBLIC_API ?? ''],
   },
+  ...(basePath
+    ? { basePath, assetPrefix: basePath, trailingSlash: true }
+    : {}),
   compiler: {
     // For other options, see https://nextjs.org/docs/architecture/nextjs-compiler#emotion
     emotion: true,

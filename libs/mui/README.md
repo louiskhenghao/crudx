@@ -1,14 +1,33 @@
 # @crudx/mui
 
-This library significantly enhances development efficiency, particularly for CRUD operations.
+Material UI + Emotion implementation of the `@crudx/core` CRUD surface. Drop
+`CrudPanelView` into a page and you get list, detail, create, update, delete,
+filtering, paging, and bulk actions out of the box — all driven by whatever
+transport adapter you wire into the schema.
+
+API-compatible with [`@crudx/shadcn`](https://github.com/louiskhenghao/crudx/blob/main/libs/shadcn/README.md);
+swap the import to switch UI stacks.
 
 ---
 
 ## Installation
 
 ```bash
-yarn add @crudx/common @crudx/core @crudx/mui @apollo/client @mui/material @mui/icons-material axios classnames currency-symbol-map dayjs lodash next numeral react react-dom react-hot-toast
+yarn add @crudx/mui @crudx/core @crudx/common \
+  @mui/material @mui/icons-material @emotion/react @emotion/styled \
+  react react-dom react-hot-toast lodash classnames
+
+# plus a transport adapter — choose one:
+yarn add @crudx/graphql-apollo-adapter @apollo/client graphql
+# or:
+yarn add @crudx/rest-tanstack-adapter @tanstack/react-query
 ```
+
+The transport choice only affects the schema slots fed into `CrudPanelView`;
+the component surface itself is transport-neutral.
+
+See the [main README](https://github.com/louiskhenghao/crudx#available-packages)
+for end-to-end live demos.
 
 ---
 

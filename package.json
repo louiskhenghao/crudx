@@ -15,14 +15,18 @@
     "example:graphql:api": "graphql-codegen --config apps/example/codegen-api.yml",
     "build:lib:common": "yarn build common",
     "build:lib:core": "yarn build core",
+    "build:lib:graphql-apollo-adapter": "yarn build graphql-apollo-adapter",
     "build:lib:mui": "yarn build mui",
+    "build:lib:rest-tanstack-adapter": "yarn build rest-tanstack-adapter",
     "build:lib:shadcn": "yarn build shadcn",
-    "build:libs": "yarn build:lib:common && yarn build:lib:core && yarn build:lib:mui && yarn build:lib:shadcn",
+    "build:libs": "yarn build:lib:common && yarn build:lib:core && yarn build:lib:graphql-apollo-adapter && yarn build:lib:rest-tanstack-adapter && yarn build:lib:mui && yarn build:lib:shadcn",
     "release:common": "yarn nx run common:version",
     "release:core": "yarn nx run core:version",
+    "release:graphql-apollo-adapter": "yarn nx run graphql-apollo-adapter:version",
     "release:mui": "yarn nx run mui:version",
+    "release:rest-tanstack-adapter": "yarn nx run rest-tanstack-adapter:version",
     "release:shadcn": "yarn nx run shadcn:version",
-    "release:all": "yarn nx run-many --target=version --projects=common,core,mui,shadcn"
+    "release:all": "yarn nx run-many --target=version --projects=common,core,graphql-apollo-adapter,rest-tanstack-adapter,mui,shadcn"
   },
   "dependencies": {
     "@apollo/client": "^3.8.5",
@@ -44,6 +48,7 @@
     "@radix-ui/react-slot": "^1.0.2",
     "@radix-ui/react-tabs": "^1.0.4",
     "@radix-ui/react-tooltip": "^1.0.7",
+    "@tanstack/react-query": "^4.36.1",
     "@tanstack/react-table": "^8.11.0",
     "@webbyx/mui": "^0.0.24",
     "@webbyx/next-js": "^0.0.2",

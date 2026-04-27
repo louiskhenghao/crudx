@@ -1,9 +1,10 @@
-import {
-  MutationHookOptions,
-  MutationTuple,
-  OperationVariables,
-} from '@apollo/client';
 import { UseRowSelectionProps } from '@crudx/common';
+
+import {
+  TransportMutationHookOptions,
+  TransportMutationTuple,
+  TransportOperationVariables,
+} from '../transport';
 
 import { CrudCallbackComposer } from '../../crud';
 
@@ -42,10 +43,10 @@ export type CrudMutationComposeOptions<
  * Crud mutation resource types
  */
 export type CrudMutationProps<TSchema extends CrudSchemataTypes = any> = {
-  create?: MutationTuple<TSchema['create'][0], TSchema['create'][1]>;
-  update?: MutationTuple<TSchema['update'][0], TSchema['update'][1]>;
-  delete?: MutationTuple<TSchema['delete'][0], TSchema['delete'][1]>;
-  exports?: MutationTuple<TSchema['exports'][0], TSchema['exports'][1]>;
+  create?: TransportMutationTuple<TSchema['create'][0], TSchema['create'][1]>;
+  update?: TransportMutationTuple<TSchema['update'][0], TSchema['update'][1]>;
+  delete?: TransportMutationTuple<TSchema['delete'][0], TSchema['delete'][1]>;
+  exports?: TransportMutationTuple<TSchema['exports'][0], TSchema['exports'][1]>;
 };
 
 /**
@@ -71,7 +72,7 @@ export type CrudMutationResourceEvents<
 /**
  * Crud mutation resource event callback listener
  */
-export type CrudMutateEventCallback<Q = any, V = OperationVariables> = Pick<
-  MutationHookOptions<Q, V>,
-  'onCompleted' | 'onError'
->;
+export type CrudMutateEventCallback<
+  Q = any,
+  V extends TransportOperationVariables = TransportOperationVariables
+> = Pick<TransportMutationHookOptions<Q, V>, 'onCompleted' | 'onError'>;

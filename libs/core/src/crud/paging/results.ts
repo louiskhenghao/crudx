@@ -1,9 +1,9 @@
-import { QueryResult } from '@apollo/client';
 import includes from 'lodash/includes';
 import merge from 'lodash/merge';
 import reduce from 'lodash/reduce';
 
 import { CrudSchemataTypes } from '../../@types';
+import { TransportQueryResult } from '../../@types/transport';
 import {
   CrudPagingData,
   CrudPagingPageInfo,
@@ -33,7 +33,7 @@ export class CrudPagingResultResource<TSchema extends CrudSchemataTypes = any> {
    * HELPERS - Extract Paging Data
    */
   extract = (
-    results: QueryResult<TSchema['list'][0], TSchema['list'][1]>['data']
+    results: TransportQueryResult<TSchema['list'][0], TSchema['list'][1]>['data']
   ): CrudPagingData<TSchema> => {
     // variables
     const resource = this.resource;

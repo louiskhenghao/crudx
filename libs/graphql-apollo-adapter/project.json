@@ -1,0 +1,67 @@
+{
+  "name": "graphql-apollo-adapter",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/graphql-apollo-adapter/src",
+  "projectType": "library",
+  "tags": [],
+  "targets": {
+    "lint": {
+      "executor": "@nx/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["libs/graphql-apollo-adapter/**/*.{ts,tsx,js,jsx}"]
+      }
+    },
+    "build": {
+      "executor": "@nx/rollup:rollup",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/graphql-apollo-adapter",
+        "tsConfig": "libs/graphql-apollo-adapter/tsconfig.lib.json",
+        "project": "libs/graphql-apollo-adapter/package.json",
+        "entryFile": "libs/graphql-apollo-adapter/src/index.ts",
+        "format": ["cjs", "esm"],
+        "external": [
+          "@apollo/client",
+          "@crudx/core",
+          "graphql",
+          "react",
+          "react-dom"
+        ],
+        "rollupConfig": "@nx/react/plugins/bundle-rollup",
+        "compiler": "babel",
+        "assets": [
+          {
+            "glob": "libs/graphql-apollo-adapter/README.md",
+            "input": ".",
+            "output": "."
+          }
+        ]
+      }
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "libs/graphql-apollo-adapter/jest.config.ts",
+        "passWithNoTests": true
+      },
+      "configurations": {
+        "ci": {
+          "ci": true,
+          "codeCoverage": true
+        }
+      }
+    },
+    "version": {
+      "executor": "@jscutlery/semver:version",
+      "options": {
+        "preset": "conventional",
+        "commitMessageFormat": "chore(${projectName}): release ${version}",
+        "tagPrefix": "${projectName}@",
+        "trackDeps": true,
+        "postTargets": ["graphql-apollo-adapter:build"]
+      }
+    }
+  }
+}

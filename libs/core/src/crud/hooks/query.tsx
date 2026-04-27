@@ -1,11 +1,10 @@
 import {
-  BaseQueryOptions,
-  LazyQueryHookOptions,
-  LazyQueryResult,
-  OperationVariables,
-  QueryResult,
-} from '@apollo/client';
-
+  TransportBaseQueryOptions,
+  TransportLazyQueryHookOptions,
+  TransportLazyQueryResult,
+  TransportOperationVariables,
+  TransportQueryResult,
+} from '../../@types/transport';
 import { CrudSchemata } from '../../@types/crud/schema';
 
 /**
@@ -20,17 +19,17 @@ import { CrudSchemata } from '../../@types/crud/schema';
  */
 export const useListQuery = <
   Q,
-  Variables extends OperationVariables = OperationVariables
+  Variables extends TransportOperationVariables = TransportOperationVariables
 >(
   actions: CrudSchemata['list'],
-  options: BaseQueryOptions<Variables> = {},
+  options: TransportBaseQueryOptions<Variables> = {},
   skipCheck = true
 ): {
-  query: (options?: LazyQueryHookOptions<Q, Variables>) => void;
+  query: (options?: TransportLazyQueryHookOptions<Q, Variables>) => void;
   action?: CrudSchemata['list'];
-  result: QueryResult<Q, Variables>;
+  result: TransportQueryResult<Q, Variables>;
 } => {
-  let result: QueryResult<Q, Variables> | any = {};
+  let result: TransportQueryResult<Q, Variables> | any = {};
   const query = (): void => {
     console.warn(
       `This method is not available, please provide valid "list" actions in constructor`
@@ -65,17 +64,17 @@ export const useListQuery = <
  */
 export const useGetQuery = <
   Q,
-  Variables extends OperationVariables = OperationVariables
+  Variables extends TransportOperationVariables = TransportOperationVariables
 >(
   actions: CrudSchemata['get'],
-  options: BaseQueryOptions<Variables> = {},
+  options: TransportBaseQueryOptions<Variables> = {},
   skipCheck = true
 ): {
-  query: (options?: LazyQueryHookOptions<Q, Variables>) => void;
+  query: (options?: TransportLazyQueryHookOptions<Q, Variables>) => void;
   action?: CrudSchemata['get'];
-  result: LazyQueryResult<Q, Variables>;
+  result: TransportLazyQueryResult<Q, Variables>[1];
 } => {
-  let result: LazyQueryResult<Q, Variables> | any = null;
+  let result: TransportLazyQueryResult<Q, Variables>[1] | any = null;
   let query = (): void => {
     console.warn(
       `This method is not available, please provide valid "get" actions in constructor`

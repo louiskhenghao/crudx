@@ -1,5 +1,6 @@
-import { LazyQueryHookOptions } from '@apollo/client';
 import { UseRowSelectionProps } from '@crudx/common';
+
+import { TransportLazyQueryHookOptions } from '../transport';
 
 import { CrudPaginationProps } from './pagination';
 import { CrudPagingProps } from './paging';
@@ -8,7 +9,7 @@ import { CrudSchemata, CrudSchemataTypes } from './schema';
 // crud details option
 export type CrudDetailOptions<TSchema extends CrudSchemataTypes = any> = {
   query: (
-    options?: LazyQueryHookOptions<TSchema['get'][0], TSchema['get'][1]>
+    options?: TransportLazyQueryHookOptions<TSchema['get'][0], TSchema['get'][1]>
   ) => void;
   schema: CrudSchemata<TSchema>;
   pagination: CrudPaginationProps;

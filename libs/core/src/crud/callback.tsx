@@ -1,6 +1,6 @@
-import { ApolloError, OperationVariables } from '@apollo/client';
 import isArray from 'lodash/isArray';
 
+import { TransportOperationVariables } from '../@types/transport';
 import { CrudComponents } from '../@types/crud/components/component';
 import { CrudMutateEventCallback } from '../@types/crud/mutation';
 import { CrudSchemataTypes } from '../@types/crud/schema';
@@ -73,7 +73,7 @@ export class CrudCallbackComposer<TSchema extends CrudSchemataTypes = any> {
   /**
    * standardize the callback into array format
    */
-  standardize = <Q, V = OperationVariables>(
+  standardize = <Q, V extends TransportOperationVariables = TransportOperationVariables>(
     callbacks:
       | CrudMutateEventCallback<Q, V>
       | CrudMutateEventCallback<Q, V>[] = []
@@ -88,7 +88,7 @@ export class CrudCallbackComposer<TSchema extends CrudSchemataTypes = any> {
   /**
    * compose callbacks into executional operation
    */
-  compose = <Q, V>(
+  compose = <Q, V extends TransportOperationVariables = TransportOperationVariables>(
     callbacks: CrudMutateEventCallback<Q, V> | CrudMutateEventCallback<Q, V>[]
   ): CrudMutateEventCallback<Q, V> => {
     return {
@@ -101,7 +101,7 @@ export class CrudCallbackComposer<TSchema extends CrudSchemataTypes = any> {
           callback?.onCompleted?.(params);
         });
       },
-      onError: (error: ApolloError) => {
+      onError: (error: any) => {
         if (!isArray(callbacks)) {
           callbacks?.onError?.(error);
           return;

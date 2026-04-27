@@ -1,8 +1,10 @@
-import { OperationVariables } from '@apollo/client';
 import { removeObjectEmptyValue } from '@crudx/common';
+
 import includes from 'lodash/includes';
 import merge from 'lodash/merge';
 import reduce from 'lodash/reduce';
+
+import { TransportOperationVariables } from '../../@types/transport';
 
 /**
  * ===========================
@@ -10,15 +12,15 @@ import reduce from 'lodash/reduce';
  * ===========================
  */
 export const constructQueryVariable = (
-  variables: OperationVariables = {},
+  variables: TransportOperationVariables = {},
   defaultOptions: { [key: string]: any } = {}
-): OperationVariables => {
+): TransportOperationVariables => {
   return merge({}, defaultOptions, variables);
 };
 
 export const emptyQueryVariable = (
-  variables: OperationVariables = {}
-): OperationVariables => {
+  variables: TransportOperationVariables = {}
+): TransportOperationVariables => {
   return reduce(
     variables,
     (result, value, key) => merge(result, { [`${key}`]: undefined }),
@@ -27,8 +29,8 @@ export const emptyQueryVariable = (
 };
 
 export const cleanQueryVariable = (
-  variables: OperationVariables = {}
-): OperationVariables => {
+  variables: TransportOperationVariables = {}
+): TransportOperationVariables => {
   return removeObjectEmptyValue(variables);
 };
 

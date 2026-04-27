@@ -4,6 +4,7 @@ import { cva, type VariantProps } from 'class-variance-authority';
 import { X } from 'lucide-react';
 
 import { cn } from '../lib/cn';
+import { DialogTitle } from './dialog';
 
 /**
  * Side-anchored modal panel (aka Drawer / Sheet). Built on Radix Dialog.
@@ -20,7 +21,7 @@ export const SheetOverlay = React.forwardRef<
   <DialogPrimitive.Overlay
     ref={ref}
     className={cn(
-      'fixed inset-0 z-50 bg-black/80 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0',
+      'fixed inset-0 z-50 bg-black/50 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0',
       className
     )}
     {...rest}
@@ -45,10 +46,21 @@ const sheetVariants = cva(
 );
 
 export interface SheetContentProps
-  extends React.ComponentPropsWithoutRef<typeof DialogPrimitive.Content>,
+  extends Omit<
+      React.ComponentPropsWithoutRef<typeof DialogPrimitive.Content>,
+      'title'
+    >,
     VariantProps<typeof sheetVariants> {
   showCloseButton?: boolean;
   width?: number | string;
+  /**
+   * Optional accessible title. Rendered visually when provided, or as
+   * a screen-reader-only label otherwise. Always emitted so Radix's
+   * required `DialogTitle` accessibility contract is satisfied — it
+   * complains loudly via `console.error` in v1.1+ if a `DialogContent`
+   * opens without one.
+   */
+  title?: React.ReactNode;
 }
 
 export const SheetContent = React.forwardRef<
@@ -56,7 +68,16 @@ export const SheetContent = React.forwardRef<
   SheetContentProps
 >(
   (
-    { side = 'right', className, children, showCloseButton = true, width, style, ...rest },
+    {
+      side = 'right',
+      className,
+      children,
+      showCloseButton = true,
+      width,
+      style,
+      title,
+      ...rest
+    },
     ref
   ) => (
     <SheetPortal>
@@ -66,13 +87,22 @@ export const SheetContent = React.forwardRef<
         className={cn(sheetVariants({ side }), className)}
         style={{
           width:
-            side === 'left' || side === 'right' ? width ?? undefined : undefined,
+            side === 'left' || side === 'right'
+              ? width ?? undefined
+              : undefined,
           maxWidth:
-            side === 'left' || side === 'right' ? width ?? undefined : undefined,
+            side === 'left' || side === 'right'
+              ? width ?? undefined
+              : undefined,
           ...style,
         }}
         {...rest}
       >
+        {title ? (
+          <DialogTitle>{title}</DialogTitle>
+        ) : (
+          <DialogTitle className="sr-only">Sheet</DialogTitle>
+        )}
         {children}
         {showCloseButton && (
           <DialogPrimitive.Close
