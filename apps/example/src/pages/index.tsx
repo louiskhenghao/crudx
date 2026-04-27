@@ -59,8 +59,8 @@ const DEMOS: DemoCardProps[] = [
     ui: 'MUI',
     title: 'GraphQL · Material UI',
     tagline:
-      'Apollo Client wired through @crudx/graphql against the public GraphQLZero API. Read, create, update, delete — all live, no auth.',
-    packages: ['@crudx/core', '@crudx/graphql', '@crudx/mui'],
+      'Apollo Client wired through @crudx/graphql-apollo-adapter against the public GraphQLZero API. Read, create, update, delete — all live, no auth.',
+    packages: ['@crudx/core', '@crudx/graphql-apollo-adapter', '@crudx/mui'],
     href: '/test-crud-public-graphql',
     icon: <Network className="h-7 w-7" />,
     endpoint: 'graphqlzero.almansi.me/api',
@@ -71,7 +71,7 @@ const DEMOS: DemoCardProps[] = [
     title: 'GraphQL · shadcn/ui',
     tagline:
       'Same GraphQLZero CRUD flow, rendered through @crudx/shadcn (Tailwind + Radix). API-compatible with the MUI variant.',
-    packages: ['@crudx/core', '@crudx/graphql', '@crudx/shadcn'],
+    packages: ['@crudx/core', '@crudx/graphql-apollo-adapter', '@crudx/shadcn'],
     href: '/test-crud-public-graphql-shadcn',
     icon: <Network className="h-7 w-7" />,
     endpoint: 'graphqlzero.almansi.me/api',
@@ -81,8 +81,8 @@ const DEMOS: DemoCardProps[] = [
     ui: 'MUI',
     title: 'REST · Material UI',
     tagline:
-      'TanStack Query wired through @crudx/rest against the public JSONPlaceholder API. Mutations auto-invalidate the list cache via the adapter.',
-    packages: ['@crudx/core', '@crudx/rest', '@crudx/mui'],
+      'TanStack Query wired through @crudx/rest-tanstack-adapter against the public JSONPlaceholder API. Mutations auto-invalidate the list cache via the adapter.',
+    packages: ['@crudx/core', '@crudx/rest-tanstack-adapter', '@crudx/mui'],
     href: '/test-crud-public-rest',
     icon: <Server className="h-7 w-7" />,
     endpoint: 'jsonplaceholder.typicode.com',
@@ -93,7 +93,7 @@ const DEMOS: DemoCardProps[] = [
     title: 'REST · shadcn/ui',
     tagline:
       'Same JSONPlaceholder CRUD flow, rendered through @crudx/shadcn (Tailwind + Radix). Drop-in alternative to the MUI variant.',
-    packages: ['@crudx/core', '@crudx/rest', '@crudx/shadcn'],
+    packages: ['@crudx/core', '@crudx/rest-tanstack-adapter', '@crudx/shadcn'],
     href: '/test-crud-public-rest-shadcn',
     icon: <Server className="h-7 w-7" />,
     endpoint: 'jsonplaceholder.typicode.com',
@@ -112,14 +112,14 @@ const PACKAGES: { name: string; description: string }[] = [
       'Shared hooks and utilities (pagination, row selection, formatting) consumed by the UI packages.',
   },
   {
-    name: '@crudx/graphql',
+    name: '@crudx/graphql-apollo-adapter',
     description:
-      'GraphQL transport adapter on top of Apollo Client. Identity helpers + Apollo-narrowed type aliases.',
+      'GraphQL transport adapter on top of Apollo Client. Identity helpers + createGraphqlApolloAdapter().schema() builder.',
   },
   {
-    name: '@crudx/rest',
+    name: '@crudx/rest-tanstack-adapter',
     description:
-      'REST transport adapter on top of TanStack Query. Cache invalidation, offset / cursor pagination presets.',
+      'REST transport adapter on top of TanStack Query. Cache invalidation, offset / cursor pagination presets, schema() builder.',
   },
   {
     name: '@crudx/mui',

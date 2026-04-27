@@ -1,4 +1,4 @@
-# `@crudx/rest`
+# `@crudx/rest-tanstack-adapter`
 
 REST transport adapter for [`@crudx/core`](../core/README.md), backed
 by [`@tanstack/react-query`](https://tanstack.com/query/latest).
@@ -6,7 +6,7 @@ by [`@tanstack/react-query`](https://tanstack.com/query/latest).
 ## Install
 
 ```bash
-yarn add @crudx/rest @crudx/core @tanstack/react-query
+yarn add @crudx/rest-tanstack-adapter @crudx/core @tanstack/react-query
 ```
 
 `@tanstack/react-query` is a peer dependency — wrap your app in a
@@ -16,7 +16,7 @@ yarn add @crudx/rest @crudx/core @tanstack/react-query
 
 ```ts
 import { CRUD } from '@crudx/core';
-import { restGet, restList, restMutation } from '@crudx/rest';
+import { restGet, restList, restMutation } from '@crudx/rest-tanstack-adapter';
 
 const list = restList<BankList, ListVars>({
   resource: 'banks',
@@ -72,7 +72,7 @@ extract / compose plumbing for the two common REST page shapes.
 
 ```ts
 import { CRUD } from '@crudx/core';
-import { restOffsetPagination, restCursorPagination } from '@crudx/rest';
+import { restOffsetPagination, restCursorPagination } from '@crudx/rest-tanstack-adapter';
 
 new CRUD<BankSchemata>('bank', schema, {
   paging: {
@@ -98,8 +98,8 @@ defaults assume `{ data, nextCursor, prevCursor }` with `?cursor=…&limit=…`.
 The core wiring (transport contract, mutation invalidation, pagination
 presets) is in place. Roadmap:
 
-- An optional SWR-backed sibling (`@crudx/rest-swr`) that mirrors the
-  same surface.
+- An optional SWR-backed sibling (`@crudx/rest-swr-adapter`) that
+  mirrors the same surface.
 - `useInfiniteQuery`-based "load more" mode for cursor APIs that
   prefer infinite scroll over discrete pages.
 

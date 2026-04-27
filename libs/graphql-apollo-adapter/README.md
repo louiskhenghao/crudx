@@ -1,4 +1,4 @@
-# `@crudx/graphql`
+# `@crudx/graphql-apollo-adapter`
 
 Apollo Client transport adapter for [`@crudx/core`](../core/README.md).
 
@@ -11,7 +11,7 @@ explicit at the call site.
 ## Install
 
 ```bash
-yarn add @crudx/graphql @crudx/core @apollo/client graphql
+yarn add @crudx/graphql-apollo-adapter @crudx/core @apollo/client graphql
 ```
 
 `@apollo/client` and `graphql` are peer dependencies so the adapter
@@ -21,7 +21,7 @@ shares the consumer's Apollo client.
 
 ```ts
 import { CRUD } from '@crudx/core';
-import { graphqlGet, graphqlList, graphqlMutation } from '@crudx/graphql';
+import { graphqlGet, graphqlList, graphqlMutation } from '@crudx/graphql-apollo-adapter';
 import {
   useBankListingQuery,
   useBankDetailLazyQuery,
@@ -46,6 +46,7 @@ clarity affordance.
 ## Why a separate package?
 
 Splitting the GraphQL/Apollo specifics out of `@crudx/core` lets the
-core stay lean and lets us ship parallel adapters (`@crudx/rest`
-on TanStack Query / SWR is next) without forcing every consumer to
-install Apollo.
+core stay lean and lets us ship parallel adapters
+(`@crudx/rest-tanstack-adapter` is already shipping;
+`@crudx/rest-swr-adapter` is on the roadmap) without forcing every
+consumer to install Apollo.

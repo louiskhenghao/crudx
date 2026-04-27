@@ -2,7 +2,7 @@
  * test-crud-public-rest-shadcn.tsx
  * --------------------------------
  *
- * Self-contained CRUD demo of `@crudx/core` + `@crudx/rest` rendered
+ * Self-contained CRUD demo of `@crudx/core` + `@crudx/rest-tanstack-adapter` rendered
  * through `@crudx/shadcn` (Tailwind + Radix UI). Mirror of
  * `test-crud-public-rest.tsx` against the same JSONPlaceholder
  * endpoint, just on a different UI surface.
@@ -16,7 +16,7 @@ import {
   restList,
   restMutation,
   restOffsetPagination,
-} from '@crudx/rest';
+} from '@crudx/rest-tanstack-adapter';
 import { CrudPanelView, Dialog } from '@crudx/shadcn';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
@@ -53,7 +53,7 @@ const BASE = 'https://jsonplaceholder.typicode.com';
 
 /**
  * --------------------------
- * REST hooks built via @crudx/rest
+ * REST hooks built via @crudx/rest-tanstack-adapter
  * --------------------------
  */
 const useListPostsQuery = restList<PostsListResponse, PostsListVariables>({

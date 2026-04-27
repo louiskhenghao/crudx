@@ -1,9 +1,9 @@
 {
-  "name": "@crudx/rest",
+  "name": "@crudx/rest-tanstack-adapter",
   "version": "0.0.0",
   "license": "MIT",
   "author": "Louis Loo <louiskhenghao@gmail.com> (https://github.com/louiskhenghao)",
-  "homepage": "https://github.com/louiskhenghao/crudx/blob/main/libs/rest#readme",
+  "homepage": "https://github.com/louiskhenghao/crudx/blob/main/libs/rest-tanstack-adapter#readme",
   "keywords": [
     "react",
     "crud",

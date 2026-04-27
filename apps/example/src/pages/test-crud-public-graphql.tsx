@@ -2,7 +2,7 @@
  * test-crud-public-graphql.tsx
  * --------------------------------
  *
- * Self-contained CRUD demo of `@crudx/core` + `@crudx/graphql` against
+ * Self-contained CRUD demo of `@crudx/core` + `@crudx/graphql-apollo-adapter` against
  * the public GraphQLZero API (https://graphqlzero.almansi.me/api), a
  * free GraphQL mirror of JSONPlaceholder.
  *
@@ -29,7 +29,7 @@ import {
   graphqlGet,
   graphqlList,
   graphqlMutation,
-} from '@crudx/graphql';
+} from '@crudx/graphql-apollo-adapter';
 import { CrudPanelView, Dialog } from '@crudx/mui';
 import {
   Box,
@@ -96,7 +96,7 @@ type PostDeleteVariables = { id: string };
  * --------------------------
  *
  * No codegen — `gql` + `useQuery`/`useMutation` produce the exact
- * shape `@crudx/graphql` expects.
+ * shape `@crudx/graphql-apollo-adapter` expects.
  */
 const POSTS_LIST = gql`
   query PostsList($options: PageQueryOptions) {

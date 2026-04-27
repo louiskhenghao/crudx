@@ -1,6 +1,6 @@
 /**
  * ===========================
- * @crudx/rest
+ * @crudx/rest-tanstack-adapter
  * ===========================
  *
  * REST transport adapter for `@crudx/core`, backed by

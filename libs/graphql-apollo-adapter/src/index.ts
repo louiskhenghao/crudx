@@ -1,6 +1,6 @@
 /**
  * ===========================
- * @crudx/graphql
+ * @crudx/graphql-apollo-adapter
  * ===========================
  *
  * Apollo-flavoured transport adapter for `@crudx/core`.

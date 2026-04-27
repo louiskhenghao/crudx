@@ -19,9 +19,9 @@
       "@crudx/common": ["libs/common/src/index.ts"],
       "@crudx/common/*": ["libs/common/src/*"],
       "@crudx/core": ["libs/core/src/index.ts"],
-      "@crudx/graphql": ["libs/graphql/src/index.ts"],
+      "@crudx/graphql-apollo-adapter": ["libs/graphql-apollo-adapter/src/index.ts"],
       "@crudx/mui": ["libs/mui/src/index.ts"],
-      "@crudx/rest": ["libs/rest/src/index.ts"],
+      "@crudx/rest-tanstack-adapter": ["libs/rest-tanstack-adapter/src/index.ts"],
       "@crudx/shadcn": ["libs/shadcn/src/index.ts"],
       "@crudx/shadcn/*": ["libs/shadcn/src/*"]
     }

@@ -7,8 +7,8 @@
  * transport-agnostic contracts in `./transport`.
  *
  * Prefer `Transport*` types in new code; the GraphQL-flavoured names
- * here remain exported so existing consumers (and `@crudx/graphql`)
- * keep compiling.
+ * here remain exported so existing consumers (and
+ * `@crudx/graphql-apollo-adapter`) keep compiling.
  */
 
 import {

@@ -18,9 +18,9 @@ yarn add @crudx/mui @crudx/core @crudx/common \
   react react-dom react-hot-toast lodash classnames
 
 # plus a transport adapter — choose one:
-yarn add @crudx/graphql @apollo/client graphql
+yarn add @crudx/graphql-apollo-adapter @apollo/client graphql
 # or:
-yarn add @crudx/rest @tanstack/react-query
+yarn add @crudx/rest-tanstack-adapter @tanstack/react-query
 ```
 
 The transport choice only affects the schema slots fed into `CrudPanelView`;

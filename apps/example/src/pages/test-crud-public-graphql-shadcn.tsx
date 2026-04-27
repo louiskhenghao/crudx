@@ -2,7 +2,7 @@
  * test-crud-public-graphql-shadcn.tsx
  * --------------------------------
  *
- * Self-contained CRUD demo of `@crudx/core` + `@crudx/graphql`
+ * Self-contained CRUD demo of `@crudx/core` + `@crudx/graphql-apollo-adapter`
  * rendered through `@crudx/shadcn` (Tailwind + Radix UI).
  *
  * Mirror of `test-crud-public-graphql.tsx` — same GraphQLZero
@@ -28,7 +28,7 @@ import {
   graphqlGet,
   graphqlList,
   graphqlMutation,
-} from '@crudx/graphql';
+} from '@crudx/graphql-apollo-adapter';
 import { CrudPanelView, Dialog } from '@crudx/shadcn';
 
 import { AppBar, JsonView } from '../components';

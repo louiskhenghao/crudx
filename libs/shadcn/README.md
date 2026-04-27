@@ -12,9 +12,9 @@ engine.
 yarn add @crudx/shadcn @crudx/core @crudx/common
 
 # plus a transport adapter — choose one:
-yarn add @crudx/graphql @apollo/client graphql
+yarn add @crudx/graphql-apollo-adapter @apollo/client graphql
 # or:
-yarn add @crudx/rest @tanstack/react-query
+yarn add @crudx/rest-tanstack-adapter @tanstack/react-query
 ```
 
 Peer runtime: `react`, `react-dom`, `@tanstack/react-table`, `@radix-ui/*`,

@@ -2,7 +2,7 @@
  * test-crud-public-rest.tsx
  * --------------------------------
  *
- * Self-contained CRUD demo of `@crudx/core` + `@crudx/rest` against
+ * Self-contained CRUD demo of `@crudx/core` + `@crudx/rest-tanstack-adapter` against
  * the public JSONPlaceholder API (https://jsonplaceholder.typicode.com).
  *
  * Demonstrates Read / Create / Update / Delete via TanStack Query
@@ -21,7 +21,7 @@ import {
   restList,
   restMutation,
   restOffsetPagination,
-} from '@crudx/rest';
+} from '@crudx/rest-tanstack-adapter';
 import {
   Box,
   Button,
@@ -65,7 +65,7 @@ const BASE = 'https://jsonplaceholder.typicode.com';
 
 /**
  * --------------------------
- * REST hooks built via @crudx/rest
+ * REST hooks built via @crudx/rest-tanstack-adapter
  * --------------------------
  *
  * The fetch / request closures are the only consumer-supplied bits;
