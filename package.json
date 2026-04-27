@@ -30,6 +30,7 @@
   },
   "dependencies": {
     "@apollo/client": "^3.8.5",
+    "@codesandbox/sandpack-react": "^2.13.5",
     "@emotion/react": "^11.11.1",
     "@emotion/server": "^11.11.0",
     "@emotion/styled": "^11.11.0",
