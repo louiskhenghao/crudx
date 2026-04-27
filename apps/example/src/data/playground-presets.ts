@@ -307,7 +307,23 @@ function PostsPanel() {
 export default withQuery(PostsPanel);
 `;
 
+/**
+ * Transitive deps the published `@crudx/*` bundles need at runtime:
+ *
+ * - `dayjs` — `@crudx/common` uses it (DateTime / formatNumbering /
+ *   helpers/date) and ships it as a peer.
+ * - `next` — the currently-published 1.0.0 bundles of `@crudx/mui` and
+ *   `@crudx/shadcn` still import `next/link`. The LinkProvider refactor
+ *   on `main` removes that, so once the libs ship 1.0.1+ you can drop
+ *   `next` from this list.
+ */
+const TRANSITIVE_PEERS = {
+  dayjs: '^1.11.0',
+  next: '^13.4.0',
+};
+
 const MUI_TABLE_DEPS = {
+  ...TRANSITIVE_PEERS,
   '@crudx/common': CRUDX_VERSION,
   '@crudx/core': CRUDX_VERSION,
   '@crudx/mui': CRUDX_VERSION,
@@ -321,6 +337,7 @@ const MUI_TABLE_DEPS = {
 };
 
 const SHADCN_TABLE_DEPS = {
+  ...TRANSITIVE_PEERS,
   '@crudx/common': CRUDX_VERSION,
   '@crudx/core': CRUDX_VERSION,
   '@crudx/shadcn': CRUDX_VERSION,
