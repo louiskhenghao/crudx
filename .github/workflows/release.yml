@@ -70,10 +70,9 @@ jobs:
           # @jscutlery/semver needs full history to compute bumps from
           # conventional commits.
           fetch-depth: 0
-          # Use the default GITHUB_TOKEN to push the version commits +
-          # tags back. If branch protection blocks bot pushes to main,
-          # swap this for a PAT secret with bypass permission.
-          token: ${{ secrets.GITHUB_TOKEN }}
+          # actions/checkout@v4 uses the default GITHUB_TOKEN, which is
+          # enough to push version commits + tags back. If main is
+          # branch-protected, set `token:` to a PAT secret with bypass.
 
       - uses: actions/setup-node@v4
         with:
