@@ -3,6 +3,11 @@ name: Release packages
 on:
   workflow_dispatch:
     inputs:
+      all:
+        description: 'All libs (overrides per-package picks below if not "skip")'
+        type: choice
+        default: skip
+        options: [skip, auto, patch, minor, major]
       common:
         description: '@crudx/common'
         type: choice
@@ -37,6 +42,10 @@ on:
 # `auto` defers to conventional commits via @jscutlery/semver. The other
 # levels (patch/minor/major) force the bump regardless of commit history.
 # `skip` leaves the package alone.
+#
+# `all` is a top-level override: pick anything other than `skip` and
+# every lib uses that mode, ignoring its individual selector. Use this
+# for repo-wide coordinated releases (e.g. `all: auto` after a sprint).
 #
 # Note: `core:version` cascades into `mui` + `shadcn` via @jscutlery/semver
 # `trackDeps`, so picking `core: auto` may also bump them even if you
@@ -86,6 +95,8 @@ jobs:
         run: |
           set -euo pipefail
 
+          ALL_MODE="${{ inputs.all }}"
+
           # entries are `package:mode` so we don't need bash associative arrays.
           entries=(
             "common:${{ inputs.common }}"
@@ -100,6 +111,11 @@ jobs:
           for entry in "${entries[@]}"; do
             pkg="${entry%%:*}"
             mode="${entry#*:}"
+
+            # `all` overrides per-package picks when set to anything but skip.
+            if [ "$ALL_MODE" != "skip" ]; then
+              mode="$ALL_MODE"
+            fi
 
             if [ "$mode" = "skip" ]; then
               echo "::group::$pkg → skip"
