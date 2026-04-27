@@ -1,6 +1,6 @@
 import { memo } from 'react';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
-import Grid from '@mui/material/Grid';
+import Box from '@mui/material/Box';
 import Link from '@mui/material/Link';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
@@ -60,14 +60,16 @@ export const CrudPageHeaderView = memo((props: CrudPageHeaderViewProps) => {
         />
       )}
 
-      <Grid
-        container
-        alignItems="center"
-        justifyContent="start"
+      <Box
         className="crud-page-header-content"
+        sx={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'flex-start',
+        }}
       >
         {/* ---- TITLE VIEW */}
-        <Grid item className="crud-page-header-title">
+        <Box className="crud-page-header-title">
           <Stack
             direction="row"
             justifyContent="start"
@@ -99,18 +101,18 @@ export const CrudPageHeaderView = memo((props: CrudPageHeaderViewProps) => {
               </Typography>
             )}
           </Stack>
-        </Grid>
+        </Box>
 
         {/* ---- ACTIONS VIEWS */}
         {hasActions && (
           <>
-            <Grid item flex="auto" />
-            <Grid item className="crud-page-header-actions">
+            <Box sx={{ flex: 'auto' }} />
+            <Box className="crud-page-header-actions">
               <RenderNodeView direction="row" spacing={2} items={actions} />
-            </Grid>
+            </Box>
           </>
         )}
-      </Grid>
+      </Box>
     </StyledWrapper>
   );
 });

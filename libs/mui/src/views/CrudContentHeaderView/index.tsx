@@ -1,4 +1,4 @@
-import Grid from '@mui/material/Grid';
+import Box from '@mui/material/Box';
 import cn from 'classnames';
 
 import { RenderNodeView } from '../../components/RenderNodeView';
@@ -61,14 +61,17 @@ export const CrudContentHeaderView = (props: CrudContentHeaderViewProps) => {
   return (
     <StyledBox className="crud-content-header-wrapper">
       {(hasInfos || hasActions) && (
-        <Grid
-          container
-          justifyContent="start"
-          alignItems="center"
+        <Box
           className="crud-content-header-primary"
+          sx={{
+            display: 'flex',
+            flexWrap: 'wrap',
+            alignItems: 'center',
+            justifyContent: 'flex-start',
+          }}
         >
           {headerInfoViews.length > 0 && (
-            <Grid item className="crud-content-header-infos">
+            <Box className="crud-content-header-infos">
               <RenderNodeView
                 flexWrap="wrap"
                 alignItems="center"
@@ -79,13 +82,13 @@ export const CrudContentHeaderView = (props: CrudContentHeaderViewProps) => {
                   content: e.render,
                 }))}
               />
-            </Grid>
+            </Box>
           )}
 
           {headerActionViews.length > 0 && (
             <>
-              <Grid item flex="auto" />
-              <Grid item className="crud-content-header-actions">
+              <Box sx={{ flex: 'auto' }} />
+              <Box className="crud-content-header-actions">
                 <RenderNodeView
                   flexWrap="wrap"
                   alignItems="center"
@@ -96,10 +99,10 @@ export const CrudContentHeaderView = (props: CrudContentHeaderViewProps) => {
                     content: e.render,
                   }))}
                 />
-              </Grid>
+              </Box>
             </>
           )}
-        </Grid>
+        </Box>
       )}
       {/* ====== EXPAND CONTENT */}
       {expanded && (
