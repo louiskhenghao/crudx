@@ -308,18 +308,26 @@ export default withQuery(PostsPanel);
 `;
 
 /**
- * Transitive deps the published `@crudx/*` bundles need at runtime:
+ * Transitive deps the published `@crudx/*` bundles need at runtime.
+ * Sandpack's React template doesn't auto-install peer deps, so we
+ * spread these into every preset.
  *
- * - `dayjs` — `@crudx/common` uses it (DateTime / formatNumbering /
- *   helpers/date) and ships it as a peer.
- * - `next` — the currently-published 1.0.0 bundles of `@crudx/mui` and
- *   `@crudx/shadcn` still import `next/link`. The LinkProvider refactor
- *   on `main` removes that, so once the libs ship 1.0.1+ you can drop
- *   `next` from this list.
+ * From `@crudx/common`'s rollup `external` list (so they're not
+ * bundled into common.esm.js):
+ *
+ *   currency-symbol-map, dayjs, lodash, numeral
+ *
+ * Plus `next` — the currently-published 1.0.0 bundles of `@crudx/mui`
+ * and `@crudx/shadcn` still import `next/link`. The LinkProvider
+ * refactor on `main` removes that, so once the libs ship 1.0.1+ you
+ * can drop `next` from this list.
  */
 const TRANSITIVE_PEERS = {
+  'currency-symbol-map': '^5.1.0',
   dayjs: '^1.11.0',
+  lodash: '^4.17.0',
   next: '^13.4.0',
+  numeral: '^2.0.0',
 };
 
 const MUI_TABLE_DEPS = {
@@ -332,7 +340,6 @@ const MUI_TABLE_DEPS = {
   '@emotion/react': '^11.11.0',
   '@emotion/styled': '^11.11.0',
   classnames: '^2.3.0',
-  lodash: '^4.17.0',
   'react-hot-toast': '^2.4.0',
 };
 
