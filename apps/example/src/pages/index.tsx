@@ -607,6 +607,177 @@ export function Index() {
           </Box>
         </Box>
 
+        {/* COMPONENT REFERENCE */}
+        <Box sx={{ mb: { xs: 6, md: 10 } }}>
+          <Typography variant="overline" color="text.secondary">
+            Component reference
+          </Typography>
+          <Typography variant="h4" sx={{ fontWeight: 700, mt: 0.5 }}>
+            Browse every component, live
+          </Typography>
+          <Typography
+            variant="body2"
+            color="text.secondary"
+            sx={{ mb: 3, mt: 1 }}
+          >
+            Each UI library exports the same 16 building blocks —{' '}
+            <code>BreadcrumbView</code>, <code>Table</code>,{' '}
+            <code>TabView</code>, <code>Dialog</code>, and friends. Render
+            them live with copy-pasteable JSX.
+          </Typography>
+          <Box
+            sx={{
+              display: 'grid',
+              gridTemplateColumns: { xs: '1fr', md: '1fr 1fr' },
+              gap: 3,
+            }}
+          >
+            <Card
+              variant="outlined"
+              sx={{
+                borderRadius: 2,
+                borderColor: alpha(UI_COLOR.MUI, 0.3),
+                transition: 'border-color 120ms, transform 120ms',
+                '&:hover': {
+                  borderColor: UI_COLOR.MUI,
+                  transform: 'translateY(-2px)',
+                },
+              }}
+            >
+              <CardActionArea
+                component={Link}
+                href="/components-mui"
+                sx={{ p: 2 }}
+              >
+                <CardContent>
+                  <Stack
+                    direction="row"
+                    alignItems="center"
+                    spacing={1}
+                    sx={{ mb: 1 }}
+                  >
+                    <Chip
+                      size="small"
+                      label="@crudx/mui"
+                      sx={{
+                        bgcolor: UI_COLOR.MUI,
+                        color: '#fff',
+                        fontWeight: 700,
+                        height: 22,
+                      }}
+                    />
+                    <Chip
+                      size="small"
+                      label="16 components"
+                      variant="outlined"
+                      sx={{ height: 22, fontFamily: 'monospace' }}
+                    />
+                  </Stack>
+                  <Typography variant="h6" sx={{ fontWeight: 700 }}>
+                    Material UI components
+                  </Typography>
+                  <Typography
+                    variant="body2"
+                    color="text.secondary"
+                    sx={{ mt: 1 }}
+                  >
+                    BreadcrumbView, ButtonDropdown, Dialog, Table, TabView,
+                    TooltipView and the rest — all rendered with their
+                    JSX snippet.
+                  </Typography>
+                  <Stack
+                    direction="row"
+                    alignItems="center"
+                    spacing={0.5}
+                    sx={{ mt: 2, color: UI_COLOR.MUI }}
+                  >
+                    <Typography variant="button" sx={{ fontWeight: 700 }}>
+                      Open reference
+                    </Typography>
+                    <ArrowForwardIcon fontSize="small" />
+                  </Stack>
+                </CardContent>
+              </CardActionArea>
+            </Card>
+
+            <Card
+              variant="outlined"
+              sx={{
+                borderRadius: 1,
+                borderColor: alpha(UI_COLOR.shadcn, 0.3),
+                transition: 'border-color 120ms, transform 120ms',
+                '&:hover': {
+                  borderColor: UI_COLOR.shadcn,
+                  transform: 'translateY(-2px)',
+                },
+              }}
+            >
+              <CardActionArea
+                component={Link}
+                href="/components-shadcn"
+                sx={{ p: 2 }}
+              >
+                <CardContent>
+                  <Stack
+                    direction="row"
+                    alignItems="center"
+                    spacing={1}
+                    sx={{ mb: 1 }}
+                  >
+                    <Chip
+                      size="small"
+                      label="@crudx/shadcn"
+                      sx={{
+                        bgcolor: UI_COLOR.shadcn,
+                        color: '#fff',
+                        fontWeight: 700,
+                        height: 22,
+                        borderRadius: 0.5,
+                      }}
+                    />
+                    <Chip
+                      size="small"
+                      label="16 components"
+                      variant="outlined"
+                      sx={{
+                        height: 22,
+                        fontFamily: 'monospace',
+                        borderRadius: 0.5,
+                        borderStyle: 'dashed',
+                      }}
+                    />
+                  </Stack>
+                  <Typography
+                    variant="h6"
+                    sx={{ fontWeight: 700, fontFamily: 'monospace' }}
+                  >
+                    shadcn/ui components
+                  </Typography>
+                  <Typography
+                    variant="body2"
+                    color="text.secondary"
+                    sx={{ mt: 1 }}
+                  >
+                    API-compatible Tailwind + Radix variants — same names,
+                    same callback shapes, same example coverage.
+                  </Typography>
+                  <Stack
+                    direction="row"
+                    alignItems="center"
+                    spacing={0.5}
+                    sx={{ mt: 2, color: UI_COLOR.shadcn }}
+                  >
+                    <Typography variant="button" sx={{ fontWeight: 700 }}>
+                      Open reference
+                    </Typography>
+                    <ArrowForwardIcon fontSize="small" />
+                  </Stack>
+                </CardContent>
+              </CardActionArea>
+            </Card>
+          </Box>
+        </Box>
+
         {/* PACKAGES */}
         <Box sx={{ mb: { xs: 6, md: 10 } }}>
           <Typography variant="overline" color="text.secondary">

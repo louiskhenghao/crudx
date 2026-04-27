@@ -61,6 +61,8 @@ export const PATHS_ONLY_ALLOWED_BEFORE_AUTH = [
   '/test-crud-public-graphql-shadcn',
   '/test-crud-public-rest',
   '/test-crud-public-rest-shadcn',
+  '/components-mui',
+  '/components-shadcn',
 ];
 
 // restricted path that can't be accessed if user has already signed in
