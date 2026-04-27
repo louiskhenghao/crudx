@@ -2,6 +2,8 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+## [1.0.1](https://github.com/louiskhenghao/crudx/compare/core@1.0.0...core@1.0.1) (2026-04-27)
+
 ## [1.0.0](https://github.com/louiskhenghao/crudx/compare/core@0.0.27...core@1.0.0) (2026-04-27)
 
 
