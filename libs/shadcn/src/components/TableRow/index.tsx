@@ -6,6 +6,7 @@ import {
   getColumnPinningStyle,
   getColumnStickyState,
 } from '../../adapters/column-sticky';
+import { useStickyOffsetsContext } from '../../adapters/use-sticky-offsets';
 import { cn } from '../../lib/cn';
 import { Checkbox } from '../../primitives/checkbox';
 
@@ -47,6 +48,7 @@ export const TableRow = <TData,>(props: TableRowProps<TData>) => {
   const enableCheckbox = checkbox?.enabled ?? false;
   const enableCheckboxSticky = checkbox?.sticky ?? false;
   const hasCheckBoxSticky = enableCheckbox && enableCheckboxSticky;
+  const measuredOffsets = useStickyOffsetsContext();
 
   // =============== STATE
   const [expanded, setExpanded] = useState(false);
@@ -93,7 +95,7 @@ export const TableRow = <TData,>(props: TableRowProps<TData>) => {
         {...restProps}
         data-state={checked ? 'selected' : undefined}
         className={cn(
-          'crudx-table-row [&:not(:last-child)>td]:border-b [&_>td]:border-border hover:bg-muted/40 data-[state=selected]:bg-muted/50',
+          'group crudx-table-row [&:not(:last-child)>td]:border-b [&_>td]:border-border hover:bg-muted/40 data-[state=selected]:bg-muted/50',
           clickable && 'cursor-pointer',
           className
         )}
@@ -105,7 +107,8 @@ export const TableRow = <TData,>(props: TableRowProps<TData>) => {
             data-sticky={hasCheckBoxSticky ? 'left' : undefined}
             className={cn(
               'crudx-table-row-item crudx-checkbox-column text-center align-middle !px-3',
-              hasCheckBoxSticky && 'sticky bg-background/90 backdrop-blur-xs',
+              hasCheckBoxSticky &&
+                'sticky bg-background group-hover:bg-[color-mix(in_oklab,hsl(var(--muted))_40%,hsl(var(--background)))] group-data-[state=selected]:bg-[color-mix(in_oklab,hsl(var(--muted))_50%,hsl(var(--background)))]',
               {
                 'border-right': hasCheckBoxSticky,
               }
@@ -130,8 +133,17 @@ export const TableRow = <TData,>(props: TableRowProps<TData>) => {
             index,
             hasCheckBoxSticky
           );
-          const { side, offset, isLastLeftPinned, isFirstRightPinned } =
-            getColumnPinningStyle(columns, index, hasCheckBoxSticky);
+          const pinning = getColumnPinningStyle(
+            columns,
+            index,
+            hasCheckBoxSticky
+          );
+          const { side, isLastLeftPinned, isFirstRightPinned } = pinning;
+          const measured = sticky ? measuredOffsets.get(key) : undefined;
+          const leftOffset =
+            side === 'left' ? measured?.left ?? pinning.offset : undefined;
+          const rightOffset =
+            side === 'right' ? measured?.right ?? pinning.offset : undefined;
 
           const result = dataIndex ? (data as any)[dataIndex] : data;
           const finalClassName =
@@ -160,7 +172,8 @@ export const TableRow = <TData,>(props: TableRowProps<TData>) => {
                 `crudx-column-${key}`,
                 'align-middle [&:has([role=checkbox])]:pe-0',
                 alignToClass(column.align ?? 'left'),
-                sticky && 'sticky bg-background/90 backdrop-blur-xs',
+                sticky &&
+                  'sticky bg-background group-hover:bg-[color-mix(in_oklab,hsl(var(--muted))_40%,hsl(var(--background)))] group-data-[state=selected]:bg-[color-mix(in_oklab,hsl(var(--muted))_50%,hsl(var(--background)))]',
                 {
                   'position-right': sticky && side === 'right',
                   'position-left': sticky && side === 'left',
@@ -177,8 +190,8 @@ export const TableRow = <TData,>(props: TableRowProps<TData>) => {
                 minWidth: column.minWidth,
                 verticalAlign: valignToStyle(column.valign ?? valign),
                 ...(sticky ? { zIndex: 3 } : {}),
-                ...(sticky && side === 'left' ? { left: offset } : {}),
-                ...(sticky && side === 'right' ? { right: offset } : {}),
+                ...(leftOffset !== undefined ? { left: leftOffset } : {}),
+                ...(rightOffset !== undefined ? { right: rightOffset } : {}),
                 ...(boxShadow ? { boxShadow } : {}),
                 ...cellStyle,
               }}

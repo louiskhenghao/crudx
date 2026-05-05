@@ -7,6 +7,7 @@ import {
   getColumnPinningStyle,
   getColumnStickyState,
 } from '../../adapters/column-sticky';
+import { useStickyOffsetsContext } from '../../adapters/use-sticky-offsets';
 import { cn } from '../../lib/cn';
 import { Checkbox } from '../../primitives/checkbox';
 
@@ -45,6 +46,7 @@ export const TableHead = <TData,>(props: TableHeadProps<TData>) => {
   const enableCheckbox = checkbox?.enabled ?? false;
   const enableCheckboxSticky = checkbox?.sticky ?? false;
   const hasCheckBoxSticky = enableCheckbox && enableCheckboxSticky;
+  const measuredOffsets = useStickyOffsetsContext();
   const defaultOrderBy = sorting?.defaultOrder;
   const defaultOrderDirection = sorting?.defaultDirection ?? 'asc';
   // restructure header based on its settings
@@ -154,7 +156,12 @@ export const TableHead = <TData,>(props: TableHeadProps<TData>) => {
     const sticky_ = getColumnStickyState(columns, index, hasCheckBoxSticky);
     const pinning = getColumnPinningStyle(columns, index, hasCheckBoxSticky);
     const { hideBorderLeft, hideBorderRight } = sticky_;
-    const { side, offset, isLastLeftPinned, isFirstRightPinned } = pinning;
+    const { side, isLastLeftPinned, isFirstRightPinned } = pinning;
+    const measured = sticky ? measuredOffsets.get(key) : undefined;
+    const leftOffset =
+      side === 'left' ? measured?.left ?? pinning.offset : undefined;
+    const rightOffset =
+      side === 'right' ? measured?.right ?? pinning.offset : undefined;
 
     const align = column.alignTitle ?? column.align ?? 'left';
 
@@ -163,7 +170,8 @@ export const TableHead = <TData,>(props: TableHeadProps<TData>) => {
       `crudx-column-${key}`,
       'relative align-middle font-normal text-accent-foreground [&:has([role=checkbox])]:pe-0',
       alignToClass(align),
-      sticky && 'sticky bg-muted/90 backdrop-blur-xs',
+      sticky &&
+        'sticky bg-[color-mix(in_oklab,hsl(var(--muted))_40%,hsl(var(--background)))]',
       {
         'position-right': sticky && side === 'right',
         'position-left': sticky && side === 'left',
@@ -195,6 +203,7 @@ export const TableHead = <TData,>(props: TableHeadProps<TData>) => {
     return (
       <th
         key={key}
+        data-key={key}
         data-sticky={sticky ? side ?? true : undefined}
         className={cn(baseHeadClass, headerClassName)}
         style={{
@@ -202,8 +211,8 @@ export const TableHead = <TData,>(props: TableHeadProps<TData>) => {
           minWidth: column.minWidth,
           zIndex: sticky ? 4 : undefined,
           verticalAlign: 'middle',
-          ...(sticky && side === 'left' ? { left: offset } : {}),
-          ...(sticky && side === 'right' ? { right: offset } : {}),
+          ...(leftOffset !== undefined ? { left: leftOffset } : {}),
+          ...(rightOffset !== undefined ? { right: rightOffset } : {}),
           ...(boxShadow ? { boxShadow } : {}),
           ...headerStyle,
         }}
@@ -232,7 +241,7 @@ export const TableHead = <TData,>(props: TableHeadProps<TData>) => {
       <tr
         {...tableRowProps}
         className={cn(
-          'crudx-table-head-row bg-[var(--crudx-head-bg,color-mix(in_oklab,var(--muted)_40%,transparent))]',
+          'crudx-table-head-row bg-[var(--crudx-head-bg,color-mix(in_oklab,hsl(var(--muted))_40%,hsl(var(--background))))]',
           borderBottom && '[&>th]:border-b',
           tableRowProps?.className
         )}
@@ -244,7 +253,8 @@ export const TableHead = <TData,>(props: TableHeadProps<TData>) => {
             className={cn(
               'crudx-table-head-row-item crudx-checkbox-column',
               'relative w-[44px] text-center align-middle !px-3',
-              hasCheckBoxSticky && 'sticky bg-muted/90 backdrop-blur-xs',
+              hasCheckBoxSticky &&
+                'sticky bg-[color-mix(in_oklab,hsl(var(--muted))_40%,hsl(var(--background)))]',
               {
                 'border-right': hasCheckBoxSticky,
                 'border-top': borderTop,

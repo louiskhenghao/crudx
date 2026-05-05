@@ -9,7 +9,7 @@ export const tableVariants = cva(
         preset: '',
       },
       striped: {
-        true: '[&_tbody_tr:nth-child(even)]:bg-muted/40',
+        true: '[&_tbody_tr:nth-child(even)]:bg-muted/40 [&_tbody_tr:nth-child(even)_[data-sticky]]:bg-[color-mix(in_oklab,hsl(var(--muted))_40%,hsl(var(--background)))]',
         false: '',
       },
       bordered: {
