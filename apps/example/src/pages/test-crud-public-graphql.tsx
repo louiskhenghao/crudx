@@ -2,14 +2,18 @@
  * test-crud-public-graphql.tsx
  * --------------------------------
  *
- * Self-contained CRUD demo of `@crudx/core` + `@crudx/graphql-apollo-adapter` against
- * the public GraphQLZero API (https://graphqlzero.almansi.me/api), a
- * free GraphQL mirror of JSONPlaceholder.
+ * Full-feature CRUD demo of `@crudx/core` + `@crudx/graphql-apollo-adapter`
+ * rendered through `@crudx/mui` against the public GraphQLZero API
+ * (https://graphqlzero.almansi.me/api), a free GraphQL mirror of
+ * JSONPlaceholder.
  *
- * Demonstrates the full Read / Create / Update / Delete surface end-
- * to-end with no auth and no local backend. GraphQLZero accepts the
- * mutations and returns success payloads — they don't persist on the
- * server, but the round-trip and UI flow are fully exercised.
+ * Demonstrates the breadth of `<CrudPanelView>` in one page: page
+ * header + page actions, filter view, table tabs, sticky checkbox +
+ * action columns, sorting, density, expand slot, custom header
+ * actions, modal forms, detail drawer, row selection + bulk actions,
+ * and a live `contentViewType` toggle that swaps the table grid for
+ * a card view via `renderItemView`. The exact source for the page
+ * is rendered via the `<SourceView>` panel.
  */
 
 import { useMemo, useState } from 'react';
@@ -27,15 +31,28 @@ import {
 import { CrudProps } from '@crudx/core';
 import { createGraphqlApolloAdapter } from '@crudx/graphql-apollo-adapter';
 import { CrudPanelView, Dialog } from '@crudx/mui';
+import GridViewIcon from '@mui/icons-material/GridView';
+import RestartAltIcon from '@mui/icons-material/RestartAlt';
+import ViewListIcon from '@mui/icons-material/ViewList';
 import {
   Box,
   Button,
+  Card,
+  CardContent,
+  Chip,
+  IconButton,
+  Paper,
   Stack,
   TextField,
+  Tooltip,
   Typography,
 } from '@mui/material';
+import { GetStaticProps } from 'next';
 
-import { AppBar, JsonView } from '../components';
+import { AppBar, JsonView, SourceView } from '../components';
+import { readPageSource } from '../lib/pageSource';
+
+const PAGE_SOURCE_PATH = 'apps/example/src/pages/test-crud-public-graphql.tsx';
 
 /**
  * --------------------------
@@ -195,13 +212,6 @@ type PostSchemata = {
  * --------------------------
  * Adapter + schema (builder path)
  * --------------------------
- *
- * `createGraphqlApolloAdapter().schema()` collapses the per-slot
- * `graphqlList` / `graphqlGet` / `graphqlMutation` helpers into a
- * single config block per CRUD operation and returns a fully-typed
- * `CrudSchemata`. The shadcn variant of this demo
- * (`test-crud-public-graphql-shadcn.tsx`) keeps using the raw helpers
- * so both styles stay in-tree.
  */
 const graphqlAdapter = createGraphqlApolloAdapter();
 
@@ -282,186 +292,572 @@ function PostForm(props: {
   );
 }
 
-function PostsPanel() {
+/**
+ * Card item used when contentViewType === 'view' (renderItemView).
+ */
+function PostCard(props: {
+  post: Post;
+  index: number;
+  checkbox: () => React.ReactNode;
+  action: () => React.ReactNode;
+}) {
+  const { post, index, checkbox, action } = props;
   return (
-    <CrudPanelView<PostSchemata>
-      name="post"
-      schema={postsSchema}
-      paging={{
-        strategy: 'CUSTOM',
-        pageSize: 10,
-        custom: {
-          extract: {
-            paging: (_ctx, variables) => ({
-              pageSize: variables?.options?.paginate?.limit ?? 10,
-            }),
-            pagination: (context, options) => {
-              const result = options.data?.posts;
-              const total = result?.meta?.totalCount ?? 0;
-              const lastPage = Math.max(
-                1,
-                Math.ceil(total / Math.max(1, context.pageSize))
-              );
-              return {
-                list: result?.data ?? [],
-                total,
-                page: {
-                  next:
-                    context.pageNumber < lastPage ? options.intentNext : null,
-                  previous:
-                    context.pageNumber > 1 && options.intentPrev > 0
-                      ? options.intentPrev
-                      : null,
-                  canPaginateToPage: true,
-                },
-              };
-            },
-          },
-          compose: {
-            variables: (context, variables) => ({
-              ...(variables ?? {}),
-              options: {
-                ...((variables as any)?.options ?? {}),
-                paginate: {
-                  page: context.pageNumber,
-                  limit: context.pageSize,
-                },
-              },
-            }),
-            sorting: (_ctx, variables) => variables ?? {},
-            pagination: (context) => ({
-              options: {
-                paginate: {
-                  page: context.pageNumber,
-                  limit: context.pageSize,
-                },
-              },
-            }),
-          },
-        },
+    <Card
+      variant="outlined"
+      sx={{
+        height: '100%',
+        display: 'flex',
+        flexDirection: 'column',
+        transition: 'box-shadow 150ms ease',
+        '&:hover': { boxShadow: 4 },
       }}
-      pageTitle="Posts"
-      pageBackPath="/"
-      pageBreadcrumbs={[
-        { label: 'Demos', url: '/' },
-        { label: 'GraphQL CRUD' },
-      ]}
-      filterNode={
-        <Box>
-          <Typography variant="body2" color="text.secondary">
-            Read, create, update, and delete are all wired live against{' '}
-            <code>graphqlzero.almansi.me/api</code>. Mutations succeed
-            but the server never persists, so refreshes return the
-            original 100 posts.
+    >
+      <CardContent sx={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
+        <Stack
+          direction="row"
+          alignItems="flex-start"
+          justifyContent="space-between"
+          spacing={1}
+        >
+          <Stack direction="row" alignItems="center" spacing={1}>
+            {checkbox()}
+            <Typography
+              variant="caption"
+              sx={{ fontFamily: 'monospace', color: 'text.disabled' }}
+            >
+              #{post.id}
+            </Typography>
+          </Stack>
+          <Box sx={{ flexShrink: 0 }}>{action()}</Box>
+        </Stack>
+        <Typography
+          variant="subtitle2"
+          sx={{
+            mt: 1,
+            fontWeight: 600,
+            textTransform: 'capitalize',
+            display: '-webkit-box',
+            WebkitLineClamp: 2,
+            WebkitBoxOrient: 'vertical',
+            overflow: 'hidden',
+          }}
+        >
+          {post.title}
+        </Typography>
+        <Typography
+          variant="body2"
+          color="text.secondary"
+          sx={{
+            mt: 1,
+            display: '-webkit-box',
+            WebkitLineClamp: 3,
+            WebkitBoxOrient: 'vertical',
+            overflow: 'hidden',
+          }}
+        >
+          {post.body}
+        </Typography>
+        <Stack
+          direction="row"
+          justifyContent="space-between"
+          sx={{ mt: 'auto', pt: 1.5, color: 'text.disabled' }}
+        >
+          <Typography variant="caption">row {index + 1}</Typography>
+          <Typography variant="caption" sx={{ fontFamily: 'monospace' }}>
+            id:{post.id}
           </Typography>
-        </Box>
-      }
-      tableActions={[{ action: 'create' }, { action: 'refresh' }]}
-      columnDataIndex="id"
-      columns={[
-        { key: 'id', title: 'ID', width: 80, dataIndex: 'id' },
-        { key: 'title', title: 'Title', width: 300, dataIndex: 'title' },
-        { key: 'body', title: 'Body', dataIndex: 'body' },
-      ]}
-      columnActions={{
-        name: 'post',
-        identifier: 'title',
-        enableView: true,
-        enableUpdate: true,
-        enableDelete: true,
-        enableExport: false,
-        enableAlert: ['delete'],
-        deleteAction: async (_e, ctx) => {
-          const id = ctx?.data?.id;
-          const trigger = ctx?.mutation?.delete?.[0];
-          if (!id || !trigger) return;
-          try {
-            await trigger({ variables: { id } });
-            toast.success('Post deleted');
-            // GraphQLZero doesn't persist the deletion, but refetching
-            // the list still exercises the round-trip end-to-end.
-            ctx?.context?.pagingProps?.refresh?.();
-          } catch {
-            toast.error('Failed to delete post');
-          }
-        },
-      }}
-      enableRowSelection={false}
-      modalForms={{
-        create: {
-          title: 'Create post',
-          render: (options) => (
-            <Dialog
-              type="custom"
-              title={options.title}
-              visible={options.visible}
-              onClose={() => options.onHide()}
-            >
-              <PostForm
-                mode="create"
-                onCancel={() => options.onHide()}
-                onSubmit={async ({ title, body }) => {
-                  const trigger = options.mutation?.create?.[0];
-                  if (!trigger) return;
-                  await trigger({ variables: { input: { title, body } } });
-                  toast.success('Post created');
-                }}
-              />
-            </Dialog>
-          ),
-        },
-        update: {
-          title: 'Edit post',
-          render: (options) => (
-            <Dialog
-              type="custom"
-              title={options.title}
-              visible={options.visible}
-              onClose={() => options.onHide()}
-            >
-              <PostForm
-                mode="update"
-                initial={options.data ?? undefined}
-                onCancel={() => options.onHide()}
-                onSubmit={async ({ title, body }) => {
-                  const trigger = options.mutation?.update?.[0];
-                  const id = options.data?.id;
-                  if (!trigger || !id) return;
-                  await trigger({
-                    variables: { id, input: { title, body } },
-                  });
-                  toast.success('Post updated');
-                }}
-              />
-            </Dialog>
-          ),
-        },
-      }}
-      renderDetailsView={(nodeProps) => (
-        <Box sx={{ p: 2 }}>
-          <JsonView
-            data={nodeProps.data}
-            loading={nodeProps.loading}
-            title="Post"
-          />
-        </Box>
-      )}
-    />
+        </Stack>
+      </CardContent>
+    </Card>
   );
 }
 
-export function Index() {
+function PostsPanel({ source }: { source: string }) {
+  // Local UI state layered on top of the panel's data.
+  const [contentViewType, setContentViewType] = useState<'table' | 'view'>(
+    'table'
+  );
+  const [tab, setTab] = useState<'all' | 'short' | 'long'>('all');
+  const [search, setSearch] = useState('');
+  const [sortDir, setSortDir] = useState<'DEFAULT' | 'ASC' | 'DESC'>('DEFAULT');
+  const [expanded, setExpanded] = useState(true);
+
+  const hasActiveFilters =
+    tab !== 'all' || sortDir !== 'DEFAULT' || search.trim() !== '';
+
+  const resetFilters = () => {
+    setSearch('');
+    setTab('all');
+    setSortDir('DEFAULT');
+  };
+
+  const transform = (rows: Post[] | undefined): Post[] => {
+    let next = rows ?? [];
+    if (tab === 'short') next = next.filter((r) => r.title.length <= 30);
+    if (tab === 'long') next = next.filter((r) => r.title.length > 30);
+    if (search.trim()) {
+      const q = search.trim().toLowerCase();
+      next = next.filter(
+        (r) =>
+          r.title.toLowerCase().includes(q) ||
+          r.body.toLowerCase().includes(q)
+      );
+    }
+    if (sortDir === 'ASC') {
+      next = [...next].sort((a, b) => a.title.localeCompare(b.title));
+    } else if (sortDir === 'DESC') {
+      next = [...next].sort((a, b) => b.title.localeCompare(a.title));
+    }
+    return next;
+  };
+
+  return (
+    <Stack spacing={2}>
+      <Paper
+        variant="outlined"
+        sx={{
+          px: 1.5,
+          py: 1,
+          display: 'flex',
+          flexWrap: 'wrap',
+          alignItems: 'center',
+          gap: 1,
+        }}
+      >
+        <Typography
+          variant="caption"
+          sx={{
+            fontWeight: 700,
+            textTransform: 'uppercase',
+            letterSpacing: '0.08em',
+            color: 'text.secondary',
+          }}
+        >
+          Status
+        </Typography>
+        <Chip size="small" label={`view: ${contentViewType}`} />
+        <Chip size="small" label={`tab: ${tab}`} />
+        <Chip size="small" label={`sort: ${sortDir.toLowerCase()}`} />
+        {search ? <Chip size="small" label={`q: ${search}`} /> : null}
+        {!hasActiveFilters ? (
+          <Typography variant="caption" color="text.disabled">
+            no filters applied
+          </Typography>
+        ) : null}
+        <Stack
+          direction="row"
+          alignItems="center"
+          spacing={1}
+          sx={{ ml: 'auto' }}
+        >
+          {hasActiveFilters ? (
+            <Button
+              size="small"
+              variant="outlined"
+              startIcon={<RestartAltIcon />}
+              onClick={resetFilters}
+            >
+              Reset filters
+            </Button>
+          ) : null}
+          <SourceView
+            source={source}
+            filename={PAGE_SOURCE_PATH}
+            repoPath={PAGE_SOURCE_PATH}
+            trigger={(open) => (
+              <Button size="small" variant="outlined" onClick={open}>
+                View source
+              </Button>
+            )}
+          />
+        </Stack>
+      </Paper>
+
+      <CrudPanelView<PostSchemata>
+        name="post"
+        schema={postsSchema}
+        paging={{
+          strategy: 'CUSTOM',
+          pageSize: 10,
+          custom: {
+            extract: {
+              paging: (_ctx, variables) => ({
+                pageSize: variables?.options?.paginate?.limit ?? 10,
+              }),
+              pagination: (context, options) => {
+                const result = options.data?.posts;
+                const total = result?.meta?.totalCount ?? 0;
+                const lastPage = Math.max(
+                  1,
+                  Math.ceil(total / Math.max(1, context.pageSize))
+                );
+                return {
+                  list: result?.data ?? [],
+                  total,
+                  page: {
+                    next:
+                      context.pageNumber < lastPage ? options.intentNext : null,
+                    previous:
+                      context.pageNumber > 1 && options.intentPrev > 0
+                        ? options.intentPrev
+                        : null,
+                    canPaginateToPage: true,
+                  },
+                };
+              },
+            },
+            compose: {
+              variables: (context, variables) => ({
+                ...(variables ?? {}),
+                options: {
+                  ...((variables as any)?.options ?? {}),
+                  paginate: {
+                    page: context.pageNumber,
+                    limit: context.pageSize,
+                  },
+                },
+              }),
+              sorting: (_ctx, variables) => variables ?? {},
+              pagination: (context) => ({
+                options: {
+                  paginate: {
+                    page: context.pageNumber,
+                    limit: context.pageSize,
+                  },
+                },
+              }),
+            },
+          },
+        }}
+        pageTitle="Posts"
+        pageBackPath="/"
+        pageBreadcrumbs={[
+          { label: 'Demos', url: '/' },
+          { label: 'GraphQL CRUD' },
+        ]}
+        pageActions={[
+          {
+            key: 'view-toggle',
+            content: (
+              <Button
+                size="small"
+                variant="outlined"
+                startIcon={
+                  contentViewType === 'table' ? (
+                    <GridViewIcon />
+                  ) : (
+                    <ViewListIcon />
+                  )
+                }
+                onClick={() =>
+                  setContentViewType((v) => (v === 'table' ? 'view' : 'table'))
+                }
+              >
+                {contentViewType === 'table' ? 'Card view' : 'Table view'}
+              </Button>
+            ),
+          },
+        ]}
+        filterTitle="Search"
+        filterNode={
+          <TextField
+            fullWidth
+            size="small"
+            label="Search title or body"
+            placeholder="e.g. qui, dolore, voluptatem…"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+          />
+        }
+        contentViewType={contentViewType}
+        tableTitle="Posts"
+        tableTabState={tab}
+        tableTabs={[
+          { key: 'all', label: 'All' },
+          { key: 'short', label: 'Short titles' },
+          { key: 'long', label: 'Long titles' },
+        ]}
+        onTableTabChange={(next) => setTab(next as typeof tab)}
+        tableInfos={[
+          { type: 'title' },
+          { type: 'total', text: '{count} posts' },
+          { type: 'bulk', text: '{count} selected' },
+        ]}
+        tableActions={[
+          { action: 'create' },
+          { action: 'refresh' },
+          { action: 'sorting' },
+          { action: 'density' },
+          { action: 'expand' },
+          {
+            action: 'settings',
+            items: [
+              { key: 'columns', title: 'Columns…' },
+              { key: 'export', title: 'Export CSV' },
+            ],
+          },
+          {
+            key: 'view-mode',
+            action: 'custom',
+            tooltip: 'Toggle table / card view',
+            render: () => (
+              <Tooltip title="Toggle table / card view">
+                <IconButton
+                  size="small"
+                  onClick={() =>
+                    setContentViewType((v) =>
+                      v === 'table' ? 'view' : 'table'
+                    )
+                  }
+                >
+                  {contentViewType === 'table' ? (
+                    <GridViewIcon fontSize="small" />
+                  ) : (
+                    <ViewListIcon fontSize="small" />
+                  )}
+                </IconButton>
+              </Tooltip>
+            ),
+          },
+        ]}
+        tableExpandState={expanded}
+        tableExpandView={
+          <Paper
+            variant="outlined"
+            sx={{
+              p: 1.5,
+              borderStyle: 'dashed',
+              backgroundColor: 'action.hover',
+            }}
+          >
+            <Typography variant="caption" color="text.secondary">
+              <strong>Header expand slot —</strong> use it for inline filters,
+              charts, or contextual help. Toggle via the chevron in the table
+              actions row.
+            </Typography>
+          </Paper>
+        }
+        tableCheckboxColumnSticky
+        tableActionColumnSticky
+        columnDataIndex="id"
+        columns={[
+          { key: 'id', title: 'ID', width: 80, dataIndex: 'id' },
+          {
+            key: 'title',
+            title: 'Title',
+            width: 320,
+            dataIndex: 'title',
+            render: (value) => (
+              <Typography
+                variant="body2"
+                sx={{ fontWeight: 600, textTransform: 'capitalize' }}
+              >
+                {String(value ?? '')}
+              </Typography>
+            ),
+          },
+          {
+            key: 'body',
+            title: 'Body',
+            dataIndex: 'body',
+            render: (value) => (
+              <Typography
+                variant="caption"
+                color="text.secondary"
+                sx={{
+                  display: '-webkit-box',
+                  WebkitLineClamp: 2,
+                  WebkitBoxOrient: 'vertical',
+                  overflow: 'hidden',
+                }}
+              >
+                {String(value ?? '')}
+              </Typography>
+            ),
+          },
+        ]}
+        columnActions={{
+          name: 'post',
+          identifier: 'title',
+          enableView: true,
+          enableUpdate: true,
+          enableDelete: true,
+          enableExport: false,
+          enableAlert: ['delete'],
+          deleteAction: async (_e, ctx) => {
+            const id = ctx?.data?.id;
+            const trigger = ctx?.mutation?.delete?.[0];
+            if (!id || !trigger) return;
+            try {
+              await trigger({ variables: { id } });
+              toast.success('Post deleted');
+              ctx?.context?.pagingProps?.refresh?.();
+            } catch {
+              toast.error('Failed to delete post');
+            }
+          },
+        }}
+        enableRowSelection
+        prepareTableViewProps={(nodeProps) => ({
+          data: transform(nodeProps.data as Post[] | undefined) as any,
+          onTriggerSorting: (next) => setSortDir(next),
+          onTriggerExpand: (_current, nextState) => setExpanded(nextState),
+          onTriggerBulkAction: (action) => {
+            toast(`Bulk action: ${action}`);
+          },
+        })}
+        prepareContentViewProps={(nodeProps) => ({
+          data: transform(nodeProps.data as Post[] | undefined) as any,
+          onTriggerSorting: (next) => setSortDir(next),
+          onTriggerExpand: (_current, nextState) => setExpanded(nextState),
+          onTriggerBulkAction: (action) => {
+            toast(`Bulk action: ${action}`);
+          },
+          paginateType: 'pagination',
+        })}
+        modalForms={{
+          create: {
+            title: 'Create post',
+            render: (options) => (
+              <Dialog
+                type="custom"
+                title={options.title}
+                visible={options.visible}
+                onClose={() => options.onHide()}
+              >
+                <PostForm
+                  mode="create"
+                  onCancel={() => options.onHide()}
+                  onSubmit={async ({ title, body }) => {
+                    const trigger = options.mutation?.create?.[0];
+                    if (!trigger) return;
+                    await trigger({ variables: { input: { title, body } } });
+                    toast.success('Post created');
+                  }}
+                />
+              </Dialog>
+            ),
+          },
+          update: {
+            title: 'Edit post',
+            render: (options) => (
+              <Dialog
+                type="custom"
+                title={options.title}
+                visible={options.visible}
+                onClose={() => options.onHide()}
+              >
+                <PostForm
+                  mode="update"
+                  initial={options.data ?? undefined}
+                  onCancel={() => options.onHide()}
+                  onSubmit={async ({ title, body }) => {
+                    const trigger = options.mutation?.update?.[0];
+                    const id = options.data?.id;
+                    if (!trigger || !id) return;
+                    await trigger({
+                      variables: { id, input: { title, body } },
+                    });
+                    toast.success('Post updated');
+                  }}
+                />
+              </Dialog>
+            ),
+          },
+        }}
+        detailsViewType="drawer"
+        renderDetailsView={(nodeProps) => (
+          <Stack spacing={1.5} sx={{ p: 2, height: '100%' }}>
+            <Stack
+              direction="row"
+              alignItems="center"
+              justifyContent="space-between"
+            >
+              <Box>
+                <Typography
+                  variant="caption"
+                  sx={{
+                    textTransform: 'uppercase',
+                    letterSpacing: '0.08em',
+                    color: 'text.secondary',
+                  }}
+                >
+                  Detail
+                </Typography>
+                <Typography
+                  variant="subtitle1"
+                  sx={{ fontWeight: 700, textTransform: 'capitalize' }}
+                >
+                  {nodeProps?.data?.title ?? 'Post'}
+                </Typography>
+              </Box>
+              <Chip
+                size="small"
+                label={`id: ${nodeProps?.data?.id ?? '—'}`}
+              />
+            </Stack>
+            <JsonView
+              data={nodeProps?.data ?? {}}
+              loading={nodeProps.loading}
+              title="Post payload"
+            />
+          </Stack>
+        )}
+        renderItemView={(record, views, state) => (
+          <PostCard
+            key={record.id}
+            post={record}
+            index={state.index}
+            checkbox={views.checkbox}
+            action={views.action}
+          />
+        )}
+      />
+    </Stack>
+  );
+}
+
+type IndexProps = { source: string };
+
+export function Index({ source }: IndexProps) {
   const client = useMemo(createPublicClient, []);
 
   return (
     <ApolloProvider client={client}>
       <AppBar context="GraphQL CRUD" />
       <Box sx={{ py: 4, px: { xs: 2, md: 4 } }}>
-        <PostsPanel />
+        <Stack spacing={3} sx={{ mx: 'auto', maxWidth: 1600 }}>
+          <Paper
+            variant="outlined"
+            sx={{
+              p: 1.5,
+              display: 'flex',
+              flexWrap: 'wrap',
+              alignItems: 'center',
+              gap: 1,
+              backgroundColor: 'action.hover',
+            }}
+          >
+            <Chip size="small" label="page header + actions" />
+            <Chip size="small" label="filter view" />
+            <Chip size="small" label="tabs · sticky cols" />
+            <Chip size="small" label="row selection + bulk" />
+            <Chip size="small" label="sorting · density · expand" />
+            <Chip size="small" label="modal forms" />
+            <Chip size="small" label="detail drawer" />
+            <Chip size="small" label="contentViewType toggle" />
+          </Paper>
+          <PostsPanel source={source} />
+        </Stack>
       </Box>
     </ApolloProvider>
   );
 }
+
+export const getStaticProps: GetStaticProps<IndexProps> = async () => ({
+  props: { source: readPageSource(PAGE_SOURCE_PATH) },
+});
 
 export default Index;
 // keep CrudProps imported so future ref-based interactions stay typed
