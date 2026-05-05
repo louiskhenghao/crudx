@@ -44,16 +44,18 @@ export const ButtonDropdown: React.FC<ButtonDropdownProps> = (props) => {
 
   // =============== VIEWS
   const triggerNode = (
-    <Button
-      size={type === 'icon' ? 'icon' : size}
-      variant={variant}
-      className={cn('button-dropdown-view', className)}
-      aria-haspopup="true"
-      aria-expanded={open ? 'true' : undefined}
-      {...buttonProps}
-    >
-      {triggerContent}
-    </Button>
+    <DropdownMenuTrigger asChild>
+      <Button
+        size={type === 'icon' ? 'icon' : size}
+        variant={variant}
+        className={cn('button-dropdown-view', className)}
+        aria-haspopup="true"
+        aria-expanded={open ? 'true' : undefined}
+        {...buttonProps}
+      >
+        {triggerContent}
+      </Button>
+    </DropdownMenuTrigger>
   );
 
   const wrappedTrigger = tooltip ? (
@@ -68,7 +70,7 @@ export const ButtonDropdown: React.FC<ButtonDropdownProps> = (props) => {
 
   return (
     <DropdownMenu open={open} onOpenChange={setOpen}>
-      <DropdownMenuTrigger asChild>{wrappedTrigger}</DropdownMenuTrigger>
+      {wrappedTrigger}
       <DropdownMenuContent
         className="button-dropdown-menu"
         align="start"
