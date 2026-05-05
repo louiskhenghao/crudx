@@ -2,7 +2,10 @@ import React, { useEffect, useState } from 'react';
 import * as Collapsible from '@radix-ui/react-collapsible';
 
 import { InferDataColumnType, TableColumnType } from '../../@types';
-import { getColumnStickyState } from '../../adapters/column-sticky';
+import {
+  getColumnPinningStyle,
+  getColumnStickyState,
+} from '../../adapters/column-sticky';
 import { cn } from '../../lib/cn';
 import { Checkbox } from '../../primitives/checkbox';
 
@@ -90,7 +93,7 @@ export const TableRow = <TData,>(props: TableRowProps<TData>) => {
         {...restProps}
         data-state={checked ? 'selected' : undefined}
         className={cn(
-          'crudx-table-row border-b border-border [&:not(:last-child)>td]:border-b hover:bg-muted/40 data-[state=selected]:bg-muted/50 [&_>:first-child]:relative',
+          'crudx-table-row [&:not(:last-child)>td]:border-b [&_>td]:border-border hover:bg-muted/40 data-[state=selected]:bg-muted/50',
           clickable && 'cursor-pointer',
           className
         )}
@@ -99,13 +102,18 @@ export const TableRow = <TData,>(props: TableRowProps<TData>) => {
         {/* CHECKBOX */}
         {enableCheckbox && (
           <td
+            data-sticky={hasCheckBoxSticky ? 'left' : undefined}
             className={cn(
-              'crudx-table-row-item crudx-checkbox-column text-center align-middle [&:has([role=checkbox])]:pe-0',
+              'crudx-table-row-item crudx-checkbox-column text-center align-middle !px-3',
+              hasCheckBoxSticky && 'sticky bg-background/90 backdrop-blur-xs',
               {
-                'sticky border-right': hasCheckBoxSticky,
+                'border-right': hasCheckBoxSticky,
               }
             )}
-            style={{ verticalAlign: valignToStyle(valignCheckbox) }}
+            style={{
+              verticalAlign: valignToStyle(valignCheckbox),
+              ...(hasCheckBoxSticky ? { left: 0, zIndex: 3 } : {}),
+            }}
           >
             <Checkbox
               checked={checked}
@@ -122,6 +130,8 @@ export const TableRow = <TData,>(props: TableRowProps<TData>) => {
             index,
             hasCheckBoxSticky
           );
+          const { side, offset, isLastLeftPinned, isFirstRightPinned } =
+            getColumnPinningStyle(columns, index, hasCheckBoxSticky);
 
           const result = dataIndex ? (data as any)[dataIndex] : data;
           const finalClassName =
@@ -135,16 +145,25 @@ export const TableRow = <TData,>(props: TableRowProps<TData>) => {
             ...restCellProps
           } = column.dataColumnProps ?? {};
 
+          const boxShadow = isLastLeftPinned
+            ? '-4px 0 4px -4px rgb(0 0 0 / 0.15) inset'
+            : isFirstRightPinned
+            ? '4px 0 4px -4px rgb(0 0 0 / 0.15) inset'
+            : undefined;
+
           return (
             <td
               key={`${key}-${index}`}
+              data-sticky={sticky ? side ?? true : undefined}
               className={cn(
                 'crudx-table-row-item',
                 `crudx-column-${key}`,
                 'align-middle [&:has([role=checkbox])]:pe-0',
                 alignToClass(column.align ?? 'left'),
+                sticky && 'sticky bg-background/90 backdrop-blur-xs',
                 {
-                  'sticky position-right': sticky,
+                  'position-right': sticky && side === 'right',
+                  'position-left': sticky && side === 'left',
                   'border-left': sticky,
                   'border-right': sticky,
                   'none-border-left': hideBorderLeft,
@@ -157,6 +176,10 @@ export const TableRow = <TData,>(props: TableRowProps<TData>) => {
                 width: column.width,
                 minWidth: column.minWidth,
                 verticalAlign: valignToStyle(column.valign ?? valign),
+                ...(sticky ? { zIndex: 3 } : {}),
+                ...(sticky && side === 'left' ? { left: offset } : {}),
+                ...(sticky && side === 'right' ? { right: offset } : {}),
+                ...(boxShadow ? { boxShadow } : {}),
                 ...cellStyle,
               }}
               {...restCellProps}

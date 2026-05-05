@@ -3,7 +3,10 @@ import { ArrowDown, ArrowUp, ArrowUpDown } from 'lucide-react';
 import isEmpty from 'lodash/isEmpty';
 
 import { TableColumnType } from '../../@types';
-import { getColumnStickyState } from '../../adapters/column-sticky';
+import {
+  getColumnPinningStyle,
+  getColumnStickyState,
+} from '../../adapters/column-sticky';
 import { cn } from '../../lib/cn';
 import { Checkbox } from '../../primitives/checkbox';
 
@@ -149,7 +152,9 @@ export const TableHead = <TData,>(props: TableHeadProps<TData>) => {
   ) => {
     const { key, sticky } = column;
     const sticky_ = getColumnStickyState(columns, index, hasCheckBoxSticky);
+    const pinning = getColumnPinningStyle(columns, index, hasCheckBoxSticky);
     const { hideBorderLeft, hideBorderRight } = sticky_;
+    const { side, offset, isLastLeftPinned, isFirstRightPinned } = pinning;
 
     const align = column.alignTitle ?? column.align ?? 'left';
 
@@ -158,9 +163,10 @@ export const TableHead = <TData,>(props: TableHeadProps<TData>) => {
       `crudx-column-${key}`,
       'relative align-middle font-normal text-accent-foreground [&:has([role=checkbox])]:pe-0',
       alignToClass(align),
+      sticky && 'sticky bg-muted/90 backdrop-blur-xs',
       {
-        sticky: sticky,
-        'position-right': sticky,
+        'position-right': sticky && side === 'right',
+        'position-left': sticky && side === 'left',
         'table-head-group': groupType === 'group',
         'table-head-group-item': groupType === 'item',
         'border-left': sticky,
@@ -180,15 +186,25 @@ export const TableHead = <TData,>(props: TableHeadProps<TData>) => {
       ...restHeaderProps
     } = column.headerColumnProps ?? {};
 
+    const boxShadow = isLastLeftPinned
+      ? '-4px 0 4px -4px rgb(0 0 0 / 0.15) inset'
+      : isFirstRightPinned
+      ? '4px 0 4px -4px rgb(0 0 0 / 0.15) inset'
+      : undefined;
+
     return (
       <th
         key={key}
+        data-sticky={sticky ? side ?? true : undefined}
         className={cn(baseHeadClass, headerClassName)}
         style={{
           width: column.width,
           minWidth: column.minWidth,
           zIndex: sticky ? 4 : undefined,
           verticalAlign: 'middle',
+          ...(sticky && side === 'left' ? { left: offset } : {}),
+          ...(sticky && side === 'right' ? { right: offset } : {}),
+          ...(boxShadow ? { boxShadow } : {}),
           ...headerStyle,
         }}
         colSpan={colSpan}
@@ -224,19 +240,24 @@ export const TableHead = <TData,>(props: TableHeadProps<TData>) => {
       >
         {enableCheckbox && (
           <th
+            data-sticky={hasCheckBoxSticky ? 'left' : undefined}
             className={cn(
               'crudx-table-head-row-item crudx-checkbox-column',
-              'relative w-[44px] text-center align-middle [&:has([role=checkbox])]:pe-0',
+              'relative w-[44px] text-center align-middle !px-3',
+              hasCheckBoxSticky && 'sticky bg-muted/90 backdrop-blur-xs',
               {
-                'sticky crudx-border-right': hasCheckBoxSticky,
-                'crudx-border-top': borderTop,
-                'crudx-border-bottom': borderBottom,
-                'crudx-none-border-top': !borderTop,
-                'crudx-none-border-bottom': !borderBottom,
+                'border-right': hasCheckBoxSticky,
+                'border-top': borderTop,
+                'border-bottom': borderBottom,
+                'none-border-top': !borderTop,
+                'none-border-bottom': !borderBottom,
               }
             )}
             rowSpan={hasGroup ? 2 : undefined}
-            style={{ verticalAlign: 'middle' }}
+            style={{
+              verticalAlign: 'middle',
+              ...(hasCheckBoxSticky ? { left: 0, zIndex: 4 } : {}),
+            }}
           >
             <Checkbox
               aria-label="Select all"

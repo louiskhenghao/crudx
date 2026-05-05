@@ -27,7 +27,7 @@ import {
   TabView,
   TooltipView,
 } from '@crudx/shadcn';
-import { Edit, Heart, Home } from 'lucide-react';
+import { Edit, Heart, Home, Trash2 } from 'lucide-react';
 
 import { AppBar } from '../components';
 
@@ -162,6 +162,98 @@ function TableDemo() {
       onPageChange={setPage}
       onPageSizeChange={setPageSize}
     />
+  );
+}
+
+type StickyRow = {
+  id: number;
+  name: string;
+  email: string;
+  team: string;
+  role: string;
+  city: string;
+  country: string;
+  joined: string;
+  salary: number;
+  status: string;
+};
+
+const STICKY_ROWS: StickyRow[] = [
+  { id: 1, name: 'Ada Lovelace', email: 'ada@analytical.engine', team: 'Engineering', role: 'Principal Engineer', city: 'London', country: 'United Kingdom', joined: '1843-12-10', salary: 215000, status: 'Active' },
+  { id: 2, name: 'Alan Turing', email: 'alan@bletchley.uk', team: 'Research', role: 'Cryptographer', city: 'Manchester', country: 'United Kingdom', joined: '1936-06-12', salary: 198000, status: 'Active' },
+  { id: 3, name: 'Grace Hopper', email: 'grace@navy.mil', team: 'Compilers', role: 'Rear Admiral', city: 'Arlington', country: 'United States', joined: '1944-07-02', salary: 184000, status: 'Active' },
+  { id: 4, name: 'Katherine Johnson', email: 'katherine@nasa.gov', team: 'Trajectory', role: 'Mathematician', city: 'Hampton', country: 'United States', joined: '1953-06-18', salary: 172000, status: 'Active' },
+  { id: 5, name: 'Hedy Lamarr', email: 'hedy@spread.spectrum', team: 'Comms', role: 'Inventor', city: 'Vienna', country: 'Austria', joined: '1942-08-11', salary: 165000, status: 'Pending' },
+  { id: 6, name: 'Tim Berners-Lee', email: 'timbl@cern.ch', team: 'Web Platform', role: 'Director', city: 'Geneva', country: 'Switzerland', joined: '1989-03-12', salary: 240000, status: 'Active' },
+  { id: 7, name: 'Margaret Hamilton', email: 'margaret@mit.edu', team: 'Apollo', role: 'Software Lead', city: 'Cambridge', country: 'United States', joined: '1965-09-01', salary: 202000, status: 'On leave' },
+];
+
+const STICKY_COLUMNS = [
+  { key: 'id', title: '#', width: 60, dataIndex: 'id' as const, align: 'center' as const },
+  { key: 'name', title: 'Name', width: 180, dataIndex: 'name' as const, sortable: true },
+  { key: 'email', title: 'Email', width: 240, dataIndex: 'email' as const },
+  { key: 'team', title: 'Team', width: 140, dataIndex: 'team' as const },
+  { key: 'role', title: 'Role', width: 200, dataIndex: 'role' as const },
+  { key: 'city', title: 'City', width: 150, dataIndex: 'city' as const },
+  { key: 'country', title: 'Country', width: 180, dataIndex: 'country' as const },
+  { key: 'joined', title: 'Joined', width: 130, dataIndex: 'joined' as const },
+  {
+    key: 'salary',
+    title: 'Salary',
+    width: 130,
+    align: 'right' as const,
+    render: (_: unknown, record: StickyRow) => (
+      <NumberFormatView amount={record.salary} format="0,0" prefix="$" />
+    ),
+  },
+  { key: 'status', title: 'Status', width: 120, dataIndex: 'status' as const },
+  {
+    key: 'action',
+    title: 'Action',
+    width: 110,
+    sticky: true,
+    align: 'center' as const,
+    render: () => (
+      <div className="flex items-center justify-center gap-1">
+        <button
+          type="button"
+          aria-label="Edit"
+          className="inline-flex h-7 w-7 items-center justify-center rounded-md border border-border text-muted-foreground hover:bg-accent hover:text-foreground"
+        >
+          <Edit className="h-3.5 w-3.5" />
+        </button>
+        <button
+          type="button"
+          aria-label="Delete"
+          className="inline-flex h-7 w-7 items-center justify-center rounded-md border border-border text-muted-foreground hover:bg-destructive/10 hover:text-destructive"
+        >
+          <Trash2 className="h-3.5 w-3.5" />
+        </button>
+      </div>
+    ),
+  },
+];
+
+function TableStickyDemo() {
+  return (
+    <div className="max-w-full">
+      <p className="mb-2 text-xs text-muted-foreground">
+        Scroll horizontally — the checkbox column stays pinned to the left and
+        the action column stays pinned to the right. Inset shadows mark the
+        sticky boundaries.
+      </p>
+      <Table<StickyRow>
+        data={STICKY_ROWS}
+        columns={STICKY_COLUMNS}
+        bordered
+        pagination={false}
+        checkbox={{
+          enabled: true,
+          sticky: true,
+          dataIndex: 'id',
+        }}
+      />
+    </div>
   );
 }
 
@@ -531,6 +623,34 @@ export function ComponentsShadcnPage() {
 />`}
           >
             <TableDemo />
+          </Section>
+
+          <Section
+            name="Table — sticky columns"
+            importLine={`import { Table } from '@crudx/shadcn';`}
+            description="Pin the checkbox column to the left edge with `checkbox.sticky` and pin a column (e.g. an action column) to the right edge with `sticky: true`. Cumulative offsets and inset boundary shadows are applied automatically."
+            code={`<Table<Row>
+  data={rows}
+  bordered
+  pagination={false}
+  checkbox={{ enabled: true, sticky: true, dataIndex: 'id' }}
+  columns={[
+    { key: 'id',     title: '#',      width: 60,  dataIndex: 'id' },
+    { key: 'name',   title: 'Name',   width: 180, dataIndex: 'name', sortable: true },
+    { key: 'email',  title: 'Email',  width: 240, dataIndex: 'email' },
+    /* …more columns to force horizontal scroll… */
+    {
+      key: 'action',
+      title: 'Action',
+      width: 110,
+      sticky: true,                       /* pin to right edge */
+      align: 'center',
+      render: () => <RowActions />,
+    },
+  ]}
+/>`}
+          >
+            <TableStickyDemo />
           </Section>
 
           <Section

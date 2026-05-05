@@ -1,7 +1,7 @@
 import { cva } from 'class-variance-authority';
 
 export const tableVariants = cva(
-  'w-full align-middle caption-bottom text-left rtl:text-right text-foreground font-normal text-sm border-separate border-spacing-0',
+  'min-w-full align-middle caption-bottom text-left rtl:text-right text-foreground font-normal text-sm border-separate border-spacing-0',
   {
     variants: {
       borderStyle: {
