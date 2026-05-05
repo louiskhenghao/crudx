@@ -9,6 +9,12 @@
  * The CRUD demo pages (`test-crud-public-*`) cover the high-level
  * `CrudPanelView` surface; this page covers the lower-level building
  * blocks underneath it.
+ *
+ * The code snippet under each section is *extracted* from the live
+ * demo function via `readDemoSnippets()` at build time, so what you
+ * see in the `<pre>` is exactly the JSX that's rendered above it.
+ * Every demo is tagged with `// @demo:KEY` and the snippet helper
+ * pulls out the body of its `return ( ... )`.
  */
 
 import { ReactNode, useRef, useState } from 'react';
@@ -45,8 +51,12 @@ import {
   Stack,
   Typography,
 } from '@mui/material';
+import { GetStaticProps } from 'next';
 
-import { AppBar } from '../components';
+import { AppBar, CodeBlock } from '../components';
+import { readDemoSnippets } from '../lib/pageSnippets';
+
+const PAGE_SOURCE_PATH = 'apps/example/src/pages/components-mui.tsx';
 
 type Row = { id: number; name: string; role: string; salary: number };
 
@@ -139,25 +149,8 @@ function Section(props: {
             >
               {children}
             </Box>
-            <Box
-              component="pre"
-              sx={{
-                m: 0,
-                mt: 1.5,
-                p: 1.5,
-                borderRadius: 2,
-                border: 1,
-                borderColor: 'divider',
-                bgcolor: '#0F172A',
-                color: '#E2E8F0',
-                fontFamily:
-                  '"JetBrains Mono", "Fira Code", "SF Mono", Menlo, Consolas, monospace',
-                fontSize: 12,
-                lineHeight: 1.55,
-                overflow: 'auto',
-              }}
-            >
-              <code>{code}</code>
+            <Box sx={{ mt: 1.5 }}>
+              <CodeBlock code={code} language="tsx" />
             </Box>
           </Box>
         </Stack>
@@ -168,8 +161,26 @@ function Section(props: {
 
 /* --------------------------------------------------------------- */
 /* Per-component demo wrappers                                     */
+/*                                                                 */
+/* Each demo is annotated with `// @demo:KEY` so its `return (...)` */
+/* body is auto-extracted as the snippet shown under it.           */
 /* --------------------------------------------------------------- */
 
+// @demo:breadcrumb-view
+function BreadcrumbViewDemo() {
+  return (
+    <BreadcrumbView
+      items={[
+        { label: 'Home', url: '/', icon: <HomeIcon fontSize="small" /> },
+        { label: 'Team', url: '/team' },
+        { label: 'Ada Lovelace' },
+      ]}
+      current="/team/ada"
+    />
+  );
+}
+
+// @demo:button-dropdown
 function ButtonDropdownDemo() {
   const [last, setLast] = useState<string | null>(null);
   return (
@@ -192,6 +203,7 @@ function ButtonDropdownDemo() {
   );
 }
 
+// @demo:dialog
 function DialogDemo() {
   const ref = useRef<DialogRefProps>(null);
   const [result, setResult] = useState<string>('—');
@@ -217,6 +229,86 @@ function DialogDemo() {
   );
 }
 
+// @demo:number-format-view
+function NumberFormatViewDemo() {
+  return (
+    <Stack direction="row" spacing={3} alignItems="center">
+      <NumberFormatView
+        amount={1234567.89}
+        format="0,0.00"
+        prefix="$"
+        postfix=" USD"
+      />
+      <NumberFormatView amount={0.7421} format="0.0%" />
+      <NumberFormatView amount={2_500_000} format="0.0a" prefix="≈ " />
+    </Stack>
+  );
+}
+
+// @demo:render-flex-view
+function RenderFlexViewDemo() {
+  return (
+    <RenderFlexView
+      containerProps={{ spacing: 2 }}
+      items={[
+        [
+          {
+            xs: 12,
+            sm: 6,
+            children: (
+              <Card variant="outlined">
+                <CardContent>
+                  <Typography variant="body2">Cell A</Typography>
+                </CardContent>
+              </Card>
+            ),
+          },
+          {
+            xs: 12,
+            sm: 6,
+            children: (
+              <Card variant="outlined">
+                <CardContent>
+                  <Typography variant="body2">Cell B</Typography>
+                </CardContent>
+              </Card>
+            ),
+          },
+        ],
+        [
+          {
+            xs: 12,
+            children: (
+              <Card variant="outlined">
+                <CardContent>
+                  <Typography variant="body2">Full-width row</Typography>
+                </CardContent>
+              </Card>
+            ),
+          },
+        ],
+      ]}
+    />
+  );
+}
+
+// @demo:render-node-view
+function RenderNodeViewDemo() {
+  return (
+    <RenderNodeView
+      spacing={1}
+      items={[
+        {
+          key: 'icon',
+          content: <FavoriteIcon color="error" fontSize="small" />,
+        },
+        { key: 'label', content: <span>23 favourites</span> },
+      ]}
+    />
+  );
+}
+
+// @demo:table
 function TableDemo() {
   const [page, setPage] = useState(0);
   const [pageSize, setPageSize] = useState(10);
@@ -235,6 +327,7 @@ function TableDemo() {
   );
 }
 
+// @demo:table-head
 function TableHeadDemo() {
   return (
     <Box
@@ -251,6 +344,7 @@ function TableHeadDemo() {
   );
 }
 
+// @demo:table-row
 function TableRowDemo() {
   return (
     <Box
@@ -271,6 +365,7 @@ function TableRowDemo() {
   );
 }
 
+// @demo:table-pagination
 function TablePaginationDemo() {
   const [page, setPage] = useState(0);
   const [pageSize, setPageSize] = useState(10);
@@ -286,6 +381,7 @@ function TablePaginationDemo() {
   );
 }
 
+// @demo:table-selected-bulk-options
 function TableSelectedBulkOptionsDemo() {
   const [last, setLast] = useState<string | null>(null);
   return (
@@ -305,6 +401,7 @@ function TableSelectedBulkOptionsDemo() {
   );
 }
 
+// @demo:table-settings-density-options
 function TableSettingsDensityOptionsDemo() {
   const [density, setDensity] = useState<string>('default');
   return (
@@ -319,6 +416,7 @@ function TableSettingsDensityOptionsDemo() {
   );
 }
 
+// @demo:table-settings-options
 function TableSettingsOptionsDemo() {
   const [last, setLast] = useState<string | null>(null);
   return (
@@ -338,6 +436,7 @@ function TableSettingsOptionsDemo() {
   );
 }
 
+// @demo:table-settings-sorting-options
 function TableSettingsSortingOptionsDemo() {
   const [selected, setSelected] = useState<SortingOptionType>('DEFAULT');
   return (
@@ -353,6 +452,7 @@ function TableSettingsSortingOptionsDemo() {
   );
 }
 
+// @demo:tab-view
 function TabViewDemo() {
   return (
     <TabView
@@ -391,11 +491,30 @@ function TabViewDemo() {
   );
 }
 
+// @demo:tooltip-view
+function TooltipViewDemo() {
+  return (
+    <Stack direction="row" spacing={2} alignItems="center">
+      <TooltipView title="Edit this record" arrow>
+        <Button startIcon={<EditIcon />}>Edit</Button>
+      </TooltipView>
+      <TooltipView title="Disabled — no permission" arrow>
+        <span>
+          <Button disabled>Save</Button>
+        </span>
+      </TooltipView>
+    </Stack>
+  );
+}
+
 /* --------------------------------------------------------------- */
 /* Page                                                            */
 /* --------------------------------------------------------------- */
 
-export function ComponentsMuiPage() {
+type PageProps = { snippets: Record<string, string> };
+
+export function ComponentsMuiPage({ snippets }: PageProps) {
+  const code = (key: string) => snippets[key] ?? `// missing snippet: ${key}`;
   return (
     <Box sx={{ bgcolor: 'background.default', minHeight: '100vh' }}>
       <AppBar context="@crudx/mui · Components" />
@@ -426,44 +545,16 @@ export function ComponentsMuiPage() {
             name="BreadcrumbView"
             importLine={`import { BreadcrumbView } from '@crudx/mui';`}
             description="Navigation trail. Items can be plain links or chips, with an optional icon per crumb. Pass `current` to mark the active path."
-            code={`<BreadcrumbView
-  items={[
-    { label: 'Home', url: '/', icon: <HomeIcon fontSize="small" /> },
-    { label: 'Team', url: '/team' },
-    { label: 'Ada Lovelace' },
-  ]}
-  current="/team/ada"
-/>`}
+            code={code('breadcrumb-view')}
           >
-            <BreadcrumbView
-              items={[
-                {
-                  label: 'Home',
-                  url: '/',
-                  icon: <HomeIcon fontSize="small" />,
-                },
-                { label: 'Team', url: '/team' },
-                { label: 'Ada Lovelace' },
-              ]}
-              current="/team/ada"
-            />
+            <BreadcrumbViewDemo />
           </Section>
 
           <Section
             name="ButtonDropdown"
             importLine={`import { ButtonDropdown } from '@crudx/mui';`}
             description="Menu-style dropdown with either button or icon trigger. Each item dispatches its `key` through `onItemClick`."
-            code={`<ButtonDropdown
-  type="button"
-  items={[
-    { key: 'edit', title: 'Edit' },
-    { key: 'duplicate', title: 'Duplicate' },
-    { key: 'archive', title: 'Archive' },
-  ]}
-  onItemClick={(key) => console.log(key)}
->
-  Actions
-</ButtonDropdown>`}
+            code={code('button-dropdown')}
           >
             <ButtonDropdownDemo />
           </Section>
@@ -472,17 +563,7 @@ export function ComponentsMuiPage() {
             name="Dialog"
             importLine={`import { Dialog, DialogRefProps } from '@crudx/mui';`}
             description="Imperative dialog driven by ref (`open()`, `close()`, `toggle()`). Built-in `confirmation`, `info`, `success`, `error`, `warning`, and `custom` variants."
-            code={`const ref = useRef<DialogRefProps>(null);
-<Button onClick={() => ref.current?.open()}>Open</Button>
-<Dialog
-  ref={ref}
-  type="confirmation"
-  title="Delete this record?"
-  message="This action can't be undone."
-  primaryText="Delete"
-  secondaryText="Cancel"
-  onClickPrimaryAction={() => {/* ... */}}
-/>`}
+            code={code('dialog')}
           >
             <DialogDemo />
           </Section>
@@ -491,134 +572,34 @@ export function ComponentsMuiPage() {
             name="NumberFormatView"
             importLine={`import { NumberFormatView } from '@crudx/mui';`}
             description="Number formatter wrapper. Uses numeral.js format strings and supports prefix / postfix slots."
-            code={`<NumberFormatView
-  amount={1234567.89}
-  format="0,0.00"
-  prefix="$"
-  postfix=" USD"
-/>`}
+            code={code('number-format-view')}
           >
-            <Stack direction="row" spacing={3} alignItems="center">
-              <NumberFormatView
-                amount={1234567.89}
-                format="0,0.00"
-                prefix="$"
-                postfix=" USD"
-              />
-              <NumberFormatView amount={0.7421} format="0.0%" />
-              <NumberFormatView
-                amount={2_500_000}
-                format="0.0a"
-                prefix="≈ "
-              />
-            </Stack>
+            <NumberFormatViewDemo />
           </Section>
 
           <Section
             name="RenderFlexView"
             importLine={`import { RenderFlexView } from '@crudx/mui';`}
             description="Declarative MUI Grid layout. Each row is an array of `xs/sm/md`-sized cells. Useful when you want layout to live in data rather than JSX."
-            code={`<RenderFlexView
-  containerProps={{ spacing: 2 }}
-  items={[
-    [
-      { xs: 12, sm: 6, children: <Card>...</Card> },
-      { xs: 12, sm: 6, children: <Card>...</Card> },
-    ],
-    [{ xs: 12, children: <Card>...</Card> }],
-  ]}
-/>`}
+            code={code('render-flex-view')}
           >
-            <RenderFlexView
-              containerProps={{ spacing: 2 }}
-              items={[
-                [
-                  {
-                    xs: 12,
-                    sm: 6,
-                    children: (
-                      <Card variant="outlined">
-                        <CardContent>
-                          <Typography variant="body2">Cell A</Typography>
-                        </CardContent>
-                      </Card>
-                    ),
-                  },
-                  {
-                    xs: 12,
-                    sm: 6,
-                    children: (
-                      <Card variant="outlined">
-                        <CardContent>
-                          <Typography variant="body2">Cell B</Typography>
-                        </CardContent>
-                      </Card>
-                    ),
-                  },
-                ],
-                [
-                  {
-                    xs: 12,
-                    children: (
-                      <Card variant="outlined">
-                        <CardContent>
-                          <Typography variant="body2">
-                            Full-width row
-                          </Typography>
-                        </CardContent>
-                      </Card>
-                    ),
-                  },
-                ],
-              ]}
-            />
+            <RenderFlexViewDemo />
           </Section>
 
           <Section
             name="RenderNodeView"
             importLine={`import { RenderNodeView } from '@crudx/mui';`}
             description="Inline horizontal stack with a keyed list of nodes — handy for icon + label combos that need stable keys."
-            code={`<RenderNodeView
-  spacing={1}
-  items={[
-    { key: 'icon', content: <FavoriteIcon color="error" /> },
-    { key: 'label', content: <span>23 favourites</span> },
-  ]}
-/>`}
+            code={code('render-node-view')}
           >
-            <RenderNodeView
-              spacing={1}
-              items={[
-                {
-                  key: 'icon',
-                  content: <FavoriteIcon color="error" fontSize="small" />,
-                },
-                { key: 'label', content: <span>23 favourites</span> },
-              ]}
-            />
+            <RenderNodeViewDemo />
           </Section>
 
           <Section
             name="Table"
             importLine={`import { Table } from '@crudx/mui';`}
             description="The full table primitive — head, rows and pagination wired up. Use this when you want a turnkey table without going through CrudTableView."
-            code={`<Table<Row>
-  data={rows}
-  columns={[
-    { key: 'name', title: 'Name', dataIndex: 'name', sortable: true },
-    { key: 'role', title: 'Role', dataIndex: 'role' },
-    { key: 'salary', title: 'Salary', align: 'right',
-      render: (_, r) => <NumberFormatView amount={r.salary} prefix="$" />,
-    },
-  ]}
-  striped
-  bordered
-  page={page}
-  pageSize={pageSize}
-  total={rows.length}
-  onPageChange={setPage}
-  onPageSizeChange={setPageSize}
-/>`}
+            code={code('table')}
           >
             <TableDemo />
           </Section>
@@ -627,15 +608,7 @@ export function ComponentsMuiPage() {
             name="TableHead"
             importLine={`import { TableHead } from '@crudx/mui';`}
             description="Standalone table header — use it when composing your own `<table>` instead of using `Table`. Drives sort indicators and the bulk-checkbox state."
-            code={`<table>
-  <TableHead<Row>
-    columns={columns}
-    checkbox={{ enabled: true }}
-    checked="partial"
-    sorting={{ defaultOrder: 'name', defaultDirection: 'asc' }}
-    onSort={(key, direction) => {/* ... */}}
-  />
-</table>`}
+            code={code('table-head')}
           >
             <TableHeadDemo />
           </Section>
@@ -644,16 +617,7 @@ export function ComponentsMuiPage() {
             name="TableRow"
             importLine={`import { TableRow } from '@crudx/mui';`}
             description="Standalone table row — pair with TableHead when you need a custom shell. Renders cells from the same column config as Table."
-            code={`<tbody>
-  {rows.map((row, idx) => (
-    <TableRow<Row>
-      key={row.id}
-      position={idx}
-      data={row}
-      columns={columns}
-    />
-  ))}
-</tbody>`}
+            code={code('table-row')}
           >
             <TableRowDemo />
           </Section>
@@ -662,14 +626,7 @@ export function ComponentsMuiPage() {
             name="TablePagination"
             importLine={`import { TablePagination } from '@crudx/mui';`}
             description="Page controls. Note that MUI's variant is 0-indexed — `page=0` is the first page."
-            code={`<TablePagination
-  page={page}              // 0-indexed
-  pageSize={pageSize}
-  total={142}
-  pageSizeOptions={[10, 25, 50]}
-  onPageChange={setPage}
-  onPageSizeChange={setPageSize}
-/>`}
+            code={code('table-pagination')}
           >
             <TablePaginationDemo />
           </Section>
@@ -678,14 +635,7 @@ export function ComponentsMuiPage() {
             name="TableSelectedBulkOptions"
             importLine={`import { TableSelectedBulkOptions } from '@crudx/mui';`}
             description="Bulk-action menu shown above a table when rows are selected. Defaults to a `{count} Item(s) Selected` label."
-            code={`<TableSelectedBulkOptions
-  total={selected.length}
-  items={[
-    { key: 'delete', title: 'Delete selected' },
-    { key: 'export', title: 'Export selected' },
-  ]}
-  onChange={(key) => handleBulk(key)}
-/>`}
+            code={code('table-selected-bulk-options')}
           >
             <TableSelectedBulkOptionsDemo />
           </Section>
@@ -694,10 +644,7 @@ export function ComponentsMuiPage() {
             name="TableSettingsDensityOptions"
             importLine={`import { TableSettingsDensityOptions } from '@crudx/mui';`}
             description="Density picker. Three preset rows — default / small / medium — with a localisable label per option."
-            code={`<TableSettingsDensityOptions
-  text={{ default: 'Default', small: 'Small', medium: 'Medium' }}
-  onChange={(key) => setDensity(key)}
-/>`}
+            code={code('table-settings-density-options')}
           >
             <TableSettingsDensityOptionsDemo />
           </Section>
@@ -706,14 +653,7 @@ export function ComponentsMuiPage() {
             name="TableSettingsOptions"
             importLine={`import { TableSettingsOptions } from '@crudx/mui';`}
             description="Generic settings dropdown for table-level actions (column toggles, exports, …). Same item shape as ButtonDropdown."
-            code={`<TableSettingsOptions
-  items={[
-    { key: 'columns', title: 'Manage columns' },
-    { key: 'export', title: 'Export CSV' },
-    { key: 'reset', title: 'Reset view' },
-  ]}
-  onChange={(key) => handle(key)}
-/>`}
+            code={code('table-settings-options')}
           >
             <TableSettingsOptionsDemo />
           </Section>
@@ -722,11 +662,7 @@ export function ComponentsMuiPage() {
             name="TableSettingsSortingOptions"
             importLine={`import { TableSettingsSortingOptions, SortingOptionType } from '@crudx/mui';`}
             description="Three-state global sort toggle (DEFAULT / ASC / DESC). Pair with a sortable list view that doesn't pin sort to a single column."
-            code={`const [sort, setSort] = useState<SortingOptionType>('DEFAULT');
-<TableSettingsSortingOptions
-  selected={sort}
-  onChange={(key) => setSort(key as SortingOptionType)}
-/>`}
+            code={code('table-settings-sorting-options')}
           >
             <TableSettingsSortingOptionsDemo />
           </Section>
@@ -735,13 +671,7 @@ export function ComponentsMuiPage() {
             name="TabView"
             importLine={`import { TabView } from '@crudx/mui';`}
             description="Tab list with content slots. Pass `content` per item, or use `renderContent` for fully controlled rendering."
-            code={`<TabView
-  items={[
-    { key: 'overview', label: 'Overview', content: <Overview /> },
-    { key: 'activity', label: 'Activity', content: <Activity /> },
-    { key: 'settings', label: 'Settings', content: <Settings /> },
-  ]}
-/>`}
+            code={code('tab-view')}
           >
             <TabViewDemo />
           </Section>
@@ -750,25 +680,18 @@ export function ComponentsMuiPage() {
             name="TooltipView"
             importLine={`import { TooltipView } from '@crudx/mui';`}
             description="Tooltip wrapper around an arbitrary trigger. Disabled automatically when `title` is empty unless you force `enabled`."
-            code={`<TooltipView title="Edit this record" arrow>
-  <Button startIcon={<EditIcon />}>Edit</Button>
-</TooltipView>`}
+            code={code('tooltip-view')}
           >
-            <Stack direction="row" spacing={2} alignItems="center">
-              <TooltipView title="Edit this record" arrow>
-                <Button startIcon={<EditIcon />}>Edit</Button>
-              </TooltipView>
-              <TooltipView title="Disabled — no permission" arrow>
-                <span>
-                  <Button disabled>Save</Button>
-                </span>
-              </TooltipView>
-            </Stack>
+            <TooltipViewDemo />
           </Section>
         </Stack>
       </Container>
     </Box>
   );
 }
+
+export const getStaticProps: GetStaticProps<PageProps> = async () => ({
+  props: { snippets: readDemoSnippets(PAGE_SOURCE_PATH) },
+});
 
 export default ComponentsMuiPage;
