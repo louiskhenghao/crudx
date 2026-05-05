@@ -32,9 +32,15 @@ const nextConfig = {
   // Render docs by importing raw .md content (CONTRIBUTING.md, the
   // adapters guide, etc.) and feeding it to `react-markdown`. The
   // `asset/source` rule turns each `.md` import into its UTF-8 string.
+  // The `?raw` query rule does the same for any other file — used by
+  // the in-page "view source" panel on the demo pages.
   webpack(config) {
     config.module.rules.push({
       test: /\.md$/,
+      type: 'asset/source',
+    });
+    config.module.rules.push({
+      resourceQuery: /raw/,
       type: 'asset/source',
     });
     return config;
