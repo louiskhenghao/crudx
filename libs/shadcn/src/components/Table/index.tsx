@@ -177,7 +177,7 @@ export const Table = <TData,>(props: PropsWithChildren<TableProps<TData>>) => {
     if (loading) {
       if (loadingView) return loadingView;
       return [...Array(loadingRows)].map((_e, i) => (
-        <tr key={i} className="table-row-loading">
+        <tr key={i} className="crudx-table-row-loading">
           {enableCheckbox && <td colSpan={1} />}
           {columns.map((c) => (
             <td
@@ -197,7 +197,7 @@ export const Table = <TData,>(props: PropsWithChildren<TableProps<TData>>) => {
     }
     if (!hasData) {
       return (
-        <tr className="table-row-empty">
+        <tr className="crudx-table-row-empty">
           <td
             colSpan={columnLength}
             className="text-center p-0"
@@ -264,8 +264,8 @@ export const Table = <TData,>(props: PropsWithChildren<TableProps<TData>>) => {
 
   // =============== VIEWS
   return (
-    <div className="table-main-wrapper">
-      {topView && <div className="table-top-container">{topView}</div>}
+    <div className="crudx-table-main-wrapper">
+      {topView && <div className="crudx-table-top-container">{topView}</div>}
       <div
         {...restContainer}
         className={cn('relative w-full overflow-auto', containerClassName)}
@@ -277,8 +277,8 @@ export const Table = <TData,>(props: PropsWithChildren<TableProps<TData>>) => {
         {/* =============== TABLE */}
         <table
           className={cn(
-            'table',
-            `style-${borderStyle}`,
+            'crudx-table',
+            `crudx-style-${borderStyle}`,
             tableVariants({
               striped,
               bordered,
@@ -316,7 +316,7 @@ export const Table = <TData,>(props: PropsWithChildren<TableProps<TData>>) => {
       </div>
       {/* =============== PAGINATION */}
       {pagination && (
-        <div className="table-pagination-wrapper border-t border-[hsl(var(--border))]">
+        <div className="crudx-table-pagination-wrapper border-t border-border">
           {renderPagination?.({
             page,
             total,

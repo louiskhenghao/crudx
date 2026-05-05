@@ -45,11 +45,7 @@ function CrudPanelViewComponent<
   // =============== VIEWS
   return (
     <div
-      className={cn(
-        'crud-panel-wrapper',
-        !unstyled && 'space-y-0',
-        className
-      )}
+      className={cn('crudx-panel-wrapper', !unstyled && 'space-y-0', className)}
     >
       {renderAlert?.()}
       {enablePageHeader && renderPageHeader?.()}

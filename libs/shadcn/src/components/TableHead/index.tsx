@@ -154,10 +154,9 @@ export const TableHead = <TData,>(props: TableHeadProps<TData>) => {
     const align = column.alignTitle ?? column.align ?? 'left';
 
     const baseHeadClass = cn(
-      'table-head-row-item',
-      `column-${key}`,
-      'font-semibold whitespace-nowrap',
-      'text-xs',
+      'crudx-table-head-row-item',
+      `crudx-column-${key}`,
+      'relative align-middle font-normal text-accent-foreground [&:has([role=checkbox])]:pe-0',
       alignToClass(align),
       {
         sticky: sticky,
@@ -175,8 +174,11 @@ export const TableHead = <TData,>(props: TableHeadProps<TData>) => {
       }
     );
 
-    const { style: headerStyle, className: headerClassName, ...restHeaderProps } =
-      column.headerColumnProps ?? {};
+    const {
+      style: headerStyle,
+      className: headerClassName,
+      ...restHeaderProps
+    } = column.headerColumnProps ?? {};
 
     return (
       <th
@@ -205,31 +207,32 @@ export const TableHead = <TData,>(props: TableHeadProps<TData>) => {
     <thead
       {...restProps}
       className={cn(
-        'table-head',
+        'crudx-table-head',
         stickyHeader && 'sticky top-0 z-10',
-        'bg-[var(--crudx-head-bg,hsl(var(--background)))]',
         className
       )}
-      style={{
-        backgroundColor,
-        ...style,
-      }}
+      style={style}
     >
       <tr
         {...tableRowProps}
-        className={cn('table-head-row', tableRowProps?.className)}
+        className={cn(
+          'crudx-table-head-row bg-[var(--crudx-head-bg,color-mix(in_oklab,var(--muted)_40%,transparent))]',
+          borderBottom && '[&>th]:border-b',
+          tableRowProps?.className
+        )}
+        style={{ backgroundColor, ...tableRowProps?.style }}
       >
         {enableCheckbox && (
           <th
             className={cn(
-              'table-head-row-item checkbox-column',
-              'w-[44px] text-center p-0',
+              'crudx-table-head-row-item crudx-checkbox-column',
+              'relative w-[44px] text-center align-middle [&:has([role=checkbox])]:pe-0',
               {
-                'sticky border-right': hasCheckBoxSticky,
-                'border-top': borderTop,
-                'border-bottom': borderBottom,
-                'none-border-top': !borderTop,
-                'none-border-bottom': !borderBottom,
+                'sticky crudx-border-right': hasCheckBoxSticky,
+                'crudx-border-top': borderTop,
+                'crudx-border-bottom': borderBottom,
+                'crudx-none-border-top': !borderTop,
+                'crudx-none-border-bottom': !borderBottom,
               }
             )}
             rowSpan={hasGroup ? 2 : undefined}
@@ -264,7 +267,7 @@ export const TableHead = <TData,>(props: TableHeadProps<TData>) => {
         <tr
           {...tableRowProps}
           className={cn(
-            'table-head-row-item grouping-column',
+            'crudx-table-head-row-item crudx-grouping-column',
             tableRowProps?.className
           )}
         >

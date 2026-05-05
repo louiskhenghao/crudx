@@ -40,7 +40,7 @@ export const CrudContentHeaderView = (props: CrudContentHeaderViewProps) => {
     const view = typeof viewNode === 'function' ? viewNode() : viewNode;
     if (!view) return null;
     return (
-      <div className="crud-content-header-wrapper">
+      <div className="crudx-content-header-wrapper">
         {view}
         <TabView
           {...headerTabsProps}
@@ -56,11 +56,11 @@ export const CrudContentHeaderView = (props: CrudContentHeaderViewProps) => {
     return null;
   }
   return (
-    <div className="crud-content-header-wrapper">
+    <div className="crudx-content-header-wrapper">
       {(hasInfos || hasActions) && (
-        <div className="crud-content-header-primary flex flex-wrap items-center gap-2 px-4 py-3 border-b border-[hsl(var(--border))]">
+        <div className="crudx-content-header-primary flex flex-wrap items-center gap-2 px-4 py-3 border-b border-[hsl(var(--border))]">
           {headerInfoViews.length > 0 && (
-            <div className="crud-content-header-infos">
+            <div className="crudx-content-header-infos">
               <RenderNodeView
                 direction="row"
                 alignItems="center"
@@ -74,7 +74,7 @@ export const CrudContentHeaderView = (props: CrudContentHeaderViewProps) => {
           )}
 
           {headerActionViews.length > 0 && (
-            <div className="crud-content-header-actions ml-auto">
+            <div className="crudx-content-header-actions ml-auto">
               <RenderNodeView
                 direction="row"
                 alignItems="center"
@@ -90,7 +90,7 @@ export const CrudContentHeaderView = (props: CrudContentHeaderViewProps) => {
       )}
       {/* ====== EXPAND CONTENT */}
       {expanded && (
-        <div className="crud-content-header-expanded-content border-b border-[hsl(var(--border))]">
+        <div className="crudx-content-header-expanded-content border-b border-[hsl(var(--border))]">
           {typeof expandNode === 'function' ? expandNode() : expandNode}
         </div>
       )}
@@ -100,7 +100,7 @@ export const CrudContentHeaderView = (props: CrudContentHeaderViewProps) => {
         <TabView
           {...headerTabsProps}
           className={cn(
-            'crud-content-header-tabview',
+            'crudx-content-header-tabview',
             headerTabsProps?.className
           )}
           value={headerTabState}
@@ -111,7 +111,7 @@ export const CrudContentHeaderView = (props: CrudContentHeaderViewProps) => {
 
       {/* ====== EXTRA CONTENT */}
       {extraNode && (
-        <div className="crud-content-header-extra-content border-t border-[hsl(var(--border))]">
+        <div className="crudx-content-header-extra-content border-t border-[hsl(var(--border))]">
           {typeof extraNode === 'function' ? extraNode() : extraNode}
         </div>
       )}

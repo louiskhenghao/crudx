@@ -171,7 +171,7 @@ export const CrudContentView = <TData = any,>(
     }
 
     return (
-      <div className="crud-content-paginate-button flex flex-wrap items-center justify-center gap-2">
+      <div className="crudx-content-paginate-button flex flex-wrap items-center justify-center gap-2">
         <Button
           size={headerActionSize}
           variant="outline"
@@ -195,7 +195,7 @@ export const CrudContentView = <TData = any,>(
   const renderContentView = () => {
     if (loading) {
       return (
-        <div className="crud-content-data-loading">
+        <div className="crudx-content-data-loading">
           {loadingView ?? (
             <div className="py-10 text-center">
               <Loader2 className="inline-block h-10 w-10 animate-spin text-[hsl(var(--muted-foreground))]" />
@@ -207,7 +207,7 @@ export const CrudContentView = <TData = any,>(
 
     if (!hasData) {
       return (
-        <div className="crud-content-data-empty">
+        <div className="crudx-content-data-empty">
           {emptyView ?? (
             <p className="py-12 text-center text-[hsl(var(--muted-foreground))]">
               {noDataView ?? 'No Data'}
@@ -222,7 +222,7 @@ export const CrudContentView = <TData = any,>(
     }
 
     return (
-      <div className="crud-content-data-items">
+      <div className="crudx-content-data-items">
         {data.map((record, i) => {
           const checkIndex = extractCheckedValue(record);
           const isChecked = checkIndex
@@ -274,7 +274,9 @@ export const CrudContentView = <TData = any,>(
 
   // =============== VIEW
   return (
-    <div className={cn('crud-content-wrapper', !unstyled && 'mt-6', className)}>
+    <div
+      className={cn('crudx-content-wrapper', !unstyled && 'mt-6', className)}
+    >
       {/* ==== HEADER */}
       <CrudContentHeaderView
         text={text as any}
@@ -311,15 +313,13 @@ export const CrudContentView = <TData = any,>(
       />
 
       {/* ==== CONTENT */}
-      <div
-        className={cn('crud-content-data-wrapper', !unstyled && 'py-4')}
-      >
+      <div className={cn('crudx-content-data-wrapper', !unstyled && 'py-4')}>
         {renderContentView()}
       </div>
 
       {/* ==== PAGINATION */}
       <div
-        className={cn('crud-content-pagination-wrapper', !unstyled && 'p-2')}
+        className={cn('crudx-content-pagination-wrapper', !unstyled && 'p-2')}
       >
         {renderPaginationView()}
       </div>

@@ -90,10 +90,8 @@ export const TableRow = <TData,>(props: TableRowProps<TData>) => {
         {...restProps}
         data-state={checked ? 'selected' : undefined}
         className={cn(
-          'table-row border-b border-[hsl(var(--border))] transition-colors',
+          'crudx-table-row border-b border-border [&:not(:last-child)>td]:border-b hover:bg-muted/40 data-[state=selected]:bg-muted/50 [&_>:first-child]:relative',
           clickable && 'cursor-pointer',
-          checked && 'bg-[hsl(var(--muted))]/50',
-          'hover:bg-[hsl(var(--muted))]/30',
           className
         )}
         onClick={onClickRow}
@@ -101,9 +99,12 @@ export const TableRow = <TData,>(props: TableRowProps<TData>) => {
         {/* CHECKBOX */}
         {enableCheckbox && (
           <td
-            className={cn('table-row-item checkbox-column p-0 text-center', {
-              'sticky border-right': hasCheckBoxSticky,
-            })}
+            className={cn(
+              'crudx-table-row-item crudx-checkbox-column text-center align-middle [&:has([role=checkbox])]:pe-0',
+              {
+                'sticky border-right': hasCheckBoxSticky,
+              }
+            )}
             style={{ verticalAlign: valignToStyle(valignCheckbox) }}
           >
             <Checkbox
@@ -138,8 +139,9 @@ export const TableRow = <TData,>(props: TableRowProps<TData>) => {
             <td
               key={`${key}-${index}`}
               className={cn(
-                'table-row-item',
-                `column-${key}`,
+                'crudx-table-row-item',
+                `crudx-column-${key}`,
+                'align-middle [&:has([role=checkbox])]:pe-0',
                 alignToClass(column.align ?? 'left'),
                 {
                   'sticky position-right': sticky,
@@ -165,7 +167,7 @@ export const TableRow = <TData,>(props: TableRowProps<TData>) => {
         })}
       </tr>
       {expandable && (
-        <tr className="table-row-expand">
+        <tr className="crudx-table-row-expand">
           <td
             colSpan={columns.length + (enableCheckbox ? 1 : 0)}
             style={{ padding: 0 }}
