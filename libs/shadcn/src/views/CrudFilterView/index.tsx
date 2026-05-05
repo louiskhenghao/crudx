@@ -25,7 +25,7 @@ export const CrudFilterView = memo((props: CrudFilterViewProps) => {
   return (
     <div
       className={cn(
-        'crud-filter-wrapper',
+        'crudx-filter-wrapper',
         !unstyled &&
           'rounded-lg border border-[hsl(var(--border))] bg-[hsl(var(--card))] p-4 mb-6',
         className
@@ -35,7 +35,7 @@ export const CrudFilterView = memo((props: CrudFilterViewProps) => {
       {title && (
         <div
           className={cn(
-            'crud-filter-title text-base font-bold',
+            'crudx-filter-title text-base font-bold',
             !unstyled && 'mb-2'
           )}
         >
@@ -47,7 +47,7 @@ export const CrudFilterView = memo((props: CrudFilterViewProps) => {
       {!!children && (
         <div
           className={cn(
-            'crud-filter-content',
+            'crudx-filter-content',
             !unstyled && hasActions && 'mb-2'
           )}
         >
@@ -57,10 +57,10 @@ export const CrudFilterView = memo((props: CrudFilterViewProps) => {
 
       {/* ---- ACTIONS */}
       {typeof actions === 'function' && (
-        <div className="crud-filter-actions">{actions()}</div>
+        <div className="crudx-filter-actions">{actions()}</div>
       )}
       {typeof actions === 'object' && (actions as any[]).length > 0 && (
-        <div className="crud-filter-actions">
+        <div className="crudx-filter-actions">
           <RenderFlexView items={[actions as any]} />
         </div>
       )}

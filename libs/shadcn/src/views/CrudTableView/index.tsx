@@ -90,7 +90,7 @@ export const CrudTableView = <TData = any,>(
     if (includes(['pagination'], paginateType)) return null;
 
     return (
-      <div className="crud-table-paginate-button flex flex-wrap items-center justify-end gap-2">
+      <div className="crudx-table-paginate-button flex flex-wrap items-center justify-end gap-2">
         <Button
           size={size as any}
           variant="outline"
@@ -114,7 +114,7 @@ export const CrudTableView = <TData = any,>(
   return (
     <div
       className={cn(
-        'crud-table-wrapper',
+        'crudx-table-wrapper',
         !unstyled &&
           'rounded-lg border border-[hsl(var(--border))] bg-[hsl(var(--card))] mt-6',
         className

@@ -2,7 +2,11 @@ import React, { useEffect, useState } from 'react';
 import * as Collapsible from '@radix-ui/react-collapsible';
 
 import { InferDataColumnType, TableColumnType } from '../../@types';
-import { getColumnStickyState } from '../../adapters/column-sticky';
+import {
+  getColumnPinningStyle,
+  getColumnStickyState,
+} from '../../adapters/column-sticky';
+import { useStickyOffsetsContext } from '../../adapters/use-sticky-offsets';
 import { cn } from '../../lib/cn';
 import { Checkbox } from '../../primitives/checkbox';
 
@@ -44,6 +48,7 @@ export const TableRow = <TData,>(props: TableRowProps<TData>) => {
   const enableCheckbox = checkbox?.enabled ?? false;
   const enableCheckboxSticky = checkbox?.sticky ?? false;
   const hasCheckBoxSticky = enableCheckbox && enableCheckboxSticky;
+  const measuredOffsets = useStickyOffsetsContext();
 
   // =============== STATE
   const [expanded, setExpanded] = useState(false);
@@ -90,10 +95,8 @@ export const TableRow = <TData,>(props: TableRowProps<TData>) => {
         {...restProps}
         data-state={checked ? 'selected' : undefined}
         className={cn(
-          'table-row border-b border-[hsl(var(--border))] transition-colors',
+          'group crudx-table-row [&:not(:last-child)>td]:border-b [&_>td]:border-border hover:bg-muted/40 data-[state=selected]:bg-muted/50',
           clickable && 'cursor-pointer',
-          checked && 'bg-[hsl(var(--muted))]/50',
-          'hover:bg-[hsl(var(--muted))]/30',
           className
         )}
         onClick={onClickRow}
@@ -101,10 +104,19 @@ export const TableRow = <TData,>(props: TableRowProps<TData>) => {
         {/* CHECKBOX */}
         {enableCheckbox && (
           <td
-            className={cn('table-row-item checkbox-column p-0 text-center', {
-              'sticky border-right': hasCheckBoxSticky,
-            })}
-            style={{ verticalAlign: valignToStyle(valignCheckbox) }}
+            data-sticky={hasCheckBoxSticky ? 'left' : undefined}
+            className={cn(
+              'crudx-table-row-item crudx-checkbox-column text-center align-middle !px-3',
+              hasCheckBoxSticky &&
+                'sticky bg-background group-hover:bg-[color-mix(in_oklab,hsl(var(--muted))_40%,hsl(var(--background)))] group-data-[state=selected]:bg-[color-mix(in_oklab,hsl(var(--muted))_50%,hsl(var(--background)))]',
+              {
+                'border-right': hasCheckBoxSticky,
+              }
+            )}
+            style={{
+              verticalAlign: valignToStyle(valignCheckbox),
+              ...(hasCheckBoxSticky ? { left: 0, zIndex: 3 } : {}),
+            }}
           >
             <Checkbox
               checked={checked}
@@ -121,6 +133,17 @@ export const TableRow = <TData,>(props: TableRowProps<TData>) => {
             index,
             hasCheckBoxSticky
           );
+          const pinning = getColumnPinningStyle(
+            columns,
+            index,
+            hasCheckBoxSticky
+          );
+          const { side, isLastLeftPinned, isFirstRightPinned } = pinning;
+          const measured = sticky ? measuredOffsets.get(key) : undefined;
+          const leftOffset =
+            side === 'left' ? measured?.left ?? pinning.offset : undefined;
+          const rightOffset =
+            side === 'right' ? measured?.right ?? pinning.offset : undefined;
 
           const result = dataIndex ? (data as any)[dataIndex] : data;
           const finalClassName =
@@ -134,15 +157,26 @@ export const TableRow = <TData,>(props: TableRowProps<TData>) => {
             ...restCellProps
           } = column.dataColumnProps ?? {};
 
+          const boxShadow = isLastLeftPinned
+            ? '-4px 0 4px -4px rgb(0 0 0 / 0.15) inset'
+            : isFirstRightPinned
+            ? '4px 0 4px -4px rgb(0 0 0 / 0.15) inset'
+            : undefined;
+
           return (
             <td
               key={`${key}-${index}`}
+              data-sticky={sticky ? side ?? true : undefined}
               className={cn(
-                'table-row-item',
-                `column-${key}`,
+                'crudx-table-row-item',
+                `crudx-column-${key}`,
+                'align-middle [&:has([role=checkbox])]:pe-0',
                 alignToClass(column.align ?? 'left'),
+                sticky &&
+                  'sticky bg-background group-hover:bg-[color-mix(in_oklab,hsl(var(--muted))_40%,hsl(var(--background)))] group-data-[state=selected]:bg-[color-mix(in_oklab,hsl(var(--muted))_50%,hsl(var(--background)))]',
                 {
-                  'sticky position-right': sticky,
+                  'position-right': sticky && side === 'right',
+                  'position-left': sticky && side === 'left',
                   'border-left': sticky,
                   'border-right': sticky,
                   'none-border-left': hideBorderLeft,
@@ -155,6 +189,10 @@ export const TableRow = <TData,>(props: TableRowProps<TData>) => {
                 width: column.width,
                 minWidth: column.minWidth,
                 verticalAlign: valignToStyle(column.valign ?? valign),
+                ...(sticky ? { zIndex: 3 } : {}),
+                ...(leftOffset !== undefined ? { left: leftOffset } : {}),
+                ...(rightOffset !== undefined ? { right: rightOffset } : {}),
+                ...(boxShadow ? { boxShadow } : {}),
                 ...cellStyle,
               }}
               {...restCellProps}
@@ -165,7 +203,7 @@ export const TableRow = <TData,>(props: TableRowProps<TData>) => {
         })}
       </tr>
       {expandable && (
-        <tr className="table-row-expand">
+        <tr className="crudx-table-row-expand">
           <td
             colSpan={columns.length + (enableCheckbox ? 1 : 0)}
             style={{ padding: 0 }}

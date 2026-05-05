@@ -1,9 +1,13 @@
-import { PropsWithChildren, useState } from 'react';
+import { PropsWithChildren, useRef, useState } from 'react';
 import { useDeepCompareEffect } from '@crudx/common';
 import isNil from 'lodash/isNil';
 import uniq from 'lodash/uniq';
 
 import { InferDataColumnType } from '../../@types';
+import {
+  StickyOffsetsContext,
+  useStickyOffsets,
+} from '../../adapters/use-sticky-offsets';
 import { extractCheckboxValue } from '../../adapters/use-table-state';
 import { cn } from '../../lib/cn';
 import { Skeleton } from '../../primitives/skeleton';
@@ -88,6 +92,9 @@ export const Table = <TData,>(props: PropsWithChildren<TableProps<TData>>) => {
     ...restProps
   } = props;
 
+  // =============== REFS
+  const tableRef = useRef<HTMLTableElement>(null);
+
   // =============== STATE
   const [checkedState, setCheckedState] =
     useState<InferDataColumnType<TData>[]>(checked);
@@ -98,6 +105,12 @@ export const Table = <TData,>(props: PropsWithChildren<TableProps<TData>>) => {
   const hasDefinedTotal = !isNil(total);
   const hasChecked = checkedState?.length > 0;
   const enableCheckbox = checkbox?.enabled ?? false;
+  const hasCheckBoxStickyComputed = enableCheckbox && (checkbox?.sticky ?? false);
+  const measuredStickyOffsets = useStickyOffsets(
+    columns,
+    hasCheckBoxStickyComputed,
+    tableRef
+  );
   const columnLength = enableCheckbox ? columns.length + 1 : columns.length;
   const hasStickySet = !isNil(stickyHeader);
   const isStickyEnabled =
@@ -177,7 +190,7 @@ export const Table = <TData,>(props: PropsWithChildren<TableProps<TData>>) => {
     if (loading) {
       if (loadingView) return loadingView;
       return [...Array(loadingRows)].map((_e, i) => (
-        <tr key={i} className="table-row-loading">
+        <tr key={i} className="crudx-table-row-loading">
           {enableCheckbox && <td colSpan={1} />}
           {columns.map((c) => (
             <td
@@ -197,7 +210,7 @@ export const Table = <TData,>(props: PropsWithChildren<TableProps<TData>>) => {
     }
     if (!hasData) {
       return (
-        <tr className="table-row-empty">
+        <tr className="crudx-table-row-empty">
           <td
             colSpan={columnLength}
             className="text-center p-0"
@@ -264,8 +277,8 @@ export const Table = <TData,>(props: PropsWithChildren<TableProps<TData>>) => {
 
   // =============== VIEWS
   return (
-    <div className="table-main-wrapper">
-      {topView && <div className="table-top-container">{topView}</div>}
+    <div className="crudx-table-main-wrapper">
+      {topView && <div className="crudx-table-top-container">{topView}</div>}
       <div
         {...restContainer}
         className={cn('relative w-full overflow-auto', containerClassName)}
@@ -275,48 +288,51 @@ export const Table = <TData,>(props: PropsWithChildren<TableProps<TData>>) => {
         }}
       >
         {/* =============== TABLE */}
-        <table
-          className={cn(
-            'table',
-            `style-${borderStyle}`,
-            tableVariants({
-              striped,
-              bordered,
-              borderStyle,
-              size: normalizedSize,
-            }),
-            className
-          )}
-          style={tableInlineVars}
-          {...restProps}
-        >
-          {/* =============== TABLE HEAD */}
-          <TableHead
-            columns={columns}
-            checkbox={checkbox}
-            sticky={isStickyEnabled}
-            borderTop={tableHeadBorderTop}
-            borderBottom={tableHeadBorderBottom}
-            onSort={onColumnSort}
-            checked={getCheckedStatus()}
-            onCheckAll={onHandleCheckAll}
-            {...tableHeadProps}
-          />
+        <StickyOffsetsContext.Provider value={measuredStickyOffsets}>
+          <table
+            ref={tableRef}
+            className={cn(
+              'crudx-table',
+              `crudx-style-${borderStyle}`,
+              tableVariants({
+                striped,
+                bordered,
+                borderStyle,
+                size: normalizedSize,
+              }),
+              className
+            )}
+            style={tableInlineVars}
+            {...restProps}
+          >
+            {/* =============== TABLE HEAD */}
+            <TableHead
+              columns={columns}
+              checkbox={checkbox}
+              sticky={isStickyEnabled}
+              borderTop={tableHeadBorderTop}
+              borderBottom={tableHeadBorderBottom}
+              onSort={onColumnSort}
+              checked={getCheckedStatus()}
+              onCheckAll={onHandleCheckAll}
+              {...tableHeadProps}
+            />
 
-          {/* =============== TABLE BODY */}
-          <tbody {...tableBodyProps}>
-            {renderTableBodyContent()}
-            {/* extra view with `children` */}
-            {children}
-          </tbody>
+            {/* =============== TABLE BODY */}
+            <tbody {...tableBodyProps}>
+              {renderTableBodyContent()}
+              {/* extra view with `children` */}
+              {children}
+            </tbody>
 
-          {/* =============== TABLE FOOTER */}
-          {footerView && <tfoot {...tableFooterProps}>{footerView}</tfoot>}
-        </table>
+            {/* =============== TABLE FOOTER */}
+            {footerView && <tfoot {...tableFooterProps}>{footerView}</tfoot>}
+          </table>
+        </StickyOffsetsContext.Provider>
       </div>
       {/* =============== PAGINATION */}
       {pagination && (
-        <div className="table-pagination-wrapper border-t border-[hsl(var(--border))]">
+        <div className="crudx-table-pagination-wrapper border-t border-border">
           {renderPagination?.({
             page,
             total,

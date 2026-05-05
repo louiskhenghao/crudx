@@ -63,7 +63,7 @@ export const useHeaderInfos = (
               <p
                 {...restProps}
                 className={cn(
-                  'crud-content-header-total-count text-sm text-[hsl(var(--muted-foreground))]',
+                  'crudx-content-header-total-count text-sm text-[hsl(var(--muted-foreground))]',
                   className
                 )}
               >
@@ -85,7 +85,7 @@ export const useHeaderInfos = (
             return (
               <TableSelectedBulkOptions
                 size={headerActionSize}
-                className="crud-content-header-bulk-node"
+                className="crudx-content-header-bulk-node"
                 text={f?.text}
                 items={headerBulkOptions ?? f.items}
                 total={totalSelected}

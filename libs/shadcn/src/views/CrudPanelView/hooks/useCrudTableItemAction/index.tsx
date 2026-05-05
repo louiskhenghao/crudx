@@ -5,13 +5,7 @@ import {
   CrudCommonActions,
   CrudSchemataTypes,
 } from '@crudx/core';
-import {
-  ChevronDownCircle,
-  Download,
-  Eye,
-  Pencil,
-  Trash2,
-} from 'lucide-react';
+import { ChevronDownCircle, Download, Eye, Pencil, Trash2 } from 'lucide-react';
 import includes from 'lodash/includes';
 import isNil from 'lodash/isNil';
 import startCase from 'lodash/startCase';
@@ -19,7 +13,10 @@ import startCase from 'lodash/startCase';
 import { cn } from '../../../../lib/cn';
 import { Button } from '../../../../primitives/button';
 import { DropdownMenuItem } from '../../../../primitives/dropdown-menu';
-import { TooltipView, TooltipViewProps } from '../../../../components/TooltipView';
+import {
+  TooltipView,
+  TooltipViewProps,
+} from '../../../../components/TooltipView';
 
 import {
   CrudTableItemActionEnabler,
@@ -116,7 +113,7 @@ export const useCrudTableItemAction = <T extends CrudSchemataTypes = any>(
       if (nodeType === 'menu') {
         if (url) {
           return (
-            <DropdownMenuItem asChild className="crud-item-action-link">
+            <DropdownMenuItem asChild className="crudx-item-action-link">
               <Link href={url} {...openNewTab}>
                 {node}
               </Link>
@@ -124,14 +121,14 @@ export const useCrudTableItemAction = <T extends CrudSchemataTypes = any>(
           );
         }
         return (
-          <DropdownMenuItem className="crud-item-action-link">
+          <DropdownMenuItem className="crudx-item-action-link">
             {node}
           </DropdownMenuItem>
         );
       }
       if (!url) return node;
       return (
-        <Link className="crud-item-action-link" href={url} {...openNewTab}>
+        <Link className="crudx-item-action-link" href={url} {...openNewTab}>
           {node}
         </Link>
       );
@@ -166,7 +163,7 @@ export const useCrudTableItemAction = <T extends CrudSchemataTypes = any>(
           return renderLink(
             <span
               className={cn(
-                'crud-item-action-menu-type flex items-center w-full',
+                'crudx-item-action-menu-type flex items-center w-full',
                 type
               )}
             >
@@ -192,7 +189,7 @@ export const useCrudTableItemAction = <T extends CrudSchemataTypes = any>(
         const isButton = nodeType === 'button';
         const buttonNode = (
           <Button
-            className={cn('crud-item-action-button-type', type)}
+            className={cn('crudx-item-action-button-type', type)}
             size={isButton ? size : 'icon'}
             variant={isButton ? 'outline' : 'ghost'}
             aria-label={type}
