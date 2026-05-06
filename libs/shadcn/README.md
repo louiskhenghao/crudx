@@ -115,7 +115,38 @@ Paste this block into your `globals.css` (or equivalent):
 }
 ```
 
-### 3. Optional: use the bundled preset
+### 3. Dark mode
+
+The `.dark` block in step 2 already swaps every variable. To activate it,
+flip a `dark` class on `<html>` (or any ancestor of your tree) and tell
+Tailwind to use the class strategy:
+
+```js
+// tailwind.config.js
+module.exports = {
+  darkMode: 'class',
+  // ...
+};
+```
+
+Pick one toggling strategy:
+
+```ts
+// manual
+document.documentElement.classList.toggle('dark');
+
+// follow OS preference (no JS lib)
+matchMedia('(prefers-color-scheme: dark)').matches &&
+  document.documentElement.classList.add('dark');
+
+// or use `next-themes` for SSR-safe persistence
+// <ThemeProvider attribute="class" defaultTheme="system" />
+```
+
+That's it — every `@crudx/shadcn` component reads from the CSS variables,
+so no per-component prop is required.
+
+### 4. Optional: use the bundled preset
 
 ```js
 const preset = require('@crudx/shadcn/lib/tailwind-preset').default;
