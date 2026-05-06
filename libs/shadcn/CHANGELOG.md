@@ -2,6 +2,21 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+## [1.0.3](https://github.com/louiskhenghao/crudx/compare/shadcn@1.0.2...shadcn@1.0.3) (2026-05-06)
+
+
+### Features
+
+* add sticky offsets context and measurement for table component ([32caeee](https://github.com/louiskhenghao/crudx/commit/32caeeeee9788e941a556f1d552aae3938f04e3b))
+* implement sticky columns and rows functionality in table component ([8e49831](https://github.com/louiskhenghao/crudx/commit/8e498315f4497e9a57b8da85690e48a2e6b6b6d0))
+* **shadcn:** enhance layout and responsiveness in various components ([1c337cb](https://github.com/louiskhenghao/crudx/commit/1c337cb9d8fc105f470730590819284b66cb6191))
+* update class names to use 'crudx-' prefix for consistency across components ([663c07d](https://github.com/louiskhenghao/crudx/commit/663c07dd4d2c56fc378572416e056b6b74fd0f70))
+
+
+### Bug Fixes
+
+* **shadcn:** wrap button in DropdownMenuTrigger for improved accessibility ([ea93c08](https://github.com/louiskhenghao/crudx/commit/ea93c08b449c77ea6dbb9ca3ef81fe691ce8743c))
+
 ## [1.0.2](https://github.com/louiskhenghao/crudx/compare/shadcn@1.0.1...shadcn@1.0.2) (2026-04-27)
 
 ## [1.0.1](https://github.com/louiskhenghao/crudx/compare/shadcn@1.0.0...shadcn@1.0.1) (2026-04-27)
