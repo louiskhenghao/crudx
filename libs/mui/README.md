@@ -8,6 +8,11 @@ transport adapter you wire into the schema.
 API-compatible with [`@crudx/shadcn`](https://github.com/louiskhenghao/crudx/blob/main/libs/shadcn/README.md);
 swap the import to switch UI stacks.
 
+> 💡 **Tip:** Drop in components quickly with [`@crudx/skills`](../skills/README.md).
+> `npx @crudx/skills install` adds `/crudx-component` to Claude Code, which
+> inserts pre-baked usage snippets for `Dialog`, `CrudPanelView`,
+> `CrudFilterView`, and the rest of the surface.
+
 ---
 
 ## Installation

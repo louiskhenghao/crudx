@@ -8,6 +8,11 @@ generated hooks already satisfy that contract, so this package is a
 thin typing layer + a few identity helpers that make the wiring
 explicit at the call site.
 
+> 💡 **Tip:** Skip the manual wiring with [`@crudx/skills`](../skills/README.md).
+> `npx @crudx/skills install` adds `/crudx-resource` to Claude Code, which
+> scaffolds a complete CRUD page (types + Apollo hooks + adapter schema)
+> from templates.
+
 ## Install
 
 ```bash

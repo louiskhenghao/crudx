@@ -104,6 +104,7 @@ requesting review.
 | `libs/common/` | Shared hooks/utilities consumed by UI libs. |
 | `libs/<transport>-<client>-adapter/` | Per-client transport adapters (`graphql-apollo-adapter`, `rest-tanstack-adapter`, …). |
 | `libs/mui/`, `libs/shadcn/` | UI implementations of the CRUD surface. API-compatible with each other. |
+| `libs/skills/` | Installable Claude Code skills (`/crudx-setup`, `/crudx-resource`, `/crudx-component`) that scaffold integration code from templates. |
 | `apps/example/` | Next.js demo app — also the smoke-test harness. |
 
 For the architecture rationale see the [root README](./README.md), and
