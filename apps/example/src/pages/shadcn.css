@@ -47,4 +47,10 @@
     --destructive-foreground: 210 40% 98%;
     --ring: 216 34% 17%;
   }
+
+  html,
+  body {
+    background-color: hsl(var(--background));
+    color: hsl(var(--foreground));
+  }
 }

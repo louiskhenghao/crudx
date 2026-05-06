@@ -41,7 +41,27 @@ export default class CustomDocument extends Document {
   render() {
     return (
       <Html>
-        <Head>{this.props.styles}</Head>
+        <Head>
+          {/*
+            No-flash theme bootstrap — runs before React hydrates so the
+            initial paint already matches localStorage / OS preference.
+          */}
+          <script
+            dangerouslySetInnerHTML={{
+              __html: `(() => {
+  try {
+    var k = 'crudx-example-theme';
+    var saved = localStorage.getItem(k);
+    var sys = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    var mode = saved || sys;
+    if (mode === 'dark') document.documentElement.classList.add('dark');
+    document.documentElement.style.colorScheme = mode;
+  } catch (e) {}
+})();`,
+            }}
+          />
+          {this.props.styles}
+        </Head>
         <body>
           <Main />
           <NextScript />
