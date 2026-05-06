@@ -17,7 +17,7 @@ import {
 } from 'lucide-react';
 import Link from 'next/link';
 
-import { AppBar, REPO_URL } from '../components';
+import { AppBar, REPO_URL, useThemeMode } from '../components';
 
 /**
  * --------------------------
@@ -40,6 +40,18 @@ const TRANSPORT_COLOR: Record<Transport, string> = {
 const UI_COLOR: Record<Ui, string> = {
   MUI: '#1976D2', // Material blue
   shadcn: '#18181B', // zinc-900
+};
+
+// shadcn's identity is "monospace black" in light mode; on dark
+// backgrounds zinc-900 disappears, so flip to zinc-50 for contrast.
+const UI_COLOR_DARK: Record<Ui, string> = {
+  MUI: '#42A5F5',
+  shadcn: '#FAFAFA',
+};
+
+const useUiColor = (ui: Ui) => {
+  const { mode } = useThemeMode();
+  return mode === 'dark' ? UI_COLOR_DARK[ui] : UI_COLOR[ui];
 };
 
 type DemoCardProps = {
@@ -140,7 +152,7 @@ const PACKAGES: { name: string; description: string }[] = [
  */
 function UiPreview({ ui, transport }: { ui: Ui; transport: Transport }) {
   const transportColor = TRANSPORT_COLOR[transport];
-  const uiColor = UI_COLOR[ui];
+  const uiColor = useUiColor(ui);
 
   if (ui === 'MUI') {
     return (
@@ -251,7 +263,7 @@ function UiPreview({ ui, transport }: { ui: Ui; transport: Transport }) {
 function DemoCard(props: DemoCardProps) {
   const { badge, ui, title, tagline, packages, href, icon, endpoint } = props;
   const transportColor = TRANSPORT_COLOR[badge];
-  const uiColor = UI_COLOR[ui];
+  const uiColor = useUiColor(ui);
   const isShadcn = ui === 'shadcn';
 
   return (
@@ -361,6 +373,8 @@ function DemoCard(props: DemoCardProps) {
 }
 
 export function Index() {
+  const muiColor = useUiColor('MUI');
+  const shadcnColor = useUiColor('shadcn');
   return (
     <div className="min-h-screen bg-background text-foreground">
       <AppBar />
@@ -451,13 +465,13 @@ export function Index() {
             <Link
               href="/components-mui"
               className="group flex items-center gap-4 rounded-xl border bg-card p-5 transition-all hover:-translate-y-0.5 hover:shadow-md"
-              style={{ borderColor: `${UI_COLOR.MUI}40` }}
+              style={{ borderColor: `${muiColor}40` }}
             >
               <div
                 className="grid h-12 w-12 place-items-center rounded-lg"
                 style={{
-                  backgroundColor: `${UI_COLOR.MUI}1F`,
-                  color: UI_COLOR.MUI,
+                  backgroundColor: `${muiColor}1F`,
+                  color: muiColor,
                 }}
               >
                 <LayoutGrid className="h-6 w-6" />
@@ -467,9 +481,9 @@ export function Index() {
                   <span
                     className="rounded-full border px-2 py-0.5 font-mono text-[11px] font-medium"
                     style={{
-                      color: UI_COLOR.MUI,
-                      borderColor: UI_COLOR.MUI,
-                      backgroundColor: `${UI_COLOR.MUI}0A`,
+                      color: muiColor,
+                      borderColor: muiColor,
+                      backgroundColor: `${muiColor}0A`,
                     }}
                   >
                     @crudx/mui
@@ -484,20 +498,20 @@ export function Index() {
               </div>
               <ArrowRight
                 className="h-5 w-5 transition-transform group-hover:translate-x-0.5"
-                style={{ color: UI_COLOR.MUI }}
+                style={{ color: muiColor }}
               />
             </Link>
 
             <Link
               href="/components-shadcn"
               className="group flex items-center gap-4 rounded-md border bg-card p-5 transition-all hover:-translate-y-0.5 hover:shadow-md"
-              style={{ borderColor: `${UI_COLOR.shadcn}33` }}
+              style={{ borderColor: `${shadcnColor}33` }}
             >
               <div
                 className="grid h-12 w-12 place-items-center rounded-md"
                 style={{
-                  backgroundColor: `${UI_COLOR.shadcn}14`,
-                  color: UI_COLOR.shadcn,
+                  backgroundColor: `${shadcnColor}14`,
+                  color: shadcnColor,
                 }}
               >
                 <Boxes className="h-6 w-6" />
@@ -507,9 +521,9 @@ export function Index() {
                   <span
                     className="rounded-sm border border-dashed px-2 py-0.5 font-mono text-[11px] font-medium"
                     style={{
-                      color: UI_COLOR.shadcn,
-                      borderColor: UI_COLOR.shadcn,
-                      backgroundColor: `${UI_COLOR.shadcn}08`,
+                      color: shadcnColor,
+                      borderColor: shadcnColor,
+                      backgroundColor: `${shadcnColor}08`,
                     }}
                   >
                     @crudx/shadcn
@@ -524,7 +538,7 @@ export function Index() {
               </div>
               <ArrowRight
                 className="h-5 w-5 transition-transform group-hover:translate-x-0.5"
-                style={{ color: UI_COLOR.shadcn }}
+                style={{ color: shadcnColor }}
               />
             </Link>
           </div>
