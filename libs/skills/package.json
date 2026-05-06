@@ -1,0 +1,23 @@
+{
+  "name": "@crudx/skills",
+  "version": "0.0.1",
+  "license": "MIT",
+  "author": "Louis Loo <louiskhenghao@gmail.com> (https://github.com/louiskhenghao)",
+  "homepage": "https://github.com/louiskhenghao/crudx/blob/main/libs/skills#readme",
+  "description": "Installable Claude Code skills for @crudx/* — scaffold setup, resources, and components from templates instead of regenerating boilerplate.",
+  "keywords": [
+    "crudx",
+    "claude-code",
+    "skills",
+    "scaffold",
+    "cli"
+  ],
+  "bin": {
+    "crudx-skills": "./cli.js"
+  },
+  "files": [
+    "cli.js",
+    "skills",
+    "README.md"
+  ]
+}

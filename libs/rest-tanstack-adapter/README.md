@@ -3,6 +3,11 @@
 REST transport adapter for [`@crudx/core`](../core/README.md), backed
 by [`@tanstack/react-query`](https://tanstack.com/query/latest).
 
+> 💡 **Tip:** Skip the manual wiring with [`@crudx/skills`](../skills/README.md).
+> `npx @crudx/skills install` adds `/crudx-resource` to Claude Code, which
+> scaffolds a complete CRUD page (types + adapter schema + page) from
+> templates.
+
 ## Install
 
 ```bash

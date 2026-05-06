@@ -1,0 +1,128 @@
+/**
+ * {{Resources}} CRUD page (GraphQL).
+ *
+ * Imports CrudPanelView from `@crudx/{{UI_PACKAGE}}`. Both `@crudx/mui` and
+ * `@crudx/shadcn` expose the same component surface, so swapping UI libs is
+ * just a re-import.
+ */
+import { useState } from 'react';
+import { CrudPanelView, Dialog } from '@crudx/{{UI_PACKAGE}}';
+
+import { {{resource}}Schema } from '../../resources/{{resource}}/schema';
+import type { {{Resource}}, {{Resource}}Schemata } from '../../resources/{{resource}}/types';
+
+function {{Resource}}Form(props: {
+  mode: 'create' | 'update';
+  initial?: Partial<{{Resource}}>;
+  onSubmit: (input: { name: string; description?: string }) => Promise<unknown>;
+  onCancel: () => void;
+}) {
+  const { mode, initial, onSubmit, onCancel } = props;
+  const [name, setName] = useState(initial?.name ?? '');
+  const [description, setDescription] = useState(initial?.description ?? '');
+  const [submitting, setSubmitting] = useState(false);
+
+  const handleSubmit = async () => {
+    if (!name.trim()) return;
+    setSubmitting(true);
+    try {
+      await onSubmit({ name, description });
+      onCancel();
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  return (
+    <div style={{ minWidth: 360, padding: 16, display: 'flex', flexDirection: 'column', gap: 12 }}>
+      <label style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+        <span>Name</span>
+        <input value={name} onChange={(e) => setName(e.target.value)} />
+      </label>
+      <label style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+        <span>Description</span>
+        <textarea rows={3} value={description} onChange={(e) => setDescription(e.target.value)} />
+      </label>
+      <div style={{ display: 'flex', gap: 8, justifyContent: 'flex-end' }}>
+        <button type="button" onClick={onCancel} disabled={submitting}>Cancel</button>
+        <button type="button" onClick={handleSubmit} disabled={submitting}>
+          {mode === 'create' ? 'Create' : 'Save'}
+        </button>
+      </div>
+    </div>
+  );
+}
+
+export default function {{Resources}}Page() {
+  return (
+    <CrudPanelView<{{Resource}}Schemata>
+      name="{{resource}}"
+      schema={{resource}}Schema}
+      paging={{ strategy: 'OFFSET', pageSize: 10 }}
+      pageTitle="{{Resources}}"
+      tableTitle="{{Resources}}"
+      tableInfos={[
+        { type: 'title' },
+        { type: 'total', text: '{count} {{resources}}' },
+        { type: 'bulk', text: '{count} selected' },
+      ]}
+      tableActions={[
+        { action: 'create' },
+        { action: 'refresh' },
+        { action: 'sorting' },
+        { action: 'density' },
+      ]}
+      columnDataIndex="id"
+      columns={[
+        { key: 'id', title: 'ID', width: 90, dataIndex: 'id' },
+        { key: 'name', title: 'Name', dataIndex: 'name' },
+        { key: 'description', title: 'Description', dataIndex: 'description' },
+      ]}
+      columnActions={{
+        name: '{{resource}}',
+        identifier: 'name',
+        enableView: true,
+        enableUpdate: true,
+        enableDelete: true,
+        enableAlert: ['delete'],
+      }}
+      enableRowSelection
+      modalForms={{
+        create: {
+          title: 'Create {{resource}}',
+          render: (options) => (
+            <Dialog type="custom" title={options.title} visible={options.visible} onClose={() => options.onHide()}>
+              <{{Resource}}Form
+                mode="create"
+                onCancel={() => options.onHide()}
+                onSubmit={async (input) => {
+                  const trigger = options.mutation?.create?.[0];
+                  if (!trigger) return;
+                  await trigger({ variables: { input } });
+                }}
+              />
+            </Dialog>
+          ),
+        },
+        update: {
+          title: 'Edit {{resource}}',
+          render: (options) => (
+            <Dialog type="custom" title={options.title} visible={options.visible} onClose={() => options.onHide()}>
+              <{{Resource}}Form
+                mode="update"
+                initial={options.data as Partial<{{Resource}}>}
+                onCancel={() => options.onHide()}
+                onSubmit={async (input) => {
+                  const trigger = options.mutation?.update?.[0];
+                  const id = (options.data as {{Resource}})?.id;
+                  if (!trigger || !id) return;
+                  await trigger({ variables: { id, input } });
+                }}
+              />
+            </Dialog>
+          ),
+        },
+      }}
+    />
+  );
+}

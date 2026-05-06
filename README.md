@@ -76,6 +76,26 @@ snippet:
 
 The shadcn demos require the Tailwind setup documented below.
 
+## Claude Code skills
+
+Speed up integration with our installable [Claude Code](https://docs.claude.com/en/docs/claude-code/overview) skills:
+
+```bash
+npx @crudx/skills install
+```
+
+This drops three slash commands into your `./.claude/skills/`:
+
+- `/crudx-setup` — one-time: install deps, wire transport provider, configure MUI theme or shadcn Tailwind.
+- `/crudx-resource` — scaffold a complete CRUD page (types + adapter schema + page) for one resource.
+- `/crudx-component` — drop a single basic atom (`Dialog`, `Table`, …) or major view (`CrudPanelView`, `CrudFilterView`, …) into an existing file.
+
+Skills work by **deterministic templating** — Claude reads pre-baked
+templates and substitutes placeholders, instead of regenerating
+hundreds of lines of TSX every time. See
+[`libs/skills/README.md`](https://github.com/louiskhenghao/crudx/blob/main/libs/skills/README.md)
+for the full catalog and usage.
+
 ## Tailwind setup (for `@crudx/shadcn` consumers)
 
 The shadcn package ships classnames only; Tailwind runs on the consumer side.

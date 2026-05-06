@@ -6,6 +6,11 @@ Drop-in replacement for consumers who prefer a shadcn-style UI over MUI. Uses
 [`@tanstack/react-table`](https://tanstack.com/table) as the internal table
 engine.
 
+> 💡 **Tip:** Drop in components quickly with [`@crudx/skills`](../skills/README.md).
+> `npx @crudx/skills install` adds `/crudx-component` to Claude Code, which
+> inserts pre-baked usage snippets for `Dialog`, `CrudPanelView`,
+> `CrudFilterView`, and the rest of the surface.
+
 ## Install
 
 ```sh

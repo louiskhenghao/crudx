@@ -1,0 +1,24 @@
+/**
+ * {{Resource}} GraphQL adapter schema — wires the Apollo hooks into a
+ * `CrudSchemata` consumed by <CrudPanelView />.
+ */
+import { createGraphqlApolloAdapter } from '@crudx/graphql-apollo-adapter';
+
+import {
+  use{{Resource}}CreateMutation,
+  use{{Resource}}DeleteMutation,
+  use{{Resource}}DetailLazyQuery,
+  use{{Resource}}UpdateMutation,
+  use{{Resources}}ListQuery,
+} from './operations';
+import type { {{Resource}}Schemata } from './types';
+
+export const {{resource}}Adapter = createGraphqlApolloAdapter();
+
+export const {{resource}}Schema = {{resource}}Adapter.schema<{{Resource}}Schemata>({
+  list: { key: '{{resources}}', hook: use{{Resources}}ListQuery },
+  get: { key: '{{resource}}', hook: use{{Resource}}DetailLazyQuery },
+  create: { key: 'create{{Resource}}', hook: use{{Resource}}CreateMutation },
+  update: { key: 'update{{Resource}}', hook: use{{Resource}}UpdateMutation },
+  delete: { key: 'delete{{Resource}}', hook: use{{Resource}}DeleteMutation },
+});

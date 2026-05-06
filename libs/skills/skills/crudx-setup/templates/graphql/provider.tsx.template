@@ -1,0 +1,28 @@
+import { ApolloClient, ApolloProvider, HttpLink, InMemoryCache } from '@apollo/client';
+import { LinkProvider } from '@crudx/common';
+import { ReactNode, useMemo } from 'react';
+
+/** GraphQL endpoint used by the default Apollo client below. */
+export const GRAPHQL_ENDPOINT = '{{ENDPOINT}}';
+
+interface CrudxProviderProps {
+  children: ReactNode;
+  /** Optional override for tests / storybook. */
+  client?: ApolloClient<unknown>;
+  /** App's router Link component (e.g. next/link, react-router-dom Link). */
+  Link?: any;
+}
+
+function createDefaultClient() {
+  return new ApolloClient({
+    link: new HttpLink({ uri: GRAPHQL_ENDPOINT }),
+    cache: new InMemoryCache(),
+  });
+}
+
+export function CrudxProvider(props: CrudxProviderProps) {
+  const { children, client, Link } = props;
+  const apollo = useMemo(() => client ?? createDefaultClient(), [client]);
+  const tree = <ApolloProvider client={apollo}>{children}</ApolloProvider>;
+  return Link ? <LinkProvider Link={Link}>{tree}</LinkProvider> : tree;
+}
