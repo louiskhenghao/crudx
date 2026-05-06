@@ -25,12 +25,12 @@ export type JsonViewProps = {
 };
 
 const TOKEN_CLASS: Record<string, string> = {
-  key: 'text-fuchsia-600 font-semibold',
-  string: 'text-emerald-600',
-  number: 'text-orange-600',
-  boolean: 'text-blue-600',
-  null: 'text-zinc-400',
-  punctuation: 'text-zinc-500',
+  key: 'text-fuchsia-600 font-semibold dark:text-fuchsia-400',
+  string: 'text-emerald-600 dark:text-emerald-400',
+  number: 'text-orange-600 dark:text-orange-400',
+  boolean: 'text-blue-600 dark:text-blue-400',
+  null: 'text-zinc-400 dark:text-zinc-500',
+  punctuation: 'text-zinc-500 dark:text-zinc-400',
 };
 
 type Token =
@@ -133,14 +133,14 @@ export function JsonView({
   const isEmpty = data === null || data === undefined;
 
   return (
-    <div className="overflow-hidden rounded-md border border-zinc-200 bg-zinc-50">
-      <div className="flex items-center justify-between border-b border-zinc-200 bg-zinc-100 px-3 py-2">
+    <div className="overflow-hidden rounded-md border border-zinc-200 bg-zinc-50 dark:border-zinc-800 dark:bg-zinc-900">
+      <div className="flex items-center justify-between border-b border-zinc-200 bg-zinc-100 px-3 py-2 dark:border-zinc-800 dark:bg-zinc-900/60">
         <div className="flex items-center gap-2">
-          <span className="font-mono text-[11px] font-bold uppercase tracking-wider text-zinc-600">
+          <span className="font-mono text-[11px] font-bold uppercase tracking-wider text-zinc-600 dark:text-zinc-300">
             {title}
           </span>
           {!loading && !isEmpty ? (
-            <span className="rounded border border-zinc-200 bg-white px-1.5 py-0 font-mono text-[10px] text-zinc-600">
+            <span className="rounded border border-zinc-200 bg-white px-1.5 py-0 font-mono text-[10px] text-zinc-600 dark:border-zinc-700 dark:bg-zinc-950 dark:text-zinc-300">
               JSON
             </span>
           ) : null}
@@ -152,7 +152,7 @@ export function JsonView({
               type="button"
               onClick={handleCopy}
               aria-label="Copy JSON"
-              className="grid h-7 w-7 place-items-center rounded text-zinc-600 hover:bg-zinc-200"
+              className="grid h-7 w-7 place-items-center rounded text-zinc-600 hover:bg-zinc-200 dark:text-zinc-300 dark:hover:bg-zinc-800"
               title={copied ? 'Copied!' : 'Copy JSON'}
             >
               {copied ? (
@@ -166,16 +166,16 @@ export function JsonView({
       </div>
       <div className="max-h-[480px] overflow-auto px-3 py-2">
         {loading ? (
-          <div className="flex flex-col items-center gap-2 py-8 text-sm text-zinc-500">
-            <span className="h-4 w-4 animate-spin rounded-full border-2 border-zinc-200 border-t-zinc-700" />
+          <div className="flex flex-col items-center gap-2 py-8 text-sm text-zinc-500 dark:text-zinc-400">
+            <span className="h-4 w-4 animate-spin rounded-full border-2 border-zinc-200 border-t-zinc-700 dark:border-zinc-700 dark:border-t-zinc-200" />
             <span>Loading…</span>
           </div>
         ) : isEmpty ? (
-          <div className="py-8 text-center text-xs text-zinc-500">
+          <div className="py-8 text-center text-xs text-zinc-500 dark:text-zinc-400">
             No data to display.
           </div>
         ) : (
-          <pre className="m-0 whitespace-pre font-mono text-[13px] leading-[1.55]">
+          <pre className="m-0 whitespace-pre font-mono text-[13px] leading-[1.55] text-zinc-900 dark:text-zinc-100">
             <code>
               {tokens.map((tok, idx) => {
                 if (tok.type === 'whitespace') {
