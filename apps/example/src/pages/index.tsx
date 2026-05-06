@@ -257,7 +257,7 @@ function DemoCard(props: DemoCardProps) {
   return (
     <Link
       href={href}
-      className={`group relative flex h-full flex-col overflow-hidden border bg-white p-5 pt-6 transition-all hover:-translate-y-0.5 hover:shadow-lg ${
+      className={`group relative flex h-full flex-col overflow-hidden border bg-card p-5 pt-6 transition-all hover:-translate-y-0.5 hover:shadow-lg ${
         isShadcn ? 'rounded-md' : 'rounded-xl'
       }`}
       style={{
@@ -310,7 +310,7 @@ function DemoCard(props: DemoCardProps) {
             </span>
           </div>
           <div
-            className={`mt-1 text-base font-bold text-zinc-900 ${
+            className={`mt-1 text-base font-bold text-foreground ${
               isShadcn ? 'font-mono' : ''
             }`}
           >
@@ -325,7 +325,7 @@ function DemoCard(props: DemoCardProps) {
       </div>
 
       {/* Tagline */}
-      <p className="mt-3 text-sm text-zinc-600">{tagline}</p>
+      <p className="mt-3 text-sm text-muted-foreground">{tagline}</p>
 
       <div className="flex-1" />
 
@@ -334,10 +334,10 @@ function DemoCard(props: DemoCardProps) {
         {packages.map((p) => (
           <span
             key={p}
-            className={`px-2 py-0.5 font-mono text-[11px] text-zinc-600 ${
+            className={`px-2 py-0.5 font-mono text-[11px] text-muted-foreground ${
               isShadcn
-                ? 'rounded-sm border border-zinc-200'
-                : 'rounded-full border border-zinc-200'
+                ? 'rounded-sm border border-border'
+                : 'rounded-full border border-border'
             }`}
           >
             {p}
@@ -347,7 +347,7 @@ function DemoCard(props: DemoCardProps) {
 
       {/* Footer row — endpoint + open demo */}
       <div className="mt-3 flex items-center justify-between">
-        <span className="font-mono text-xs text-zinc-500">{endpoint}</span>
+        <span className="font-mono text-xs text-muted-foreground">{endpoint}</span>
         <span
           className="flex items-center gap-1 text-sm font-bold uppercase tracking-wide"
           style={{ color: transportColor }}
@@ -362,19 +362,19 @@ function DemoCard(props: DemoCardProps) {
 
 export function Index() {
   return (
-    <div className="min-h-screen bg-white text-zinc-900">
+    <div className="min-h-screen bg-background text-foreground">
       <AppBar />
       <div className="mx-auto max-w-screen-lg px-4 py-12 md:py-14">
         {/* HERO */}
         <section className="mb-12 md:mb-20">
-          <span className="inline-block rounded-full border border-zinc-300 px-3 py-1 text-xs font-medium text-zinc-700">
+          <span className="inline-block rounded-full border border-border px-3 py-1 text-xs font-medium text-muted-foreground">
             Transport-agnostic CRUD primitives for React
           </span>
           <h1 className="mt-6 text-4xl font-extrabold leading-[1.05] tracking-tight md:text-6xl">
             CRUD apps without the wiring tax.
           </h1>
-          <p className="mt-5 max-w-2xl text-lg text-zinc-600">
-            <code className="rounded bg-zinc-100 px-1.5 py-0.5 font-mono text-base">
+          <p className="mt-5 max-w-2xl text-lg text-muted-foreground">
+            <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-base">
               @crudx
             </code>{' '}
             gives you a tiny core that orchestrates list, detail, create,
@@ -403,7 +403,7 @@ export function Index() {
               href={REPO_URL}
               target="_blank"
               rel="noreferrer"
-              className="inline-flex items-center justify-center gap-2 rounded-md border border-zinc-300 px-5 py-3 text-sm font-semibold text-zinc-900 hover:bg-zinc-50"
+              className="inline-flex items-center justify-center gap-2 rounded-md border border-border px-5 py-3 text-sm font-semibold text-foreground hover:bg-accent hover:text-accent-foreground"
             >
               View on GitHub
               <ExternalLink className="h-4 w-4" />
@@ -413,13 +413,13 @@ export function Index() {
 
         {/* DEMO CARDS */}
         <section className="mb-12 md:mb-20">
-          <div className="text-xs font-bold uppercase tracking-wider text-zinc-500">
+          <div className="text-xs font-bold uppercase tracking-wider text-muted-foreground">
             Live demos
           </div>
           <h2 className="mt-1 text-2xl font-bold md:text-3xl">
             Pick your transport, pick your UI
           </h2>
-          <p className="mt-2 text-sm text-zinc-600">
+          <p className="mt-2 text-sm text-muted-foreground">
             The same CRUD orchestration, four entry points: GraphQL or REST,
             Material UI or shadcn/ui — fully interchangeable.
           </p>
@@ -432,15 +432,15 @@ export function Index() {
 
         {/* COMPONENT REFERENCE */}
         <section className="mb-12 md:mb-20">
-          <div className="text-xs font-bold uppercase tracking-wider text-zinc-500">
+          <div className="text-xs font-bold uppercase tracking-wider text-muted-foreground">
             Component reference
           </div>
           <h2 className="mt-1 text-2xl font-bold md:text-3xl">
             Browse every UI primitive
           </h2>
-          <p className="mt-2 text-sm text-zinc-600">
+          <p className="mt-2 text-sm text-muted-foreground">
             Below the high-level{' '}
-            <code className="rounded bg-zinc-100 px-1 font-mono text-[13px]">
+            <code className="rounded bg-muted px-1 font-mono text-[13px]">
               CrudPanelView
             </code>{' '}
             sit the lower-level building blocks each UI package ships — tables,
@@ -450,7 +450,7 @@ export function Index() {
           <div className="mt-6 grid grid-cols-1 gap-4 md:grid-cols-2">
             <Link
               href="/components-mui"
-              className="group flex items-center gap-4 rounded-xl border bg-white p-5 transition-all hover:-translate-y-0.5 hover:shadow-md"
+              className="group flex items-center gap-4 rounded-xl border bg-card p-5 transition-all hover:-translate-y-0.5 hover:shadow-md"
               style={{ borderColor: `${UI_COLOR.MUI}40` }}
             >
               <div
@@ -475,10 +475,10 @@ export function Index() {
                     @crudx/mui
                   </span>
                 </div>
-                <div className="mt-1 text-base font-bold text-zinc-900">
+                <div className="mt-1 text-base font-bold text-foreground">
                   Material UI components
                 </div>
-                <p className="mt-0.5 text-xs text-zinc-600">
+                <p className="mt-0.5 text-xs text-muted-foreground">
                   Tables, drop-downs, dialogs and more — Emotion-styled.
                 </p>
               </div>
@@ -490,7 +490,7 @@ export function Index() {
 
             <Link
               href="/components-shadcn"
-              className="group flex items-center gap-4 rounded-md border bg-white p-5 transition-all hover:-translate-y-0.5 hover:shadow-md"
+              className="group flex items-center gap-4 rounded-md border bg-card p-5 transition-all hover:-translate-y-0.5 hover:shadow-md"
               style={{ borderColor: `${UI_COLOR.shadcn}33` }}
             >
               <div
@@ -515,10 +515,10 @@ export function Index() {
                     @crudx/shadcn
                   </span>
                 </div>
-                <div className="mt-1 font-mono text-base font-bold text-zinc-900">
+                <div className="mt-1 font-mono text-base font-bold text-foreground">
                   shadcn/ui components
                 </div>
-                <p className="mt-0.5 text-xs text-zinc-600">
+                <p className="mt-0.5 text-xs text-muted-foreground">
                   Tailwind + Radix primitives — sharp, monospace, themeable.
                 </p>
               </div>
@@ -532,7 +532,7 @@ export function Index() {
 
         {/* PACKAGES */}
         <section className="mb-12 md:mb-20">
-          <div className="text-xs font-bold uppercase tracking-wider text-zinc-500">
+          <div className="text-xs font-bold uppercase tracking-wider text-muted-foreground">
             Packages
           </div>
           <h2 className="mt-1 text-2xl font-bold md:text-3xl">
@@ -542,26 +542,26 @@ export function Index() {
             {PACKAGES.map((pkg) => (
               <div
                 key={pkg.name}
-                className="rounded-lg border border-zinc-200 bg-white p-4"
+                className="rounded-lg border border-border bg-card p-4"
               >
-                <div className="font-mono text-sm font-bold text-zinc-900">
+                <div className="font-mono text-sm font-bold text-foreground">
                   {pkg.name}
                 </div>
-                <p className="mt-2 text-sm text-zinc-600">{pkg.description}</p>
+                <p className="mt-2 text-sm text-muted-foreground">{pkg.description}</p>
               </div>
             ))}
           </div>
         </section>
 
         {/* FOOTER */}
-        <footer className="flex flex-wrap justify-between gap-2 border-t border-zinc-200 pt-6 text-xs text-zinc-500">
+        <footer className="flex flex-wrap justify-between gap-2 border-t border-border pt-6 text-xs text-muted-foreground">
           <div>
             MIT licensed · maintained by{' '}
             <a
               href="https://github.com/louiskhenghao"
               target="_blank"
               rel="noreferrer"
-              className="text-zinc-700 hover:underline"
+              className="text-foreground hover:underline"
             >
               louiskhenghao
             </a>
@@ -570,7 +570,7 @@ export function Index() {
             href={REPO_URL}
             target="_blank"
             rel="noreferrer"
-            className="text-zinc-700 hover:underline"
+            className="text-foreground hover:underline"
           >
             github.com/louiskhenghao/crudx
           </a>
