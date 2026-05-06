@@ -55,9 +55,9 @@ export const CrudPageHeaderView = memo((props: CrudPageHeaderViewProps) => {
         />
       )}
 
-      <div className="crudx-page-header-content flex items-center">
+      <div className="crudx-page-header-content flex flex-wrap items-center gap-2">
         {/* ---- TITLE VIEW */}
-        <div className="crudx-page-header-title flex items-center gap-2">
+        <div className="crudx-page-header-title flex min-w-0 items-center gap-2">
           {/* ---- BACK BUTTON */}
           {backPath && (
             <NextLink
@@ -88,8 +88,14 @@ export const CrudPageHeaderView = memo((props: CrudPageHeaderViewProps) => {
 
         {/* ---- ACTIONS VIEWS */}
         {hasActions && (
-          <div className="crudx-page-header-actions ml-auto">
-            <RenderNodeView direction="row" gap={2} items={actions} />
+          <div className="crudx-page-header-actions ml-auto min-w-0">
+            <RenderNodeView
+              direction="row"
+              justifyContent="end"
+              wrap
+              gap={2}
+              items={actions}
+            />
           </div>
         )}
       </div>

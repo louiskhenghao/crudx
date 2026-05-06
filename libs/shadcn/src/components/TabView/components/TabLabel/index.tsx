@@ -7,7 +7,8 @@ import { cn } from '../../../../lib/cn';
 import { TabLabelProps } from './props';
 
 const chipColorClass: Record<TabCountColor, string> = {
-  default: 'bg-[hsl(var(--muted))] text-[hsl(var(--muted-foreground))]',
+  default:
+    'bg-[hsl(var(--muted))] text-[hsl(var(--muted-foreground))] group-data-[state=active]/tab:bg-[hsl(var(--primary))]/10 group-data-[state=active]/tab:text-[hsl(var(--primary))]',
   primary: 'bg-[hsl(var(--primary))] text-[hsl(var(--primary-foreground))]',
   secondary:
     'bg-[hsl(var(--secondary))] text-[hsl(var(--secondary-foreground))]',

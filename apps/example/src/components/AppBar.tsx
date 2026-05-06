@@ -6,11 +6,16 @@
  * every demo. Plain HTML + Tailwind utilities only — no MUI, no
  * shadcn primitives — so it sits naturally above either the MUI or
  * the shadcn `CrudPanelView` without dragging in an extra theme.
+ *
+ * On viewports below `md` the nav links collapse into a hamburger
+ * menu that slides down beneath the bar. The brand mark, context
+ * chip, and GitHub icon stay visible at every breakpoint.
  */
 
-import { ReactNode } from 'react';
-import { Github } from 'lucide-react';
+import { ReactNode, useEffect, useState } from 'react';
+import { Github, Menu, X } from 'lucide-react';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 
 export const REPO_URL = 'https://github.com/louiskhenghao/crudx';
 
@@ -21,54 +26,114 @@ export type AppBarProps = {
   actions?: ReactNode;
 };
 
+const NAV_LINKS: { label: string; href: string }[] = [
+  { label: 'Demos', href: '/' },
+  { label: 'Docs', href: '/docs' },
+  { label: 'Playground', href: '/playground' },
+];
+
 export function AppBar({ context, actions }: AppBarProps) {
+  const [menuOpen, setMenuOpen] = useState(false);
+  const router = useRouter();
+
+  // Close the mobile menu whenever the route changes.
+  useEffect(() => {
+    const close = () => setMenuOpen(false);
+    router.events.on('routeChangeStart', close);
+    return () => router.events.off('routeChangeStart', close);
+  }, [router.events]);
+
+  // Lock body scroll while the menu is open and close on Escape.
+  useEffect(() => {
+    if (!menuOpen) return;
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setMenuOpen(false);
+    };
+    window.addEventListener('keydown', onKey);
+    return () => {
+      document.body.style.overflow = prev;
+      window.removeEventListener('keydown', onKey);
+    };
+  }, [menuOpen]);
+
   return (
     <header className="sticky top-0 z-40 border-b border-zinc-200 bg-white/85 backdrop-blur-md">
-      <div className="mx-auto flex h-14 max-w-screen-lg items-center gap-3 px-4">
+      <div className="mx-auto flex h-14 max-w-screen-lg items-center gap-2 px-3 sm:gap-3 sm:px-4">
         <Link
           href="/"
-          className="flex items-center gap-2 text-zinc-900 hover:text-zinc-700"
+          className="flex shrink-0 items-center gap-2 text-zinc-900 hover:text-zinc-700"
         >
-          <span className="grid h-7 w-7 place-items-center rounded-md bg-zinc-900 text-white text-xs font-bold">
+          <span className="grid h-7 w-7 place-items-center rounded-md bg-zinc-900 text-xs font-bold text-white">
             cx
           </span>
-          <span className="text-base font-bold">@crudx</span>
+          <span className="hidden text-base font-bold sm:inline">@crudx</span>
         </Link>
         {context ? (
-          <span className="rounded-full border border-zinc-200 px-2 py-0.5 text-xs text-zinc-600">
+          <span className="min-w-0 truncate rounded-full border border-zinc-200 px-2 py-0.5 text-xs text-zinc-600">
             {context}
           </span>
         ) : null}
         <div className="flex-1" />
-        {actions}
-        <Link
-          href="/"
-          className="rounded-md px-2.5 py-1.5 text-sm font-medium text-zinc-900 hover:bg-zinc-100"
-        >
-          Demos
-        </Link>
-        <Link
-          href="/docs"
-          className="rounded-md px-2.5 py-1.5 text-sm font-medium text-zinc-900 hover:bg-zinc-100"
-        >
-          Docs
-        </Link>
-        <Link
-          href="/playground"
-          className="rounded-md px-2.5 py-1.5 text-sm font-medium text-zinc-900 hover:bg-zinc-100"
-        >
-          Playground
-        </Link>
+        {actions ? <div className="hidden md:flex">{actions}</div> : null}
+
+        {/* Inline nav — md and up */}
+        <nav className="hidden items-center gap-1 md:flex">
+          {NAV_LINKS.map((link) => (
+            <Link
+              key={link.href}
+              href={link.href}
+              className="rounded-md px-2.5 py-1.5 text-sm font-medium text-zinc-900 hover:bg-zinc-100"
+            >
+              {link.label}
+            </Link>
+          ))}
+        </nav>
+
         <a
           href={REPO_URL}
           target="_blank"
           rel="noreferrer"
           aria-label="GitHub"
-          className="grid h-8 w-8 place-items-center rounded-md text-zinc-900 hover:bg-zinc-100"
+          className="grid h-8 w-8 shrink-0 place-items-center rounded-md text-zinc-900 hover:bg-zinc-100"
         >
           <Github className="h-4 w-4" />
         </a>
+
+        {/* Hamburger — below md */}
+        <button
+          type="button"
+          aria-label={menuOpen ? 'Close menu' : 'Open menu'}
+          aria-expanded={menuOpen}
+          onClick={() => setMenuOpen((v) => !v)}
+          className="grid h-8 w-8 shrink-0 place-items-center rounded-md text-zinc-900 hover:bg-zinc-100 md:hidden"
+        >
+          {menuOpen ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
+        </button>
       </div>
+
+      {/* Mobile menu panel */}
+      {menuOpen ? (
+        <div className="border-t border-zinc-200 bg-white md:hidden">
+          <nav className="mx-auto flex max-w-screen-lg flex-col gap-1 px-3 py-2">
+            {NAV_LINKS.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                className="rounded-md px-2.5 py-2 text-sm font-medium text-zinc-900 hover:bg-zinc-100"
+              >
+                {link.label}
+              </Link>
+            ))}
+            {actions ? (
+              <div className="flex flex-wrap items-center gap-2 px-2.5 pb-1 pt-2">
+                {actions}
+              </div>
+            ) : null}
+          </nav>
+        </div>
+      ) : null}
     </header>
   );
 }
