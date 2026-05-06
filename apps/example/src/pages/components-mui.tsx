@@ -117,7 +117,7 @@ function Section(props: {
                 px: 0.75,
                 py: 0.25,
                 borderRadius: 0.5,
-                bgcolor: '#F4F4F5',
+                bgcolor: 'action.hover',
                 color: 'text.secondary',
                 fontFamily: 'monospace',
                 fontSize: 11,
@@ -144,7 +144,7 @@ function Section(props: {
                 borderRadius: 2,
                 border: 1,
                 borderColor: 'divider',
-                bgcolor: '#FAFAFA',
+                bgcolor: 'background.paper',
               }}
             >
               {children}
