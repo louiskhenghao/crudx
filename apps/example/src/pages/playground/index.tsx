@@ -36,18 +36,18 @@ const ICONS: Record<PresetSlug, JSX.Element> = {
 
 export default function PlaygroundIndexPage() {
   return (
-    <div className="min-h-screen bg-white text-zinc-900">
+    <div className="min-h-screen bg-background text-foreground">
       <AppBar context="Playground" />
       <main className="mx-auto max-w-screen-md px-4 py-10">
         <header className="mb-8">
-          <div className="mb-2 inline-flex items-center gap-2 rounded-full bg-emerald-50 px-3 py-1 text-xs font-medium text-emerald-700">
+          <div className="mb-2 inline-flex items-center gap-2 rounded-full bg-emerald-50 px-3 py-1 text-xs font-medium text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-300">
             <PlayCircle className="h-3.5 w-3.5" />
             Live preview · published npm packages
           </div>
           <h1 className="text-3xl font-bold tracking-tight">Playground</h1>
-          <p className="mt-2 text-zinc-600">
+          <p className="mt-2 text-muted-foreground">
             Each preset boots a Sandpack sandbox that installs{' '}
-            <code className="rounded bg-zinc-100 px-1.5 py-0.5 text-sm">
+            <code className="rounded bg-muted px-1.5 py-0.5 text-sm">
               @crudx/*
             </code>{' '}
             from npm — so you're exercising the actually-published bundle, not
@@ -64,10 +64,10 @@ export default function PlaygroundIndexPage() {
               <li key={slug}>
                 <Link
                   href={`/playground/${slug}`}
-                  className="group flex h-full flex-col gap-3 rounded-xl border border-zinc-200 p-5 transition hover:border-zinc-400 hover:bg-zinc-50"
+                  className="group flex h-full flex-col gap-3 rounded-xl border border-border p-5 transition hover:border-foreground/40 hover:bg-accent hover:text-accent-foreground"
                 >
                   <div className="flex items-center justify-between">
-                    <span className="grid h-9 w-9 place-items-center rounded-lg bg-zinc-900 text-white">
+                    <span className="grid h-9 w-9 place-items-center rounded-lg bg-foreground text-background">
                       {ICONS[slug]}
                     </span>
                     <span className="flex items-center gap-2 text-xs font-medium">
@@ -77,7 +77,7 @@ export default function PlaygroundIndexPage() {
                       >
                         {ui.label}
                       </span>
-                      <span className="rounded-full border border-zinc-200 px-2 py-0.5 text-zinc-600">
+                      <span className="rounded-full border border-border px-2 py-0.5 text-muted-foreground">
                         {KIND_LABEL[meta.kind]}
                       </span>
                     </span>
@@ -88,7 +88,7 @@ export default function PlaygroundIndexPage() {
                     </span>
                     <ArrowRight className="h-4 w-4 opacity-0 transition group-hover:translate-x-0.5 group-hover:opacity-100" />
                   </span>
-                  <span className="text-sm text-zinc-600">
+                  <span className="text-sm text-muted-foreground">
                     {meta.description}
                   </span>
                 </Link>
@@ -97,10 +97,10 @@ export default function PlaygroundIndexPage() {
           })}
         </ul>
 
-        <p className="mt-8 text-xs text-zinc-500">
+        <p className="mt-8 text-xs text-muted-foreground">
           Sandpack pulls dependencies from the public npm registry. If a preset
           fails to load, double-check that the matching{' '}
-          <code className="rounded bg-zinc-100 px-1 py-0.5">@crudx/*</code>{' '}
+          <code className="rounded bg-muted px-1 py-0.5">@crudx/*</code>{' '}
           version has actually been published.
         </p>
       </main>

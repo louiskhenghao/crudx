@@ -10,7 +10,7 @@ import { GetStaticPaths, GetStaticProps } from 'next';
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
 
-import { AppBar } from '../../components';
+import { AppBar, useThemeMode } from '../../components';
 import { Preset, PRESETS, PresetSlug } from '../../data/playground-presets';
 
 // Sandpack ships its own Monaco-style editor and pulls in a fair bit
@@ -24,13 +24,14 @@ const Sandpack = dynamic(
 type Props = { preset: Preset };
 
 export default function PlaygroundSlugPage({ preset }: Props) {
+  const { mode } = useThemeMode();
   return (
-    <div className="min-h-screen bg-white text-zinc-900">
+    <div className="min-h-screen bg-background text-foreground">
       <AppBar context="Playground" />
       <main className="mx-auto max-w-screen-2xl px-4 py-6">
         <Link
           href="/playground"
-          className="inline-flex items-center gap-1 text-sm text-zinc-600 hover:text-zinc-900"
+          className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground"
         >
           <ArrowLeft className="h-4 w-4" />
           All playgrounds
@@ -38,12 +39,12 @@ export default function PlaygroundSlugPage({ preset }: Props) {
 
         <header className="mt-3 mb-5">
           <h1 className="text-2xl font-bold tracking-tight">{preset.title}</h1>
-          <p className="mt-1 text-sm text-zinc-600">{preset.description}</p>
+          <p className="mt-1 text-sm text-muted-foreground">{preset.description}</p>
         </header>
 
         <Sandpack
           template="react-ts"
-          theme="light"
+          theme={mode}
           files={preset.files}
           customSetup={{ dependencies: preset.dependencies }}
           options={{
