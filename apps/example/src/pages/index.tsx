@@ -14,6 +14,9 @@ import {
   LayoutGrid,
   Network,
   Server,
+  Sparkles,
+  Terminal,
+  Wand2,
 } from 'lucide-react';
 import Link from 'next/link';
 
@@ -142,6 +145,32 @@ const PACKAGES: { name: string; description: string }[] = [
     name: '@crudx/shadcn',
     description:
       'Tailwind + Radix (shadcn-style) implementation of the same surface; API-compatible with @crudx/mui.',
+  },
+  {
+    name: '@crudx/skills',
+    description:
+      'Installable Claude Code skills (/crudx-setup, /crudx-resource, /crudx-component) that scaffold integration code from templates instead of regenerating boilerplate.',
+  },
+];
+
+const SKILLS: { command: string; tagline: string; icon: ReactNode }[] = [
+  {
+    command: '/crudx-setup',
+    tagline:
+      'One-time: install deps, wire transport provider, configure MUI theme or shadcn Tailwind.',
+    icon: <Wand2 className="h-5 w-5" />,
+  },
+  {
+    command: '/crudx-resource',
+    tagline:
+      'Scaffold a complete CRUD page (types + adapter schema + page) for one resource. The highest-value scaffold.',
+    icon: <Sparkles className="h-5 w-5" />,
+  },
+  {
+    command: '/crudx-component',
+    tagline:
+      'Drop a single basic atom (Dialog, Table, …) or major view (CrudPanelView, CrudFilterView, …) into an existing file.',
+    icon: <Terminal className="h-5 w-5" />,
   },
 ];
 
@@ -544,13 +573,89 @@ export function Index() {
           </div>
         </section>
 
+        {/* CLAUDE CODE SKILLS */}
+        <section className="mb-12 md:mb-20">
+          <div className="text-xs font-bold uppercase tracking-wider text-muted-foreground">
+            Claude Code skills
+          </div>
+          <h2 className="mt-1 text-2xl font-bold md:text-3xl">
+            Scaffold from templates, not regenerate
+          </h2>
+          <p className="mt-2 text-sm text-muted-foreground">
+            Skip the manual wiring. Install our Claude Code skills and let
+            Claude scaffold the repetitive parts of a crudx integration —
+            transport providers, adapter schemas, full CRUD pages, single
+            components — from <strong>pre-baked templates</strong>, not by
+            re-generating boilerplate. Drastically lower token cost per
+            scaffold.
+          </p>
+
+          <div className="mt-6 rounded-lg border border-border bg-card p-5">
+            <div className="text-xs font-bold uppercase tracking-wider text-muted-foreground">
+              Install
+            </div>
+            <pre className="mt-2 overflow-x-auto rounded-md bg-muted p-4 font-mono text-sm">
+              <code>npx @crudx/skills install</code>
+            </pre>
+            <p className="mt-3 text-xs text-muted-foreground">
+              Drops three slash commands into{' '}
+              <code className="rounded bg-muted px-1 font-mono text-[12px]">
+                ./.claude/skills/
+              </code>
+              . Open Claude Code in your project and type the command — each
+              skill asks 2&ndash;4 short questions (transport, UI lib, resource
+              name, &hellip;) and copies the matching template into your code.
+            </p>
+          </div>
+
+          <div className="mt-5 grid grid-cols-1 gap-4 md:grid-cols-3">
+            {SKILLS.map((s) => (
+              <div
+                key={s.command}
+                className="flex flex-col gap-2 rounded-lg border border-border bg-card p-4"
+              >
+                <div className="flex items-center gap-2 text-foreground">
+                  <span className="grid h-8 w-8 place-items-center rounded-md bg-muted text-foreground">
+                    {s.icon}
+                  </span>
+                  <code className="font-mono text-sm font-bold">
+                    {s.command}
+                  </code>
+                </div>
+                <p className="text-xs text-muted-foreground">{s.tagline}</p>
+              </div>
+            ))}
+          </div>
+
+          <div className="mt-5 flex flex-wrap gap-3">
+            <a
+              href={`${REPO_URL}/blob/main/libs/skills/README.md`}
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex items-center gap-2 rounded-md border border-border px-4 py-2 text-sm font-medium text-foreground hover:bg-accent hover:text-accent-foreground"
+            >
+              Read the full guide
+              <ExternalLink className="h-4 w-4" />
+            </a>
+            <a
+              href={`${REPO_URL}/tree/main/libs/skills`}
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex items-center gap-2 rounded-md px-4 py-2 text-sm text-muted-foreground hover:text-foreground"
+            >
+              Browse the package
+              <ArrowRight className="h-4 w-4" />
+            </a>
+          </div>
+        </section>
+
         {/* PACKAGES */}
         <section className="mb-12 md:mb-20">
           <div className="text-xs font-bold uppercase tracking-wider text-muted-foreground">
             Packages
           </div>
           <h2 className="mt-1 text-2xl font-bold md:text-3xl">
-            Six packages, one mental model
+            Seven packages, one mental model
           </h2>
           <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3">
             {PACKAGES.map((pkg) => (
