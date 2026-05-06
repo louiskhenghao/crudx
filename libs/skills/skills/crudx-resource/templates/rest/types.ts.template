@@ -1,0 +1,42 @@
+/**
+ * {{Resource}} resource types — shape of records, list response, and
+ * variables for each CRUD operation.
+ *
+ * Replace the placeholder fields (id, name, description) with the real
+ * fields of your {{Resource}} record.
+ */
+
+export type {{Resource}} = {
+  id: number | string;
+  name: string;
+  description?: string;
+};
+
+export type {{Resources}}ListResponse = {
+  data: {{Resource}}[];
+  total: number;
+};
+
+export type {{Resources}}ListVariables = {
+  _page?: number;
+  _limit?: number;
+};
+
+export type {{Resource}}DetailVariables = { id: {{Resource}}['id'] };
+export type {{Resource}}CreateVariables = Omit<{{Resource}}, 'id'>;
+export type {{Resource}}UpdateVariables = Partial<Omit<{{Resource}}, 'id'>> & {
+  id: {{Resource}}['id'];
+};
+export type {{Resource}}DeleteVariables = { id: {{Resource}}['id'] };
+
+/**
+ * Schema tuple consumed by `restAdapter.schema<...>(...)`.
+ * Order per slot: [Response, Variables, Item?].
+ */
+export type {{Resource}}Schemata = {
+  get: [{{Resource}}, {{Resource}}DetailVariables, {{Resource}}];
+  list: [{{Resources}}ListResponse, {{Resources}}ListVariables, {{Resource}}];
+  create: [{{Resource}}, {{Resource}}CreateVariables];
+  update: [{{Resource}}, {{Resource}}UpdateVariables];
+  delete: [{ id: {{Resource}}['id'] }, {{Resource}}DeleteVariables];
+};

@@ -1,0 +1,84 @@
+/**
+ * {{Resource}} adapter schema — wires the REST endpoints into a single
+ * `CrudSchemata` object that <CrudPanelView /> consumes.
+ *
+ * Endpoints are derived from API_BASE_URL exported by your CrudxProvider.
+ * If you didn't run /crudx-setup, replace `API_BASE_URL` with a literal.
+ */
+import { createRestTanstackAdapter } from '@crudx/rest-tanstack-adapter';
+
+import { API_BASE_URL } from '../../providers/CrudxProvider';
+import type {
+  {{Resource}},
+  {{Resources}}ListResponse,
+  {{Resource}}Schemata,
+} from './types';
+
+const RESOURCE = '{{RESOURCE_PATH}}';
+
+export const {{resource}}Adapter = createRestTanstackAdapter();
+
+export const {{resource}}Schema = {{resource}}Adapter.schema<{{Resource}}Schemata>({
+  list: {
+    key: '{{resources}}',
+    resource: '{{resources}}',
+    fetch: async ({ variables, signal }) => {
+      const params = new URLSearchParams();
+      if (variables._page) params.set('_page', String(variables._page));
+      if (variables._limit) params.set('_limit', String(variables._limit));
+      const res = await fetch(`${API_BASE_URL}/${RESOURCE}?${params.toString()}`, { signal });
+      const data = (await res.json()) as {{Resource}}[];
+      const total = parseInt(res.headers.get('x-total-count') ?? String(data.length), 10);
+      return { data, total } satisfies {{Resources}}ListResponse;
+    },
+  },
+  get: {
+    key: '{{resource}}',
+    resource: ['{{resources}}', 'detail'],
+    fetch: async ({ variables, signal }) => {
+      const res = await fetch(`${API_BASE_URL}/${RESOURCE}/${variables.id}`, { signal });
+      return (await res.json()) as {{Resource}};
+    },
+  },
+  create: {
+    key: '{{resource}}',
+    resource: ['{{resources}}', 'create'],
+    invalidates: '{{resources}}',
+    request: async ({ variables }) => {
+      const res = await fetch(`${API_BASE_URL}/${RESOURCE}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(variables),
+      });
+      return (await res.json()) as {{Resource}};
+    },
+  },
+  update: {
+    key: '{{resource}}',
+    resource: ['{{resources}}', 'update'],
+    invalidates: '{{resources}}',
+    request: async ({ variables }) => {
+      const { id, ...body } = variables;
+      const res = await fetch(`${API_BASE_URL}/${RESOURCE}/${id}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body),
+      });
+      return (await res.json()) as {{Resource}};
+    },
+  },
+  delete: {
+    key: '{{resource}}',
+    resource: ['{{resources}}', 'delete'],
+    invalidates: '{{resources}}',
+    request: async ({ variables }) => {
+      await fetch(`${API_BASE_URL}/${RESOURCE}/${variables.id}`, { method: 'DELETE' });
+      return { id: variables.id };
+    },
+  },
+});
+
+export const {{resource}}Paging = {{resource}}Adapter.offsetPagination({
+  pageKey: '_page',
+  pageSizeKey: '_limit',
+});

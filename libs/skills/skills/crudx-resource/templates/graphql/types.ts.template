@@ -1,0 +1,51 @@
+/**
+ * {{Resource}} GraphQL response/variables types and CRUD schema tuple.
+ *
+ * Replace placeholder fields (id, name, description) with the real fields
+ * exposed by your GraphQL API.
+ */
+
+export type {{Resource}} = {
+  id: string;
+  name: string;
+  description?: string;
+};
+
+export type {{Resources}}ListResponse = {
+  {{resources}}: {
+    data: {{Resource}}[];
+    meta: { totalCount: number };
+  };
+};
+
+export type {{Resources}}ListVariables = {
+  options?: {
+    paginate?: { page?: number; limit?: number };
+    search?: { q?: string };
+  };
+};
+
+export type {{Resource}}DetailResponse = { {{resource}}: {{Resource}} };
+export type {{Resource}}DetailVariables = { id: string };
+
+export type {{Resource}}CreateResponse = { create{{Resource}}: {{Resource}} };
+export type {{Resource}}CreateVariables = {
+  input: { name: string; description?: string };
+};
+
+export type {{Resource}}UpdateResponse = { update{{Resource}}: {{Resource}} };
+export type {{Resource}}UpdateVariables = {
+  id: string;
+  input: { name?: string; description?: string };
+};
+
+export type {{Resource}}DeleteResponse = { delete{{Resource}}: boolean };
+export type {{Resource}}DeleteVariables = { id: string };
+
+export type {{Resource}}Schemata = {
+  get: [{{Resource}}DetailResponse, {{Resource}}DetailVariables, {{Resource}}];
+  list: [{{Resources}}ListResponse, {{Resources}}ListVariables, {{Resource}}];
+  create: [{{Resource}}CreateResponse, {{Resource}}CreateVariables];
+  update: [{{Resource}}UpdateResponse, {{Resource}}UpdateVariables];
+  delete: [{{Resource}}DeleteResponse, {{Resource}}DeleteVariables];
+};

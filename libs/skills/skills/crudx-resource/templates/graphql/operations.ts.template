@@ -1,0 +1,92 @@
+/**
+ * {{Resource}} GraphQL operations + Apollo hooks.
+ *
+ * Hand-rolled — no codegen required. If you use codegen, replace these
+ * with the generated hooks; the schema slot signature is identical.
+ */
+import { gql, useLazyQuery, useMutation, useQuery } from '@apollo/client';
+
+import type {
+  {{Resource}},
+  {{Resource}}CreateResponse,
+  {{Resource}}CreateVariables,
+  {{Resource}}DeleteResponse,
+  {{Resource}}DeleteVariables,
+  {{Resource}}DetailResponse,
+  {{Resource}}DetailVariables,
+  {{Resources}}ListResponse,
+  {{Resources}}ListVariables,
+  {{Resource}}UpdateResponse,
+  {{Resource}}UpdateVariables,
+} from './types';
+
+const ListQuery = gql`
+  query {{Resources}}List($options: PageQueryOptions) {
+    {{resources}}(options: $options) {
+      data {
+        id
+        name
+        description
+      }
+      meta {
+        totalCount
+      }
+    }
+  }
+`;
+
+const DetailQuery = gql`
+  query {{Resource}}Detail($id: ID!) {
+    {{resource}}(id: $id) {
+      id
+      name
+      description
+    }
+  }
+`;
+
+const CreateMutation = gql`
+  mutation {{Resource}}Create($input: Create{{Resource}}Input!) {
+    create{{Resource}}(input: $input) {
+      id
+      name
+      description
+    }
+  }
+`;
+
+const UpdateMutation = gql`
+  mutation {{Resource}}Update($id: ID!, $input: Update{{Resource}}Input!) {
+    update{{Resource}}(id: $id, input: $input) {
+      id
+      name
+      description
+    }
+  }
+`;
+
+const DeleteMutation = gql`
+  mutation {{Resource}}Delete($id: ID!) {
+    delete{{Resource}}(id: $id)
+  }
+`;
+
+export const use{{Resources}}ListQuery = (
+  options?: Parameters<typeof useQuery<{{Resources}}ListResponse, {{Resources}}ListVariables>>[1],
+) => useQuery<{{Resources}}ListResponse, {{Resources}}ListVariables>(ListQuery, options);
+
+export const use{{Resource}}DetailLazyQuery = (
+  options?: Parameters<typeof useLazyQuery<{{Resource}}DetailResponse, {{Resource}}DetailVariables>>[1],
+) => useLazyQuery<{{Resource}}DetailResponse, {{Resource}}DetailVariables>(DetailQuery, options);
+
+export const use{{Resource}}CreateMutation = (
+  options?: Parameters<typeof useMutation<{{Resource}}CreateResponse, {{Resource}}CreateVariables>>[1],
+) => useMutation<{{Resource}}CreateResponse, {{Resource}}CreateVariables>(CreateMutation, options);
+
+export const use{{Resource}}UpdateMutation = (
+  options?: Parameters<typeof useMutation<{{Resource}}UpdateResponse, {{Resource}}UpdateVariables>>[1],
+) => useMutation<{{Resource}}UpdateResponse, {{Resource}}UpdateVariables>(UpdateMutation, options);
+
+export const use{{Resource}}DeleteMutation = (
+  options?: Parameters<typeof useMutation<{{Resource}}DeleteResponse, {{Resource}}DeleteVariables>>[1],
+) => useMutation<{{Resource}}DeleteResponse, {{Resource}}DeleteVariables>(DeleteMutation, options);
