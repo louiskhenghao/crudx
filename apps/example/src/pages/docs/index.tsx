@@ -19,13 +19,13 @@ const ICONS: Record<DocSlug, JSX.Element> = {
 
 export default function DocsIndexPage() {
   return (
-    <div className="min-h-screen bg-white text-zinc-900">
+    <div className="min-h-screen bg-background text-foreground">
       <AppBar context="Docs" />
       <main className="mx-auto max-w-screen-md px-4 py-10">
         <header className="mb-8">
           <h1 className="text-3xl font-bold tracking-tight">Documentation</h1>
-          <p className="mt-2 text-zinc-600">
-            Guides for using <code className="rounded bg-zinc-100 px-1.5 py-0.5 text-sm">@crudx</code> in your own app, contributing to this repo, and extending it.
+          <p className="mt-2 text-muted-foreground">
+            Guides for using <code className="rounded bg-muted px-1.5 py-0.5 text-sm">@crudx</code> in your own app, contributing to this repo, and extending it.
           </p>
         </header>
 
@@ -36,9 +36,9 @@ export default function DocsIndexPage() {
               <li key={slug}>
                 <Link
                   href={`/docs/${slug}`}
-                  className="group flex items-start gap-4 rounded-xl border border-zinc-200 p-5 transition hover:border-zinc-400 hover:bg-zinc-50"
+                  className="group flex items-start gap-4 rounded-xl border border-border p-5 transition hover:border-foreground/40 hover:bg-accent hover:text-accent-foreground"
                 >
-                  <span className="mt-0.5 grid h-9 w-9 shrink-0 place-items-center rounded-lg bg-zinc-900 text-white">
+                  <span className="mt-0.5 grid h-9 w-9 shrink-0 place-items-center rounded-lg bg-foreground text-background">
                     {ICONS[slug]}
                   </span>
                   <span className="flex-1">
@@ -46,7 +46,7 @@ export default function DocsIndexPage() {
                       <span className="text-base font-semibold">{meta.title}</span>
                       <ArrowRight className="h-4 w-4 opacity-0 transition group-hover:translate-x-0.5 group-hover:opacity-100" />
                     </span>
-                    <span className="mt-1 block text-sm text-zinc-600">
+                    <span className="mt-1 block text-sm text-muted-foreground">
                       {meta.description}
                     </span>
                   </span>

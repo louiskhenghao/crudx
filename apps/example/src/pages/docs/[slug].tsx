@@ -66,7 +66,7 @@ const components: ComponentPropsWithoutRef<typeof ReactMarkdown>['components'] =
     ),
     h2: (props) => (
       <h2
-        className="mt-10 mb-3 border-b border-zinc-200 pb-2 text-2xl font-semibold"
+        className="mt-10 mb-3 border-b border-border pb-2 text-2xl font-semibold"
         {...props}
       />
     ),
@@ -75,18 +75,18 @@ const components: ComponentPropsWithoutRef<typeof ReactMarkdown>['components'] =
     ),
     h4: (props) => (
       <h4
-        className="mt-4 mb-2 text-base font-semibold uppercase tracking-wide text-zinc-700"
+        className="mt-4 mb-2 text-base font-semibold uppercase tracking-wide text-muted-foreground"
         {...props}
       />
     ),
     p: (props) => (
-      <p className="my-4 leading-7 text-zinc-800" {...props} />
+      <p className="my-4 leading-7 text-foreground" {...props} />
     ),
     a: ({ href, children, ...props }) => {
       if (!href) {
         return (
           <a
-            className="text-blue-700 underline-offset-2 hover:underline"
+            className="text-blue-700 underline-offset-2 hover:underline dark:text-blue-400"
             {...props}
           >
             {children}
@@ -100,7 +100,7 @@ const components: ComponentPropsWithoutRef<typeof ReactMarkdown>['components'] =
         return (
           <Link
             href={`/docs/${resolution.slug}${resolution.fragment}`}
-            className="text-blue-700 underline-offset-2 hover:underline"
+            className="text-blue-700 underline-offset-2 hover:underline dark:text-blue-400"
           >
             {children}
           </Link>
@@ -112,7 +112,7 @@ const components: ComponentPropsWithoutRef<typeof ReactMarkdown>['components'] =
       return (
         <a
           href={finalHref}
-          className="text-blue-700 underline-offset-2 hover:underline"
+          className="text-blue-700 underline-offset-2 hover:underline dark:text-blue-400"
           target={isExternal ? '_blank' : undefined}
           rel={isExternal ? 'noreferrer' : undefined}
           {...props}
@@ -130,11 +130,11 @@ const components: ComponentPropsWithoutRef<typeof ReactMarkdown>['components'] =
     li: (props) => <li className="leading-7" {...props} />,
     blockquote: (props) => (
       <blockquote
-        className="my-4 border-l-4 border-zinc-300 bg-zinc-50 px-4 py-2 italic text-zinc-700"
+        className="my-4 border-l-4 border-border bg-muted px-4 py-2 italic text-muted-foreground"
         {...props}
       />
     ),
-    hr: () => <hr className="my-8 border-zinc-200" />,
+    hr: () => <hr className="my-8 border-border" />,
     table: (props) => (
       <div className="my-6 overflow-x-auto">
         <table className="w-full border-collapse text-sm" {...props} />
@@ -142,12 +142,12 @@ const components: ComponentPropsWithoutRef<typeof ReactMarkdown>['components'] =
     ),
     th: (props) => (
       <th
-        className="border-b-2 border-zinc-300 px-3 py-2 text-left font-semibold"
+        className="border-b-2 border-border px-3 py-2 text-left font-semibold"
         {...props}
       />
     ),
     td: (props) => (
-      <td className="border-b border-zinc-200 px-3 py-2 align-top" {...props} />
+      <td className="border-b border-border px-3 py-2 align-top" {...props} />
     ),
     code: ({ className, children, ...props }) => {
       // Inline code (no language class) renders compact.
@@ -155,7 +155,7 @@ const components: ComponentPropsWithoutRef<typeof ReactMarkdown>['components'] =
       if (!isBlock) {
         return (
           <code
-            className="rounded bg-zinc-100 px-1.5 py-0.5 font-mono text-[0.9em] text-zinc-800"
+            className="rounded bg-muted px-1.5 py-0.5 font-mono text-[0.9em] text-foreground"
             {...props}
           >
             {children}
@@ -170,7 +170,7 @@ const components: ComponentPropsWithoutRef<typeof ReactMarkdown>['components'] =
     },
     pre: (props) => (
       <pre
-        className="my-4 overflow-x-auto rounded-lg bg-zinc-900 p-4 text-sm leading-6 text-zinc-100"
+        className="my-4 overflow-x-auto rounded-lg bg-zinc-900 p-4 text-sm leading-6 text-zinc-100 dark:bg-zinc-950"
         {...props}
       />
     ),
@@ -178,12 +178,12 @@ const components: ComponentPropsWithoutRef<typeof ReactMarkdown>['components'] =
 
 export default function DocPage({ meta }: Props) {
   return (
-    <div className="min-h-screen bg-white text-zinc-900">
+    <div className="min-h-screen bg-background text-foreground">
       <AppBar context="Docs" />
       <main className="mx-auto max-w-screen-md px-4 py-8">
         <Link
           href="/docs"
-          className="inline-flex items-center gap-1 text-sm text-zinc-600 hover:text-zinc-900"
+          className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground"
         >
           <ArrowLeft className="h-4 w-4" />
           All docs
