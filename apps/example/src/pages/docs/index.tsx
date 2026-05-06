@@ -4,7 +4,7 @@
  * corresponding markdown source.
  */
 
-import { ArrowRight, BookOpen, Hammer, Plug, Rocket } from 'lucide-react';
+import { ArrowRight, BookOpen, Hammer, Plug, Rocket, Sparkles } from 'lucide-react';
 import Link from 'next/link';
 
 import { AppBar } from '../../components';
@@ -12,6 +12,7 @@ import { DOC_ORDER, DOCS, DocSlug } from '../../data/docs';
 
 const ICONS: Record<DocSlug, JSX.Element> = {
   'getting-started': <Rocket className="h-5 w-5" />,
+  skills: <Sparkles className="h-5 w-5" />,
   contributing: <BookOpen className="h-5 w-5" />,
   'library-setup': <Hammer className="h-5 w-5" />,
   adapters: <Plug className="h-5 w-5" />,

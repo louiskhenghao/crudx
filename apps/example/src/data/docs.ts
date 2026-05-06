@@ -16,12 +16,16 @@ import librarySetupMd from '../../../../libs/core/docs/library-setup.md';
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import adaptersMd from '../../../../libs/core/docs/adapters.md';
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+import skillsMd from '../../../../libs/skills/README.md';
 
 export type DocSlug =
   | 'getting-started'
   | 'contributing'
   | 'library-setup'
-  | 'adapters';
+  | 'adapters'
+  | 'skills';
 
 export type DocMeta = {
   slug: DocSlug;
@@ -59,10 +63,18 @@ export const DOCS: Record<DocSlug, DocMeta> = {
       'The transport contract, step-by-step adapter build, the optional schema() builder, testing, and release.',
     source: adaptersMd as unknown as string,
   },
+  skills: {
+    slug: 'skills',
+    title: 'Claude Code skills',
+    description:
+      'Installable skills (/crudx-setup, /crudx-resource, /crudx-component) that scaffold integration code from templates instead of regenerating boilerplate.',
+    source: skillsMd as unknown as string,
+  },
 };
 
 export const DOC_ORDER: DocSlug[] = [
   'getting-started',
+  'skills',
   'contributing',
   'library-setup',
   'adapters',
