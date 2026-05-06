@@ -10,13 +10,13 @@ export const TooltipTrigger = TooltipPrimitive.Trigger;
 export const TooltipContent = React.forwardRef<
   React.ElementRef<typeof TooltipPrimitive.Content>,
   React.ComponentPropsWithoutRef<typeof TooltipPrimitive.Content>
->(({ className, sideOffset = 4, ...rest }, ref) => (
+>(({ className, sideOffset = 6, ...rest }, ref) => (
   <TooltipPrimitive.Portal>
     <TooltipPrimitive.Content
       ref={ref}
       sideOffset={sideOffset}
       className={cn(
-        'z-50 overflow-hidden rounded-md bg-[hsl(var(--primary))] px-3 py-1.5 text-xs text-[hsl(var(--primary-foreground))] shadow-md animate-in fade-in-0 zoom-in-95',
+        'pointer-events-none z-50 max-w-xs overflow-hidden rounded-md border border-[hsl(var(--border))] bg-[hsl(var(--popover))] px-2 py-1 text-[11px] font-medium leading-tight text-[hsl(var(--popover-foreground))] shadow-sm animate-in fade-in-0 zoom-in-95',
         className
       )}
       {...rest}

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { MoreHorizontal } from 'lucide-react';
 
 import { cn } from '../../lib/cn';
@@ -37,6 +37,27 @@ export const ButtonDropdown: React.FC<ButtonDropdownProps> = (props) => {
 
   // =============== STATE
   const [open, setOpen] = useState(false);
+  const [tooltipOpen, setTooltipOpen] = useState(false);
+
+  // =============== HANDLERS
+  // Force the tooltip closed whenever the dropdown is opened or closed.
+  // Combined with `onCloseAutoFocus.preventDefault()` on the menu, this
+  // stops the focus-restore from re-triggering the tooltip on close.
+  const handleOpenChange = useCallback((next: boolean) => {
+    setOpen(next);
+    setTooltipOpen(false);
+  }, []);
+
+  const handleTooltipOpenChange = useCallback(
+    (next: boolean) => {
+      if (open) {
+        setTooltipOpen(false);
+        return;
+      }
+      setTooltipOpen(next);
+    },
+    [open]
+  );
 
   // =============== VARIABLES
   const triggerContent = render?.({ open, element: null }) ??
@@ -58,23 +79,35 @@ export const ButtonDropdown: React.FC<ButtonDropdownProps> = (props) => {
     </DropdownMenuTrigger>
   );
 
+  const tooltipBaseProps =
+    typeof tooltip === 'string' ? { title: tooltip } : tooltip;
+
   const wrappedTrigger = tooltip ? (
-    typeof tooltip === 'string' ? (
-      <TooltipView title={tooltip}>{triggerNode}</TooltipView>
-    ) : (
-      <TooltipView {...tooltip}>{triggerNode}</TooltipView>
-    )
+    <TooltipView
+      {...tooltipBaseProps}
+      open={tooltipOpen}
+      onOpenChange={handleTooltipOpenChange}
+    >
+      {triggerNode}
+    </TooltipView>
   ) : (
     triggerNode
   );
 
   return (
-    <DropdownMenu open={open} onOpenChange={setOpen}>
+    <DropdownMenu open={open} onOpenChange={handleOpenChange}>
       {wrappedTrigger}
       <DropdownMenuContent
         className="button-dropdown-menu"
         align="start"
         {...menuProps}
+        onCloseAutoFocus={(event) => {
+          // Prevent Radix from restoring focus to the trigger on close;
+          // the focus restore re-opens the tooltip-on-focus and leaves
+          // it stuck visible until the user clicks elsewhere.
+          event.preventDefault();
+          menuProps?.onCloseAutoFocus?.(event);
+        }}
       >
         {items.map((e) => {
           const isSelected = e.key === selected;

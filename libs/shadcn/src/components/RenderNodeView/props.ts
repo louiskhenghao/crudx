@@ -24,6 +24,15 @@ export type RenderNodeViewProps = React.HTMLAttributes<HTMLDivElement> & {
    */
   alignItems?: 'start' | 'center' | 'end' | 'stretch' | 'baseline';
   /**
+   * main-axis alignment
+   */
+  justifyContent?: 'start' | 'center' | 'end' | 'between' | 'around' | 'evenly';
+  /**
+   * allow children to wrap onto multiple lines when they overflow
+   * @default false
+   */
+  wrap?: boolean;
+  /**
    * main-axis gap between items (Tailwind gap scale)
    */
   gap?: number;

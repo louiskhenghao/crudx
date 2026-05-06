@@ -74,10 +74,12 @@ export const CrudContentHeaderView = (props: CrudContentHeaderViewProps) => {
           )}
 
           {headerActionViews.length > 0 && (
-            <div className="crudx-content-header-actions ml-auto">
+            <div className="crudx-content-header-actions ml-auto min-w-0">
               <RenderNodeView
                 direction="row"
                 alignItems="center"
+                justifyContent="end"
+                wrap
                 gap={2}
                 items={headerActionViews.map((e) => ({
                   key: e.key,
