@@ -1,0 +1,35 @@
+import { LinkProvider } from '@crudx/common';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { ReactNode, useMemo } from 'react';
+
+/**
+ * Base URL for REST calls made by your app. Adapter schemas reference this
+ * value when building request URLs.
+ */
+export const API_BASE_URL = '{{ENDPOINT}}';
+
+interface CrudxProviderProps {
+  children: ReactNode;
+  /** Optional override for tests / storybook. */
+  client?: QueryClient;
+  /** App's router Link component (e.g. next/link, react-router-dom Link). */
+  Link?: any;
+}
+
+export function CrudxProvider(props: CrudxProviderProps) {
+  const { children, client, Link } = props;
+  const queryClient = useMemo(
+    () =>
+      client ??
+      new QueryClient({
+        defaultOptions: {
+          queries: { refetchOnWindowFocus: false, retry: 1 },
+        },
+      }),
+    [client],
+  );
+  const tree = (
+    <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+  );
+  return Link ? <LinkProvider Link={Link}>{tree}</LinkProvider> : tree;
+}

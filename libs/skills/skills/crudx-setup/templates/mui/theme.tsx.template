@@ -1,0 +1,37 @@
+import { CssBaseline, ThemeProvider, createTheme } from '@mui/material';
+import { ReactNode, useMemo, useState } from 'react';
+
+type Mode = 'light' | 'dark';
+
+interface CrudxThemeProps {
+  children: ReactNode;
+  /** Initial mode; toggle later via context if you want a switcher. */
+  defaultMode?: Mode;
+}
+
+/**
+ * Minimal MUI theme wrapper. Replace `palette.primary.main` etc. with your
+ * brand colors. The example app's theme is at:
+ *   apps/example/src/components/ThemeProvider.tsx
+ */
+export function CrudxTheme(props: CrudxThemeProps) {
+  const { children, defaultMode = 'light' } = props;
+  const [mode] = useState<Mode>(defaultMode);
+  const theme = useMemo(
+    () =>
+      createTheme({
+        palette: {
+          mode,
+          primary: { main: mode === 'dark' ? '#90caf9' : '#1976d2' },
+        },
+        shape: { borderRadius: 8 },
+      }),
+    [mode],
+  );
+  return (
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      {children}
+    </ThemeProvider>
+  );
+}
