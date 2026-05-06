@@ -13,9 +13,11 @@
  */
 
 import { ReactNode, useEffect, useState } from 'react';
-import { Github, Menu, X } from 'lucide-react';
+import { Github, Menu, Moon, Sun, X } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+
+import { useThemeMode } from './ThemeProvider';
 
 export const REPO_URL = 'https://github.com/louiskhenghao/crudx';
 
@@ -34,6 +36,7 @@ const NAV_LINKS: { label: string; href: string }[] = [
 
 export function AppBar({ context, actions }: AppBarProps) {
   const [menuOpen, setMenuOpen] = useState(false);
+  const { mode, toggle } = useThemeMode();
   const router = useRouter();
 
   // Close the mobile menu whenever the route changes.
@@ -58,20 +61,36 @@ export function AppBar({ context, actions }: AppBarProps) {
     };
   }, [menuOpen]);
 
+  const themeToggle = (
+    <button
+      type="button"
+      aria-label={mode === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+      aria-pressed={mode === 'dark'}
+      onClick={toggle}
+      className="grid h-8 w-8 shrink-0 place-items-center rounded-md text-zinc-900 hover:bg-zinc-100 dark:text-zinc-100 dark:hover:bg-zinc-800"
+    >
+      {mode === 'dark' ? (
+        <Sun className="h-4 w-4" />
+      ) : (
+        <Moon className="h-4 w-4" />
+      )}
+    </button>
+  );
+
   return (
-    <header className="sticky top-0 z-40 border-b border-zinc-200 bg-white/85 backdrop-blur-md">
+    <header className="sticky top-0 z-40 border-b border-zinc-200 bg-white/85 backdrop-blur-md dark:border-zinc-800 dark:bg-zinc-950/85">
       <div className="mx-auto flex h-14 max-w-screen-lg items-center gap-2 px-3 sm:gap-3 sm:px-4">
         <Link
           href="/"
-          className="flex shrink-0 items-center gap-2 text-zinc-900 hover:text-zinc-700"
+          className="flex shrink-0 items-center gap-2 text-zinc-900 hover:text-zinc-700 dark:text-zinc-100 dark:hover:text-zinc-300"
         >
-          <span className="grid h-7 w-7 place-items-center rounded-md bg-zinc-900 text-xs font-bold text-white">
+          <span className="grid h-7 w-7 place-items-center rounded-md bg-zinc-900 text-xs font-bold text-white dark:bg-zinc-100 dark:text-zinc-900">
             cx
           </span>
           <span className="hidden text-base font-bold sm:inline">@crudx</span>
         </Link>
         {context ? (
-          <span className="min-w-0 truncate rounded-full border border-zinc-200 px-2 py-0.5 text-xs text-zinc-600">
+          <span className="min-w-0 truncate rounded-full border border-zinc-200 px-2 py-0.5 text-xs text-zinc-600 dark:border-zinc-700 dark:text-zinc-300">
             {context}
           </span>
         ) : null}
@@ -84,19 +103,21 @@ export function AppBar({ context, actions }: AppBarProps) {
             <Link
               key={link.href}
               href={link.href}
-              className="rounded-md px-2.5 py-1.5 text-sm font-medium text-zinc-900 hover:bg-zinc-100"
+              className="rounded-md px-2.5 py-1.5 text-sm font-medium text-zinc-900 hover:bg-zinc-100 dark:text-zinc-100 dark:hover:bg-zinc-800"
             >
               {link.label}
             </Link>
           ))}
         </nav>
 
+        {themeToggle}
+
         <a
           href={REPO_URL}
           target="_blank"
           rel="noreferrer"
           aria-label="GitHub"
-          className="grid h-8 w-8 shrink-0 place-items-center rounded-md text-zinc-900 hover:bg-zinc-100"
+          className="grid h-8 w-8 shrink-0 place-items-center rounded-md text-zinc-900 hover:bg-zinc-100 dark:text-zinc-100 dark:hover:bg-zinc-800"
         >
           <Github className="h-4 w-4" />
         </a>
@@ -107,7 +128,7 @@ export function AppBar({ context, actions }: AppBarProps) {
           aria-label={menuOpen ? 'Close menu' : 'Open menu'}
           aria-expanded={menuOpen}
           onClick={() => setMenuOpen((v) => !v)}
-          className="grid h-8 w-8 shrink-0 place-items-center rounded-md text-zinc-900 hover:bg-zinc-100 md:hidden"
+          className="grid h-8 w-8 shrink-0 place-items-center rounded-md text-zinc-900 hover:bg-zinc-100 dark:text-zinc-100 dark:hover:bg-zinc-800 md:hidden"
         >
           {menuOpen ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
         </button>
@@ -115,13 +136,13 @@ export function AppBar({ context, actions }: AppBarProps) {
 
       {/* Mobile menu panel */}
       {menuOpen ? (
-        <div className="border-t border-zinc-200 bg-white md:hidden">
+        <div className="border-t border-zinc-200 bg-white dark:border-zinc-800 dark:bg-zinc-950 md:hidden">
           <nav className="mx-auto flex max-w-screen-lg flex-col gap-1 px-3 py-2">
             {NAV_LINKS.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
-                className="rounded-md px-2.5 py-2 text-sm font-medium text-zinc-900 hover:bg-zinc-100"
+                className="rounded-md px-2.5 py-2 text-sm font-medium text-zinc-900 hover:bg-zinc-100 dark:text-zinc-100 dark:hover:bg-zinc-800"
               >
                 {link.label}
               </Link>
