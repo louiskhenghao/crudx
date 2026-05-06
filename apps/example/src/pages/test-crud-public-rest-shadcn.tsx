@@ -152,10 +152,10 @@ const btnGhostClass =
   'inline-flex h-9 items-center justify-center rounded-md px-3 text-sm font-medium text-foreground hover:bg-accent hover:text-accent-foreground disabled:pointer-events-none disabled:opacity-50';
 
 const btnOutlineClass =
-  'inline-flex h-8 items-center justify-center gap-1 rounded-md border border-zinc-300 bg-white px-2.5 text-xs font-medium text-zinc-800 shadow-sm hover:bg-zinc-50';
+  'inline-flex h-8 items-center justify-center gap-1 rounded-md border border-border bg-background px-2.5 text-xs font-medium text-foreground shadow-sm hover:bg-accent hover:text-accent-foreground';
 
 const chipClass =
-  'inline-flex items-center rounded-full border border-zinc-200 bg-zinc-50 px-2 py-0.5 text-[11px] font-medium text-zinc-700';
+  'inline-flex items-center rounded-full border border-border bg-muted px-2 py-0.5 text-[11px] font-medium text-muted-foreground';
 
 function PostForm(props: {
   mode: 'create' | 'update';
@@ -239,22 +239,22 @@ function PostCard(props: {
 }) {
   const { post, index, checkbox, action } = props;
   return (
-    <div className="flex h-full flex-col rounded-lg border border-zinc-200 bg-white p-4 shadow-sm transition-shadow hover:shadow-md">
+    <div className="flex h-full flex-col rounded-lg border border-border bg-card p-4 shadow-sm transition-shadow hover:shadow-md">
       <div className="flex items-start justify-between gap-2">
         <div className="flex items-center gap-2">
           {checkbox()}
-          <span className="font-mono text-[11px] text-zinc-500">
+          <span className="font-mono text-[11px] text-muted-foreground">
             #{post.id}
           </span>
           <span className={chipClass}>user {post.userId ?? '—'}</span>
         </div>
         <div className="shrink-0">{action()}</div>
       </div>
-      <h3 className="mt-2 line-clamp-2 text-sm font-semibold capitalize text-zinc-900">
+      <h3 className="mt-2 line-clamp-2 text-sm font-semibold capitalize text-foreground">
         {post.title}
       </h3>
-      <p className="mt-2 line-clamp-3 text-xs text-zinc-600">{post.body}</p>
-      <div className="mt-3 flex items-center justify-between text-[11px] text-zinc-400">
+      <p className="mt-2 line-clamp-3 text-xs text-muted-foreground">{post.body}</p>
+      <div className="mt-3 flex items-center justify-between text-[11px] text-muted-foreground/70">
         <span>row {index + 1}</span>
         <span className="font-mono">id:{post.id}</span>
       </div>
@@ -304,8 +304,8 @@ function PostsPanel({ source }: { source: string }) {
 
   return (
     <div className="space-y-4">
-      <div className="flex flex-wrap items-center gap-2 rounded-md border border-zinc-200 bg-white px-3 py-2 text-xs text-zinc-600 shadow-sm">
-        <span className="text-[11px] font-semibold uppercase tracking-wider text-zinc-500">
+      <div className="flex flex-wrap items-center gap-2 rounded-md border border-border bg-card px-3 py-2 text-xs text-muted-foreground shadow-sm">
+        <span className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
           Status
         </span>
         <span className={chipClass}>view: {contentViewType}</span>
@@ -313,14 +313,14 @@ function PostsPanel({ source }: { source: string }) {
         <span className={chipClass}>sort: {sortDir.toLowerCase()}</span>
         {search ? <span className={chipClass}>q: {search}</span> : null}
         {!hasActiveFilters ? (
-          <span className="text-[11px] text-zinc-400">no filters applied</span>
+          <span className="text-[11px] text-muted-foreground/70">no filters applied</span>
         ) : null}
         <div className="ml-auto flex items-center gap-2">
           {hasActiveFilters ? (
             <button
               type="button"
               onClick={resetFilters}
-              className="inline-flex h-7 items-center gap-1 rounded-md border border-zinc-300 bg-white px-2 text-[11px] font-medium text-zinc-700 hover:bg-zinc-50"
+              className="inline-flex h-7 items-center gap-1 rounded-md border border-border bg-background px-2 text-[11px] font-medium text-foreground hover:bg-accent hover:text-accent-foreground"
             >
               <RotateCcw className="h-3 w-3" />
               Reset filters
@@ -384,7 +384,7 @@ function PostsPanel({ source }: { source: string }) {
         filterTitle="Search"
         filterNode={
           <label className="flex flex-col gap-1 text-sm">
-            <span className="text-xs font-medium uppercase tracking-wide text-zinc-500">
+            <span className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
               Search title or body
             </span>
             <input
@@ -448,7 +448,7 @@ function PostsPanel({ source }: { source: string }) {
         ]}
         tableExpandState={expanded}
         tableExpandView={
-          <div className="rounded-md border border-dashed border-zinc-300 bg-zinc-50 p-3 text-xs text-zinc-600">
+          <div className="rounded-md border border-dashed border-border bg-muted p-3 text-xs text-muted-foreground">
             <strong className="font-semibold">Header expand slot —</strong>{' '}
             use it for inline filters, charts, or contextual help. Toggle via
             the chevron in the table actions row.
@@ -474,7 +474,7 @@ function PostsPanel({ source }: { source: string }) {
             width: 320,
             dataIndex: 'title',
             render: (value) => (
-              <span className="font-medium capitalize text-zinc-900">
+              <span className="font-medium capitalize text-foreground">
                 {String(value ?? '')}
               </span>
             ),
@@ -484,7 +484,7 @@ function PostsPanel({ source }: { source: string }) {
             title: 'Body',
             dataIndex: 'body',
             render: (value) => (
-              <span className="line-clamp-2 text-xs text-zinc-600">
+              <span className="line-clamp-2 text-xs text-muted-foreground">
                 {String(value ?? '')}
               </span>
             ),
@@ -582,7 +582,7 @@ function PostsPanel({ source }: { source: string }) {
           <div className="flex h-full flex-col gap-3 p-4">
             <div className="flex items-center justify-between">
               <div>
-                <div className="text-xs uppercase tracking-wider text-zinc-500">
+                <div className="text-xs uppercase tracking-wider text-muted-foreground">
                   Detail
                 </div>
                 <h2 className="text-base font-bold capitalize">
@@ -632,7 +632,7 @@ export function Index({ source }: IndexProps) {
       <AppBar context="REST CRUD · shadcn" />
       <div className="px-3 py-4 md:px-8 md:py-6">
         <div className="mx-auto max-w-screen-2xl space-y-4 md:space-y-6">
-          <div className="flex flex-wrap items-center gap-2 rounded-md border border-zinc-200 bg-zinc-50 p-3 text-xs text-zinc-600">
+          <div className="flex flex-wrap items-center gap-2 rounded-md border border-border bg-muted p-3 text-xs text-muted-foreground">
             <span className={chipClass}>page header + actions</span>
             <span className={chipClass}>filter view</span>
             <span className={chipClass}>tabs · sticky cols</span>
