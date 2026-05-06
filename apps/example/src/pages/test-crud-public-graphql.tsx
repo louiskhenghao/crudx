@@ -543,6 +543,13 @@ function PostsPanel({ source }: { source: string }) {
               <Button
                 size="small"
                 variant="outlined"
+                sx={{
+                  minWidth: 0,
+                  px: { xs: 1, sm: 1.5 },
+                  '& .MuiButton-startIcon': {
+                    mr: { xs: 0, sm: 1 },
+                  },
+                }}
                 startIcon={
                   contentViewType === 'table' ? (
                     <GridViewIcon />
@@ -554,7 +561,12 @@ function PostsPanel({ source }: { source: string }) {
                   setContentViewType((v) => (v === 'table' ? 'view' : 'table'))
                 }
               >
-                {contentViewType === 'table' ? 'Card view' : 'Table view'}
+                <Box
+                  component="span"
+                  sx={{ display: { xs: 'none', sm: 'inline' } }}
+                >
+                  {contentViewType === 'table' ? 'Card view' : 'Table view'}
+                </Box>
               </Button>
             ),
           },
@@ -826,8 +838,8 @@ export function Index({ source }: IndexProps) {
   return (
     <ApolloProvider client={client}>
       <AppBar context="GraphQL CRUD" />
-      <Box sx={{ py: 4, px: { xs: 2, md: 4 } }}>
-        <Stack spacing={3} sx={{ mx: 'auto', maxWidth: 1600 }}>
+      <Box sx={{ py: { xs: 2, md: 4 }, px: { xs: 1.5, md: 4 } }}>
+        <Stack spacing={{ xs: 2, md: 3 }} sx={{ mx: 'auto', maxWidth: 1600 }}>
           <Paper
             variant="outlined"
             sx={{

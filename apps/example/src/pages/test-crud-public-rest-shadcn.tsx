@@ -374,7 +374,9 @@ function PostsPanel({ source }: { source: string }) {
                 ) : (
                   <List className="h-3.5 w-3.5" />
                 )}
-                {contentViewType === 'table' ? 'Card view' : 'Table view'}
+                <span className="hidden sm:inline">
+                  {contentViewType === 'table' ? 'Card view' : 'Table view'}
+                </span>
               </button>
             ),
           },
@@ -437,7 +439,9 @@ function PostsPanel({ source }: { source: string }) {
                 ) : (
                   <List className="h-3.5 w-3.5" />
                 )}
-                {contentViewType === 'table' ? 'Cards' : 'Table'}
+                <span className="hidden sm:inline">
+                  {contentViewType === 'table' ? 'Cards' : 'Table'}
+                </span>
               </button>
             ),
           },
@@ -626,8 +630,8 @@ export function Index({ source }: IndexProps) {
   return (
     <QueryClientProvider client={queryClient}>
       <AppBar context="REST CRUD · shadcn" />
-      <div className="px-4 py-6 md:px-8">
-        <div className="mx-auto max-w-screen-2xl space-y-6">
+      <div className="px-3 py-4 md:px-8 md:py-6">
+        <div className="mx-auto max-w-screen-2xl space-y-4 md:space-y-6">
           <div className="flex flex-wrap items-center gap-2 rounded-md border border-zinc-200 bg-zinc-50 p-3 text-xs text-zinc-600">
             <span className={chipClass}>page header + actions</span>
             <span className={chipClass}>filter view</span>
