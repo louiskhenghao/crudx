@@ -38,6 +38,11 @@ on:
         type: choice
         default: skip
         options: [skip, auto, patch, minor, major]
+      skills:
+        description: '@crudx/skills'
+        type: choice
+        default: skip
+        options: [skip, auto, patch, minor, major]
 
 # `auto` defers to conventional commits via @jscutlery/semver. The other
 # levels (patch/minor/major) force the bump regardless of commit history.
@@ -104,6 +109,7 @@ jobs:
             "rest-tanstack-adapter:${{ inputs['rest-tanstack-adapter'] }}"
             "mui:${{ inputs.mui }}"
             "shadcn:${{ inputs.shadcn }}"
+            "skills:${{ inputs.skills }}"
           )
 
           published=0
